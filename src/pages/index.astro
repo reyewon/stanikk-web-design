@@ -43,9 +43,17 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === HERO === -->
 <section class="hero" id="hero">
+  <canvas class="hero-waves" id="hero-waves"></canvas>
   <div class="hero-content container">
     <h1 class="hero-heading" id="hero-heading">
-      WEBSITES THAT <span class="accent">WORK</span> AS HARD AS YOU DO
+      <span class="hero-word"><span class="hero-word-inner">WEBSITES</span></span>
+      <span class="hero-word"><span class="hero-word-inner">THAT</span></span>
+      <span class="hero-word accent"><span class="hero-word-inner">WORK</span></span>
+      <span class="hero-word"><span class="hero-word-inner">AS</span></span>
+      <span class="hero-word"><span class="hero-word-inner">HARD</span></span>
+      <span class="hero-word"><span class="hero-word-inner">AS</span></span>
+      <span class="hero-word"><span class="hero-word-inner">YOU</span></span>
+      <span class="hero-word"><span class="hero-word-inner">DO</span></span>
     </h1>
     <div class="hero-glow" id="hero-glow"></div>
     <p class="hero-sub">Bespoke web design with 17+ years of design and marketing expertise behind every pixel.</p>
@@ -102,53 +110,60 @@ import Layout from '../layouts/Layout.astro';
     </div>
     <p class="portfolio-intro reveal">Every project is designed to help a business grow. Here is a look at some of the websites I have crafted that drive results and make brands shine.</p>
 
-    <div class="portfolio-grid">
-      <div class="portfolio-card reveal">
-        <div class="portfolio-card-image">
-          <img src="/images/portfolio/padharo.jpg" alt="Padharo Restaurant Website" loading="lazy" />
-          <div class="portfolio-card-overlay">
-            <span class="tag">Restaurant</span>
-            <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-primary">Visit Site <span>&rarr;</span></a>
+    <!-- 3-column portfolio grid -->
+    <div class="portfolio-columns" id="portfolio-columns">
+      <div class="portfolio-col" id="project-1">
+        <div class="project-browser reveal">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-title">Soleto</div>
+          </div>
+          <div class="browser-viewport">
+            <img src="/images/portfolio/soleto.jpg" alt="Soleto Italian Restaurant Website" loading="lazy" />
           </div>
         </div>
-        <h3 class="portfolio-card-title">Padharo</h3>
-        <p class="portfolio-card-desc">Award-winning vegetarian Indian restaurant. Full multi-page site with reservation system, menus, and gallery.</p>
+        <div class="project-info reveal">
+
+          <h3>Soleto</h3>
+          <p>Refined Italian bistro with dark mode, gallery, private dining pages, and elegant typography.</p>
+          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+        </div>
       </div>
 
-      <div class="portfolio-card reveal">
-        <div class="portfolio-card-image">
-          <img src="/images/portfolio/texas-grill.jpg" alt="Texas Grill Website" loading="lazy" />
-          <div class="portfolio-card-overlay">
-            <span class="tag">Restaurant</span>
-            <a href="https://texas-grill.pages.dev" target="_blank" rel="noopener" class="btn btn-primary">Visit Site <span>&rarr;</span></a>
+      <div class="portfolio-col" id="project-2">
+        <div class="project-browser reveal">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-title">Padharo</div>
+          </div>
+          <div class="browser-viewport">
+            <img src="/images/portfolio/padharo.jpg" alt="Padharo Restaurant Website" loading="lazy" />
           </div>
         </div>
-        <h3 class="portfolio-card-title">Texas Grill</h3>
-        <p class="portfolio-card-desc">Bold, flavour-packed branding for a Southampton grill house. Menu integration, ordering, and strong visual identity.</p>
+        <div class="project-info reveal">
+
+          <h3>Padharo</h3>
+          <p>Award-winning vegetarian Indian restaurant with reservation system, menus, and gallery.</p>
+          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+        </div>
       </div>
 
-      <div class="portfolio-card reveal">
-        <div class="portfolio-card-image">
-          <img src="/images/portfolio/soleto.jpg" alt="Soleto Italian Restaurant Website" loading="lazy" />
-          <div class="portfolio-card-overlay">
-            <span class="tag">Restaurant</span>
-            <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-primary">Visit Site <span>&rarr;</span></a>
+      <div class="portfolio-col" id="project-3">
+        <div class="project-browser reveal">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-title">Texas Grill</div>
+          </div>
+          <div class="browser-viewport">
+            <img src="/images/portfolio/texas-grill.jpg" alt="Texas Grill Website" loading="lazy" />
           </div>
         </div>
-        <h3 class="portfolio-card-title">Soleto</h3>
-        <p class="portfolio-card-desc">Refined Italian bistro with dark mode, gallery, private dining pages, and elegant typography throughout.</p>
-      </div>
+        <div class="project-info reveal">
 
-      <div class="portfolio-card reveal">
-        <div class="portfolio-card-image">
-          <img src="/images/portfolio/ryanstanikk.jpg" alt="Ryan Stanikk Photography Website" loading="lazy" />
-          <div class="portfolio-card-overlay">
-            <span class="tag">Photography</span>
-            <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="btn btn-primary">Visit Site <span>&rarr;</span></a>
-          </div>
+          <h3>Texas Grill</h3>
+          <p>Bold branding for a Southampton grill house. Menu integration, ordering, and strong visual identity.</p>
+          <a href="https://texas-grill.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
         </div>
-        <h3 class="portfolio-card-title">Ryan Stanikk Photography</h3>
-        <p class="portfolio-card-desc">Commercial photography portfolio with searchable galleries, category navigation, and booking system.</p>
       </div>
     </div>
   </div>
@@ -556,6 +571,15 @@ import Layout from '../layouts/Layout.astro';
   overflow: hidden;
 }
 
+.hero-waves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.15;
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
@@ -564,8 +588,21 @@ import Layout from '../layouts/Layout.astro';
 
 .hero-heading {
   font-size: clamp(3.5rem, 11vw, 9.5rem);
+  line-height: 0.95;
   margin-bottom: 1rem;
-  opacity: 0;
+}
+
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.04em;
+}
+
+.hero-word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
 }
 
 .hero-glow {
@@ -684,72 +721,113 @@ import Layout from '../layouts/Layout.astro';
 /* === PORTFOLIO === */
 .portfolio-intro {
   max-width: 640px;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
 }
 
-.portfolio-grid {
+/* 3-column grid on desktop */
+.portfolio-columns {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-lg);
-}
-
-.portfolio-card {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-light);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.portfolio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.portfolio-card-image {
   position: relative;
-  overflow: hidden;
-  aspect-ratio: 16/10;
 }
 
-.portfolio-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  transition: transform var(--transition-slow);
-}
-
-.portfolio-card:hover .portfolio-card-image img {
-  transform: scale(1.03);
-}
-
-.portfolio-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(26, 20, 18, 0.85);
+.portfolio-col {
   display: flex;
   flex-direction: column;
+}
+
+/* Browser frame mockup */
+.project-browser {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #222;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.project-browser:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.browser-chrome {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  opacity: 0;
-  transition: opacity var(--transition-base);
+  gap: 8px;
+  padding: 0.6rem 0.75rem;
+  background: #2a2a2a;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.portfolio-card:hover .portfolio-card-overlay {
-  opacity: 1;
+.browser-dots {
+  display: flex;
+  gap: 5px;
 }
 
-.portfolio-card-title {
-  padding: var(--space-md) var(--space-md) 0;
-  font-size: 1.3rem;
+.browser-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 
-.portfolio-card-desc {
-  padding: var(--space-xs) var(--space-md) var(--space-md);
-  font-size: 0.875rem;
+.browser-dots span:first-child { background: #ff5f57; }
+.browser-dots span:nth-child(2) { background: #ffbd2e; }
+.browser-dots span:last-child { background: #28c840; }
+
+.browser-title {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--weight-extralight);
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-align: center;
 }
+
+.browser-viewport {
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.browser-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.browser-viewport img {
+  width: 100%;
+  display: block;
+}
+
+/* Project info */
+.project-info {
+  padding: var(--space-lg) 0;
+}
+
+.project-info .tag {
+  margin-bottom: var(--space-xs);
+}
+
+.project-info h3 {
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.project-info p {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  margin-bottom: var(--space-md);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+}
+
 
 /* === SERVICES === */
 .services {
@@ -1111,9 +1189,20 @@ import Layout from '../layouts/Layout.astro';
     gap: var(--space-lg);
   }
 
-  .portfolio-grid {
+  /* Mobile portfolio: clean stacked layout */
+  .portfolio-columns {
     grid-template-columns: 1fr;
+    gap: var(--space-xl);
   }
+
+  .browser-viewport {
+    height: 350px;
+  }
+
+  .project-info h3 {
+    font-size: 1.2rem;
+  }
+
 
   .services-grid {
     grid-template-columns: 1fr;
@@ -1175,6 +1264,8 @@ import Layout from '../layouts/Layout.astro';
       // @ts-ignore
       .to(loaderBar, { width: '100%', duration: 1.2, ease: 'power2.inOut' }, '-=0.2');
 
+    // Hero word reveal is handled in initAnimations
+
     // Hero interactive glow
     const heroGlow = document.getElementById('hero-glow');
     const hero = document.getElementById('hero');
@@ -1197,6 +1288,130 @@ import Layout from '../layouts/Layout.astro';
       hero.addEventListener('mouseleave', () => {
         // @ts-ignore
         gsap.to(heroGlow, { opacity: 0, duration: 0.5 });
+      });
+    }
+
+    // Interactive waves background
+    const wavesCanvas = document.getElementById('hero-waves') as HTMLCanvasElement;
+    if (wavesCanvas && hero) {
+      const wCtx = wavesCanvas.getContext('2d')!;
+      const wState = {
+        mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
+        lines: [] as any[][],
+        time: 0
+      };
+
+      // Simple Perlin noise
+      const perm = new Uint8Array(512);
+      const grad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
+      const seed = Math.random();
+      const p256 = new Uint8Array(256);
+      for (let i = 0; i < 256; i++) p256[i] = i;
+      for (let i = 0; i < 256; i++) { const j = Math.floor(seed * (i+1)) % 256; const k = p256[i]; p256[i] = p256[j]; p256[j] = k; }
+      for (let i = 0; i < 512; i++) perm[i] = p256[i & 255];
+
+      function perlin2(x: number, y: number) {
+        const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+        x -= Math.floor(x); y -= Math.floor(y);
+        const fade = (t: number) => t*t*t*(t*(t*6-15)+10);
+        const u = fade(x), v = fade(y);
+        const dot = (g: number[], a: number, b: number) => g[0]*a + g[1]*b;
+        const lerp = (a: number, b: number, t: number) => a + t*(b-a);
+        const n00 = dot(grad3[perm[X+perm[Y]]%12], x, y);
+        const n01 = dot(grad3[perm[X+perm[Y+1]]%12], x, y-1);
+        const n10 = dot(grad3[perm[X+1+perm[Y]]%12], x-1, y);
+        const n11 = dot(grad3[perm[X+1+perm[Y+1]]%12], x-1, y-1);
+        return lerp(lerp(n00,n10,u), lerp(n01,n11,u), v);
+      }
+
+      function setupWaves() {
+        const rect = hero!.getBoundingClientRect();
+        wavesCanvas.width = rect.width;
+        wavesCanvas.height = rect.height;
+        wState.lines = [];
+        const gx = 12, gy = 32, ow = rect.width + 200, oh = rect.height + 30;
+        const totalLines = Math.ceil(ow / gx);
+        const totalPts = Math.ceil(oh / gy);
+        const xs = (rect.width - gx * totalLines) / 2;
+        const ys = (rect.height - gy * totalPts) / 2;
+        for (let i = 0; i <= totalLines; i++) {
+          const pts: any[] = [];
+          for (let j = 0; j <= totalPts; j++) {
+            pts.push({ x: xs + gx*i, y: ys + gy*j, wx: 0, wy: 0, cx: 0, cy: 0, cvx: 0, cvy: 0 });
+          }
+          wState.lines.push(pts);
+        }
+      }
+
+      function tickWaves(time: number) {
+        const m = wState.mouse;
+        m.sx += (m.x - m.sx) * 0.1;
+        m.sy += (m.y - m.sy) * 0.1;
+        const dx = m.sx - m.lx, dy = m.sy - m.ly;
+        m.v = Math.hypot(dx, dy);
+        m.vs += (m.v - m.vs) * 0.1;
+        m.vs = Math.min(100, m.vs);
+        m.a = Math.atan2(dy, dx);
+        m.lx = m.sx; m.ly = m.sy;
+
+        wState.lines.forEach(pts => {
+          pts.forEach(p => {
+            const nx = (p.x + time * 0.0125) * 0.002;
+            const ny = (p.y + time * 0.005) * 0.0015;
+            const mv = perlin2(nx, ny) * 12;
+            p.wx = Math.cos(mv) * 32;
+            p.wy = Math.sin(mv) * 16;
+
+            const pdx = p.x - m.sx, pdy = p.y - m.sy;
+            const d = Math.hypot(pdx, pdy);
+            const ir = Math.max(175, m.vs);
+            if (d < ir) {
+              const fo = 1 - d/ir;
+              const f = Math.cos(d * 0.001) * fo;
+              const ff = f * ir * m.vs * 0.00065;
+              p.cvx += Math.cos(m.a) * ff;
+              p.cvy += Math.sin(m.a) * ff;
+            }
+            p.cvx += (0 - p.cx) * 0.005;
+            p.cvy += (0 - p.cy) * 0.005;
+            p.cvx *= 0.925; p.cvy *= 0.925;
+            p.cx += p.cvx * 2; p.cy += p.cvy * 2;
+            p.cx = Math.max(-100, Math.min(100, p.cx));
+            p.cy = Math.max(-100, Math.min(100, p.cy));
+          });
+        });
+
+        wCtx.clearRect(0, 0, wavesCanvas.width, wavesCanvas.height);
+        wCtx.beginPath();
+        wCtx.strokeStyle = '#D4714E';
+        wCtx.lineWidth = 0.5;
+        wState.lines.forEach(pts => {
+          const p0 = pts[0];
+          wCtx.moveTo(Math.round((p0.x + p0.wx)*10)/10, Math.round((p0.y + p0.wy)*10)/10);
+          for (let i = 0; i < pts.length - 1; i++) {
+            const c = pts[i], n = pts[i+1];
+            const cx = c.x + c.wx + c.cx, cy = c.y + c.wy + c.cy;
+            const nx2 = n.x + n.wx + n.cx, ny2 = n.y + n.wy + n.cy;
+            wCtx.quadraticCurveTo(Math.round(cx*10)/10, Math.round(cy*10)/10, Math.round((cx+nx2)/2*10)/10, Math.round((cy+ny2)/2*10)/10);
+          }
+        });
+        wCtx.stroke();
+        requestAnimationFrame(tickWaves);
+      }
+
+      setupWaves();
+      requestAnimationFrame(tickWaves);
+      window.addEventListener('resize', setupWaves);
+
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero!.getBoundingClientRect();
+        const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        wState.mouse.x = mx; wState.mouse.y = my;
+        if (!wState.mouse.set) {
+          wState.mouse.sx = mx; wState.mouse.sy = my;
+          wState.mouse.lx = mx; wState.mouse.ly = my;
+          wState.mouse.set = true;
+        }
       });
     }
 
@@ -1258,14 +1473,24 @@ import Layout from '../layouts/Layout.astro';
     });
 
     function initAnimations() {
-      // Hero entrance
+      // Hero entrance - word reveal effect
       // @ts-ignore
       const heroTl = gsap.timeline();
+
+      // Words slide up into view with stagger
+      const wordInners = document.querySelectorAll('.hero-word-inner');
+      heroTl.to(wordInners, {
+        y: 0,
+        duration: 1,
+        ease: 'power4.out',
+        stagger: 0.08,
+      }, 0);
+
+      // Subtitle and CTAs fade in after words reveal
       heroTl
-        .to('.hero-heading', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, 0.2)
-        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.5)
-        .to('.hero-ctas', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.7)
-        .to('.hero-scroll-indicator', { opacity: 1, duration: 0.6 }, 1);
+        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.8)
+        .to('.hero-ctas', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 1.0)
+        .to('.hero-scroll-indicator', { opacity: 1, duration: 0.6 }, 1.2);
 
       // Scroll reveals
       // @ts-ignore

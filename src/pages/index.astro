@@ -24,7 +24,6 @@ import Layout from '../layouts/Layout.astro';
       <a href="#about" class="nav-link">About</a>
       <a href="#portfolio" class="nav-link">Portfolio</a>
       <a href="#services" class="nav-link">Services</a>
-      <a href="#process" class="nav-link">Process</a>
       <a href="#faq" class="nav-link">FAQ</a>
       <a href="#contact" class="nav-link">Contact</a>
     </div>
@@ -134,6 +133,24 @@ import Layout from '../layouts/Layout.astro';
         <div class="project-browser reveal">
           <div class="browser-chrome">
             <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-title">Ark Angels</div>
+          </div>
+          <div class="browser-viewport">
+            <img src="/images/portfolio/ark-angels.jpg" alt="Ark Angels Website" loading="lazy" />
+          </div>
+        </div>
+        <div class="project-info reveal">
+
+          <h3>Ark Angels</h3>
+          <p>Vibrant community platform with bold design, event listings, and engaging content layout.</p>
+          <a href="https://ark-angels.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+        </div>
+      </div>
+
+      <div class="portfolio-col" id="project-3">
+        <div class="project-browser reveal">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
             <div class="browser-title">Padharo</div>
           </div>
           <div class="browser-viewport">
@@ -145,24 +162,6 @@ import Layout from '../layouts/Layout.astro';
           <h3>Padharo</h3>
           <p>Award-winning vegetarian Indian restaurant with reservation system, menus, and gallery.</p>
           <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
-        </div>
-      </div>
-
-      <div class="portfolio-col" id="project-3">
-        <div class="project-browser reveal">
-          <div class="browser-chrome">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-title">Texas Grill</div>
-          </div>
-          <div class="browser-viewport">
-            <img src="/images/portfolio/texas-grill.jpg" alt="Texas Grill Website" loading="lazy" />
-          </div>
-        </div>
-        <div class="project-info reveal">
-
-          <h3>Texas Grill</h3>
-          <p>Bold branding for a Southampton grill house. Menu integration, ordering, and strong visual identity.</p>
-          <a href="https://texas-grill.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
         </div>
       </div>
     </div>
@@ -394,25 +393,12 @@ import Layout from '../layouts/Layout.astro';
 <!-- === FOOTER === -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="footer-logo">
-          <span class="footer-logo-name">Stanikk</span>
-          <span class="footer-logo-sub">Web Design</span>
-        </span>
-        <p>Bespoke web design and development based in Southampton, serving the UK.</p>
-      </div>
-      <div class="footer-nav">
-        <h5>Navigation</h5>
-        <a href="#about">About</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#services">Services</a>
-        <a href="#process">Process</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-      </div>
+    <div class="footer-inner">
+      <span class="footer-logo">
+        <span class="footer-logo-name">Stanikk</span>
+        <span class="footer-logo-sub">Web Design</span>
+      </span>
       <div class="footer-social">
-        <h5>Connect</h5>
         <a href="https://wa.me/442381112819" target="_blank" rel="noopener">WhatsApp</a>
         <a href="https://www.instagram.com/ryanstanikkphotography/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://uk.linkedin.com/in/ryanstanikk" target="_blank" rel="noopener">LinkedIn</a>
@@ -588,7 +574,7 @@ import Layout from '../layouts/Layout.astro';
 
 .hero-heading {
   font-size: clamp(3.5rem, 11vw, 9.5rem);
-  line-height: 0.95;
+  line-height: 0.85;
   margin-bottom: 1rem;
 }
 
@@ -719,9 +705,13 @@ import Layout from '../layouts/Layout.astro';
 }
 
 /* === PORTFOLIO === */
+.portfolio .section-header {
+  margin-bottom: var(--space-md);
+}
+
 .portfolio-intro {
   max-width: 640px;
-  margin-bottom: var(--space-3xl);
+  margin-bottom: var(--space-2xl);
 }
 
 /* 3-column grid on desktop */
@@ -1047,28 +1037,27 @@ import Layout from '../layouts/Layout.astro';
 
 /* === FOOTER === */
 .footer {
-  padding: var(--space-3xl) 0 var(--space-lg);
+  padding: var(--space-xl) 0 var(--space-lg);
   border-top: 1px solid var(--color-border);
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--space-3xl);
-  margin-bottom: var(--space-3xl);
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
 }
 
 .footer-logo {
   display: flex;
   flex-direction: column;
   line-height: 1;
-  margin-bottom: var(--space-sm);
 }
 
 .footer-logo-name {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
@@ -1077,48 +1066,36 @@ import Layout from '../layouts/Layout.astro';
 .footer-logo-sub {
   font-family: var(--font-heading);
   font-weight: var(--weight-light);
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.28em;
   color: var(--color-text-secondary);
 }
 
-.footer-brand p {
-  font-size: 0.875rem;
-  max-width: 300px;
+.footer-social {
+  display: flex;
+  gap: var(--space-md);
 }
 
-.footer-nav h5,
-.footer-social h5 {
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  margin-bottom: var(--space-md);
-  color: var(--color-text-primary);
-}
-
-.footer-nav a,
 .footer-social a {
-  display: block;
   font-family: var(--font-body);
   font-weight: var(--weight-extralight);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--color-text-secondary);
-  padding: 0.25rem 0;
   transition: color var(--transition-fast);
 }
 
-.footer-nav a:hover,
 .footer-social a:hover {
   color: var(--color-accent);
 }
 
 .footer-bottom {
-  padding-top: var(--space-lg);
+  padding-top: var(--space-md);
   border-top: 1px solid var(--color-border);
 }
 
 .footer-bottom p {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
@@ -1220,9 +1197,21 @@ import Layout from '../layouts/Layout.astro';
     margin: var(--space-sm) 0;
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: center;
+  }
+
+  .footer-social {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm) var(--space-md);
+  }
+
+  .footer-bottom {
+    text-align: center;
   }
 }
 </style>

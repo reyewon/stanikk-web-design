@@ -35,6 +35,7 @@ import Layout from '../layouts/Layout.astro';
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
         <span></span>
         <span></span>
+        <span></span>
       </button>
     </div>
   </div>
@@ -529,19 +530,33 @@ import Layout from '../layouts/Layout.astro';
   background: none;
   border: none;
   cursor: pointer;
-  width: 28px;
-  height: 20px;
+  width: 22px;
+  height: 16px;
   position: relative;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 1001;
 }
 
 .nav-toggle span {
   display: block;
   width: 100%;
   height: 2px;
-  background: var(--color-text-primary);
+  background: var(--color-accent);
   transition: all var(--transition-base);
+  transform-origin: center;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* === HERO === */
@@ -1127,7 +1142,7 @@ import Layout from '../layouts/Layout.astro';
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-xl);
+    gap: var(--space-md);
     z-index: 999;
   }
 

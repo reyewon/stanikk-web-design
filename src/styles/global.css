@@ -273,13 +273,29 @@ a {
 }
 
 .loader-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  opacity: 0;
+}
+
+.loader-name {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(3rem, 8vw, 6rem);
   text-transform: uppercase;
   color: var(--color-text-primary);
-  letter-spacing: 0.1em;
-  opacity: 0;
+  letter-spacing: -0.02em;
+}
+
+.loader-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: clamp(0.8rem, 2vw, 1.4rem);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.35em;
 }
 
 .loader-bar {

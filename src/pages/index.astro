@@ -6,14 +6,20 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === LOADER === -->
 <div class="loader" id="loader">
-  <span class="loader-text" id="loader-text">STANIKK</span>
+  <div class="loader-text" id="loader-text">
+    <span class="loader-name">Stanikk</span>
+    <span class="loader-sub">Web Design</span>
+  </div>
   <div class="loader-bar" id="loader-bar"></div>
 </div>
 
 <!-- === NAVIGATION === -->
 <nav class="nav" id="nav">
   <div class="nav-inner container">
-    <a href="#" class="nav-logo">STANIKK</a>
+    <a href="#" class="nav-logo">
+        <span class="nav-logo-name">Stanikk</span>
+        <span class="nav-logo-sub">Web Design</span>
+      </a>
     <div class="nav-links" id="nav-links">
       <a href="#about" class="nav-link">About</a>
       <a href="#portfolio" class="nav-link">Portfolio</a>
@@ -59,10 +65,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="about-grid">
       <div class="about-image reveal-left">
         <div class="about-image-wrapper">
-          <div class="about-image-placeholder">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-            <span>Photo Coming Soon</span>
-          </div>
+          <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer and Commercial Photographer" loading="lazy" />
         </div>
       </div>
       <div class="about-text reveal-right">
@@ -378,7 +381,10 @@ import Layout from '../layouts/Layout.astro';
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <span class="footer-logo">STANIKK</span>
+        <span class="footer-logo">
+          <span class="footer-logo-name">Stanikk</span>
+          <span class="footer-logo-sub">Web Design</span>
+        </span>
         <p>Bespoke web design and development based in Southampton, serving the UK.</p>
       </div>
       <div class="footer-nav">
@@ -431,12 +437,27 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .nav-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.nav-logo-name {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: -0.02em;
   color: var(--color-text-primary);
+}
+
+.nav-logo-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-text-secondary);
 }
 
 .nav-links {
@@ -445,11 +466,12 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .nav-link {
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-weight: var(--weight-light);
-  font-size: 0.875rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
   color: var(--color-text-secondary);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.25em;
   position: relative;
   transition: color var(--transition-fast);
 }
@@ -541,7 +563,7 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .hero-heading {
-  font-size: clamp(2.8rem, 7.5vw, 6.5rem);
+  font-size: clamp(3.5rem, 11vw, 9.5rem);
   margin-bottom: 1rem;
   opacity: 0;
 }
@@ -611,21 +633,11 @@ import Layout from '../layouts/Layout.astro';
   border: 1px solid var(--color-border);
 }
 
-.about-image-placeholder {
+.about-image-wrapper img {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  color: var(--color-text-muted);
-}
-
-.about-image-placeholder span {
-  font-family: var(--font-body);
-  font-weight: var(--weight-light);
-  font-size: 0.875rem;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .about-label {
@@ -969,13 +981,28 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .footer-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+.footer-logo-name {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  display: block;
-  margin-bottom: var(--space-sm);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.footer-logo-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-text-secondary);
 }
 
 .footer-brand p {

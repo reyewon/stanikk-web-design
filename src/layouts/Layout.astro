@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "STANIKK Web Design - Bespoke websites designed to convert. Based in Southampton, serving the UK." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ryan Stanikk" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts preload -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+
+    <!-- JSON-LD Structured Data -->
+    <script is:inline type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "STANIKK Web Design",
+      "description": "Bespoke web design and development based in Southampton, serving the UK.",
+      "url": "https://stanikk-web-design.pages.dev",
+      "telephone": "+442381112819",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Southampton",
+        "addressCountry": "GB"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Ryan Stanikk",
+        "jobTitle": "Web Designer & Developer"
+      },
+      "serviceType": ["Web Design", "Web Development", "Web Apps", "Hosting", "Domain Registration"],
+      "areaServed": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      }
+    }
+    </script>
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+
+    <!-- GSAP -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

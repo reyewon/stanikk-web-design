@@ -1581,22 +1581,39 @@ import Layout from '../layouts/Layout.astro';
         // Desktop: hover to scroll, leave to reset
         viewport.closest('.project-browser').addEventListener('mouseenter', startScroll);
         viewport.closest('.project-browser').addEventListener('mouseleave', stopScroll);
-      } else {
-        // Mobile: scroll when in viewport, one at a time
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              startScroll();
-            } else {
-              stopScroll();
-            }
-          });
-        }, {
-          threshold: 0.3
-        });
-        observer.observe(viewport);
       }
+
+      // Store functions on the element for mobile use
+      viewport._startScroll = startScroll;
+      viewport._stopScroll = stopScroll;
     });
+
+    // Mobile: only one scrolls at a time
+    if (isMobilePort) {
+      let activeViewport = null;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Stop the currently active one first
+            if (activeViewport && activeViewport !== entry.target) {
+              activeViewport._stopScroll();
+            }
+            activeViewport = entry.target;
+            entry.target._startScroll();
+          } else {
+            entry.target._stopScroll();
+            if (activeViewport === entry.target) {
+              activeViewport = null;
+            }
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      viewports.forEach(vp => observer.observe(vp));
+    }
 
     // FAQ
     document.querySelectorAll('.faq-question').forEach(btn => {

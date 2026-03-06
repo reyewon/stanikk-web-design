@@ -1532,7 +1532,7 @@ import Layout from '../layouts/Layout.astro';
     // Portfolio auto-scroll
     const viewports = document.querySelectorAll('.browser-viewport');
     const isMobilePort = window.matchMedia('(max-width: 768px)').matches;
-    const scrollSpeed = 0.5; // pixels per frame
+    const scrollSpeed = 1.2; // pixels per frame
 
     viewports.forEach(viewport => {
       const img = viewport.querySelector('img');

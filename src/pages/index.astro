@@ -73,7 +73,10 @@ import Layout from '../layouts/Layout.astro';
     <div class="about-grid">
       <div class="about-image reveal-left">
         <div class="about-image-wrapper" id="about-image-wrapper">
-          <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer and Commercial Photographer" loading="lazy" />
+          <picture>
+            <source media="(max-width: 768px)" srcset="/images/ryan-stanikk-square.jpg" />
+            <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer and Commercial Photographer" loading="lazy" />
+          </picture>
           <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata"></video>
         </div>
       </div>
@@ -1195,9 +1198,8 @@ import Layout from '../layouts/Layout.astro';
     margin: 0 auto;
   }
 
-  .about-image-wrapper img,
-  .about-image-wrapper video {
-    object-position: center center;
+  .about-image-wrapper img {
+    object-fit: cover;
   }
 
   .about-stats {

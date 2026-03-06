@@ -72,8 +72,9 @@ import Layout from '../layouts/Layout.astro';
   <div class="container">
     <div class="about-grid">
       <div class="about-image reveal-left">
-        <div class="about-image-wrapper">
+        <div class="about-image-wrapper" id="about-image-wrapper">
           <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer and Commercial Photographer" loading="lazy" />
+          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata"></video>
         </div>
       </div>
       <div class="about-text reveal-right">
@@ -671,11 +672,28 @@ import Layout from '../layouts/Layout.astro';
   border: 1px solid var(--color-border);
 }
 
-.about-image-wrapper img {
+.about-image-wrapper img,
+.about-image-wrapper video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.about-image-wrapper {
+  position: relative;
+}
+
+.about-image-wrapper video {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-image-wrapper.video-playing video {
+  opacity: 1;
 }
 
 .about-label {
@@ -1177,6 +1195,11 @@ import Layout from '../layouts/Layout.astro';
     margin: 0 auto;
   }
 
+  .about-image-wrapper img,
+  .about-image-wrapper video {
+    object-position: center center;
+  }
+
   .about-stats {
     gap: var(--space-lg);
   }
@@ -1444,6 +1467,56 @@ import Layout from '../layouts/Layout.astro';
         navToggle?.classList.remove('active');
       });
     });
+
+    // Profile video hover (desktop) / scroll auto-play (mobile)
+    const profileWrapper = document.getElementById('about-image-wrapper');
+    const profileVideo = document.getElementById('profile-video');
+    if (profileWrapper && profileVideo) {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      let videoHasPlayed = false;
+
+      function onVideoEnd() {
+        profileWrapper.classList.remove('video-playing');
+        profileVideo.currentTime = 0;
+        videoHasPlayed = true;
+      }
+
+      profileVideo.addEventListener('ended', onVideoEnd);
+
+      if (!isMobile) {
+        // Desktop: play on hover, switch back when done, allow re-hover
+        profileWrapper.addEventListener('mouseenter', () => {
+          profileVideo.currentTime = 0;
+          profileVideo.play();
+          profileWrapper.classList.add('video-playing');
+        });
+
+        profileWrapper.addEventListener('mouseleave', () => {
+          // If video is still playing when mouse leaves, let it finish
+          // but if they leave we should stop and reset
+          profileVideo.pause();
+          profileWrapper.classList.remove('video-playing');
+          profileVideo.currentTime = 0;
+        });
+      } else {
+        // Mobile: auto-play once when 1/3 up the viewport
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !videoHasPlayed) {
+              videoHasPlayed = true;
+              profileVideo.currentTime = 0;
+              profileVideo.play();
+              profileWrapper.classList.add('video-playing');
+              observer.disconnect();
+            }
+          });
+        }, {
+          threshold: 0.5,
+          rootMargin: '0px 0px -33% 0px'
+        });
+        observer.observe(profileWrapper);
+      }
+    }
 
     // FAQ
     document.querySelectorAll('.faq-question').forEach(btn => {

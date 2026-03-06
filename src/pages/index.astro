@@ -56,7 +56,6 @@ import Layout from '../layouts/Layout.astro';
       <span class="hero-word"><span class="hero-word-inner">YOU</span></span>
       <span class="hero-word"><span class="hero-word-inner">DO</span></span>
     </h1>
-    <div class="hero-glow" id="hero-glow"></div>
     <p class="hero-sub">Design-led websites at a fraction of agency prices. 17+ years of graphic design and marketing expertise behind every pixel.</p>
     <div class="hero-ctas">
       <a href="#portfolio" class="btn btn-primary">See My Work</a>
@@ -622,20 +621,6 @@ import Layout from '../layouts/Layout.astro';
   display: inline-block;
   transform: translateY(110%);
   will-change: transform;
-}
-
-.hero-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
 }
 
 .hero-sub {
@@ -1320,32 +1305,8 @@ import Layout from '../layouts/Layout.astro';
 
     // Hero word reveal is handled in initAnimations
 
-    // Hero interactive glow
-    const heroGlow = document.getElementById('hero-glow');
-    const hero = document.getElementById('hero');
-
-    if (hero && heroGlow) {
-      hero.addEventListener('mousemove', (e) => {
-        const rect = hero.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        // @ts-ignore
-        gsap.to(heroGlow, {
-          left: x,
-          top: y,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power2.out'
-        });
-      });
-
-      hero.addEventListener('mouseleave', () => {
-        // @ts-ignore
-        gsap.to(heroGlow, { opacity: 0, duration: 0.5 });
-      });
-    }
-
     // Interactive waves background
+    const hero = document.getElementById('hero');
     const wavesCanvas = document.getElementById('hero-waves') as HTMLCanvasElement;
     if (wavesCanvas && hero) {
       const wCtx = wavesCanvas.getContext('2d')!;
@@ -1457,16 +1418,41 @@ import Layout from '../layouts/Layout.astro';
       requestAnimationFrame(tickWaves);
       window.addEventListener('resize', setupWaves);
 
-      hero.addEventListener('mousemove', (e) => {
-        const rect = hero!.getBoundingClientRect();
-        const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-        wState.mouse.x = mx; wState.mouse.y = my;
-        if (!wState.mouse.set) {
-          wState.mouse.sx = mx; wState.mouse.sy = my;
-          wState.mouse.lx = mx; wState.mouse.ly = my;
-          wState.mouse.set = true;
+      // On touch/mobile devices, auto-drift a virtual cursor slowly across the canvas
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (isTouchDevice) {
+        const rect = hero.getBoundingClientRect();
+        const cx = rect.width / 2, cy = rect.height / 2;
+        wState.mouse.x = cx; wState.mouse.y = cy;
+        wState.mouse.sx = cx; wState.mouse.sy = cy;
+        wState.mouse.lx = cx; wState.mouse.ly = cy;
+        wState.mouse.set = true;
+        wState.mouse.vs = 12;
+
+        let autoAngle = 0;
+        function autoDrift() {
+          autoAngle += 0.004;
+          const r = hero!.getBoundingClientRect();
+          const ax = r.width * 0.5 + Math.cos(autoAngle) * r.width * 0.3 + Math.sin(autoAngle * 0.7) * r.width * 0.1;
+          const ay = r.height * 0.5 + Math.sin(autoAngle * 0.6) * r.height * 0.25;
+          wState.mouse.x = ax;
+          wState.mouse.y = ay;
+          wState.mouse.vs = 10 + Math.sin(autoAngle * 1.3) * 5;
+          requestAnimationFrame(autoDrift);
         }
-      });
+        requestAnimationFrame(autoDrift);
+      } else {
+        hero.addEventListener('mousemove', (e) => {
+          const rect = hero!.getBoundingClientRect();
+          const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+          wState.mouse.x = mx; wState.mouse.y = my;
+          if (!wState.mouse.set) {
+            wState.mouse.sx = mx; wState.mouse.sy = my;
+            wState.mouse.lx = mx; wState.mouse.ly = my;
+            wState.mouse.set = true;
+          }
+        });
+      }
     }
 
     // Nav scroll

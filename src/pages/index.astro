@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Web Design Southampton | Bespoke Websites | STANIKK Web Design" description="Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. Personal service from a designer with 17+ years experience.">
+<Layout title="Web Design Southampton | Bespoke Websites | STANIKK" description="Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. Personal service with 17+ years of design expertise.">
 
 <!-- === LOADER === -->
 <div class="loader" id="loader">
@@ -16,7 +16,7 @@ import Layout from '../layouts/Layout.astro';
 <!-- === NAVIGATION === -->
 <nav class="nav" id="nav">
   <div class="nav-inner container">
-    <a href="#" class="nav-logo">
+    <a href="/" class="nav-logo">
         <span class="nav-logo-name">Stanikk</span>
         <span class="nav-logo-sub">Web Design</span>
       </a>
@@ -85,7 +85,7 @@ import Layout from '../layouts/Layout.astro';
         <h4 class="about-label">About Me</h4>
         <h2>I build websites the way I shoot photos. With purpose.</h2>
         <p>I am Ryan Stanikk, a graphic designer with over 17 years in design and marketing, now channelling that expertise into building bespoke websites for businesses that want to stand out online.</p>
-        <p>As a commercial photographer, I have spent years understanding what makes visuals work commercially, not just aesthetically. That same philosophy drives every website I build: it has to look stunning, but more importantly, it has to perform.</p>
+        <p>As a <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">commercial photographer</a>, I have spent years understanding what makes visuals work commercially, not just aesthetically. That same philosophy drives every website I build: it has to look stunning, but more importantly, it has to perform.</p>
         <p>Based in Southampton, available across the UK. If you are local, I will come to you in person. If you are further afield, I am a video call away. Either way, I sit down with you, get to know your business inside out, and craft something that reflects exactly who you are and what you need.</p>
         <div class="about-stats">
           <div class="stat">
@@ -186,7 +186,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="service-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
-        <h4 class="service-badge">Design</h4>
+        <span class="service-badge">Design</span>
         <h3>Web Design</h3>
         <p>Bespoke websites built around your business, not around a template. Most developers build functional sites. I build beautiful ones, with the eye of a graphic designer and at a price that undercuts agencies and freelance developers alike.</p>
         <ul class="service-list">
@@ -202,7 +202,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="service-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
         </div>
-        <h4 class="service-badge">Development</h4>
+        <span class="service-badge">Development</span>
         <h3>Web Apps</h3>
         <p>More than just websites. I build functional web applications with the features your business needs, from content management to bespoke tools.</p>
         <ul class="service-list">
@@ -218,7 +218,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="service-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </div>
-        <h4 class="service-badge">Infrastructure</h4>
+        <span class="service-badge">Infrastructure</span>
         <h3>Hosting & Domains</h3>
         <p>I handle the technical side so you do not have to. Domain registration, hosting setup, SSL certificates, and ongoing maintenance all taken care of.</p>
         <ul class="service-list">
@@ -234,7 +234,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="service-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </div>
-        <h4 class="service-badge">Content</h4>
+        <span class="service-badge">Content</span>
         <h3>Content Management</h3>
         <p>Need something changed on your site? Send it over and I will handle it. If you prefer to manage content yourself, I can build a CMS into your site too.</p>
         <ul class="service-list">
@@ -421,6 +421,7 @@ import Layout from '../layouts/Layout.astro';
         <a href="https://www.instagram.com/ryanstanikkphotography/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://uk.linkedin.com/in/ryanstanikk" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://medium.com/@ryanstanikkphotography" target="_blank" rel="noopener">Medium</a>
+        <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">Photography</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -726,6 +727,18 @@ import Layout from '../layouts/Layout.astro';
 
 .about-text p {
   margin-bottom: var(--space-md);
+}
+
+.about-text a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 113, 78, 0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.about-text a:hover {
+  text-decoration-color: var(--color-accent);
 }
 
 .about-stats {

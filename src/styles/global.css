@@ -272,12 +272,28 @@ a {
   justify-content: center;
 }
 
+.loader-mark {
+  position: absolute;
+  width: clamp(280px, 50vw, 500px);
+  height: clamp(280px, 50vw, 500px);
+  opacity: 0.04;
+  animation: loaderSpin 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes loaderSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .loader-text {
   display: flex;
   flex-direction: column;
   align-items: center;
   line-height: 1;
   opacity: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .loader-name {

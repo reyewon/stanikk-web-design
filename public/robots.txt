@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stanikk.com/sitemap-index.xml

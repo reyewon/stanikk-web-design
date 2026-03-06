@@ -4,57 +4,262 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "STANIKK Web Design - Bespoke websites designed to convert. Based in Southampton, serving the UK." } = Astro.props;
+const { title, description = "Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. 17+ years of graphic design expertise." } = Astro.props;
+
+const siteUrl = "https://stanikk.com";
+const siteName = "STANIKK Web Design";
+const ogImage = `${siteUrl}/images/og-image.jpg`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="Ryan Stanikk" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={siteUrl} />
 
-    <!-- Open Graph -->
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="GB-HAM" />
+    <meta name="geo.placename" content="Southampton" />
+    <meta name="geo.position" content="50.9097;-1.4044" />
+    <meta name="ICBM" content="50.9097, -1.4044" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="STANIKK Web Design - Bespoke websites in Southampton, UK" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={siteUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="STANIKK Web Design - Bespoke websites in Southampton, UK" />
+
+    <!-- Theme & PWA -->
+    <meta name="theme-color" content="#1A1412" />
+    <meta name="msapplication-TileColor" content="#1A1412" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
 
     <!-- Fonts preload -->
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.fontshare.com" />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- JSON-LD: LocalBusiness + ProfessionalService -->
     <script is:inline type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "STANIKK Web Design",
-      "description": "Bespoke web design and development based in Southampton, serving the UK.",
-      "url": "https://stanikk-web-design.pages.dev",
-      "telephone": "+442381112819",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Southampton",
-        "addressCountry": "GB"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Ryan Stanikk",
-        "jobTitle": "Web Designer & Developer"
-      },
-      "serviceType": ["Web Design", "Web Development", "Web Apps", "Hosting", "Domain Registration"],
-      "areaServed": {
-        "@type": "Country",
-        "name": "United Kingdom"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://stanikk.com/#website",
+          "url": "https://stanikk.com",
+          "name": "STANIKK Web Design",
+          "description": "Bespoke web design in Southampton, serving the UK",
+          "publisher": {
+            "@id": "https://stanikk.com/#business"
+          },
+          "inLanguage": "en-GB"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://stanikk.com/#webpage",
+          "url": "https://stanikk.com",
+          "name": "STANIKK Web Design | Bespoke Websites That Work As Hard As You Do",
+          "isPartOf": {
+            "@id": "https://stanikk.com/#website"
+          },
+          "about": {
+            "@id": "https://stanikk.com/#business"
+          },
+          "description": "Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. 17+ years of graphic design expertise.",
+          "inLanguage": "en-GB"
+        },
+        {
+          "@type": ["ProfessionalService", "LocalBusiness"],
+          "@id": "https://stanikk.com/#business",
+          "name": "STANIKK Web Design",
+          "alternateName": "Stanikk",
+          "description": "Bespoke web design and development based in Southampton, serving small businesses across the UK. Design-led websites at competitive prices with personal, face-to-face service.",
+          "url": "https://stanikk.com",
+          "telephone": "+442381112819",
+          "email": "photography@ryanstanikk.co.uk",
+          "image": "https://stanikk.com/images/ryan-stanikk.jpg",
+          "logo": "https://stanikk.com/favicon.svg",
+          "priceRange": "££",
+          "currenciesAccepted": "GBP",
+          "paymentAccepted": "Bank Transfer",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Southampton",
+            "addressRegion": "Hampshire",
+            "addressCountry": "GB",
+            "postalCode": "SO"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 50.9097,
+            "longitude": -1.4044
+          },
+          "founder": {
+            "@type": "Person",
+            "@id": "https://stanikk.com/#person",
+            "name": "Ryan Stanikk",
+            "jobTitle": "Web Designer & Developer",
+            "description": "Graphic designer with 17+ years of design and marketing expertise, specialising in bespoke web design for small businesses.",
+            "image": "https://stanikk.com/images/ryan-stanikk.jpg",
+            "url": "https://stanikk.com",
+            "sameAs": [
+              "https://uk.linkedin.com/in/ryanstanikk",
+              "https://www.instagram.com/ryanstanikkphotography/",
+              "https://medium.com/@ryanstanikkphotography"
+            ],
+            "knowsAbout": ["Web Design", "Graphic Design", "Commercial Photography", "Web Development", "Marketing", "SEO"]
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Web Design Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Bespoke Web Design",
+                  "description": "Custom-designed, mobile-first websites built to convert visitors into customers. Design-led quality at competitive prices."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Web Application Development",
+                  "description": "Functional web applications with CMS integration, interactive features, and performance-first architecture."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Hosting & Domain Management",
+                  "description": "Domain registration, fast secure hosting, SSL certificates, and ongoing technical maintenance."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Content Management",
+                  "description": "Quick-turnaround content updates or optional CMS integration for self-managed sites."
+                }
+              }
+            ]
+          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Southampton",
+              "containedInPlace": {
+                "@type": "AdministrativeArea",
+                "name": "Hampshire"
+              }
+            },
+            {
+              "@type": "Country",
+              "name": "United Kingdom"
+            }
+          ],
+          "serviceType": ["Web Design", "Web Development", "Web Apps", "Hosting", "Domain Registration", "Content Management"],
+          "knowsAbout": ["Web Design", "Responsive Design", "SEO", "Graphic Design", "Commercial Photography", "Web Development"],
+          "sameAs": [
+            "https://uk.linkedin.com/in/ryanstanikk",
+            "https://www.instagram.com/ryanstanikkphotography/",
+            "https://medium.com/@ryanstanikkphotography",
+            "https://wa.me/442381112819"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://stanikk.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How much does a website cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Less than you would expect. Because I work independently, my overheads are a fraction of what agencies and larger developers charge, and that saving goes straight to you. You get design-led quality at a genuinely competitive price. Every quote is transparent with a clear breakdown before any work starts."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does it take to build a website?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A typical single-page site can be ready in 1 to 2 weeks. Larger multi-page sites or sites with custom features may take 3 to 6 weeks. I will give you a realistic timeline during our initial conversation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to provide content and images?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "I take in everything you have: documents, existing websites, social media, images, videos. As a commercial photographer, I can also create imagery for your site. I will work with whatever materials you have and fill in the gaps."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Will I be able to update the site myself?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The easiest way is to send any updates over to me and I will get them implemented quickly, making sure your site stays working perfectly. If you need to manage content yourself, I can build a content management system into your site as well."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you handle hosting and domains?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. I can register a new domain for you or connect your existing domain to the new site. Hosting is arranged as part of the build. You own everything and there is no lock-in."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do we get to meet in person?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "If you are in the Southampton area, absolutely. I will come to you, sit down over a coffee, and get to know your business properly. If you are elsewhere in the UK, we jump on a video call and the process is just as personal. This is not a faceless service. You are working directly with me from start to finish."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What about complex features like e-commerce?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "I can build e-commerce systems and complex web applications. For highly complex features, we will have a conversation about scope and pricing upfront so there are no surprises. I am always straightforward about what is involved."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
-
-    <title>{title}</title>
   </head>
   <body>
     <script is:inline>

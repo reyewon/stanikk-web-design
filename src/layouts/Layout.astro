@@ -57,6 +57,11 @@ const { title, description = "STANIKK Web Design - Bespoke websites designed to 
     <title>{title}</title>
   </head>
   <body>
+    <script is:inline>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+      window.scrollTo(0, 0);
+    </script>
     <slot />
 
     <!-- GSAP -->

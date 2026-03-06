@@ -824,18 +824,17 @@ import Layout from '../layouts/Layout.astro';
 
 .browser-viewport {
   height: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-
-.browser-viewport::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
+  position: relative;
 }
 
 .browser-viewport img {
   width: 100%;
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: top 0.6s ease-out;
 }
 
 /* Project info */
@@ -1529,6 +1528,67 @@ import Layout from '../layouts/Layout.astro';
         observer.observe(profileWrapper);
       }
     }
+
+    // Portfolio auto-scroll
+    const viewports = document.querySelectorAll('.browser-viewport');
+    const isMobilePort = window.matchMedia('(max-width: 768px)').matches;
+    const scrollSpeed = 0.5; // pixels per frame
+
+    viewports.forEach(viewport => {
+      const img = viewport.querySelector('img');
+      if (!img) return;
+
+      let animId = null;
+
+      function startScroll() {
+        if (animId) return;
+        const maxScroll = img.offsetHeight - viewport.offsetHeight;
+        if (maxScroll <= 0) return;
+
+        function step() {
+          const currentTop = parseFloat(img.style.top || '0');
+          const newTop = currentTop - scrollSpeed;
+          if (Math.abs(newTop) >= maxScroll) {
+            img.style.top = -maxScroll + 'px';
+            animId = null;
+            return;
+          }
+          img.style.top = newTop + 'px';
+          animId = requestAnimationFrame(step);
+        }
+        img.style.transition = 'none';
+        animId = requestAnimationFrame(step);
+      }
+
+      function stopScroll() {
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = null;
+        }
+        img.style.transition = 'top 0.6s ease-out';
+        img.style.top = '0px';
+      }
+
+      if (!isMobilePort) {
+        // Desktop: hover to scroll, leave to reset
+        viewport.closest('.project-browser').addEventListener('mouseenter', startScroll);
+        viewport.closest('.project-browser').addEventListener('mouseleave', stopScroll);
+      } else {
+        // Mobile: scroll when in viewport, one at a time
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              startScroll();
+            } else {
+              stopScroll();
+            }
+          });
+        }, {
+          threshold: 0.3
+        });
+        observer.observe(viewport);
+      }
+    });
 
     // FAQ
     document.querySelectorAll('.faq-question').forEach(btn => {

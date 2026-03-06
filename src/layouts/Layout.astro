@@ -17,6 +17,15 @@ const ogImage = `${siteUrl}/images/og-image.jpg`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Google tag (gtag.js) - GA4 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5H2CJESBZ0');
+    </script>
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -56,8 +65,10 @@ const ogImage = `${siteUrl}/images/og-image.jpg`;
     <meta name="msapplication-TileColor" content="#1A1412" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Fonts preload -->
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
@@ -101,9 +112,9 @@ const ogImage = `${siteUrl}/images/og-image.jpg`;
           "description": "Bespoke web design and development based in Southampton, serving small businesses across the UK. Design-led websites at competitive prices with personal, face-to-face service.",
           "url": "https://stanikk.com",
           "telephone": "+442381112819",
-          "email": "photography@ryanstanikk.co.uk",
+          "email": "design@stanikk.com",
           "image": "https://stanikk.com/images/ryan-stanikk.jpg",
-          "logo": "https://stanikk.com/favicon.svg",
+          "logo": "https://stanikk.com/favicon-512.png",
           "priceRange": "££",
           "currenciesAccepted": "GBP",
           "paymentAccepted": "Bank Transfer",

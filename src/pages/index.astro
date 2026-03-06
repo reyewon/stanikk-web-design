@@ -1541,24 +1541,33 @@ import Layout from '../layouts/Layout.astro';
 
       let animId = null;
       let frameCount = 0;
+      let hasCompleted = false;
 
       function startScroll() {
         if (animId) return;
+        if (isMobilePort && hasCompleted) return;
         const maxScroll = img.offsetHeight - viewport.offsetHeight;
         if (maxScroll <= 0) return;
         frameCount = 0;
 
         function step() {
           frameCount++;
-          // Ease-in: starts very slow, ramps up to maxSpeed
           const progress = Math.min(frameCount / rampDuration, 1);
-          const speed = maxSpeed * (progress * progress); // quadratic ease-in
+          const speed = maxSpeed * (progress * progress);
 
           const currentTop = parseFloat(img.style.top || '0');
           const newTop = currentTop - speed;
           if (Math.abs(newTop) >= maxScroll) {
             img.style.top = -maxScroll + 'px';
             animId = null;
+            if (isMobilePort) {
+              // Mobile: snap back to top after reaching bottom, don't scroll again
+              hasCompleted = true;
+              setTimeout(() => {
+                img.style.transition = 'top 0.6s ease-out';
+                img.style.top = '0px';
+              }, 800);
+            }
             return;
           }
           img.style.top = newTop + 'px';

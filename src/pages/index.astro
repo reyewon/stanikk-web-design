@@ -4,9 +4,11 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Web Design Southampton | Bespoke Websites | STANIKK" description="Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. Personal service with 17+ years of design expertise.">
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <!-- === LOADER === -->
-<div class="loader" id="loader">
-  <img class="loader-mark" src="/images/loader-mark.png" alt="" />
+<div class="loader" id="loader" role="status" aria-label="Loading STANIKK Web Design">
+  <img class="loader-mark" src="/images/loader-mark.png" alt="" aria-hidden="true" />
   <div class="loader-text" id="loader-text">
     <span class="loader-name">Stanikk</span>
     <span class="loader-sub">Web Design</span>
@@ -15,7 +17,7 @@ import Layout from '../layouts/Layout.astro';
 </div>
 
 <!-- === NAVIGATION === -->
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Main navigation">
   <div class="nav-inner container">
     <a href="/" class="nav-logo">
         <span class="nav-logo-name">Stanikk</span>
@@ -29,8 +31,8 @@ import Layout from '../layouts/Layout.astro';
       <a href="#contact" class="nav-link">Contact</a>
     </div>
     <div class="nav-actions">
-      <a href="https://wa.me/442381112819" class="nav-whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <a href="https://wa.me/442381112819" class="nav-whatsapp" target="_blank" rel="noopener" aria-label="Contact via WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </a>
       <a href="#contact" class="btn btn-primary nav-cta">Get In Touch</a>
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
@@ -42,10 +44,10 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </nav>
 
-<main>
+<main id="main-content">
 <!-- === HERO === -->
-<section class="hero" id="hero">
-  <canvas class="hero-waves" id="hero-waves"></canvas>
+<section class="hero" id="hero" aria-labelledby="hero-heading">
+  <canvas class="hero-waves" id="hero-waves" aria-hidden="true" role="presentation"></canvas>
   <div class="hero-content container">
     <h1 class="hero-heading" id="hero-heading">
       <span class="hero-word"><span class="hero-word-inner">WEBSITES</span></span>
@@ -63,13 +65,13 @@ import Layout from '../layouts/Layout.astro';
       <a href="https://wa.me/442381112819" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp Me</a>
     </div>
   </div>
-  <div class="hero-scroll-indicator">
+  <div class="hero-scroll-indicator" aria-hidden="true">
     <div class="hero-scroll-line"></div>
   </div>
 </section>
 
 <!-- === ABOUT === -->
-<section class="about section" id="about">
+<section class="about section" id="about" aria-labelledby="about-heading">
   <div class="container">
     <div class="about-grid">
       <div class="about-image reveal-left">
@@ -78,12 +80,12 @@ import Layout from '../layouts/Layout.astro';
             <source media="(max-width: 768px)" srcset="/images/ryan-stanikk-square.jpg" />
             <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer in Southampton, Hampshire, with 17 years of graphic design experience" loading="lazy" />
           </picture>
-          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata"></video>
+          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata" aria-label="Ryan Stanikk introduction video"></video>
         </div>
       </div>
       <div class="about-text reveal-right">
         <h4 class="about-label">About Me</h4>
-        <h2>I build websites the way I shoot photos. With purpose.</h2>
+        <h2 id="about-heading">I build websites the way I shoot photos. With purpose.</h2>
         <p>I am Ryan Stanikk, a graphic designer with over 17 years in design and marketing, now channelling that expertise into building bespoke websites for businesses that want to stand out online.</p>
         <p>As a <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">commercial photographer</a>, I have spent years understanding what makes visuals work commercially, not just aesthetically. That same philosophy drives every website I build: it has to look stunning, but more importantly, it has to perform.</p>
         <p>Based in Southampton, available across the UK. If you are local, I will come to you in person. If you are further afield, I am a video call away. Either way, I sit down with you, get to know your business inside out, and craft something that reflects exactly who you are and what you need.</p>
@@ -107,11 +109,11 @@ import Layout from '../layouts/Layout.astro';
 </section>
 
 <!-- === PORTFOLIO === -->
-<section class="portfolio section" id="portfolio">
+<section class="portfolio section" id="portfolio" aria-labelledby="portfolio-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal">My Work</h2>
-      <a href="#contact" class="section-link reveal">Get Yours Built <span>&rarr;</span></a>
+      <h2 class="reveal" id="portfolio-heading">My Work</h2>
+      <a href="#contact" class="section-link reveal">Get Yours Built <span aria-hidden="true">&rarr;</span></a>
     </div>
     <p class="portfolio-intro reveal">Every project is designed to help a business grow. Here is a look at some of the websites I have crafted that drive results and make brands shine.</p>
 
@@ -119,7 +121,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="portfolio-columns" id="portfolio-columns">
       <div class="portfolio-col" id="project-1">
         <div class="project-browser reveal">
-          <div class="browser-chrome">
+          <div class="browser-chrome" aria-hidden="true">
             <div class="browser-dots"><span></span><span></span><span></span></div>
             <div class="browser-title">Soleto</div>
           </div>
@@ -128,16 +130,15 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <div class="project-info reveal">
-
           <h3>Soleto</h3>
           <p>Refined Italian bistro with dark mode, gallery, private dining pages, and elegant typography.</p>
-          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Soleto website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
       <div class="portfolio-col" id="project-2">
         <div class="project-browser reveal">
-          <div class="browser-chrome">
+          <div class="browser-chrome" aria-hidden="true">
             <div class="browser-dots"><span></span><span></span><span></span></div>
             <div class="browser-title">Ark Angels</div>
           </div>
@@ -146,16 +147,15 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <div class="project-info reveal">
-
           <h3>Ark Angels</h3>
           <p>Vibrant community platform with bold design, event listings, and engaging content layout.</p>
-          <a href="https://ark-angels.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+          <a href="https://ark-angels.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
       <div class="portfolio-col" id="project-3">
         <div class="project-browser reveal">
-          <div class="browser-chrome">
+          <div class="browser-chrome" aria-hidden="true">
             <div class="browser-dots"><span></span><span></span><span></span></div>
             <div class="browser-title">Padharo</div>
           </div>
@@ -164,10 +164,9 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <div class="project-info reveal">
-
           <h3>Padharo</h3>
           <p>Award-winning vegetarian Indian restaurant with reservation system, menus, and gallery.</p>
-          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Visit Site <span>&rarr;</span></a>
+          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Padharo website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </div>
@@ -175,15 +174,15 @@ import Layout from '../layouts/Layout.astro';
 </section>
 
 <!-- === SERVICES === -->
-<section class="services section" id="services">
+<section class="services section" id="services" aria-labelledby="services-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal">What I Do</h2>
+      <h2 class="reveal" id="services-heading">What I Do</h2>
     </div>
 
     <div class="services-grid">
       <div class="service-card reveal">
-        <div class="service-icon">
+        <div class="service-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
         <span class="service-badge">Design</span>
@@ -195,11 +194,11 @@ import Layout from '../layouts/Layout.astro';
           <li>Built to convert</li>
           <li>SEO foundations</li>
         </ul>
-        <a href="#contact" class="btn-card">Get Started</a>
+        <a href="#contact" class="btn-card" aria-label="Get started with Web Design">Get Started</a>
       </div>
 
       <div class="service-card reveal">
-        <div class="service-icon">
+        <div class="service-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
         </div>
         <span class="service-badge">Development</span>
@@ -211,11 +210,11 @@ import Layout from '../layouts/Layout.astro';
           <li>Interactive features</li>
           <li>Performance-first</li>
         </ul>
-        <a href="#contact" class="btn-card">Get Started</a>
+        <a href="#contact" class="btn-card" aria-label="Get started with Web Apps">Get Started</a>
       </div>
 
       <div class="service-card reveal">
-        <div class="service-icon">
+        <div class="service-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </div>
         <span class="service-badge">Infrastructure</span>
@@ -227,11 +226,11 @@ import Layout from '../layouts/Layout.astro';
           <li>SSL certificates</li>
           <li>Ongoing support</li>
         </ul>
-        <a href="#contact" class="btn-card">Get Started</a>
+        <a href="#contact" class="btn-card" aria-label="Get started with Hosting and Domains">Get Started</a>
       </div>
 
       <div class="service-card reveal">
-        <div class="service-icon">
+        <div class="service-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </div>
         <span class="service-badge">Content</span>
@@ -243,58 +242,58 @@ import Layout from '../layouts/Layout.astro';
           <li>No lock-in</li>
           <li>Full control</li>
         </ul>
-        <a href="#contact" class="btn-card">Get Started</a>
+        <a href="#contact" class="btn-card" aria-label="Get started with Content Management">Get Started</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- === PROCESS === -->
-<section class="process section" id="process">
+<section class="process section" id="process" aria-labelledby="process-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal">How I Work</h2>
+      <h2 class="reveal" id="process-heading">How I Work</h2>
     </div>
 
-    <div class="process-grid">
-      <div class="process-step reveal">
-        <div class="process-number">01</div>
+    <div class="process-grid" role="list" aria-label="My 5-step process">
+      <div class="process-step reveal" role="listitem">
+        <div class="process-number" aria-hidden="true">01</div>
         <div class="process-content">
           <h3>Discovery</h3>
           <p>We start with a proper conversation, face to face if you are in Southampton or over a video call if you are further afield. I learn your business, your brand, your audience, and your goals before a single pixel gets designed.</p>
         </div>
       </div>
-      <div class="process-line"></div>
+      <div class="process-line" aria-hidden="true"></div>
 
-      <div class="process-step reveal">
-        <div class="process-number">02</div>
+      <div class="process-step reveal" role="listitem">
+        <div class="process-number" aria-hidden="true">02</div>
         <div class="process-content">
           <h3>Design</h3>
           <p>With the mind of a graphic designer and the eye of a photographer, I craft layouts that reflect exactly who you are. Every element is intentional.</p>
         </div>
       </div>
-      <div class="process-line"></div>
+      <div class="process-line" aria-hidden="true"></div>
 
-      <div class="process-step reveal">
-        <div class="process-number">03</div>
+      <div class="process-step reveal" role="listitem">
+        <div class="process-number" aria-hidden="true">03</div>
         <div class="process-content">
           <h3>Build</h3>
           <p>Clean, fast, accessible code. I build for performance and SEO from the ground up, making sure your site works flawlessly on every device.</p>
         </div>
       </div>
-      <div class="process-line"></div>
+      <div class="process-line" aria-hidden="true"></div>
 
-      <div class="process-step reveal">
-        <div class="process-number">04</div>
+      <div class="process-step reveal" role="listitem">
+        <div class="process-number" aria-hidden="true">04</div>
         <div class="process-content">
           <h3>Launch</h3>
           <p>Domain connected, hosting configured, SSL live, everything tested. I handle the entire deployment so you can focus on your business.</p>
         </div>
       </div>
-      <div class="process-line"></div>
+      <div class="process-line" aria-hidden="true"></div>
 
-      <div class="process-step reveal">
-        <div class="process-number">05</div>
+      <div class="process-step reveal" role="listitem">
+        <div class="process-number" aria-hidden="true">05</div>
         <div class="process-content">
           <h3>Support</h3>
           <p>I do not disappear after launch. Ongoing support, updates, and maintenance to keep your site performing at its best.</p>
@@ -305,79 +304,86 @@ import Layout from '../layouts/Layout.astro';
 </section>
 
 <!-- === FAQ === -->
-<section class="faq section" id="faq">
+<section class="faq section" id="faq" aria-labelledby="faq-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal">Common Questions</h2>
+      <h2 class="reveal" id="faq-heading">Common Questions</h2>
     </div>
 
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
           <span>How much does a website cost?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q-1">
+          <p id="faq-q-1" class="visually-hidden">Answer: How much does a website cost?</p>
           <p>Less than you would expect. Because I work independently, my overheads are a fraction of what agencies and larger developers charge, and that saving goes straight to you. You get design-led quality at a genuinely competitive price. Every quote is transparent with a clear breakdown before any work starts.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
           <span>How long does it take to build a website?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-q-2">
+          <p id="faq-q-2" class="visually-hidden">Answer: How long does it take to build a website?</p>
           <p>A typical single-page site can be ready in 1 to 2 weeks. Larger multi-page sites or sites with custom features may take 3 to 6 weeks. I will give you a realistic timeline during our initial conversation.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
           <span>Do I need to provide content and images?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q-3">
+          <p id="faq-q-3" class="visually-hidden">Answer: Do I need to provide content and images?</p>
           <p>I take in everything you have: documents, existing websites, social media, images, videos. As a commercial photographer, I can also create imagery for your site. I will work with whatever materials you have and fill in the gaps.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
           <span>Will I be able to update the site myself?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-q-4">
+          <p id="faq-q-4" class="visually-hidden">Answer: Will I be able to update the site myself?</p>
           <p>The easiest way is to send any updates over to me and I will get them implemented quickly, making sure your site stays working perfectly. If you need to manage content yourself, I can build a content management system into your site as well.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
           <span>Do you handle hosting and domains?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q-5">
+          <p id="faq-q-5" class="visually-hidden">Answer: Do you handle hosting and domains?</p>
           <p>Yes. I can register a new domain for you or connect your existing domain to the new site. Hosting is arranged as part of the build. You own everything and there is no lock-in.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">
           <span>Do we get to meet in person?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-q-6">
+          <p id="faq-q-6" class="visually-hidden">Answer: Do we get to meet in person?</p>
           <p>If you are in the Southampton area, absolutely. I will come to you, sit down over a coffee, and get to know your business properly. If you are elsewhere in the UK, we jump on a video call and the process is just as personal. This is not a faceless service. You are working directly with me from start to finish.</p>
         </div>
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-7">
           <span>What about complex features like e-commerce?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">
+        <div class="faq-answer" id="faq-answer-7" role="region" aria-labelledby="faq-q-7">
+          <p id="faq-q-7" class="visually-hidden">Answer: What about complex features like e-commerce?</p>
           <p>I can build e-commerce systems and complex web applications. For highly complex features, we will have a conversation about scope and pricing upfront so there are no surprises. I am always straightforward about what is involved.</p>
         </div>
       </div>
@@ -386,17 +392,17 @@ import Layout from '../layouts/Layout.astro';
 </section>
 
 <!-- === CONTACT CTA === -->
-<section class="cta section" id="contact">
+<section class="cta section" id="contact" aria-labelledby="contact-heading">
   <div class="cta-bg">
     <div class="container">
       <div class="cta-content">
         <div class="cta-text reveal">
-          <h2>Ready to stand out online?</h2>
+          <h2 id="contact-heading">Ready to stand out online?</h2>
           <p>Whether it is a coffee in Southampton or a video call from anywhere in the UK, let us have a proper conversation about your project. No hard sell, no jargon, just a straight-talking chat about what you need.</p>
         </div>
         <div class="cta-actions reveal">
           <a href="https://wa.me/442381112819" class="btn btn-primary" target="_blank" rel="noopener">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             WhatsApp Me
           </a>
           <a href="mailto:design@stanikk.com" class="btn btn-outline">Email Me</a>
@@ -412,17 +418,17 @@ import Layout from '../layouts/Layout.astro';
 <footer class="footer">
   <div class="container">
     <div class="footer-inner">
-      <span class="footer-logo">
+      <span class="footer-logo" aria-label="STANIKK Web Design">
         <span class="footer-logo-name">Stanikk</span>
         <span class="footer-logo-sub">Web Design</span>
       </span>
-      <div class="footer-social">
+      <nav class="footer-social" aria-label="Social links">
         <a href="https://wa.me/442381112819" target="_blank" rel="noopener">WhatsApp</a>
         <a href="https://www.instagram.com/ryanstanikkphotography/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://uk.linkedin.com/in/ryanstanikk" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://medium.com/@ryanstanikkphotography" target="_blank" rel="noopener">Medium</a>
         <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">Photography</a>
-      </div>
+      </nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 STANIKK Web Design. All rights reserved.</p>
@@ -1291,7 +1297,7 @@ import Layout from '../layouts/Layout.astro';
           duration: 0.8,
           ease: 'power3.inOut',
           onComplete: () => {
-            if (loader) loader.style.display = 'none';
+            if (loader) { loader.style.display = 'none'; loader.setAttribute('aria-hidden', 'true'); }
             initAnimations();
           }
         });

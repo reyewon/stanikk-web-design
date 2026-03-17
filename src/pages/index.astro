@@ -176,7 +176,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === PHOTO BREAK: Collaboration === -->
 <div class="photo-break" aria-hidden="true">
-  <img src="/images/bat-london.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 65%;" />
+  <img src="/images/bat-london.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 35%;" />
 </div>
 
 <!-- === SERVICES === -->
@@ -390,7 +390,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === PHOTO BREAK: Atmosphere === -->
 <div class="photo-break" aria-hidden="true">
-  <img src="/images/room2-cafe.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 35%;" />
+  <img src="/images/room2-cafe.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 20%;" />
 </div>
 
 <!-- === PROCESS === -->
@@ -510,7 +510,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === PHOTO BREAK: Modern === -->
 <div class="photo-break" aria-hidden="true">
-  <img src="/images/trou-neon.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 60%;" />
+  <img src="/images/trou-neon.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 80%;" />
 </div>
 
 <!-- === WEBSITE AUDIT === -->
@@ -1048,10 +1048,12 @@ import Layout from '../layouts/Layout.astro';
   color: var(--color-bg-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-xl) var(--space-lg);
-  opacity: 0;
-  transform: translateY(40px);
+  visibility: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.service-card.gsap-revealed {
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
@@ -1141,8 +1143,7 @@ import Layout from '../layouts/Layout.astro';
   display: flex;
   gap: var(--space-xl);
   align-items: flex-start;
-  opacity: 0;
-  transform: translateX(-30px);
+  visibility: hidden;
 }
 
 .process-number {
@@ -1168,7 +1169,7 @@ import Layout from '../layouts/Layout.astro';
   height: 40px;
   background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
   margin: var(--space-sm) 0 var(--space-sm) 38px;
-  transform: scaleY(0);
+  visibility: hidden;
 }
 
 /* === FAQ === */
@@ -1425,10 +1426,12 @@ import Layout from '../layouts/Layout.astro';
   border-radius: var(--radius-lg);
   padding: var(--space-xl) var(--space-lg);
   position: relative;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(40px);
+  visibility: hidden;
+}
+
+.pricing-card.gsap-revealed {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .pricing-card:hover {
@@ -2420,15 +2423,18 @@ import Layout from '../layouts/Layout.astro';
       // Staggered service cards
       // @ts-ignore
       gsap.fromTo('.service-card',
-        { opacity: 0, y: 40 },
+        { autoAlpha: 0, y: 40 },
         {
-          opacity: 1, y: 0,
+          autoAlpha: 1, y: 0,
           duration: 0.6,
           stagger: 0.15,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.services-grid',
             start: 'top 80%'
+          },
+          onComplete: function() {
+            document.querySelectorAll('.service-card').forEach(function(el) { el.classList.add('gsap-revealed'); });
           }
         }
       );
@@ -2436,15 +2442,18 @@ import Layout from '../layouts/Layout.astro';
       // Pricing cards
       // @ts-ignore
       gsap.fromTo('.pricing-card',
-        { opacity: 0, y: 40 },
+        { autoAlpha: 0, y: 40 },
         {
-          opacity: 1, y: 0,
+          autoAlpha: 1, y: 0,
           duration: 0.6,
           stagger: 0.15,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.pricing-grid',
             start: 'top 80%'
+          },
+          onComplete: function() {
+            document.querySelectorAll('.pricing-card').forEach(function(el) { el.classList.add('gsap-revealed'); });
           }
         }
       );
@@ -2452,9 +2461,9 @@ import Layout from '../layouts/Layout.astro';
       // Process steps
       // @ts-ignore
       gsap.fromTo('.process-step',
-        { opacity: 0, x: -30 },
+        { autoAlpha: 0, x: -30 },
         {
-          opacity: 1, x: 0,
+          autoAlpha: 1, x: 0,
           duration: 0.6,
           stagger: 0.2,
           ease: 'power3.out',
@@ -2468,9 +2477,9 @@ import Layout from '../layouts/Layout.astro';
       // Process lines
       // @ts-ignore
       gsap.fromTo('.process-line',
-        { scaleY: 0 },
+        { autoAlpha: 0, scaleY: 0 },
         {
-          scaleY: 1,
+          autoAlpha: 1, scaleY: 1,
           duration: 0.4,
           stagger: 0.2,
           ease: 'power2.out',

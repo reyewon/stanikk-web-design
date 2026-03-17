@@ -176,7 +176,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === PHOTO BREAK: Collaboration === -->
 <div class="photo-break" aria-hidden="true">
-  <img src="/images/bat-london.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center top;" />
+  <img src="/images/bat-london.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 65%;" />
 </div>
 
 <!-- === SERVICES === -->
@@ -510,7 +510,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === PHOTO BREAK: Modern === -->
 <div class="photo-break" aria-hidden="true">
-  <img src="/images/trou-neon.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 25%;" />
+  <img src="/images/trou-neon.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 60%;" />
 </div>
 
 <!-- === WEBSITE AUDIT === -->
@@ -1048,6 +1048,8 @@ import Layout from '../layouts/Layout.astro';
   color: var(--color-bg-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-xl) var(--space-lg);
+  opacity: 0;
+  transform: translateY(40px);
   display: flex;
   flex-direction: column;
   transition: transform var(--transition-base), box-shadow var(--transition-base);
@@ -1139,6 +1141,8 @@ import Layout from '../layouts/Layout.astro';
   display: flex;
   gap: var(--space-xl);
   align-items: flex-start;
+  opacity: 0;
+  transform: translateX(-30px);
 }
 
 .process-number {
@@ -1164,6 +1168,7 @@ import Layout from '../layouts/Layout.astro';
   height: 40px;
   background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
   margin: var(--space-sm) 0 var(--space-sm) 38px;
+  transform: scaleY(0);
 }
 
 /* === FAQ === */
@@ -1422,6 +1427,8 @@ import Layout from '../layouts/Layout.astro';
   position: relative;
   transition: transform var(--transition-base), box-shadow var(--transition-base);
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
 }
 
 .pricing-card:hover {

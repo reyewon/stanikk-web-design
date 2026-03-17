@@ -1133,6 +1133,16 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center;
+  filter: grayscale(1) brightness(0.7) contrast(1.1);
+}
+
+.process-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1A1412 30%, #D4714E);
+  mix-blend-mode: color;
+  pointer-events: none;
 }
 
 .process-grid {
@@ -1253,7 +1263,7 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: brightness(0.25) saturate(0.6);
+  filter: grayscale(1) brightness(0.25) contrast(1.1);
   z-index: 0;
 }
 
@@ -1264,9 +1274,10 @@ import Layout from '../layouts/Layout.astro';
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(26, 20, 18, 0.7), rgba(26, 20, 18, 0.3));
+  background: linear-gradient(135deg, rgba(26, 20, 18, 0.85), rgba(212, 113, 78, 0.3));
+  mix-blend-mode: color;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .cta-content {
@@ -1590,7 +1601,16 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center 25%;
-  filter: brightness(0.6) saturate(0.8);
+  filter: grayscale(1) brightness(0.6) contrast(1.1);
+}
+
+.photo-break::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1A1412 30%, #D4714E);
+  mix-blend-mode: color;
+  pointer-events: none;
 }
 
 /* === GRAIN OVERLAY === */

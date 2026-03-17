@@ -1126,6 +1126,7 @@ import Layout from '../layouts/Layout.astro';
   overflow: hidden;
   aspect-ratio: 4/5;
   position: relative;
+  background: #D4714E;
 }
 
 .process-image img {
@@ -1133,16 +1134,18 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: grayscale(1) brightness(0.7) contrast(1.1);
+  filter: grayscale(1) contrast(0.8);
+  mix-blend-mode: multiply;
 }
 
 .process-image::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #1A1412 30%, #D4714E);
-  mix-blend-mode: color;
+  background: #1A1412;
+  mix-blend-mode: lighten;
   pointer-events: none;
+  border-radius: var(--radius-lg);
 }
 
 .process-grid {
@@ -1250,7 +1253,7 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .cta-bg {
-  background: var(--color-bg-card);
+  background: #D4714E;
   padding: var(--space-4xl) 0;
   position: relative;
   overflow: hidden;
@@ -1263,7 +1266,8 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: grayscale(1) brightness(0.25) contrast(1.1);
+  filter: grayscale(1) brightness(0.3) contrast(0.8);
+  mix-blend-mode: multiply;
   z-index: 0;
 }
 
@@ -1274,8 +1278,8 @@ import Layout from '../layouts/Layout.astro';
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(26, 20, 18, 0.85), rgba(212, 113, 78, 0.3));
-  mix-blend-mode: color;
+  background: #1A1412;
+  mix-blend-mode: lighten;
   pointer-events: none;
   z-index: 1;
 }
@@ -1594,6 +1598,7 @@ import Layout from '../layouts/Layout.astro';
   height: clamp(300px, 35vw, 420px);
   overflow: hidden;
   position: relative;
+  background: #D4714E;
 }
 
 .photo-break img {
@@ -1601,15 +1606,16 @@ import Layout from '../layouts/Layout.astro';
   height: 100%;
   object-fit: cover;
   object-position: center 25%;
-  filter: grayscale(1) brightness(0.6) contrast(1.1);
+  filter: grayscale(1) contrast(0.8);
+  mix-blend-mode: multiply;
 }
 
 .photo-break::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #1A1412 30%, #D4714E);
-  mix-blend-mode: color;
+  background: #1A1412;
+  mix-blend-mode: lighten;
   pointer-events: none;
 }
 

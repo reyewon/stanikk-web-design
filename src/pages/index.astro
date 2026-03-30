@@ -178,11 +178,6 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </section>
 
-<!-- === PHOTO BREAK: Collaboration === -->
-<div class="photo-break" aria-hidden="true">
-  <img src="/images/bat-london.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 25%;" />
-</div>
-
 <!-- === SERVICES === -->
 <section class="services section" id="services" aria-labelledby="services-heading">
   <div class="container">
@@ -392,11 +387,6 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </section>
 
-<!-- === PHOTO BREAK: Atmosphere === -->
-<div class="photo-break" aria-hidden="true">
-  <img src="/images/room2-cafe.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 45%;" />
-</div>
-
 <!-- === PROCESS === -->
 <section class="process section" id="process" aria-labelledby="process-heading">
   <div class="container">
@@ -512,11 +502,6 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </section>
 
-<!-- === PHOTO BREAK: Modern === -->
-<div class="photo-break" aria-hidden="true">
-  <img src="/images/above-barbers.jpg" alt="" loading="lazy" aria-hidden="true" style="object-position: center 30%;" />
-</div>
-
 <!-- === WEBSITE AUDIT === -->
 <section class="audit section" id="audit" aria-labelledby="audit-heading">
   <div class="container">
@@ -550,7 +535,6 @@ import Layout from '../layouts/Layout.astro';
 <!-- === CONTACT CTA === -->
 <section class="cta section" id="contact" aria-labelledby="contact-heading">
   <div class="cta-bg">
-    <img class="cta-bg-photo" src="/images/room2-make-it-matter.jpg" alt="" loading="lazy" aria-hidden="true" />
     <div class="container">
       <div class="cta-content">
         <div class="cta-text reveal">
@@ -1046,7 +1030,20 @@ import Layout from '../layouts/Layout.astro';
 
 /* === SERVICES === */
 .services {
-  background: var(--color-bg-secondary);
+  background: var(--color-accent);
+}
+
+.services .section-header h2 {
+  color: #1A1412;
+}
+
+.services .section-header {
+  color: #FFFFFF;
+}
+
+.services .portfolio-intro,
+.services p:not(.service-card p) {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .services-grid {
@@ -1265,35 +1262,10 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .cta-bg {
-  background: #D4714E;
+  background: var(--color-accent);
   padding: var(--space-4xl) 0;
   position: relative;
   overflow: hidden;
-}
-
-.cta-bg-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  filter: grayscale(1) brightness(0.3) contrast(0.8);
-  mix-blend-mode: multiply;
-  z-index: 0;
-}
-
-.cta-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #1A1412;
-  mix-blend-mode: lighten;
-  pointer-events: none;
-  z-index: 1;
 }
 
 .cta-content {
@@ -1605,33 +1577,6 @@ import Layout from '../layouts/Layout.astro';
 }
 
 /* === PHOTO BREAKS === */
-.photo-break {
-  width: 100%;
-  height: clamp(300px, 35vw, 420px);
-  overflow: hidden;
-  position: relative;
-  background: #D4714E;
-}
-
-.photo-break img {
-  width: 100%;
-  height: 120%;
-  object-fit: cover;
-  object-position: center 25%;
-  filter: grayscale(1) contrast(0.8);
-  mix-blend-mode: multiply;
-  will-change: transform;
-}
-
-.photo-break::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: #1A1412;
-  mix-blend-mode: lighten;
-  pointer-events: none;
-}
-
 /* === GRAIN OVERLAY === */
 .hero::after,
 .process::after,
@@ -2638,24 +2583,6 @@ import Layout from '../layouts/Layout.astro';
           }
         }
       );
-
-      // Parallax on photo break images
-      document.querySelectorAll('.photo-break img').forEach(img => {
-        // @ts-ignore
-        gsap.fromTo(img,
-          { yPercent: -10 },
-          {
-            yPercent: 10,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: img.parentElement,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
-          }
-        );
-      });
 
       // Parallax on hero waves canvas
       const wavesEl = document.getElementById('hero-waves');

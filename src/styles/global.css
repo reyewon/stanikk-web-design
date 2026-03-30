@@ -72,8 +72,8 @@
   --color-accent: #C4613E;
   --color-accent-light: #D4714E;
   --color-text-primary: #1A1412;
-  --color-text-secondary: #5A4E42;
-  --color-text-muted: #8A7E72;
+  --color-text-secondary: #3A3028;
+  --color-text-muted: #6A5E52;
   --color-border: #E0D8D0;
   --color-border-light: rgba(26, 20, 18, 0.08);
   --color-white: #FFFFFF;
@@ -91,6 +91,10 @@
 
 [data-theme="light"] h2 {
   color: var(--color-accent) !important;
+}
+
+[data-theme="light"] .services h2 {
+  color: #1A1412 !important;
 }
 
 [data-theme="light"] .service-card {
@@ -121,28 +125,23 @@
   border-color: var(--color-accent) !important;
 }
 
-[data-theme="light"] .photo-break {
-  background: var(--color-accent) !important;
-}
-
-[data-theme="light"] .photo-break::after {
-  background: #FAF7F4 !important;
-}
 
 [data-theme="light"] .process-image {
   background: var(--color-accent) !important;
 }
 
 [data-theme="light"] .process-image::after {
-  background: #FAF7F4 !important;
+  background: transparent !important;
+  mix-blend-mode: normal !important;
+}
+
+[data-theme="light"] .process-image img {
+  filter: grayscale(1) contrast(0.9) brightness(0.9) !important;
+  mix-blend-mode: multiply !important;
 }
 
 [data-theme="light"] .about-image-wrapper {
-  background: var(--color-accent) !important;
-}
-
-[data-theme="light"] .about-image-wrapper::after {
-  background: #FAF7F4 !important;
+  background: var(--color-bg-secondary) !important;
 }
 
 [data-theme="light"] .footer {
@@ -164,13 +163,9 @@
   color: #F5EDE4 !important;
 }
 
-[data-theme="light"] .cta-bg {
-  background: #1A1412 !important;
-}
-
 [data-theme="light"] .cta-bg h2,
 [data-theme="light"] .cta-bg p {
-  color: #F5EDE4 !important;
+  color: #FFFFFF !important;
 }
 
 [data-theme="light"] .btn-primary {

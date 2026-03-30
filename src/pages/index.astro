@@ -259,10 +259,10 @@ import Layout from '../layouts/Layout.astro';
 
     <div class="pricing-toggle-wrap reveal">
       <span class="pricing-toggle-label" id="toggle-label-monthly">Monthly</span>
-      <button class="pricing-toggle" id="pricing-toggle" role="switch" aria-checked="false" aria-label="Switch between monthly and one-off pricing">
+      <button class="pricing-toggle" id="pricing-toggle" role="switch" aria-checked="false" aria-label="Switch between monthly and pay upfront pricing">
         <span class="pricing-toggle-thumb"></span>
       </button>
-      <span class="pricing-toggle-label" id="toggle-label-oneoff">One-Off</span>
+      <span class="pricing-toggle-label" id="toggle-label-oneoff">Pay Upfront</span>
     </div>
 
     <div class="pricing-grid">
@@ -272,32 +272,17 @@ import Layout from '../layouts/Layout.astro';
           <p class="pricing-desc">A single-page site that makes you look as good online as you are in person.</p>
           <div class="pricing-amount">
             <span class="pricing-currency">&pound;</span>
-            <span class="pricing-value" data-monthly="49" data-oneoff="499">49</span>
+            <span class="pricing-value" data-monthly="49" data-upfront="199">49</span>
             <span class="pricing-period">/mo</span>
           </div>
           <span class="pricing-commitment">12-month commitment</span>
           <span class="pricing-renewal">Then &pound;29/mo</span>
           <ul class="pricing-features">
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Custom single-page design
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Mobile-first &amp; responsive
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              SEO foundations
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Hosting &amp; SSL included
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Ongoing support
-            </li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Custom single-page design</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Mobile-first &amp; responsive</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> SEO foundations</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Hosting &amp; SSL included</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Ongoing support</li>
           </ul>
           <a href="#contact" class="btn-card">Get Started</a>
         </div>
@@ -310,77 +295,51 @@ import Layout from '../layouts/Layout.astro';
           <p class="pricing-desc">Multi-page site with everything you need to grow your business online.</p>
           <div class="pricing-amount">
             <span class="pricing-currency">&pound;</span>
-            <span class="pricing-value" data-monthly="79" data-oneoff="999">79</span>
-            <span class="pricing-period">/mo</span>
-          </div>
-          <span class="pricing-commitment">12-month commitment</span>
-          <span class="pricing-renewal">Then &pound;39/mo</span>
-          <ul class="pricing-features">
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Up to 5 custom pages
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Contact forms
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Google Business integration
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Everything in Starter
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Priority support
-            </li>
-          </ul>
-          <a href="#contact" class="btn-card">Get Started</a>
-        </div>
-      </div>
-
-      <div class="pricing-card reveal" data-tier="growth">
-        <div class="pricing-card-inner">
-          <span class="pricing-tier">Growth</span>
-          <p class="pricing-desc">Web apps, e-commerce, and custom features built for serious ambition.</p>
-          <div class="pricing-amount">
-            <span class="pricing-from">From</span>
-            <span class="pricing-currency">&pound;</span>
-            <span class="pricing-value" data-monthly="129" data-oneoff="1499">129</span>
+            <span class="pricing-value" data-monthly="79" data-upfront="299">79</span>
             <span class="pricing-period">/mo</span>
           </div>
           <span class="pricing-commitment">12-month commitment</span>
           <span class="pricing-renewal">Then &pound;49/mo</span>
           <ul class="pricing-features">
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Custom web application
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              E-commerce &amp; payments
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              CMS integration
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Everything in Business
-            </li>
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Dedicated support
-            </li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Up to 5 custom pages</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Contact forms</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Google Business integration</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Everything in Starter</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Priority support</li>
           </ul>
-          <a href="#contact" class="btn-card">Let's Talk</a>
+          <a href="#contact" class="btn-card">Get Started</a>
         </div>
       </div>
+
+      <div class="pricing-card reveal" data-tier="professional">
+        <div class="pricing-card-inner">
+          <span class="pricing-tier">Professional</span>
+          <p class="pricing-desc">Larger sites with CMS, advanced integrations, and room to grow.</p>
+          <div class="pricing-amount">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-value" data-monthly="149" data-upfront="499">149</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <span class="pricing-commitment">12-month commitment</span>
+          <span class="pricing-renewal">Then &pound;99/mo</span>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Up to 15 custom pages</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> CMS integration</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Advanced integrations</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Everything in Business</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Dedicated support</li>
+          </ul>
+          <a href="#contact" class="btn-card">Get Started</a>
+        </div>
+      </div>
+
     </div>
 
-    <p class="pricing-note reveal">All plans include hosting, SSL, domain setup, and ongoing support. No hidden fees, no surprises. Prefer to pay upfront? Toggle to one-off pricing above.</p>
+    <div class="pricing-enterprise reveal">
+      <p>Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
+    </div>
+
+    <p class="pricing-note reveal">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing includes your build cost spread over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes such as new pages, redesigns, or additional features are quoted separately — no surprises, just a quick conversation.</p>
   </div>
 </section>
 
@@ -1634,6 +1593,28 @@ import Layout from '../layouts/Layout.astro';
   color: var(--color-text-muted);
 }
 
+.pricing-enterprise {
+  text-align: center;
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  max-width: 640px;
+  background: #FFFFFF;
+}
+
+.pricing-enterprise p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.pricing-enterprise a {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* === PHOTO BREAKS === */
 /* === GRAIN OVERLAY === */
 .hero::after,
@@ -2365,23 +2346,24 @@ import Layout from '../layouts/Layout.astro';
     if (labelMonthly) labelMonthly.classList.add('active');
 
     pricingToggle?.addEventListener('click', () => {
-      const isOneOff = pricingToggle.getAttribute('aria-checked') === 'true';
-      pricingToggle.setAttribute('aria-checked', String(!isOneOff));
+      const isUpfront = pricingToggle.getAttribute('aria-checked') === 'true';
+      pricingToggle.setAttribute('aria-checked', String(!isUpfront));
 
-      if (!isOneOff) {
-        // Switching to one-off
+      if (!isUpfront) {
+        // Switching to pay upfront
         labelOneoff?.classList.add('active');
         labelMonthly?.classList.remove('active');
         priceValues.forEach(el => {
           el.style.opacity = '0';
           setTimeout(() => {
-            el.textContent = el.dataset.oneoff;
+            el.textContent = el.dataset.upfront;
             el.style.opacity = '1';
           }, 150);
         });
         pricePeriods.forEach(el => el.style.display = 'none');
-        priceCommitments.forEach(el => el.textContent = 'One-off payment');
-        priceRenewals.forEach(el => el.textContent = 'Then hosting from \u00A329/mo');
+        priceCommitments.forEach(el => el.textContent = 'One-off build fee');
+        const retainerRates = ['29', '49', '99'];
+        priceRenewals.forEach((el, i) => el.textContent = 'Then \u00A3' + retainerRates[i] + '/mo');
       } else {
         // Switching to monthly
         labelMonthly?.classList.add('active');
@@ -2395,7 +2377,7 @@ import Layout from '../layouts/Layout.astro';
         });
         pricePeriods.forEach(el => el.style.display = '');
         priceCommitments.forEach(el => el.textContent = '12-month commitment');
-        const renewalRates = ['29', '39', '49'];
+        const renewalRates = ['29', '49', '99'];
         priceRenewals.forEach((el, i) => el.textContent = 'Then \u00A3' + renewalRates[i] + '/mo');
       }
     });

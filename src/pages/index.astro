@@ -822,6 +822,10 @@ import Layout from '../layouts/Layout.astro';
 }
 
 /* === ABOUT === */
+.about {
+  background-color: var(--color-accent);
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -862,7 +866,8 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .about-label {
-  color: var(--color-accent);
+  color: var(--color-bg-primary);
+  opacity: 0.7;
   font-size: 0.875rem;
   letter-spacing: 0.15em;
   margin-bottom: var(--space-sm);
@@ -871,22 +876,25 @@ import Layout from '../layouts/Layout.astro';
 .about-text h2 {
   margin-bottom: var(--space-lg);
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  color: var(--color-bg-primary);
 }
 
 .about-text p {
   margin-bottom: var(--space-md);
+  color: var(--color-bg-primary);
+  opacity: 0.9;
 }
 
 .about-text a {
-  color: var(--color-accent);
+  color: var(--color-bg-primary);
   text-decoration: underline;
-  text-decoration-color: rgba(212, 113, 78, 0.3);
+  text-decoration-color: rgba(26, 20, 18, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color var(--transition-fast);
 }
 
 .about-text a:hover {
-  text-decoration-color: var(--color-accent);
+  text-decoration-color: var(--color-bg-primary);
 }
 
 .about-stats {
@@ -894,14 +902,14 @@ import Layout from '../layouts/Layout.astro';
   gap: var(--space-xl);
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(26, 20, 18, 0.2);
 }
 
 .stat-number {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
   font-size: 2rem;
-  color: var(--color-accent);
+  color: var(--color-bg-primary);
   display: block;
 }
 
@@ -909,7 +917,8 @@ import Layout from '../layouts/Layout.astro';
   font-family: var(--font-body);
   font-weight: var(--weight-extralight);
   font-size: 0.8rem;
-  color: var(--color-text-secondary);
+  color: var(--color-bg-primary);
+  opacity: 0.7;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }

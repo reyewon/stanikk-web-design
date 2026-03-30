@@ -32,6 +32,10 @@ import Layout from '../layouts/Layout.astro';
       <a href="#contact" class="nav-link">Contact</a>
     </div>
     <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
       <a href="https://wa.me/442381112819" class="nav-whatsapp" target="_blank" rel="noopener" aria-label="Contact via WhatsApp">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </a>
@@ -113,7 +117,7 @@ import Layout from '../layouts/Layout.astro';
 <section class="portfolio section" id="portfolio" aria-labelledby="portfolio-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal" id="portfolio-heading">My Work</h2>
+      <h2 class="blur-reveal" id="portfolio-heading">My Work</h2>
       <a href="#contact" class="section-link reveal">Get Yours Built <span aria-hidden="true">&rarr;</span></a>
     </div>
     <p class="portfolio-intro reveal">Every project is designed to help a business grow. Here is a look at some of the websites I have crafted that drive results and make brands shine.</p>
@@ -150,7 +154,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="project-info reveal">
           <h3>Ark Angels</h3>
           <p>Vibrant community platform with bold design, event listings, and engaging content layout.</p>
-          <a href="https://ark-angels.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+          <a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
@@ -183,7 +187,7 @@ import Layout from '../layouts/Layout.astro';
 <section class="services section" id="services" aria-labelledby="services-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal" id="services-heading">What I Do</h2>
+      <h2 class="blur-reveal" id="services-heading">What I Do</h2>
     </div>
 
     <div class="services-grid">
@@ -258,7 +262,7 @@ import Layout from '../layouts/Layout.astro';
 <section class="pricing section" id="pricing" aria-labelledby="pricing-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal" id="pricing-heading">Investment</h2>
+      <h2 class="blur-reveal" id="pricing-heading">Investment</h2>
     </div>
 
     <div class="pricing-toggle-wrap reveal">
@@ -397,7 +401,7 @@ import Layout from '../layouts/Layout.astro';
 <section class="process section" id="process" aria-labelledby="process-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal" id="process-heading">How I Work</h2>
+      <h2 class="blur-reveal" id="process-heading">How I Work</h2>
     </div>
 
     <div class="process-layout">
@@ -457,7 +461,7 @@ import Layout from '../layouts/Layout.astro';
 <section class="faq section" id="faq" aria-labelledby="faq-heading">
   <div class="container">
     <div class="section-header">
-      <h2 class="reveal" id="faq-heading">Common Questions</h2>
+      <h2 class="blur-reveal" id="faq-heading">Common Questions</h2>
     </div>
 
     <div class="faq-list">
@@ -550,7 +554,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="container">
       <div class="cta-content">
         <div class="cta-text reveal">
-          <h2 id="contact-heading">Ready to stand out online?</h2>
+          <h2 class="blur-reveal" id="contact-heading">Ready to stand out online?</h2>
           <p>Whether it is a coffee in Southampton or a video call from anywhere in the UK, let us have a proper conversation about your project. No hard sell, no jargon, just a straight-talking chat about what you need.</p>
         </div>
         <div class="cta-actions reveal">
@@ -606,13 +610,21 @@ import Layout from '../layouts/Layout.astro';
   left: 0;
   width: 100%;
   z-index: 1000;
-  transition: background var(--transition-base), backdrop-filter var(--transition-base);
+  transition: background var(--transition-base), backdrop-filter var(--transition-base), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav.nav-hidden {
+  transform: translateY(-100%);
 }
 
 .nav.scrolled {
   background: rgba(26, 20, 18, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-light);
+}
+
+[data-theme="light"] .nav.scrolled {
+  background: rgba(250, 247, 244, 0.92);
 }
 
 .nav-inner {
@@ -1603,11 +1615,12 @@ import Layout from '../layouts/Layout.astro';
 
 .photo-break img {
   width: 100%;
-  height: 100%;
+  height: 120%;
   object-fit: cover;
   object-position: center 25%;
   filter: grayscale(1) contrast(0.8);
   mix-blend-mode: multiply;
+  will-change: transform;
 }
 
 .photo-break::after {
@@ -1915,18 +1928,83 @@ import Layout from '../layouts/Layout.astro';
     text-align: center;
   }
 }
+
+/* Light mode overrides are in global.css (unscoped) */
+
+/* Theme toggle styles in global.css */
 </style>
 
 <script>
+  // Theme toggle - runs immediately, no GSAP dependency
+  (function() {
+    const saved = localStorage.getItem('stanikk-theme');
+    if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'light' ? 'dark' : 'light';
+          // Enable smooth transition
+          document.documentElement.classList.add('theme-transitioning');
+          if (next === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+          localStorage.setItem('stanikk-theme', next);
+          // Remove transitioning class after animation completes
+          setTimeout(() => {
+            document.documentElement.classList.remove('theme-transitioning');
+          }, 700);
+        });
+      }
+    });
+  })();
+
   function initSite() {
     // @ts-ignore
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {
       setTimeout(initSite, 100);
       return;
     }
 
     // @ts-ignore
     gsap.registerPlugin(ScrollTrigger);
+
+    // @ts-ignore
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    // @ts-ignore
+    window.__lenis = lenis;
+    // Sync Lenis scroll position with GSAP ScrollTrigger
+    // @ts-ignore
+    lenis.on('scroll', ScrollTrigger.update);
+    // Drive Lenis from its own RAF loop
+    function lenisRaf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(lenisRaf);
+    }
+    requestAnimationFrame(lenisRaf);
+
+    // Character split helper for blur-reveal effect
+    function splitChars(el: Element) {
+      const text = el.textContent || '';
+      el.textContent = '';
+      (el as HTMLElement).style.display = 'inline-flex';
+      const chars: HTMLSpanElement[] = [];
+      for (const char of text) {
+        const span = document.createElement('span');
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        span.style.display = 'inline-block';
+        span.style.opacity = '0';
+        span.style.filter = 'blur(12px)';
+        el.appendChild(span);
+        chars.push(span);
+      }
+      return chars;
+    }
 
     const loader = document.getElementById('loader');
     const loaderText = document.getElementById('loader-text');
@@ -2049,7 +2127,7 @@ import Layout from '../layouts/Layout.astro';
 
         wCtx.clearRect(0, 0, wavesCanvas.width, wavesCanvas.height);
         wCtx.beginPath();
-        wCtx.strokeStyle = '#D4714E';
+        wCtx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'light' ? '#C4613E' : '#D4714E';
         wCtx.lineWidth = 0.5;
         wState.lines.forEach(pts => {
           const p0 = pts[0];
@@ -2106,14 +2184,27 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    // Nav scroll
+    // Nav scroll — hide on down, show on up
     const nav = document.getElementById('nav');
+    let lastScrollY = 0;
+    let scrollThreshold = 5;
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
+      const currentY = window.scrollY;
+      if (currentY > 50) {
         nav?.classList.add('scrolled');
       } else {
         nav?.classList.remove('scrolled');
+        nav?.classList.remove('nav-hidden');
       }
+      // Only hide/show after scrolling past hero area
+      if (currentY > 200) {
+        if (currentY - lastScrollY > scrollThreshold) {
+          nav?.classList.add('nav-hidden');
+        } else if (lastScrollY - currentY > scrollThreshold) {
+          nav?.classList.remove('nav-hidden');
+        }
+      }
+      lastScrollY = currentY;
     });
 
     // Mobile menu
@@ -2357,7 +2448,7 @@ import Layout from '../layouts/Layout.astro';
       if (auditSuccess) auditSuccess.hidden = false;
     });
 
-    // Smooth scroll
+    // Smooth scroll via Lenis
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
@@ -2365,43 +2456,74 @@ import Layout from '../layouts/Layout.astro';
         if (!href || href === '#') return;
         const target = document.querySelector(href);
         if (target) {
-          const offsetY = 80;
-          const y = target.getBoundingClientRect().top + window.pageYOffset - offsetY;
-          window.scrollTo({ top: y, behavior: 'smooth' });
+          // @ts-ignore
+          window.__lenis.scrollTo(target, { offset: -80 });
         }
       });
     });
 
     function initAnimations() {
-      // Hero entrance - word reveal effect
+      // Hero entrance - character blur reveal
       // @ts-ignore
       const heroTl = gsap.timeline();
 
-      // Words slide up into view with stagger
+      // Split each word into characters and collect all char spans
       const wordInners = document.querySelectorAll('.hero-word-inner');
-      heroTl.to(wordInners, {
-        y: 0,
-        duration: 1,
+      const allChars: HTMLSpanElement[] = [];
+      wordInners.forEach(word => {
+        // Reset the slide-up transform so word is in position
+        (word as HTMLElement).style.transform = 'translateY(0)';
+        const chars = splitChars(word);
+        allChars.push(...chars);
+      });
+
+      // @ts-ignore
+      heroTl.to(allChars, {
+        opacity: 1,
+        filter: 'blur(0px)',
+        duration: 0.6,
         ease: 'power4.out',
-        stagger: 0.08,
+        stagger: 0.025,
       }, 0);
 
-      // Subtitle and CTAs fade in after words reveal
+      // Subtitle and CTAs fade in after character reveal
+      const charRevealDuration = 0.6 + (allChars.length * 0.025);
       heroTl
-        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.8)
-        .to('.hero-ctas', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 1.0)
-        .to('.hero-scroll-indicator', { opacity: 1, duration: 0.6 }, 1.2);
+        // @ts-ignore
+        .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.4)' }, charRevealDuration * 0.6)
+        // @ts-ignore
+        .to('.hero-ctas', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.4)' }, charRevealDuration * 0.7)
+        // @ts-ignore
+        .to('.hero-scroll-indicator', { opacity: 1, duration: 0.6 }, charRevealDuration * 0.85);
 
-      // Scroll reveals
+      // Section heading blur-reveal on scroll
+      document.querySelectorAll('.blur-reveal').forEach(heading => {
+        const chars = splitChars(heading);
+        // @ts-ignore
+        gsap.to(chars, {
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.5,
+          ease: 'power3.out',
+          stagger: 0.02,
+          scrollTrigger: {
+            trigger: heading,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        });
+      });
+
+      // Scroll reveals (scale + spring easing)
       // @ts-ignore
       gsap.utils.toArray('.reveal').forEach((el: Element) => {
         // @ts-ignore
         gsap.fromTo(el,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 30, scale: 0.97 },
           {
-            opacity: 1, y: 0,
+            opacity: 1, y: 0, scale: 1,
             duration: 0.8,
-            ease: 'power3.out',
+            ease: 'back.out(1.4)',
             scrollTrigger: {
               trigger: el,
               start: 'top 85%',
@@ -2415,11 +2537,11 @@ import Layout from '../layouts/Layout.astro';
       gsap.utils.toArray('.reveal-left').forEach((el: Element) => {
         // @ts-ignore
         gsap.fromTo(el,
-          { opacity: 0, x: -40 },
+          { opacity: 0, x: -40, scale: 0.97 },
           {
-            opacity: 1, x: 0,
+            opacity: 1, x: 0, scale: 1,
             duration: 0.8,
-            ease: 'power3.out',
+            ease: 'back.out(1.4)',
             scrollTrigger: {
               trigger: el,
               start: 'top 85%',
@@ -2433,11 +2555,11 @@ import Layout from '../layouts/Layout.astro';
       gsap.utils.toArray('.reveal-right').forEach((el: Element) => {
         // @ts-ignore
         gsap.fromTo(el,
-          { opacity: 0, x: 40 },
+          { opacity: 0, x: 40, scale: 0.97 },
           {
-            opacity: 1, x: 0,
+            opacity: 1, x: 0, scale: 1,
             duration: 0.8,
-            ease: 'power3.out',
+            ease: 'back.out(1.4)',
             scrollTrigger: {
               trigger: el,
               start: 'top 85%',
@@ -2450,12 +2572,12 @@ import Layout from '../layouts/Layout.astro';
       // Staggered service cards
       // @ts-ignore
       gsap.fromTo('.service-card',
-        { autoAlpha: 0, y: 40 },
+        { autoAlpha: 0, y: 40, scale: 0.97 },
         {
-          autoAlpha: 1, y: 0,
+          autoAlpha: 1, y: 0, scale: 1,
           duration: 0.6,
           stagger: 0.15,
-          ease: 'power3.out',
+          ease: 'back.out(1.4)',
           scrollTrigger: {
             trigger: '.services-grid',
             start: 'top 80%'
@@ -2469,12 +2591,12 @@ import Layout from '../layouts/Layout.astro';
       // Pricing cards
       // @ts-ignore
       gsap.fromTo('.pricing-card',
-        { autoAlpha: 0, y: 40 },
+        { autoAlpha: 0, y: 40, scale: 0.97 },
         {
-          autoAlpha: 1, y: 0,
+          autoAlpha: 1, y: 0, scale: 1,
           duration: 0.6,
           stagger: 0.15,
-          ease: 'power3.out',
+          ease: 'back.out(1.4)',
           scrollTrigger: {
             trigger: '.pricing-grid',
             start: 'top 80%'
@@ -2488,12 +2610,12 @@ import Layout from '../layouts/Layout.astro';
       // Process steps
       // @ts-ignore
       gsap.fromTo('.process-step',
-        { autoAlpha: 0, x: -30 },
+        { autoAlpha: 0, x: -30, scale: 0.97 },
         {
-          autoAlpha: 1, x: 0,
+          autoAlpha: 1, x: 0, scale: 1,
           duration: 0.6,
           stagger: 0.2,
-          ease: 'power3.out',
+          ease: 'back.out(1.4)',
           scrollTrigger: {
             trigger: '.process-grid',
             start: 'top 80%'
@@ -2516,6 +2638,40 @@ import Layout from '../layouts/Layout.astro';
           }
         }
       );
+
+      // Parallax on photo break images
+      document.querySelectorAll('.photo-break img').forEach(img => {
+        // @ts-ignore
+        gsap.fromTo(img,
+          { yPercent: -10 },
+          {
+            yPercent: 10,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          }
+        );
+      });
+
+      // Parallax on hero waves canvas
+      const wavesEl = document.getElementById('hero-waves');
+      if (wavesEl) {
+        // @ts-ignore
+        gsap.to(wavesEl, {
+          yPercent: 30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+      }
     }
   }
 

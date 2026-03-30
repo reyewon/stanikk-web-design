@@ -831,7 +831,7 @@ import Layout from '../layouts/Layout.astro';
 
 /* === ABOUT === */
 .about {
-  background-color: var(--color-accent);
+  background-color: #1A1412;
 }
 
 .about-grid {
@@ -874,8 +874,8 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .about-label {
-  color: var(--color-bg-primary);
-  opacity: 0.7;
+  color: #A89888;
+  opacity: 1;
   font-size: 0.875rem;
   letter-spacing: 0.15em;
   margin-bottom: var(--space-sm);
@@ -884,25 +884,25 @@ import Layout from '../layouts/Layout.astro';
 .about-text h2 {
   margin-bottom: var(--space-lg);
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-  color: var(--color-bg-primary);
+  color: #F5EDE4;
 }
 
 .about-text p {
   margin-bottom: var(--space-md);
-  color: var(--color-bg-primary);
-  opacity: 0.9;
+  color: #A89888;
+  opacity: 1;
 }
 
 .about-text a {
-  color: var(--color-bg-primary);
+  color: var(--color-accent);
   text-decoration: underline;
-  text-decoration-color: rgba(26, 20, 18, 0.4);
+  text-decoration-color: rgba(212, 113, 78, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color var(--transition-fast);
 }
 
 .about-text a:hover {
-  text-decoration-color: var(--color-bg-primary);
+  text-decoration-color: var(--color-accent);
 }
 
 .about-stats {
@@ -910,14 +910,14 @@ import Layout from '../layouts/Layout.astro';
   gap: var(--space-xl);
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid rgba(26, 20, 18, 0.2);
+  border-top: 1px solid rgba(245, 237, 228, 0.15);
 }
 
 .stat-number {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
   font-size: 2rem;
-  color: var(--color-bg-primary);
+  color: var(--color-accent);
   display: block;
 }
 
@@ -925,8 +925,8 @@ import Layout from '../layouts/Layout.astro';
   font-family: var(--font-body);
   font-weight: var(--weight-extralight);
   font-size: 0.8rem;
-  color: var(--color-bg-primary);
-  opacity: 0.7;
+  color: #A89888;
+  opacity: 1;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -939,6 +939,12 @@ import Layout from '../layouts/Layout.astro';
 .portfolio-intro {
   max-width: 640px;
   margin-bottom: var(--space-2xl);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.portfolio .section-link {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 /* 3-column grid on desktop */
@@ -958,15 +964,15 @@ import Layout from '../layouts/Layout.astro';
 .project-browser {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #222;
+  background: #F0EBE5;
   border: 1px solid var(--color-border);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
 
 .project-browser:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
 }
 
 .browser-chrome {
@@ -974,7 +980,7 @@ import Layout from '../layouts/Layout.astro';
   align-items: center;
   gap: 8px;
   padding: 0.6rem 0.75rem;
-  background: #2a2a2a;
+  background: #E8E2DA;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -998,7 +1004,7 @@ import Layout from '../layouts/Layout.astro';
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: var(--weight-extralight);
-  color: var(--color-text-muted);
+  color: #6A5E52;
   letter-spacing: 0.05em;
   text-align: center;
 }
@@ -1029,7 +1035,7 @@ import Layout from '../layouts/Layout.astro';
 
 .project-info h3 {
   font-size: 1.4rem;
-  color: var(--color-text-primary);
+  color: #FFFFFF;
   margin-bottom: var(--space-xs);
 }
 
@@ -1037,11 +1043,25 @@ import Layout from '../layouts/Layout.astro';
   font-size: 0.85rem;
   line-height: 1.65;
   margin-bottom: var(--space-md);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 0.7rem;
+}
+
+/* Portfolio visit buttons: white with orange text, hover to orange fill */
+.portfolio .btn-outline {
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border-color: #FFFFFF;
+}
+
+.portfolio .btn-outline:hover {
+  background: var(--color-accent);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 
@@ -1082,11 +1102,12 @@ import Layout from '../layouts/Layout.astro';
 
 .service-badge {
   display: inline-block;
-  background: rgba(212, 113, 78, 0.12);
-  color: var(--color-accent);
+  background: rgba(212, 113, 78, 0.15);
+  color: #B05A38;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
   font-size: 0.75rem;
+  font-weight: var(--weight-regular);
   margin-bottom: var(--space-md);
   align-self: flex-start;
 }
@@ -1299,10 +1320,33 @@ import Layout from '../layouts/Layout.astro';
   flex-shrink: 0;
 }
 
+.cta-actions .btn-primary {
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border-color: #FFFFFF;
+}
+
+.cta-actions .btn-primary:hover {
+  background: #1A1412;
+  color: #FFFFFF;
+  border-color: #1A1412;
+}
+
+.cta-actions .btn-outline {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.cta-actions .btn-outline:hover {
+  background: #FFFFFF;
+  color: var(--color-accent);
+}
+
 /* === FOOTER === */
 .footer {
   padding: var(--space-xl) 0 var(--space-lg);
-  border-top: 1px solid var(--color-border);
+  border-top: none;
+  background: #1A1412;
 }
 
 .footer-inner {
@@ -1324,7 +1368,7 @@ import Layout from '../layouts/Layout.astro';
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  color: var(--color-text-primary);
+  color: #F5EDE4;
 }
 
 .footer-logo-sub {
@@ -1333,7 +1377,7 @@ import Layout from '../layouts/Layout.astro';
   font-size: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.28em;
-  color: var(--color-text-secondary);
+  color: #A89888;
 }
 
 .footer-social {
@@ -1345,7 +1389,7 @@ import Layout from '../layouts/Layout.astro';
   font-family: var(--font-body);
   font-weight: var(--weight-extralight);
   font-size: 0.8rem;
-  color: var(--color-text-secondary);
+  color: #A89888;
   transition: color var(--transition-fast);
 }
 
@@ -1355,12 +1399,12 @@ import Layout from '../layouts/Layout.astro';
 
 .footer-bottom {
   padding-top: var(--space-md);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(245, 237, 228, 0.1);
 }
 
 .footer-bottom p {
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: #7A6E62;
 }
 
 /* === PRICING === */

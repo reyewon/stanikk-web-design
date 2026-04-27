@@ -4,10 +4,10 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. 17+ years of graphic design expertise." } = Astro.props;
+const { title, description = "Bespoke web design in Southampton, serving the UK. Design-led websites without the agency headaches. Almost two decades of graphic design expertise." } = Astro.props;
 
-const siteUrl = "https://stanikk.com";
-const siteName = "STANIKK Web Design";
+const siteUrl = "https://kombu.uk";
+const siteName = "Kombu Web Design";
 const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
 ---
 
@@ -30,7 +30,7 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="author" content="Ryan Stanikk" />
+    <meta name="author" content="Ryan" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={siteUrl} />
 
@@ -48,7 +48,7 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="STANIKK Web Design - Bespoke websites in Southampton, UK" />
+    <meta property="og:image:alt" content="Kombu Web Design - Bespoke websites in Southampton, UK" />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_GB" />
 
@@ -58,7 +58,7 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content="STANIKK Web Design - Bespoke websites in Southampton, UK" />
+    <meta name="twitter:image:alt" content="Kombu Web Design - Bespoke websites in Southampton, UK" />
 
     <!-- Theme & PWA -->
     <meta name="theme-color" content="#1A1412" />
@@ -81,40 +81,40 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://stanikk.com/#website",
-          "url": "https://stanikk.com",
-          "name": "STANIKK Web Design",
+          "@id": "https://kombu.uk/#website",
+          "url": "https://kombu.uk",
+          "name": "Kombu Web Design",
           "description": "Bespoke web design in Southampton, serving the UK",
           "publisher": {
-            "@id": "https://stanikk.com/#business"
+            "@id": "https://kombu.uk/#business"
           },
           "inLanguage": "en-GB"
         },
         {
           "@type": "WebPage",
-          "@id": "https://stanikk.com/#webpage",
-          "url": "https://stanikk.com",
-          "name": "STANIKK Web Design | Bespoke Websites That Work As Hard As You Do",
+          "@id": "https://kombu.uk/#webpage",
+          "url": "https://kombu.uk",
+          "name": "Kombu Web Design | Bespoke Websites That Work As Hard As You Do",
           "isPartOf": {
-            "@id": "https://stanikk.com/#website"
+            "@id": "https://kombu.uk/#website"
           },
           "about": {
-            "@id": "https://stanikk.com/#business"
+            "@id": "https://kombu.uk/#business"
           },
-          "description": "Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. 17+ years of graphic design expertise.",
+          "description": "Bespoke web design in Southampton, serving the UK. Design-led websites without the agency headaches. Almost two decades of graphic design expertise.",
           "inLanguage": "en-GB"
         },
         {
           "@type": ["ProfessionalService", "LocalBusiness"],
-          "@id": "https://stanikk.com/#business",
-          "name": "STANIKK Web Design",
-          "alternateName": "Stanikk",
-          "description": "Bespoke web design and development based in Southampton, serving small businesses across the UK. Design-led websites at competitive prices with personal, face-to-face service.",
-          "url": "https://stanikk.com",
+          "@id": "https://kombu.uk/#business",
+          "name": "Kombu Web Design",
+          "alternateName": "Kombu",
+          "description": "Bespoke web design and development based in Southampton, serving small businesses across the UK. Design-led websites without the agency headaches, with personal, face-to-face service.",
+          "url": "https://kombu.uk",
           "telephone": "+442381112819",
-          "email": "design@stanikk.com",
-          "image": "https://stanikk.com/images/ryan-stanikk.jpg",
-          "logo": "https://stanikk.com/favicon-512.png",
+          "email": "design@kombu.uk",
+          "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+          "logo": "https://kombu.uk/favicon-512.png",
           "priceRange": "££",
           "currenciesAccepted": "GBP",
           "paymentAccepted": "Bank Transfer",
@@ -132,12 +132,12 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
           },
           "founder": {
             "@type": "Person",
-            "@id": "https://stanikk.com/#person",
-            "name": "Ryan Stanikk",
+            "@id": "https://kombu.uk/#person",
+            "name": "Ryan",
             "jobTitle": "Web Designer & Developer",
-            "description": "Graphic designer with 17+ years of design and marketing expertise, specialising in bespoke web design for small businesses.",
-            "image": "https://stanikk.com/images/ryan-stanikk.jpg",
-            "url": "https://stanikk.com",
+            "description": "Designer and commercial photographer with almost two decades of design and marketing expertise, specialising in bespoke web design for small businesses.",
+            "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+            "url": "https://kombu.uk",
             "sameAs": [
               "https://uk.linkedin.com/in/ryanstanikk",
               "https://www.instagram.com/ryanstanikkphotography/",
@@ -232,7 +232,7 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
         },
         {
           "@type": "FAQPage",
-          "@id": "https://stanikk.com/#faq",
+          "@id": "https://kombu.uk/#faq",
           "mainEntity": [
             {
               "@type": "Question",

@@ -2,15 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Web Design Southampton | Bespoke Websites | STANIKK" description="Bespoke web design in Southampton, serving the UK. Design-led websites at a fraction of agency prices. Personal service with 17+ years of design expertise.">
+<Layout title="Web Design Southampton | Bespoke Websites | Kombu" description="Bespoke web design in Southampton, serving the UK. Design-led websites without the agency headaches. Personal service with almost two decades of design expertise.">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- === LOADER === -->
-<div class="loader" id="loader" role="status" aria-label="Loading STANIKK Web Design">
+<div class="loader" id="loader" role="status" aria-label="Loading Kombu">
   <img class="loader-mark" src="/images/loader-mark.png" alt="" aria-hidden="true" />
   <div class="loader-text" id="loader-text">
-    <span class="loader-name">Stanikk</span>
+    <span class="loader-name">Kombu</span>
     <span class="loader-sub">Web Design</span>
   </div>
   <div class="loader-bar" id="loader-bar"></div>
@@ -20,7 +20,7 @@ import Layout from '../layouts/Layout.astro';
 <nav class="nav" id="nav" aria-label="Main navigation">
   <div class="nav-inner container">
     <a href="/" class="nav-logo">
-        <span class="nav-logo-name">Stanikk</span>
+        <span class="nav-logo-name">Kombu</span>
         <span class="nav-logo-sub">Web Design</span>
       </a>
     <div class="nav-links" id="nav-links">
@@ -48,7 +48,7 @@ import Layout from '../layouts/Layout.astro';
 <main id="main-content">
 <!-- === HERO === -->
 <section class="hero" id="hero" aria-labelledby="hero-heading">
-  <canvas class="hero-waves" id="hero-waves" aria-hidden="true" role="presentation"></canvas>
+  <div class="hero-shader" id="hero-shader" aria-hidden="true"></div>
   <div class="hero-content container">
     <h1 class="hero-heading" id="hero-heading">
       <span class="hero-word"><span class="hero-word-inner">WEBSITES</span></span>
@@ -60,7 +60,7 @@ import Layout from '../layouts/Layout.astro';
       <span class="hero-word"><span class="hero-word-inner">YOU</span></span>
       <span class="hero-word"><span class="hero-word-inner">DO</span></span>
     </h1>
-    <p class="hero-sub">Design-led websites at a fraction of agency prices. 17+ years of graphic design and marketing expertise behind every pixel.</p>
+    <p class="hero-sub">Design-led websites without the agency headaches. No surprise fees, no week-long waits for simple changes. Just a designer with almost two decades of experience, building sites that actually work.</p>
     <div class="hero-ctas">
       <a href="#portfolio" class="btn btn-primary">See My Work</a>
       <a href="https://wa.me/442381112819" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp Me</a>
@@ -80,24 +80,25 @@ import Layout from '../layouts/Layout.astro';
         <div class="about-image-wrapper" id="about-image-wrapper">
           <picture>
             <source media="(max-width: 768px)" srcset="/images/ryan-stanikk-square.jpg" />
-            <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk - Web Designer in Southampton, Hampshire, with 17 years of graphic design experience" loading="lazy" />
+            <img src="/images/ryan-stanikk.jpg" alt="Ryan - Web Designer in Southampton, Hampshire, with almost two decades of graphic design experience" loading="lazy" />
           </picture>
-          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata" aria-label="Ryan Stanikk introduction video"></video>
+          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata" aria-label="Ryan introduction video"></video>
         </div>
       </div>
       <div class="about-text reveal-right">
         <span class="about-label">About Me</span>
-        <h2 id="about-heading">I build websites the way I shoot photos. With purpose.</h2>
-        <p>I am Ryan Stanikk, a graphic designer with over 17 years in design and marketing, now channelling that expertise into building bespoke websites for businesses that want to stand out online.</p>
-        <p>As a <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">commercial photographer</a>, I have spent years understanding what makes visuals work commercially, not just aesthetically. That same philosophy drives every website I build: it has to look stunning, but more importantly, it has to perform.</p>
-        <p>Based in Southampton, available across the UK. If you are local, I will come to you in person. If you are further afield, I am a video call away. Either way, I sit down with you, get to know your business inside out, and craft something that reflects exactly who you are and what you need.</p>
+        <h2 id="about-heading">I build websites the way I shoot photos. <span class="accent">With purpose.</span></h2>
+        <p>I'm Ryan, a designer and <a href="https://ryanstanikk.co.uk" target="_blank" rel="noopener">commercial photographer</a> with almost two decades of experience in design and marketing, now channelling that expertise into building bespoke websites for businesses that deserve better than what agencies offer.</p>
+        <p>In Japanese cooking, kombu is the ingredient you never see. The quiet foundation that makes everything around it better. That's how I approach web design. I've spent years understanding what makes visuals work commercially, not just aesthetically. Every website I build has to look stunning, but more importantly, it has to perform.</p>
+        <p>Too many businesses are stuck paying agencies a fortune for basic changes, waiting days for a text update, and dealing with account managers who've never opened a design tool. I'm a one-person studio. You talk directly to the person designing and building your site. Changes happen fast. There are no layers, no bloated invoices for a five-minute job, and no disappearing act after launch.</p>
+        <p>Based in Southampton, available across the UK. If you're local, I'll come to you in person. If you're further afield, I'm a video call away.</p>
         <div class="about-stats">
           <div class="stat">
             <span class="stat-number">17+</span>
             <span class="stat-label">Years in Design</span>
           </div>
           <div class="stat">
-            <span class="stat-number">6</span>
+            <span class="stat-number">10</span>
             <span class="stat-label">Live Projects</span>
           </div>
           <div class="stat">
@@ -122,53 +123,65 @@ import Layout from '../layouts/Layout.astro';
     <!-- 3-column portfolio grid -->
     <div class="portfolio-columns" id="portfolio-columns">
       <div class="portfolio-col" id="project-1">
-        <div class="project-browser reveal">
-          <div class="browser-chrome" aria-hidden="true">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-title">Soleto</div>
+        <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-title">Soleto</div>
+            </div>
+            <div class="browser-viewport" data-site="https://soleto-website.pages.dev">
+              <div class="browser-stack">
+                <img src="/images/portfolio/soleto.jpg" alt="Soleto Italian Restaurant - bespoke website design with dark theme, gallery and private dining pages" loading="lazy" class="browser-poster" />
+              </div>
+            </div>
           </div>
-          <div class="browser-viewport">
-            <img src="/images/portfolio/soleto.jpg" alt="Soleto Italian Restaurant - bespoke website design with dark theme, gallery and private dining pages" loading="lazy" />
-          </div>
-        </div>
+        </a>
         <div class="project-info reveal">
-          <h3>Soleto</h3>
-          <p>Refined Italian bistro with dark mode, gallery, private dining pages, and elegant typography.</p>
-          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Soleto website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+          <h3><a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-title-link">Soleto</a></h3>
+          <p>An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, table bookings, all without ringing the kitchen mid-service. <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Soleto website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
       <div class="portfolio-col" id="project-2">
-        <div class="project-browser reveal">
-          <div class="browser-chrome" aria-hidden="true">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-title">Ark Angels</div>
+        <a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-title">Ark Angels</div>
+            </div>
+            <div class="browser-viewport" data-site="https://ark-angels-cardover.pages.dev">
+              <div class="browser-stack">
+                <img src="/images/portfolio/ark-angels.jpg" alt="Ark Angels community platform - vibrant website design with event listings and bold layout" loading="lazy" class="browser-poster" />
+              </div>
+            </div>
           </div>
-          <div class="browser-viewport">
-            <img src="/images/portfolio/ark-angels.jpg" alt="Ark Angels community platform - vibrant website design with event listings and bold layout" loading="lazy" />
-          </div>
-        </div>
+        </a>
         <div class="project-info reveal">
-          <h3>Ark Angels</h3>
-          <p>Vibrant community platform with bold design, event listings, and engaging content layout.</p>
-          <a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+          <h3><a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="project-title-link">Ark Angels</a></h3>
+          <p>A community music platform with a lot to fit on one page. Gigs, bands, what's on this week, where to find them. None of it cramped. <a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://ark-angels-cardover.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
 
       <div class="portfolio-col" id="project-3">
-        <div class="project-browser reveal">
-          <div class="browser-chrome" aria-hidden="true">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-title">Padharo</div>
+        <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-title">Padharo</div>
+            </div>
+            <div class="browser-viewport" data-site="https://www.padharo.co.uk">
+              <div class="browser-stack">
+                <img src="/images/portfolio/padharo.jpg" alt="Padharo vegetarian Indian restaurant - award-winning website with reservation system and menus" loading="lazy" class="browser-poster" />
+              </div>
+            </div>
           </div>
-          <div class="browser-viewport">
-            <img src="/images/portfolio/padharo.jpg" alt="Padharo vegetarian Indian restaurant - award-winning website with reservation system and menus" loading="lazy" />
-          </div>
-        </div>
+        </a>
         <div class="project-info reveal">
-          <h3>Padharo</h3>
-          <p>Award-winning vegetarian Indian restaurant with reservation system, menus, and gallery.</p>
-          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm" aria-label="Visit Padharo website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+          <h3><a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-title-link">Padharo</a></h3>
+          <p>An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and enough room for the photography to do its work. <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Padharo website">Visit Site <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </div>
@@ -189,7 +202,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <span class="service-badge">Design</span>
         <h3>Web Design</h3>
-        <p>Bespoke websites built around your business, not around a template. Most developers build functional sites. I build beautiful ones, with the eye of a graphic designer and at a price that undercuts agencies and freelance developers alike.</p>
+        <p>Bespoke websites built around your business, not around a template. Most developers build functional sites. I build beautiful ones, with the eye of a graphic designer, without the agency price tag or the agency runaround. You deal directly with me, a designer first, not a project manager reading from a script.</p>
         <ul class="service-list">
           <li>Custom design</li>
           <li>Mobile-first</li>
@@ -237,7 +250,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <span class="service-badge">Content</span>
         <h3>Content Management</h3>
-        <p>Need something changed on your site? Send it over and I will handle it. If you prefer to manage content yourself, I can build a CMS into your site too.</p>
+        <p>Tired of being charged a fortune for a text change? Send it over and I will handle it, usually the same day. Simple updates like text, images, and menu changes are always included. No sneaky invoices. If you prefer to manage content yourself, I can build a CMS into your site too.</p>
         <ul class="service-list">
           <li>Quick turnaround updates</li>
           <li>Optional CMS</li>
@@ -253,16 +266,15 @@ import Layout from '../layouts/Layout.astro';
 <!-- === PRICING === -->
 <section class="pricing section" id="pricing" aria-labelledby="pricing-heading">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header pricing-header">
       <h2 class="blur-reveal" id="pricing-heading">Investment</h2>
-    </div>
-
-    <div class="pricing-toggle-wrap reveal">
+      <div class="pricing-toggle-wrap reveal">
       <span class="pricing-toggle-label" id="toggle-label-monthly">Monthly</span>
       <button class="pricing-toggle" id="pricing-toggle" role="switch" aria-checked="false" aria-label="Switch between monthly and pay upfront pricing">
         <span class="pricing-toggle-thumb"></span>
       </button>
       <span class="pricing-toggle-label" id="toggle-label-oneoff">Pay Upfront</span>
+      </div>
     </div>
 
     <div class="pricing-grid">
@@ -335,11 +347,13 @@ import Layout from '../layouts/Layout.astro';
 
     </div>
 
-    <div class="pricing-enterprise reveal">
-      <p>Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
-    </div>
+    <div class="pricing-bottom">
+      <div class="pricing-enterprise reveal">
+        <p>Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
+      </div>
 
-    <p class="pricing-note reveal">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing includes your build cost spread over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may need to be quoted separately depending on their complexity.</p>
+      <p class="pricing-note reveal">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing includes your build cost spread over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may need to be quoted separately depending on their complexity.</p>
+    </div>
   </div>
 </section>
 
@@ -412,17 +426,6 @@ import Layout from '../layouts/Layout.astro';
 
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
-          <span>How much does a website cost?</span>
-          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q-1">
-          <p id="faq-q-1" class="visually-hidden">Answer: How much does a website cost?</p>
-          <p>Starter websites from &pound;49 per month or &pound;499 one-off. Business sites from &pound;79 per month. All plans include hosting, SSL, and ongoing support with no hidden fees. Because I work independently, you get design-led quality at a fraction of agency prices.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
           <span>How long does it take to build a website?</span>
           <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -452,6 +455,17 @@ import Layout from '../layouts/Layout.astro';
         <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-q-4">
           <p id="faq-q-4" class="visually-hidden">Answer: Do you handle hosting and domains?</p>
           <p>Yes. Domain registration, hosting, SSL, ongoing maintenance. It is all included in your plan. You own everything, there is no lock-in, and I handle every technical detail so you do not have to.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
+          <span>I'm currently with an agency. What's different about working with you?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q-5">
+          <p id="faq-q-5" class="visually-hidden">Answer: What's different about working with you vs an agency?</p>
+          <p>You talk to me. Not an account manager, not a junior developer, not a sales team. I'm a designer first. I care about how things look and how they work. Changes happen fast because there are no layers of approval. Day-to-day updates are included, not itemised on an invoice. And your site stays fresh and current, not frozen in time the moment the build is signed off.</p>
         </div>
       </div>
     </div>
@@ -494,7 +508,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="container">
       <div class="cta-content">
         <div class="cta-text reveal">
-          <h2 class="blur-reveal" id="contact-heading">Ready to stand out online?</h2>
+          <h2 class="blur-reveal" id="contact-heading">Ready to stand out&nbsp;online?</h2>
           <p>Whether it is a coffee in Southampton or a video call from anywhere in the UK, let us have a proper conversation about your project. No hard sell, no jargon, just a straight-talking chat about what you need.</p>
         </div>
         <div class="cta-actions reveal">
@@ -506,7 +520,7 @@ import Layout from '../layouts/Layout.astro';
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Call Me
           </a>
-          <a href="mailto:design@stanikk.com" class="btn btn-outline">
+          <a href="mailto:design@kombu.uk" class="btn btn-outline">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Email Me
           </a>
@@ -523,8 +537,8 @@ import Layout from '../layouts/Layout.astro';
 <footer class="footer dark-section">
   <div class="container">
     <div class="footer-inner">
-      <span class="footer-logo" aria-label="STANIKK Web Design">
-        <span class="footer-logo-name">Stanikk</span>
+      <span class="footer-logo" aria-label="Kombu Web Design">
+        <span class="footer-logo-name">Kombu</span>
         <span class="footer-logo-sub">Web Design</span>
       </span>
       <nav class="footer-social" aria-label="Social links">
@@ -536,12 +550,51 @@ import Layout from '../layouts/Layout.astro';
       </nav>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 STANIKK Web Design. All rights reserved.</p>
+      <p>&copy; 2026 Kombu Web Design. All rights reserved.</p>
     </div>
   </div>
 </footer>
 
 </Layout>
+
+<script>
+import { ShaderMount, meshGradientFragmentShader } from '@paper-design/shaders';
+
+function initShader() {
+  const el = document.getElementById('hero-shader');
+  if (!el) return;
+
+  new ShaderMount(
+    el,
+    meshGradientFragmentShader,
+    {
+      u_colors: [
+        [0.980, 0.969, 0.957, 1],  // #FAF7F4 cream (dominant)
+        [0.941, 0.922, 0.898, 1],  // #F0EBE5 warm cream
+        [0.831, 0.443, 0.306, 1],  // #D4714E terracotta
+        [0.910, 0.584, 0.416, 1],  // #E8956A light terracotta
+        [0.980, 0.969, 0.957, 1],  // #FAF7F4 cream again (keeps it light)
+      ],
+      u_colorsCount: 5,
+      u_distortion: 0.5,
+      u_swirl: 0.1,
+      u_grainMixer: 0,
+      u_grainOverlay: 0,
+      u_fit: 2,
+      u_scale: 1,
+    },
+    {},
+    0.5
+  );
+}
+
+// Init when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initShader);
+} else {
+  initShader();
+}
+</script>
 
 <style>
 /* === NAV === */
@@ -572,27 +625,29 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .nav-logo {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   line-height: 1;
 }
 
 .nav-logo-name {
   font-family: var(--font-heading);
-  font-weight: var(--weight-bold);
-  font-size: 1.3rem;
+  font-weight: 900;
+  font-size: 2rem;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: var(--color-text-primary);
+  letter-spacing: 0;
+  color: var(--color-accent);
+  display: block;
 }
 
 .nav-logo-sub {
   font-family: var(--font-heading);
   font-weight: var(--weight-light);
-  font-size: 0.55rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.18em;
   color: var(--color-text-secondary);
+  display: block;
 }
 
 .nav-links {
@@ -719,25 +774,26 @@ import Layout from '../layouts/Layout.astro';
   border-radius: 22px 22px 0 0;
 }
 
-.hero-waves {
+.hero-shader {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
-  opacity: 0.15;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 1000px;
+  max-width: 1100px;
 }
 
 .hero-heading {
-  font-size: clamp(3.5rem, 11vw, 9.5rem);
-  line-height: 0.85;
+  font-size: clamp(2.6rem, 9vw, 8rem);
+  font-weight: 800;
+  line-height: 0.88;
   margin-bottom: 1rem;
+  text-wrap: balance;
 }
 
 .hero-word {
@@ -768,6 +824,16 @@ import Layout from '../layouts/Layout.astro';
   opacity: 0;
 }
 
+.hero-ctas .btn-outline {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+
+.hero-ctas .btn-outline:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg-primary);
+}
+
 .hero-scroll-indicator {
   position: absolute;
   bottom: 2rem;
@@ -791,6 +857,7 @@ import Layout from '../layouts/Layout.astro';
 /* === ABOUT === */
 .about {
   background-color: #1A1412;
+  position: relative;
 }
 
 .about-grid {
@@ -973,18 +1040,34 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .browser-viewport {
-  height: 500px;
+  aspect-ratio: 1024 / 1366;
+  height: auto;
   overflow: hidden;
   position: relative;
+  background: #1A1412;
 }
 
-.browser-viewport img {
-  width: 100%;
-  display: block;
+/* The stack contains the full-page screenshot AND the iframe overlay.
+   It's transformed (scale + translateY) as a single unit on hover. */
+.browser-stack {
   position: absolute;
   top: 0;
   left: 0;
-  transition: top 0.6s ease-out;
+  width: 1024px; /* matches embedded site viewport width */
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.browser-poster {
+  width: 1024px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.browser-viewport.iframe-loaded .browser-poster {
+  opacity: 0;
 }
 
 /* Project info */
@@ -1000,6 +1083,24 @@ import Layout from '../layouts/Layout.astro';
   font-size: 1.4rem;
   color: #1A1412;
   margin-bottom: var(--space-xs);
+}
+
+.project-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-title-link:hover {
+  color: var(--color-accent);
+}
+
+.project-browser-link {
+  display: block;
+  text-decoration: none;
+}
+
+.project-inline-link {
+  display: none;
 }
 
 .project-info p {
@@ -1028,9 +1129,60 @@ import Layout from '../layouts/Layout.astro';
 }
 
 
+/* === SECTION RHYTHM VARIATIONS (desktop only — mobile keeps tight default) === */
+@media (min-width: 769px) {
+  /* About: tight on top, intimate. Continues from the hero. */
+  .about.section {
+    padding-top: calc(var(--space-section) * 0.75);
+    padding-bottom: calc(var(--space-section) * 1.1);
+  }
+
+  /* Portfolio: expansive. Let the work breathe. */
+  .portfolio.section {
+    padding-top: calc(var(--space-section) * 1.1);
+    padding-bottom: calc(var(--space-section) * 1.25);
+  }
+
+  /* Services: standard, slightly more open header. */
+  .services.section .section-header {
+    margin-bottom: calc(var(--space-3xl) * 0.85);
+  }
+
+  /* Pricing: compressed, focused. */
+  .pricing.section {
+    padding-top: calc(var(--space-section) * 0.85);
+    padding-bottom: calc(var(--space-section) * 0.85);
+  }
+
+  /* FAQ: compact reference section. Smaller heading, tighter rhythm. */
+  .faq.section {
+    padding-top: calc(var(--space-section) * 0.7);
+    padding-bottom: calc(var(--space-section) * 0.7);
+  }
+
+  .faq.section .section-header {
+    margin-bottom: calc(var(--space-3xl) * 0.5);
+  }
+
+  .faq #faq-heading {
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  }
+
+  /* Audit: compressed focused tool, not a section anchor. */
+  .audit.section {
+    padding-top: calc(var(--space-section) * 0.6);
+    padding-bottom: calc(var(--space-section) * 0.6);
+  }
+
+  .audit #audit-heading {
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  }
+}
+
 /* === SERVICES === */
 .services {
   background: var(--color-bg-primary);
+  position: relative;
 }
 
 .services-grid {
@@ -1188,6 +1340,7 @@ import Layout from '../layouts/Layout.astro';
 /* === FAQ === */
 .faq {
   background: var(--color-bg-primary);
+  position: relative;
 }
 
 .faq-list {
@@ -1321,26 +1474,26 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .footer-logo {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   line-height: 1;
 }
 
 .footer-logo-name {
   font-family: var(--font-heading);
-  font-weight: var(--weight-bold);
-  font-size: 1.2rem;
+  font-weight: 900;
+  font-size: 1.5rem;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: #F5EDE4;
+  letter-spacing: 0;
+  color: var(--color-accent);
 }
 
 .footer-logo-sub {
   font-family: var(--font-heading);
   font-weight: var(--weight-light);
-  font-size: 0.5rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.18em;
   color: #A89888;
 }
 
@@ -1374,14 +1527,17 @@ import Layout from '../layouts/Layout.astro';
 /* === PRICING === */
 .pricing {
   background: var(--color-bg-secondary);
+  position: relative;
+}
+
+.pricing-header {
+  align-items: center;
 }
 
 .pricing-toggle-wrap {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--space-sm);
-  margin-bottom: var(--space-2xl);
 }
 
 .pricing-toggle-label {
@@ -1518,11 +1674,12 @@ import Layout from '../layouts/Layout.astro';
 }
 
 .pricing-currency {
-  font-family: var(--font-heading);
-  font-weight: var(--weight-bold);
-  font-size: 1.8rem;
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: 1.2rem;
   color: #1A1412;
   line-height: 1;
+  vertical-align: super;
 }
 
 .pricing-value {
@@ -1585,21 +1742,26 @@ import Layout from '../layouts/Layout.astro';
   flex-shrink: 0;
 }
 
+.pricing-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+  align-items: start;
+}
+
 .pricing-note {
-  text-align: center;
-  max-width: 600px;
-  margin: var(--space-2xl) auto 0;
-  font-size: 0.85rem;
+  text-align: left;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
+  margin: 0;
 }
 
 .pricing-enterprise {
-  text-align: center;
-  margin: var(--space-xl) auto 0;
-  padding: var(--space-lg) var(--space-xl);
+  text-align: left;
+  padding: var(--space-md) var(--space-lg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  max-width: 640px;
   background: #FFFFFF;
 }
 
@@ -1618,21 +1780,58 @@ import Layout from '../layouts/Layout.astro';
 /* === PHOTO BREAKS === */
 /* === GRAIN OVERLAY === */
 .hero::after,
+.about::after,
+.portfolio::after,
+.services::after,
+.pricing::after,
 .process::after,
+.faq::after,
+.audit::after,
 .cta-bg::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
-  background-size: 200px 200px;
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+}
+
+/* Dark sections need a softer treatment so the grain reads as paper without muddying colour */
+.about::after,
+.process::after {
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+}
+
+/* Terracotta section: subtle weathered feel */
+.portfolio::after,
+.cta-bg::after {
+  opacity: 0.18;
+  mix-blend-mode: overlay;
 }
 
 .hero {
   position: relative;
+}
+
+.portfolio,
+.audit {
+  position: relative;
+}
+
+/* Ensure section content sits above the grain */
+.about .container,
+.portfolio .container,
+.services .container,
+.pricing .container,
+.faq .container,
+.audit .container {
+  position: relative;
+  z-index: 2;
 }
 
 /* === AUDIT === */
@@ -1826,14 +2025,42 @@ import Layout from '../layouts/Layout.astro';
     gap: var(--space-lg);
   }
 
-  /* Mobile portfolio: clean stacked layout */
+  /* Mobile portfolio: compact, no pop-in animation */
   .portfolio-columns {
     grid-template-columns: 1fr;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
+  }
+
+  .portfolio-columns .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .project-btn {
+    display: none !important;
+  }
+
+  .project-inline-link {
+    display: inline;
+    font-size: 0.85rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .project-info p {
+    margin-bottom: 0;
+  }
+
+  .project-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
   }
 
   .browser-viewport {
-    height: 350px;
+    /* aspect-ratio inherited from desktop */
+    height: auto;
   }
 
   .project-info h3 {
@@ -1845,12 +2072,21 @@ import Layout from '../layouts/Layout.astro';
     grid-template-columns: 1fr;
   }
 
+  .pricing-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .pricing-grid {
     grid-template-columns: 1fr;
   }
 
   .pricing-card:last-child {
     max-width: none;
+  }
+
+  .pricing-bottom {
+    grid-template-columns: 1fr;
   }
 
   .audit-input-group {
@@ -1874,6 +2110,7 @@ import Layout from '../layouts/Layout.astro';
 
   .process-layout {
     grid-template-columns: 1fr;
+    gap: var(--space-lg);
   }
 
   .process-image {
@@ -1891,6 +2128,126 @@ import Layout from '../layouts/Layout.astro';
     width: 40px;
     height: 2px;
     margin: var(--space-sm) 0;
+  }
+
+  /* CTA section: remove white gaps on mobile */
+  .cta.section {
+    padding: 0;
+  }
+
+  /* Hero: larger text, moved up, centred vertically */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--nav-height);
+  }
+
+  .hero-heading {
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+
+  .hero-content {
+    padding-top: 0;
+    padding-bottom: var(--space-xl);
+  }
+
+  .hero-scroll-indicator {
+    bottom: var(--space-md);
+  }
+
+  /* Section header margins: tighter on mobile */
+  .section-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  /* Process image: position face */
+  .process-image img {
+    object-position: center 20%;
+  }
+
+  /* Pricing: horizontal scroll carousel */
+  .pricing-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-sm);
+    padding: 0 7.5vw;
+    margin: 0 calc(-1 * clamp(1.5rem, 4vw, 3rem));
+    scrollbar-width: none;
+  }
+
+  .pricing-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pricing-card {
+    scroll-snap-align: center;
+    min-width: 80vw;
+    flex: 0 0 80vw;
+  }
+
+  /* Services: compact collapsible on mobile */
+  .service-card {
+    position: relative;
+    padding: var(--space-md);
+  }
+
+  .service-card .service-icon {
+    display: none !important;
+  }
+
+  .service-card .service-badge {
+    margin-bottom: var(--space-xs) !important;
+  }
+
+  .service-card > p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .service-card.service-expanded > p {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .service-card .service-list {
+    display: none;
+  }
+
+  .service-card.service-expanded .service-list {
+    display: block;
+  }
+
+  .service-card .btn-card {
+    display: none;
+  }
+
+  .service-card.service-expanded .btn-card {
+    display: inline-flex;
+  }
+
+  .service-card .service-more {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-accent);
+    cursor: pointer;
+    margin-top: var(--space-xs);
+  }
+
+  .service-card.service-expanded .service-more {
+    display: none;
   }
 
   .footer-inner {
@@ -1942,12 +2299,15 @@ import Layout from '../layouts/Layout.astro';
     function splitChars(el: Element) {
       const text = el.textContent || '';
       el.textContent = '';
-      (el as HTMLElement).style.display = 'inline-flex';
       const chars: HTMLSpanElement[] = [];
       for (const char of text) {
         const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.display = 'inline-block';
+        if (char === ' ') {
+          span.innerHTML = ' ';
+        } else {
+          span.textContent = char;
+        }
+        span.style.display = 'inline';
         span.style.opacity = '0';
         span.style.filter = 'blur(12px)';
         el.appendChild(span);
@@ -1984,155 +2344,7 @@ import Layout from '../layouts/Layout.astro';
 
     // Hero word reveal is handled in initAnimations
 
-    // Interactive waves background
-    const hero = document.getElementById('hero');
-    const wavesCanvas = document.getElementById('hero-waves') as HTMLCanvasElement;
-    if (wavesCanvas && hero) {
-      const wCtx = wavesCanvas.getContext('2d')!;
-      const wState = {
-        mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
-        lines: [] as any[][],
-        time: 0
-      };
-
-      // Simple Perlin noise
-      const perm = new Uint8Array(512);
-      const grad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
-      const seed = Math.random();
-      const p256 = new Uint8Array(256);
-      for (let i = 0; i < 256; i++) p256[i] = i;
-      for (let i = 0; i < 256; i++) { const j = Math.floor(seed * (i+1)) % 256; const k = p256[i]; p256[i] = p256[j]; p256[j] = k; }
-      for (let i = 0; i < 512; i++) perm[i] = p256[i & 255];
-
-      function perlin2(x: number, y: number) {
-        const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
-        x -= Math.floor(x); y -= Math.floor(y);
-        const fade = (t: number) => t*t*t*(t*(t*6-15)+10);
-        const u = fade(x), v = fade(y);
-        const dot = (g: number[], a: number, b: number) => g[0]*a + g[1]*b;
-        const lerp = (a: number, b: number, t: number) => a + t*(b-a);
-        const n00 = dot(grad3[perm[X+perm[Y]]%12], x, y);
-        const n01 = dot(grad3[perm[X+perm[Y+1]]%12], x, y-1);
-        const n10 = dot(grad3[perm[X+1+perm[Y]]%12], x-1, y);
-        const n11 = dot(grad3[perm[X+1+perm[Y+1]]%12], x-1, y-1);
-        return lerp(lerp(n00,n10,u), lerp(n01,n11,u), v);
-      }
-
-      function setupWaves() {
-        const rect = hero!.getBoundingClientRect();
-        wavesCanvas.width = rect.width;
-        wavesCanvas.height = rect.height;
-        wState.lines = [];
-        const gx = 12, gy = 32, ow = rect.width + 200, oh = rect.height + 30;
-        const totalLines = Math.ceil(ow / gx);
-        const totalPts = Math.ceil(oh / gy);
-        const xs = (rect.width - gx * totalLines) / 2;
-        const ys = (rect.height - gy * totalPts) / 2;
-        for (let i = 0; i <= totalLines; i++) {
-          const pts: any[] = [];
-          for (let j = 0; j <= totalPts; j++) {
-            pts.push({ x: xs + gx*i, y: ys + gy*j, wx: 0, wy: 0, cx: 0, cy: 0, cvx: 0, cvy: 0 });
-          }
-          wState.lines.push(pts);
-        }
-      }
-
-      function tickWaves(time: number) {
-        const m = wState.mouse;
-        m.sx += (m.x - m.sx) * 0.1;
-        m.sy += (m.y - m.sy) * 0.1;
-        const dx = m.sx - m.lx, dy = m.sy - m.ly;
-        m.v = Math.hypot(dx, dy);
-        m.vs += (m.v - m.vs) * 0.1;
-        m.vs = Math.min(100, m.vs);
-        m.a = Math.atan2(dy, dx);
-        m.lx = m.sx; m.ly = m.sy;
-
-        wState.lines.forEach(pts => {
-          pts.forEach(p => {
-            const nx = (p.x + time * 0.0125) * 0.002;
-            const ny = (p.y + time * 0.005) * 0.0015;
-            const mv = perlin2(nx, ny) * 12;
-            p.wx = Math.cos(mv) * 32;
-            p.wy = Math.sin(mv) * 16;
-
-            const pdx = p.x - m.sx, pdy = p.y - m.sy;
-            const d = Math.hypot(pdx, pdy);
-            const ir = Math.max(175, m.vs);
-            if (d < ir) {
-              const fo = 1 - d/ir;
-              const f = Math.cos(d * 0.001) * fo;
-              const ff = f * ir * m.vs * 0.00065;
-              p.cvx += Math.cos(m.a) * ff;
-              p.cvy += Math.sin(m.a) * ff;
-            }
-            p.cvx += (0 - p.cx) * 0.005;
-            p.cvy += (0 - p.cy) * 0.005;
-            p.cvx *= 0.925; p.cvy *= 0.925;
-            p.cx += p.cvx * 2; p.cy += p.cvy * 2;
-            p.cx = Math.max(-100, Math.min(100, p.cx));
-            p.cy = Math.max(-100, Math.min(100, p.cy));
-          });
-        });
-
-        wCtx.clearRect(0, 0, wavesCanvas.width, wavesCanvas.height);
-        wCtx.beginPath();
-        wCtx.strokeStyle = '#D4714E';
-        wCtx.lineWidth = 0.5;
-        wState.lines.forEach(pts => {
-          const p0 = pts[0];
-          wCtx.moveTo(Math.round((p0.x + p0.wx)*10)/10, Math.round((p0.y + p0.wy)*10)/10);
-          for (let i = 0; i < pts.length - 1; i++) {
-            const c = pts[i], n = pts[i+1];
-            const cx = c.x + c.wx + c.cx, cy = c.y + c.wy + c.cy;
-            const nx2 = n.x + n.wx + n.cx, ny2 = n.y + n.wy + n.cy;
-            wCtx.quadraticCurveTo(Math.round(cx*10)/10, Math.round(cy*10)/10, Math.round((cx+nx2)/2*10)/10, Math.round((cy+ny2)/2*10)/10);
-          }
-        });
-        wCtx.stroke();
-        requestAnimationFrame(tickWaves);
-      }
-
-      setupWaves();
-      requestAnimationFrame(tickWaves);
-      window.addEventListener('resize', setupWaves);
-
-      // On touch/mobile devices, auto-drift a virtual cursor slowly across the canvas
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      if (isTouchDevice) {
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.width / 2, cy = rect.height / 2;
-        wState.mouse.x = cx; wState.mouse.y = cy;
-        wState.mouse.sx = cx; wState.mouse.sy = cy;
-        wState.mouse.lx = cx; wState.mouse.ly = cy;
-        wState.mouse.set = true;
-        wState.mouse.vs = 12;
-
-        let autoAngle = 0;
-        function autoDrift() {
-          autoAngle += 0.004;
-          const r = hero!.getBoundingClientRect();
-          const ax = r.width * 0.5 + Math.cos(autoAngle) * r.width * 0.3 + Math.sin(autoAngle * 0.7) * r.width * 0.1;
-          const ay = r.height * 0.5 + Math.sin(autoAngle * 0.6) * r.height * 0.25;
-          wState.mouse.x = ax;
-          wState.mouse.y = ay;
-          wState.mouse.vs = 10 + Math.sin(autoAngle * 1.3) * 5;
-          requestAnimationFrame(autoDrift);
-        }
-        requestAnimationFrame(autoDrift);
-      } else {
-        hero.addEventListener('mousemove', (e) => {
-          const rect = hero!.getBoundingClientRect();
-          const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-          wState.mouse.x = mx; wState.mouse.y = my;
-          if (!wState.mouse.set) {
-            wState.mouse.sx = mx; wState.mouse.sy = my;
-            wState.mouse.lx = mx; wState.mouse.ly = my;
-            wState.mouse.set = true;
-          }
-        });
-      }
-    }
+    // Mesh gradient shader is initialized in the bundled <script> tag above
 
     // Nav scroll — hide on down, show on up
     const nav = document.getElementById('nav');
@@ -2223,98 +2435,177 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    // Portfolio auto-scroll
+    // Portfolio: composite preview = live iframe (hero, correct viewport) + screenshot (rest)
+    // Embedded site renders at 1024×1366 (iPad portrait desktop) so 100vh is correct.
+    // The screenshot underneath provides content beyond the hero — both pan together on hover.
     const viewports = document.querySelectorAll('.browser-viewport');
     const isMobilePort = window.matchMedia('(max-width: 768px)').matches;
-    const maxSpeed = 1.0; // pixels per frame at full speed
-    const rampDuration = 120; // frames to reach full speed (~2 seconds)
+    const SITE_WIDTH = 1024;
+    const HERO_HEIGHT = 1366; // iframe height = iPad Pro portrait
+    const PAN_DURATION_MS = 7000;
+
+    function calcScale(viewport: Element) {
+      return (viewport as HTMLElement).clientWidth / SITE_WIDTH;
+    }
 
     viewports.forEach(viewport => {
-      const img = viewport.querySelector('img');
-      if (!img) return;
+      const vp = viewport as HTMLElement;
+      const siteUrl = vp.dataset.site;
+      const stack = vp.querySelector('.browser-stack') as HTMLElement | null;
+      const poster = vp.querySelector('.browser-poster') as HTMLImageElement | null;
+      if (!siteUrl || !stack || !poster) return;
 
-      let animId = null;
-      let frameCount = 0;
-      let hasCompleted = false;
+      let iframe: HTMLIFrameElement | null = null;
+      let scale = calcScale(vp);
+      let animId: number | null = null;
+      let currentTop = 0;
+      let mobileCompleted = false;
 
-      function startScroll() {
+      function applyStackTransform(top: number) {
+        stack!.style.transform = `translateY(${top}px) scale(${scale})`;
+      }
+
+      function maxPan(): number {
+        // Stack rendered height = poster's natural height × scale
+        const stackRenderedHeight = poster!.naturalHeight * scale;
+        return Math.max(0, stackRenderedHeight - vp.offsetHeight);
+      }
+
+      function mountIframe() {
+        if (iframe) return;
+        iframe = document.createElement('iframe');
+        iframe.src = siteUrl!;
+        iframe.loading = 'lazy';
+        iframe.title = poster!.alt || 'Site preview';
+        iframe.tabIndex = -1;
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+        // iframe sits absolute on top of the screenshot, only covering the hero portion.
+        Object.assign(iframe.style, {
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: SITE_WIDTH + 'px',
+          height: HERO_HEIGHT + 'px',
+          border: '0',
+          pointerEvents: 'none',
+          opacity: '0',
+          transition: 'opacity 0.5s ease-out',
+          zIndex: '2',
+        });
+        iframe.addEventListener('load', () => {
+          if (!iframe) return;
+          iframe.style.opacity = '1';
+        });
+        stack!.appendChild(iframe);
+      }
+
+      // Initial scale (do this before iframe loads so the screenshot is positioned correctly)
+      applyStackTransform(0);
+
+      function startPan() {
         if (animId) return;
-        if (isMobilePort && hasCompleted) return;
-        const maxScroll = img.offsetHeight - viewport.offsetHeight;
-        if (maxScroll <= 0) return;
-        frameCount = 0;
+        if (isMobilePort && mobileCompleted) return;
+        const target = -maxPan();
+        if (target === 0) return;
+        const start = performance.now();
+        const from = currentTop;
+        const distance = target - from;
 
-        function step() {
-          frameCount++;
-          const progress = Math.min(frameCount / rampDuration, 1);
-          const speed = maxSpeed * (progress * progress);
-
-          const currentTop = parseFloat(img.style.top || '0');
-          const newTop = currentTop - speed;
-          if (Math.abs(newTop) >= maxScroll) {
-            img.style.top = -maxScroll + 'px';
+        function step(now: number) {
+          const elapsed = now - start;
+          const t = Math.min(elapsed / PAN_DURATION_MS, 1);
+          const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          currentTop = from + distance * eased;
+          applyStackTransform(currentTop);
+          if (t < 1) {
+            animId = requestAnimationFrame(step);
+          } else {
             animId = null;
             if (isMobilePort) {
-              // Mobile: snap back to top after reaching bottom, don't scroll again
-              hasCompleted = true;
+              mobileCompleted = true;
               setTimeout(() => {
-                img.style.transition = 'top 0.6s ease-out';
-                img.style.top = '0px';
-              }, 800);
+                stack!.style.transition = 'transform 0.9s ease-out';
+                currentTop = 0;
+                applyStackTransform(currentTop);
+                setTimeout(() => {
+                  stack!.style.transition = '';
+                }, 1000);
+              }, 700);
             }
-            return;
           }
-          img.style.top = newTop + 'px';
-          animId = requestAnimationFrame(step);
         }
-        img.style.transition = 'none';
+        stack!.style.transition = '';
         animId = requestAnimationFrame(step);
       }
 
-      function stopScroll() {
+      function resetPan() {
         if (animId) {
           cancelAnimationFrame(animId);
           animId = null;
         }
-        img.style.transition = 'top 0.6s ease-out';
-        img.style.top = '0px';
+        stack!.style.transition = 'transform 0.6s ease-out';
+        currentTop = 0;
+        applyStackTransform(currentTop);
+      }
+
+      window.addEventListener('resize', () => {
+        scale = calcScale(vp);
+        applyStackTransform(currentTop);
+      });
+
+      // Mobile: skip iframe mounting entirely — three live cross-origin iframes
+      // running simultaneously cause significant performance issues (jank, repaint
+      // glitches) on phones. The static screenshot still pans on hover/in-view, so
+      // mobile users get the same effect minus the live hero video.
+      if (!isMobilePort) {
+        const mountObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (poster && poster.complete && poster.naturalWidth > 0) {
+                mountIframe();
+              } else if (poster) {
+                poster.addEventListener('load', () => mountIframe(), { once: true });
+              } else {
+                mountIframe();
+              }
+              mountObserver.unobserve(vp);
+            }
+          });
+        }, { rootMargin: '200px' });
+        mountObserver.observe(vp);
       }
 
       if (!isMobilePort) {
-        // Desktop: hover to scroll, leave to reset
-        viewport.closest('.project-browser').addEventListener('mouseenter', startScroll);
-        viewport.closest('.project-browser').addEventListener('mouseleave', stopScroll);
+        const card = vp.closest('.project-browser');
+        if (card) {
+          card.addEventListener('mouseenter', startPan);
+          card.addEventListener('mouseleave', resetPan);
+        }
       }
 
-      // Store functions on the element for mobile use
-      viewport._startScroll = startScroll;
-      viewport._stopScroll = stopScroll;
+      (vp as any)._startPan = startPan;
+      (vp as any)._resetPan = resetPan;
     });
 
-    // Mobile: only one scrolls at a time
+    // Mobile: one card auto-pans at a time when in view
     if (isMobilePort) {
-      let activeViewport = null;
-
+      let activeViewport: any = null;
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+          const target = entry.target as any;
           if (entry.isIntersecting) {
-            // Stop the currently active one first
-            if (activeViewport && activeViewport !== entry.target) {
-              activeViewport._stopScroll();
+            if (activeViewport && activeViewport !== target) {
+              activeViewport._resetPan();
             }
-            activeViewport = entry.target;
-            entry.target._startScroll();
+            activeViewport = target;
+            target._startPan();
           } else {
-            entry.target._stopScroll();
-            if (activeViewport === entry.target) {
-              activeViewport = null;
-            }
+            target._resetPan();
+            if (activeViewport === target) activeViewport = null;
           }
         });
-      }, {
-        threshold: 0.3
-      });
-
+      }, { threshold: 0.4 });
       viewports.forEach(vp => observer.observe(vp));
     }
 
@@ -2333,6 +2624,38 @@ import Layout from '../layouts/Layout.astro';
         }
       });
     });
+
+    // Service card expand/collapse on mobile
+    if (window.innerWidth <= 768) {
+      document.querySelectorAll('.service-card').forEach(card => {
+        // Add "Read more" link
+        const moreLink = document.createElement('span');
+        moreLink.className = 'service-more';
+        moreLink.textContent = 'Read more';
+        const desc = card.querySelector('p');
+        if (desc) desc.after(moreLink);
+
+        // Toggle on "Read more" or card heading click
+        const toggle = () => card.classList.toggle('service-expanded');
+        moreLink.addEventListener('click', toggle);
+        const h3 = card.querySelector('h3');
+        if (h3) h3.addEventListener('click', toggle);
+      });
+
+      // Scroll pricing to Business (middle) card
+      const pricingGrid = document.querySelector('.pricing-grid');
+      const businessCard = document.querySelector('[data-tier="business"]');
+      if (pricingGrid && businessCard) {
+        requestAnimationFrame(() => {
+          const gridLeft = pricingGrid.getBoundingClientRect().left;
+          const cardLeft = businessCard.getBoundingClientRect().left;
+          const cardWidth = businessCard.getBoundingClientRect().width;
+          const gridWidth = pricingGrid.getBoundingClientRect().width;
+          const scrollTo = cardLeft - gridLeft - (gridWidth - cardWidth) / 2 + pricingGrid.scrollLeft;
+          pricingGrid.scrollTo({ left: scrollTo, behavior: 'instant' });
+        });
+      }
+    }
 
     // Pricing toggle
     const pricingToggle = document.getElementById('pricing-toggle');
@@ -2600,11 +2923,11 @@ import Layout from '../layouts/Layout.astro';
         }
       );
 
-      // Parallax on hero waves canvas
-      const wavesEl = document.getElementById('hero-waves');
-      if (wavesEl) {
+      // Parallax on hero shader
+      const shaderEl = document.getElementById('hero-shader');
+      if (shaderEl) {
         // @ts-ignore
-        gsap.to(wavesEl, {
+        gsap.to(shaderEl, {
           yPercent: 30,
           ease: 'none',
           scrollTrigger: {

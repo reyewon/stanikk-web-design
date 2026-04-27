@@ -95,7 +95,7 @@ const html = `
 <body>
   <div class="glow"></div>
   <div class="content">
-    <div class="logo-name">Stanikk</div>
+    <div class="logo-name">Kombu</div>
     <div class="logo-sub">Web Design</div>
     <h1>Websites That <span class="accent">Work</span> As Hard As You Do</h1>
     <p>Bespoke web design at a fraction of agency prices</p>

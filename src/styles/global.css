@@ -1,8 +1,33 @@
-/* === STANIKK Web Design - Global Styles === */
+/* === Kombu Web Design - Global Styles === */
 
-/* Fontshare imports */
+/* Fontshare imports (must come before other rules) */
 @import url('https://api.fontshare.com/v2/css?f[]=bevellier@200,300,400,500,600,700&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@200,300,400,500&display=swap');
+
+/* Supermassive (self-hosted, trial: only letters and numbers render correctly) */
+@font-face {
+  font-family: 'Supermassive';
+  src: url('/fonts/Supermassive-I.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+@font-face {
+  font-family: 'Supermassive';
+  src: url('/fonts/Supermassive-II.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+@font-face {
+  font-family: 'Supermassive';
+  src: url('/fonts/Supermassive-III.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+/* No separate punctuation fix needed - Bevellier in the font stack handles broken Supermassive trial glyphs */
 
 /* === CSS Custom Properties === */
 :root {
@@ -28,7 +53,7 @@
   --color-dark-border: #4A3E34;
 
   /* Typography */
-  --font-heading: 'Bevellier', sans-serif;
+  --font-heading: 'Supermassive', 'Bevellier', sans-serif;
   --font-body: 'Switzer', sans-serif;
 
   /* Font weights */
@@ -199,10 +224,12 @@ h1 {
 
 h2 {
   font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
 }
 
 h3 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 800;
 }
 
 h4 {
@@ -354,7 +381,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-bg-primary);
+  background: var(--color-accent);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -366,9 +393,10 @@ a {
   position: absolute;
   width: clamp(280px, 50vw, 500px);
   height: clamp(280px, 50vw, 500px);
-  opacity: 0.04;
+  opacity: 0.08;
   animation: loaderSpin 20s linear infinite;
   pointer-events: none;
+  filter: brightness(0) invert(1);
 }
 
 @keyframes loaderSpin {
@@ -423,20 +451,20 @@ a {
 
 .loader-name {
   font-family: var(--font-heading);
-  font-weight: var(--weight-bold);
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  font-size: clamp(3.8rem, 10vw, 7.5rem);
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: #FFFFFF;
   letter-spacing: -0.02em;
 }
 
 .loader-sub {
   font-family: var(--font-heading);
   font-weight: var(--weight-light);
-  font-size: clamp(0.8rem, 2vw, 1.4rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.75rem);
   text-transform: uppercase;
-  color: var(--color-accent);
-  letter-spacing: 0.35em;
+  color: var(--color-dark-bg);
+  letter-spacing: 0.45em;
 }
 
 .loader-bar {
@@ -444,7 +472,7 @@ a {
   bottom: 0;
   left: 0;
   height: 3px;
-  background: var(--color-accent);
+  background: var(--color-dark-bg);
   width: 0%;
 }
 

@@ -17,4 +17,4 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
-Sitemap: https://stanikk.com/sitemap-index.xml
+Sitemap: https://kombu.uk/sitemap-index.xml

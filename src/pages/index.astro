@@ -727,7 +727,7 @@ if (document.readyState === 'loading') {
   z-index: 950;
   background: var(--rail-bg);
   color: var(--rail-ink);
-  border-left: 1px solid var(--rail-edge);   /* edge-line now on the inner (left) side */
+  /* No edge stroke — solid surfaces only */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -887,11 +887,15 @@ body.rail-in .rail {
 
 .rail-item {
   position: relative;
-  /* Right-anchored rail: name on the LEFT, icon on the RIGHT (the rail's
-     visual "edge" closest to viewport edge). When collapsed, only the
-     icon column is visible. */
+  /* Right-anchored rail: name on the LEFT (column 1), icon on the RIGHT
+     (column 2 = rail-w wide, the column nearest the viewport edge).
+     CRITICAL: minmax(0, 1fr) — plain `1fr` defaults to `minmax(auto, 1fr)`
+     which refuses to shrink below the name's intrinsic width, expanding
+     the whole rail-item past var(--rail-w) and pushing the icon off-screen.
+     With minmax(0, ...) the column collapses to 0 when the rail is
+     collapsed and grows to fill on expand. */
   display: grid;
-  grid-template-columns: 1fr var(--rail-w);
+  grid-template-columns: minmax(0, 1fr) var(--rail-w);
   align-items: center;
   height: 56px;
   text-decoration: none;
@@ -1565,7 +1569,11 @@ body.rail-in .hero-mark {
 /* 3-column grid on desktop */
 .portfolio-columns {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* minmax(0, 1fr) — same fix as the rail. The browser-stack inside is
+     1024 px wide intrinsically, which would push each column to 1024 px
+     under plain `1fr`. minmax(0, 1fr) makes columns honour the parent's
+     width regardless of intrinsic content size. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-lg);
   position: relative;
 }
@@ -2634,7 +2642,7 @@ body.rail-in .hero-mark {
 
   /* Mobile portfolio: compact, no pop-in animation */
   .portfolio-columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-lg);
   }
 
@@ -2778,14 +2786,17 @@ body.rail-in .hero-mark {
     object-position: center 20%;
   }
 
-  /* Pricing: horizontal scroll carousel */
+  /* Pricing: horizontal scroll carousel — narrower cards + tighter
+     padding so the next card clearly peeks past the right edge.
+     Stronger shadow on mobile because cards are white on cream bg —
+     subtle peeks otherwise read as empty space, not "another card". */
   .pricing-grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: var(--space-sm);
-    padding: 0 7.5vw;
+    padding: 0 6vw;
     margin: 0 calc(-1 * clamp(1.5rem, 4vw, 3rem));
     scrollbar-width: none;
   }
@@ -2796,8 +2807,11 @@ body.rail-in .hero-mark {
 
   .pricing-card {
     scroll-snap-align: center;
-    min-width: 80vw;
-    flex: 0 0 80vw;
+    /* 60vw card + ~6vw side padding + 16 px gap leaves a clear ~70 px
+       slice of the neighbouring card visible — unmistakable swipe cue. */
+    min-width: 60vw;
+    flex: 0 0 60vw;
+    box-shadow: 0 12px 30px rgba(26, 20, 18, 0.14);
   }
 
   /* Services: compact collapsible on mobile */

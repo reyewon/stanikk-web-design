@@ -64,6 +64,16 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <meta name="theme-color" content="#1A1412" />
     <meta name="msapplication-TileColor" content="#1A1412" />
 
+    <!-- PWA: web-app manifest enables "Install / Add to Home Screen" -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="application-name" content="Kombu" />
+
+    <!-- iOS standalone web-app behaviour (no Safari chrome when launched from home screen) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kombu" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
@@ -284,6 +294,16 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script is:inline src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+
+    <!-- Register the service worker so Android Chrome marks the site
+         as installable. iOS uses the manifest alone for Add-to-Home. -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function () { /* swallow */ });
+        });
+      }
+    </script>
   </body>
 </html>
 

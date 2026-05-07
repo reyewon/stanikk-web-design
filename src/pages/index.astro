@@ -721,19 +721,19 @@ if (document.readyState === 'loading') {
 
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;                /* moved to right edge */
   width: var(--rail-w);
   height: 100dvh;
   z-index: 950;
   background: var(--rail-bg);
   color: var(--rail-ink);
-  border-right: 1px solid var(--rail-edge);
+  border-left: 1px solid var(--rail-edge);   /* edge-line now on the inner (left) side */
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding-bottom: env(safe-area-inset-bottom, 0);
-  /* Hidden until body.rail-in lands */
-  transform: translateX(-100%);
+  /* Hidden off the right edge until body.rail-in lands */
+  transform: translateX(100%);
   transition: transform var(--rail-dur) var(--rail-ease),
               width var(--rail-dur) var(--rail-ease);
   overflow: hidden;
@@ -748,12 +748,12 @@ body.rail-in .rail {
   width: var(--drawer-w);
 }
 
-/* Hairline accent on the right edge of the rail when expanded */
+/* Hairline accent — sits on the inner (left) edge now that the rail is right-anchored */
 .rail::after {
   content: '';
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   bottom: 0;
   width: 1px;
   background: rgba(212, 113, 78, 0.22);
@@ -887,8 +887,11 @@ body.rail-in .rail {
 
 .rail-item {
   position: relative;
+  /* Right-anchored rail: name on the LEFT, icon on the RIGHT (the rail's
+     visual "edge" closest to viewport edge). When collapsed, only the
+     icon column is visible. */
   display: grid;
-  grid-template-columns: var(--rail-w) 1fr;
+  grid-template-columns: 1fr var(--rail-w);
   align-items: center;
   height: 56px;
   text-decoration: none;
@@ -907,12 +910,13 @@ body.rail-in .rail {
 
 .rail-item-bar {
   position: absolute;
-  left: 0;
+  /* Bar pinned to the rail's outer (right) edge — the viewport edge */
+  right: 0;
   top: 18%;
   bottom: 18%;
   width: 2px;
   background: var(--rail-active);
-  border-radius: 0 2px 2px 0;
+  border-radius: 2px 0 0 2px;
   opacity: 0;
   transform: scaleY(0.4);
   transform-origin: center;
@@ -929,6 +933,8 @@ body.rail-in .rail {
 }
 
 .rail-item-icon {
+  /* Right-rail: icon sits in column 2 (the rail-w column on the viewport edge) */
+  grid-column: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -942,7 +948,7 @@ body.rail-in .rail {
   display: block;
 }
 .rail-item:hover .rail-item-icon {
-  transform: translateX(1px);
+  transform: translateX(-1px); /* nudge inward toward the name */
 }
 .rail.expanded .rail-item-icon svg {
   width: 24px;
@@ -950,11 +956,15 @@ body.rail-in .rail {
 }
 
 .rail-item-name {
+  /* Right-rail: name sits in column 1 (left of icon), right-aligned so it
+     hugs the icon column for a tight pairing. */
+  grid-column: 1;
+  text-align: right;
   white-space: nowrap;
-  padding-left: 4px;
-  padding-right: 18px;
+  padding-left: 18px;
+  padding-right: 4px;
   opacity: 0;
-  transform: translateX(-8px);
+  transform: translateX(8px);  /* slides in from the right (toward icon) */
   transition: opacity 0.35s var(--rail-ease) 0s,
               transform 0.4s var(--rail-ease) 0s;
 }
@@ -986,10 +996,18 @@ body.rail-in .rail {
   text-transform: uppercase;
   letter-spacing: 0.28em;
   font-size: 0.72rem;
-  height: 168px;
+  /* Taller closed CTA so the vertical "Start a project" text has clear
+     breathing room at both ends instead of pressing the strip edges. */
+  height: 220px;
   width: 100%;
+  /* When collapsed the text is rotated 180 + writing-mode vertical-rl.
+     padding here translates to space at the TOP and BOTTOM of the
+     visible CTA strip, which is what the user is asking for. */
+  padding: 28px 0;
   overflow: hidden;
-  transition: filter 0.3s ease, height 0.45s var(--rail-ease);
+  transition: filter 0.3s ease,
+              height 0.45s var(--rail-ease),
+              padding 0.45s var(--rail-ease);
 }
 
 /* Hover stays the same brand terracotta — we just darken it via filter
@@ -1016,6 +1034,7 @@ body.rail-in .rail {
 
 .rail.expanded .rail-cta {
   height: 78px;
+  padding: 0;            /* horizontal text doesn't need the closed-state padding */
 }
 .rail.expanded .rail-cta-text {
   writing-mode: horizontal-tb;
@@ -1042,15 +1061,15 @@ body.rail-in .rail {
 }
 
 /* === Content squeeze ===
-   Use margin-left + width — NEVER padding-left. Chrome silently drops
-   padding-left on direct children of <body> when overflow-x: clip is set. */
+   Use margin-right + width — NEVER padding-right. Chrome silently drops
+   padding-right on direct children of <body> when overflow-x: clip is set. */
 main, footer.footer {
-  transition: margin-left var(--rail-dur) var(--rail-ease),
+  transition: margin-right var(--rail-dur) var(--rail-ease),
               width var(--rail-dur) var(--rail-ease);
 }
 body.rail-in main,
 body.rail-in footer.footer {
-  margin-left: var(--rail-w);
+  margin-right: var(--rail-w);
   width: calc(100% - var(--rail-w));
 }
 
@@ -1069,14 +1088,27 @@ body.rail-in footer.footer {
   .rail-wordmark-sub { font-size: 0.6rem; letter-spacing: 0.36em; }
   .rail-item { height: 50px; font-size: 0.78rem; }
   .rail-item-icon svg { width: 22px; height: 22px; }
-  .rail-cta { height: 132px; font-size: 0.7rem; }
-  .rail.expanded .rail-cta { height: 70px; }
+  .rail-cta { height: 180px; font-size: 0.7rem; padding: 22px 0; }
+  .rail.expanded .rail-cta { height: 70px; padding: 0; }
 }
 
-/* On the hero only, push hero content right when the rail is in,
-   keeping the shader full-bleed (it lives behind everything). */
+/* Hero is pinned by GSAP (ScrollTrigger.create({ pin: true })), which
+   sets inline `position: fixed; left: 0; width: <vw>px` while pinned —
+   that overrides any width change we apply to <main>. Result: when the
+   rail comes in, every other section shifts but the hero stays full-bleed.
+   We override the inline left + width with !important so the pinned hero
+   shifts in step with the rest of the page. The transition is the same
+   0.55 s rail easing so it animates with the slide-in.
+
+   When the hero is NOT pinned (before pin start, after pin end), it
+   sits inside <main> normally and inherits the squeeze for free —
+   these overrides are inert there because position is static. */
 body.rail-in .hero {
-  /* hero content shifts naturally with main; shader fills viewport */
+  /* Right-anchored rail: hero stays at left: 0 but shrinks so its right
+     edge clears the rail. */
+  left: 0 !important;
+  width: calc(100vw - var(--rail-w)) !important;
+  transition: width var(--rail-dur) var(--rail-ease);
 }
 
 /* ============================================================
@@ -1276,8 +1308,21 @@ body.rail-in .hero {
   letter-spacing: 0.42em;
   color: var(--color-text-secondary);
   display: block;
-  margin-top: 8px;
+  margin-top: 4px;        /* tightened — sub now hugs the wordmark */
   padding-left: 0.42em;
+}
+
+/* Mobile: pull the mark up so it sits about a third of the way down
+   from the top — visually halfway between the page edge and the hero
+   H1. Also tighten the gap between the name and "Web Design". */
+@media (max-width: 820px) {
+  .hero-mark {
+    top: clamp(1.5rem, 5vh, 3.5rem);
+    padding: 4px 10px;
+  }
+  .hero-mark-sub {
+    margin-top: 2px;
+  }
 }
 
 /* Once the side rail slides in, the centered mark fades up and away */
@@ -1585,16 +1630,38 @@ body.rail-in .hero-mark {
   overflow: hidden;
   position: relative;
   background: #1A1412;
+  /* Isolate paint + layout so off-screen frames don't repaint when on-screen
+     ones animate. Combined with content-visibility on mobile, this stops the
+     compounding paint cost that causes flicker on the third frame. */
+  contain: layout paint;
+}
+
+/* On mobile, let the browser skip rendering off-screen frames entirely.
+   contain-intrinsic-size keeps layout stable so the page doesn't jump. */
+@media (max-width: 768px) {
+  .browser-viewport {
+    content-visibility: auto;
+    contain-intrinsic-size: 100vw 133vw; /* matches aspect-ratio */
+  }
 }
 
 /* The stack contains the full-page screenshot AND the iframe overlay.
-   It's transformed (scale + translateY) as a single unit on hover. */
+   It's transformed (scale + translateY) as a single unit on hover.
+
+   IMPORTANT: will-change is NOT set here — it's toggled on the .panning
+   class only while a transform animation is actively running. Three
+   always-promoted GPU layers (one per portfolio frame) on a phone is
+   exactly what causes the cumulative repaint glitches the user sees on
+   the third frame. */
 .browser-stack {
   position: absolute;
   top: 0;
   left: 0;
   width: 1024px; /* matches embedded site viewport width */
   transform-origin: top left;
+}
+
+.browser-stack.panning {
   will-change: transform;
 }
 
@@ -3181,6 +3248,18 @@ body.rail-in .hero-mark {
         const from = currentTop;
         const distance = target - from;
 
+        // Promote to its own GPU layer ONLY while actively animating.
+        // Removed in finishPan() so we don't accumulate composite layers.
+        stack!.classList.add('panning');
+
+        function finishPan() {
+          // Schedule layer demotion after the next paint so removing
+          // will-change doesn't itself cause a flicker.
+          requestAnimationFrame(() => {
+            stack!.classList.remove('panning');
+          });
+        }
+
         function step(now: number) {
           const elapsed = now - start;
           const t = Math.min(elapsed / PAN_DURATION_MS, 1);
@@ -3199,8 +3278,11 @@ body.rail-in .hero-mark {
                 applyStackTransform(currentTop);
                 setTimeout(() => {
                   stack!.style.transition = '';
+                  finishPan();          // demote layer after the return
                 }, 1000);
               }, 700);
+            } else {
+              finishPan();              // desktop: demote at end of pan
             }
           }
         }
@@ -3216,6 +3298,8 @@ body.rail-in .hero-mark {
         stack!.style.transition = 'transform 0.6s ease-out';
         currentTop = 0;
         applyStackTransform(currentTop);
+        // Remove will-change after the easing finishes
+        window.setTimeout(() => stack!.classList.remove('panning'), 700);
       }
 
       window.addEventListener('resize', () => {

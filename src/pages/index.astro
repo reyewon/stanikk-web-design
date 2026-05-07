@@ -45,6 +45,82 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </nav>
 
+<!-- === SIDE RAIL (editorial vertical nav) === -->
+<aside class="rail" id="rail" aria-label="Site navigation">
+  <button class="rail-burger" id="rail-burger" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <a href="#hero" class="rail-logo" id="rail-logo" aria-label="Kombu Web Design — back to top">
+    <img class="rail-mark" src="/images/loader-mark.png" alt="" aria-hidden="true" />
+    <span class="rail-wordmark" aria-hidden="true">
+      <span class="rail-wordmark-name">Kombu</span>
+      <span class="rail-wordmark-sub">Web Design</span>
+    </span>
+  </a>
+
+  <nav class="rail-nav" aria-label="Page sections">
+    <a href="#about" class="rail-item" data-section="about">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20.5c.7-3.4 3.5-5.4 7-5.4s6.3 2 7 5.4"/></svg>
+      </span>
+      <span class="rail-item-name">About</span>
+    </a>
+    <a href="#portfolio" class="rail-item" data-section="portfolio">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.2"/></svg>
+      </span>
+      <span class="rail-item-name">Portfolio</span>
+    </a>
+    <a href="#services" class="rail-item" data-section="services">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 3.5l8.5 4.2-8.5 4.2-8.5-4.2L12 3.5z"/><path d="M3.5 12l8.5 4.2 8.5-4.2"/><path d="M3.5 16.3l8.5 4.2 8.5-4.2"/></svg>
+      </span>
+      <span class="rail-item-name">Services</span>
+    </a>
+    <a href="#pricing" class="rail-item" data-section="pricing">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20.4 12.6 12.6 20.4a1.4 1.4 0 0 1-2 0L3.5 13.3v-9.8h9.8l7.1 7.1a1.4 1.4 0 0 1 0 2z"/><circle cx="8.2" cy="8.2" r="1.3"/></svg>
+      </span>
+      <span class="rail-item-name">Pricing</span>
+    </a>
+    <a href="#process" class="rail-item" data-section="process">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="5.6" cy="6.5" r="1.3"/><circle cx="5.6" cy="12" r="1.3"/><circle cx="5.6" cy="17.5" r="1.3"/><path d="M10 6.5h10.5M10 12h10.5M10 17.5h10.5"/></svg>
+      </span>
+      <span class="rail-item-name">Process</span>
+    </a>
+    <a href="#faq" class="rail-item" data-section="faq">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.4a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2-2.5 3.7"/><path d="M12 17.2v.05"/></svg>
+      </span>
+      <span class="rail-item-name">FAQ</span>
+    </a>
+    <a href="#contact" class="rail-item" data-section="contact">
+      <span class="rail-item-bar" aria-hidden="true"></span>
+      <span class="rail-item-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.5 7.2a1.5 1.5 0 0 1 1.5-1.5h14a1.5 1.5 0 0 1 1.5 1.5v9.6a1.5 1.5 0 0 1-1.5 1.5h-14a1.5 1.5 0 0 1-1.5-1.5z"/><path d="m3.7 7.6 7.5 5.4a1.4 1.4 0 0 0 1.6 0l7.5-5.4"/></svg>
+      </span>
+      <span class="rail-item-name">Contact</span>
+    </a>
+  </nav>
+
+  <a href="#contact" class="rail-cta" id="rail-cta">
+    <span class="rail-cta-text">Start a project</span>
+    <span class="rail-cta-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </a>
+</aside>
+
+<div class="rail-backdrop" id="rail-backdrop" aria-hidden="true"></div>
+
 <main id="main-content">
 <!-- === HERO === -->
 <section class="hero" id="hero" aria-labelledby="hero-heading">
@@ -107,6 +183,41 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- === CLIENTS — quiet validation band, infinite marquee === -->
+<section class="clients dark-section" id="clients" aria-labelledby="clients-heading">
+  <p class="clients-eyebrow reveal" id="clients-heading">
+    <span class="clients-eyebrow-rule" aria-hidden="true"></span>
+    <span>Currently working with</span>
+    <span class="clients-eyebrow-rule" aria-hidden="true"></span>
+  </p>
+  <div class="clients-marquee" role="region" aria-label="Current clients">
+    <div class="clients-track">
+      <ul class="clients-set">
+        <li class="clients-item"><img src="/images/clients/soleto.png" alt="Soleto" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/padharo.svg" alt="Padharo" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/banana-wharf.png" alt="Banana Wharf" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/the-grand.png" alt="The Grand" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/kesarum.svg" alt="Kesarum" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ryan-stanikk-photography.png" alt="Ryan Stanikk Photography" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ark-angels.svg" alt="Ark Angels" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ennios.png" alt="Ennios" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/mustang-group.png" alt="Mustang Group" loading="lazy" /></li>
+      </ul>
+      <ul class="clients-set" aria-hidden="true">
+        <li class="clients-item"><img src="/images/clients/soleto.png" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/padharo.svg" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/banana-wharf.png" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/the-grand.png" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/kesarum.svg" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ryan-stanikk-photography.png" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ark-angels.svg" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/ennios.png" alt="" loading="lazy" /></li>
+        <li class="clients-item"><img src="/images/clients/mustang-group.png" alt="" loading="lazy" /></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -597,6 +708,546 @@ if (document.readyState === 'loading') {
 </script>
 
 <style>
+/* ============================================================
+   SIDE RAIL (editorial vertical nav)
+
+   Behaviour spec — implemented faithfully:
+   - Hidden until first 40 px scroll, then slides in once and stays.
+   - Hover (desktop) / tap (mobile) expands to drawer.
+   - Content squeeze via margin-left + width on <main> + .footer
+     (NOT padding — padding-left is silently dropped on direct
+     children of body when overflow-x: clip).
+   - 100dvh + safe-area-inset-bottom on the rail itself.
+   - Vertical bar (not dot) for current section.
+   - Constant terracotta accent across sections; rail surface
+     stays charcoal-brown so it sits like furniture against
+     either dark or terracotta page backgrounds.
+   ============================================================ */
+
+.rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--rail-w);
+  height: 100dvh;
+  z-index: 950;            /* under the loader (9999) but above content */
+  background: #1A1412;
+  color: #F5EDE4;
+  border-right: 1px solid rgba(245, 237, 228, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  /* Hidden until body.rail-in lands */
+  transform: translateX(-100%);
+  transition: transform var(--rail-dur) var(--rail-ease),
+              width var(--rail-dur) var(--rail-ease);
+  overflow: hidden;
+  will-change: transform, width;
+}
+
+body.rail-in .rail {
+  transform: translateX(0);
+}
+
+.rail.expanded {
+  width: var(--drawer-w);
+}
+
+/* Hairline accent on the right edge of the rail when expanded */
+.rail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(212, 113, 78, 0.18);
+  opacity: 0;
+  transition: opacity 0.4s var(--rail-ease);
+  pointer-events: none;
+}
+.rail.expanded::after { opacity: 1; }
+
+/* === Hamburger (mobile only) === */
+.rail-burger {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: var(--rail-w);
+  height: var(--rail-w);
+  flex: 0 0 auto;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #F5EDE4;
+}
+.rail-burger span {
+  position: absolute;
+  left: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center;
+  transform: translateX(-50%);
+  transition: transform 0.35s var(--rail-ease), opacity 0.25s var(--rail-ease);
+}
+.rail-burger span:nth-child(1) { top: calc(50% - 6px); }
+.rail-burger span:nth-child(2) { top: 50%; transform: translate(-50%, -50%); }
+.rail-burger span:nth-child(3) { top: calc(50% + 6px); }
+.rail-burger.active span:nth-child(1) { transform: translate(-50%, 5.5px) rotate(45deg); }
+.rail-burger.active span:nth-child(2) { opacity: 0; }
+.rail-burger.active span:nth-child(3) { transform: translate(-50%, -5.5px) rotate(-45deg); }
+
+/* === Logo (K mark crossfades to KOMBU wordmark) === */
+.rail-logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 84px;        /* fixed because both children are absolutely positioned */
+  flex: 0 0 auto;
+  margin-top: 14px;
+  margin-bottom: 28px;
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.rail-mark,
+.rail-wordmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.45s var(--rail-ease),
+              transform 0.55s var(--rail-ease);
+}
+
+/* Collapsed mark: the loader-mark icon, tinted to terracotta */
+.rail-mark {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  /* loader-mark.png is white. Stamp it terracotta via two filters:
+     brightness(0) drops everything to black, then a colour matrix paints
+     it terracotta. We achieve the colour with a subtle tint stack. */
+  filter: brightness(0) saturate(100%)
+          invert(48%) sepia(70%) saturate(421%) hue-rotate(345deg)
+          brightness(95%) contrast(86%);
+  opacity: 1;
+}
+
+.rail-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  white-space: nowrap;
+}
+
+.rail-wordmark-name {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 2.55rem;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+  display: block;
+}
+
+.rail-wordmark-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.66rem;
+  letter-spacing: 0.42em;
+  color: rgba(245, 237, 228, 0.7);
+  display: block;
+  margin-top: 6px;
+  padding-left: 0.42em; /* visually centre after letter-spacing */
+}
+
+.rail.expanded .rail-mark {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+.rail.expanded .rail-wordmark {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* === Nav list === */
+.rail-nav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+.rail-nav::-webkit-scrollbar { display: none; }
+
+.rail-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--rail-w) 1fr;
+  align-items: center;
+  height: 56px;
+  text-decoration: none;
+  color: rgba(245, 237, 228, 0.62);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.rail-item:hover {
+  color: var(--color-accent);
+}
+
+.rail-item-bar {
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  background: var(--color-accent);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transform: scaleY(0.4);
+  transform-origin: center;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.rail-item.current .rail-item-bar {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.rail-item.current {
+  color: var(--color-accent);
+}
+
+.rail-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rail-w);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+.rail-item-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+.rail-item:hover .rail-item-icon {
+  transform: translateX(1px);
+}
+.rail.expanded .rail-item-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.rail-item-name {
+  white-space: nowrap;
+  padding-left: 4px;
+  padding-right: 18px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.35s var(--rail-ease) 0s,
+              transform 0.4s var(--rail-ease) 0s;
+}
+.rail.expanded .rail-item-name {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Stagger reveal of names when drawer expands */
+.rail.expanded .rail-item:nth-child(1) .rail-item-name { transition-delay: 0.05s; }
+.rail.expanded .rail-item:nth-child(2) .rail-item-name { transition-delay: 0.09s; }
+.rail.expanded .rail-item:nth-child(3) .rail-item-name { transition-delay: 0.13s; }
+.rail.expanded .rail-item:nth-child(4) .rail-item-name { transition-delay: 0.17s; }
+.rail.expanded .rail-item:nth-child(5) .rail-item-name { transition-delay: 0.21s; }
+.rail.expanded .rail-item:nth-child(6) .rail-item-name { transition-delay: 0.25s; }
+.rail.expanded .rail-item:nth-child(7) .rail-item-name { transition-delay: 0.29s; }
+
+/* === CTA strip — vertical when collapsed, horizontal when expanded === */
+.rail-cta {
+  position: relative;
+  flex: 0 0 auto;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  height: 168px;
+  width: 100%;
+  overflow: hidden;
+  transition: background 0.3s ease, height 0.45s var(--rail-ease);
+}
+
+.rail-cta:hover {
+  background: #C25E3D;
+}
+
+.rail-cta-text {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  transition: writing-mode 0s, transform 0s;
+}
+
+.rail-cta-arrow {
+  display: none;
+  margin-left: 12px;
+  width: 18px;
+  height: 18px;
+}
+.rail-cta-arrow svg { width: 100%; height: 100%; display: block; }
+
+.rail.expanded .rail-cta {
+  height: 78px;
+}
+.rail.expanded .rail-cta-text {
+  writing-mode: horizontal-tb;
+  transform: rotate(0);
+}
+.rail.expanded .rail-cta-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* === Backdrop (mobile only) === */
+.rail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 8, 0.45);
+  z-index: 940;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--rail-ease);
+}
+.rail-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === Content squeeze ===
+   Use margin-left + width — NEVER padding-left. Chrome silently drops
+   padding-left on direct children of <body> when overflow-x: clip is set. */
+main, footer.footer {
+  transition: margin-left var(--rail-dur) var(--rail-ease),
+              width var(--rail-dur) var(--rail-ease);
+}
+body.rail-in main,
+body.rail-in footer.footer {
+  margin-left: var(--rail-w);
+  width: calc(100% - var(--rail-w));
+}
+
+/* Existing top nav fades out and lifts away once the rail takes over.
+   Important: keep it visible on hero so the visual identity is present
+   from first paint, then hand off to the rail. */
+body.rail-in .nav {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  transition: opacity 0.4s ease, transform 0.4s var(--rail-ease);
+}
+
+/* === Mobile === */
+@media (max-width: 820px) {
+  .rail-burger { display: inline-flex; }
+  .rail-logo {
+    height: 64px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+  }
+  .rail-mark { width: 30px; height: 30px; }
+  .rail-wordmark-name { font-size: 2rem; }
+  .rail-wordmark-sub { font-size: 0.6rem; letter-spacing: 0.36em; }
+  .rail-item { height: 50px; font-size: 0.78rem; }
+  .rail-item-icon svg { width: 22px; height: 22px; }
+  .rail-cta { height: 132px; font-size: 0.7rem; }
+  .rail.expanded .rail-cta { height: 70px; }
+}
+
+/* On the hero only, push hero content right when the rail is in,
+   keeping the shader full-bleed (it lives behind everything). */
+body.rail-in .hero {
+  /* hero content shifts naturally with main; shader fills viewport */
+}
+
+/* ============================================================
+   END SIDE RAIL
+   ============================================================ */
+
+/* === CLIENTS BAND ===
+   A quiet horizontal validation band placed between About and
+   Portfolio. Single-colour cream silhouettes against the dark
+   surface, sized at a uniform line-height so the wordmarks read
+   as a typographic row, not a logo soup. */
+.clients {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-top: 1px solid rgba(245, 237, 228, 0.06);
+  border-bottom: 1px solid rgba(245, 237, 228, 0.06);
+}
+
+.clients-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(245, 237, 228, 0.55);
+  text-align: center;
+  padding-left: 0.42em; /* compensate for trailing letter-spacing on last char */
+}
+
+.clients-eyebrow-rule {
+  flex: 0 1 90px;
+  height: 1px;
+  background: rgba(245, 237, 228, 0.18);
+  display: inline-block;
+}
+
+/* === Infinite marquee ===
+   Two identical sets share the track; the track translates from 0 to
+   -50% over a long, slow duration so the loop is seamless (when the
+   track is at -50%, the second set occupies the position the first set
+   started in). Edges are masked so logos fade in/out instead of
+   hard-cutting. Pause on hover for readability. */
+.clients-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Soft edge fade — same on both sides */
+  -webkit-mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%);
+          mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%);
+}
+
+.clients-track {
+  display: flex;
+  width: max-content;       /* sized to two full sets so animation can shift -50% */
+  animation: clientsMarquee 40s linear infinite;
+  will-change: transform;
+}
+
+.clients-marquee:hover .clients-track {
+  animation-play-state: paused;
+}
+
+@keyframes clientsMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-track { animation: none; }
+}
+
+.clients-set {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-right: clamp(2rem, 5vw, 4rem); /* gap between the two sets */
+}
+
+.clients-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;            /* uniform optical line — widths breathe */
+  flex: 0 0 auto;
+}
+
+.clients-item img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+
+  /* Stamp every logo to a uniform cream silhouette regardless of source.
+     brightness(0) → drops to black, invert(1) → flips to white, then a
+     tiny brightness pull-down (94%) softens it from pure white toward
+     the brand cream so it sits on the dark surface without glaring. */
+  filter: brightness(0) invert(1) brightness(94%);
+  opacity: 0.55;
+  transition: opacity 0.4s var(--rail-ease), transform 0.4s var(--rail-ease);
+}
+
+.clients-item:hover img {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* Slight per-logo height nudges where the artwork has uneven padding,
+   so the optical baseline matches the others. */
+.clients-item img[alt="Soleto"]                 { height: 28px; }
+.clients-item img[alt="Banana Wharf"]           { height: 38px; }
+.clients-item img[alt="Padharo"]                { height: 30px; }
+.clients-item img[alt="The Grand"]              { height: 40px; }
+.clients-item img[alt="Kesarum"]                { height: 24px; }
+.clients-item img[alt="Ryan Stanikk Photography"] { height: 28px; max-width: 220px; }
+.clients-item img[alt="Ark Angels"]             { height: 32px; }
+.clients-item img[alt="Ennios"]                 { height: 44px; }
+.clients-item img[alt="Mustang Group"]          { height: 34px; }
+
+@media (max-width: 820px) {
+  .clients {
+    padding: 2.25rem 0;
+  }
+  .clients-row {
+    gap: 1.5rem 2.25rem;
+  }
+  .clients-item { height: 30px; }
+  .clients-item img[alt="Soleto"]                 { height: 22px; }
+  .clients-item img[alt="Banana Wharf"]           { height: 32px; }
+  .clients-item img[alt="Padharo"]                { height: 24px; }
+  .clients-item img[alt="The Grand"]              { height: 32px; }
+  .clients-item img[alt="Kesarum"]                { height: 18px; }
+  .clients-item img[alt="Ryan Stanikk Photography"] { height: 22px; max-width: 180px; }
+  .clients-item img[alt="Ark Angels"]             { height: 26px; }
+  .clients-item img[alt="Ennios"]                 { height: 36px; }
+  .clients-item img[alt="Mustang Group"]          { height: 28px; }
+  .clients-eyebrow {
+    font-size: 0.6rem;
+    gap: 0.75rem;
+  }
+  .clients-eyebrow-rule { flex-basis: 40px; }
+}
+
 /* === NAV === */
 .nav {
   position: fixed;
@@ -2271,6 +2922,153 @@ if (document.readyState === 'loading') {
 </style>
 
 <script>
+  /* ================================================================
+     SIDE RAIL — runs independently of GSAP/Lenis so it works even if
+     those libs are slow to load. Slides in on first 40 px scroll and
+     persists; expands on hover (desktop) / tap (mobile); current
+     section tracked via IntersectionObserver.
+     ================================================================ */
+  function initRail() {
+    const rail = document.getElementById('rail');
+    const burger = document.getElementById('rail-burger');
+    const logo = document.getElementById('rail-logo');
+    const backdrop = document.getElementById('rail-backdrop');
+    if (!rail || !burger || !logo || !backdrop) return;
+
+    const isMobile = () => window.matchMedia('(max-width: 820px)').matches;
+    let collapseTimer: number | undefined;
+    let scrollLocked = false;
+
+    /* --- 1. Slide-in on first 40 px scroll, then persist --- */
+    let railVisible = false;
+    function checkScroll() {
+      if (railVisible) return;
+      if (window.scrollY > 40) {
+        document.body.classList.add('rail-in');
+        railVisible = true;
+        window.removeEventListener('scroll', checkScroll);
+      }
+    }
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    // Catch the case where the page loads already scrolled (deep link to anchor)
+    if (window.scrollY > 40) checkScroll();
+
+    /* --- 2. Desktop: hover with 120 ms grace timeout --- */
+    rail.addEventListener('mouseenter', () => {
+      if (isMobile()) return;
+      if (collapseTimer) { clearTimeout(collapseTimer); collapseTimer = undefined; }
+      rail.classList.add('expanded');
+    });
+    rail.addEventListener('mouseleave', () => {
+      if (isMobile()) return;
+      collapseTimer = window.setTimeout(() => {
+        rail.classList.remove('expanded');
+      }, 120);
+    });
+
+    /* --- 3. Mobile: tap to expand, backdrop or Escape to close --- */
+    function expandMobile() {
+      rail.classList.add('expanded');
+      backdrop.classList.add('visible');
+      burger.classList.add('active');
+      burger.setAttribute('aria-expanded', 'true');
+      if (!scrollLocked) {
+        document.body.style.overflow = 'hidden';
+        scrollLocked = true;
+      }
+    }
+    function collapseMobile() {
+      rail.classList.remove('expanded');
+      backdrop.classList.remove('visible');
+      burger.classList.remove('active');
+      burger.setAttribute('aria-expanded', 'false');
+      if (scrollLocked) {
+        document.body.style.overflow = '';
+        scrollLocked = false;
+      }
+    }
+
+    burger.addEventListener('click', () => {
+      if (!isMobile()) return;
+      if (rail.classList.contains('expanded')) collapseMobile();
+      else expandMobile();
+    });
+
+    logo.addEventListener('click', (e) => {
+      // On mobile, first tap on logo opens drawer instead of navigating
+      if (isMobile() && !rail.classList.contains('expanded')) {
+        e.preventDefault();
+        expandMobile();
+      }
+    });
+
+    backdrop.addEventListener('click', collapseMobile);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMobile() && rail.classList.contains('expanded')) {
+        collapseMobile();
+      }
+    });
+
+    // Tapping any link in the drawer auto-closes (mobile only)
+    rail.querySelectorAll('.rail-item, .rail-cta').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (isMobile()) collapseMobile();
+      });
+    });
+
+    /* --- 4. Current-section indicator via IntersectionObserver ---
+       Trigger band is the middle of the viewport (40% from top, 55%
+       from bottom) so the bar lights up the section the user is
+       actually reading, not whichever sliver pokes into view. */
+    const items = Array.from(rail.querySelectorAll('.rail-item')) as HTMLElement[];
+    const sections = items
+      .map((item) => {
+        const id = item.getAttribute('data-section');
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((s): s is HTMLElement => s !== null);
+
+    if (sections.length) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            items.forEach((item) => {
+              item.classList.toggle('current', item.getAttribute('data-section') === id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+      sections.forEach((s) => observer.observe(s));
+    }
+
+    /* --- 5. Re-check viewport on resize so mobile↔desktop switching
+       doesn't leave the drawer in a stuck state --- */
+    let lastIsMobile = isMobile();
+    window.addEventListener('resize', () => {
+      const nowMobile = isMobile();
+      if (lastIsMobile !== nowMobile) {
+        // Crossing the breakpoint: collapse and unlock everything
+        rail.classList.remove('expanded');
+        backdrop.classList.remove('visible');
+        burger.classList.remove('active');
+        burger.setAttribute('aria-expanded', 'false');
+        if (scrollLocked) {
+          document.body.style.overflow = '';
+          scrollLocked = false;
+        }
+        lastIsMobile = nowMobile;
+      }
+    });
+  }
+
+  // Run the rail as soon as DOM is ready — no GSAP dependency
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRail);
+  } else {
+    initRail();
+  }
+
   function initSite() {
     // @ts-ignore
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {

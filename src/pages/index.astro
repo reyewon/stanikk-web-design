@@ -171,11 +171,11 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- === CLIENTS — quiet validation band, infinite marquee === -->
 <section class="clients dark-section" id="clients" aria-labelledby="clients-heading">
-  <p class="clients-eyebrow reveal" id="clients-heading">
+  <h2 class="clients-eyebrow reveal" id="clients-heading">
     <span class="clients-eyebrow-rule" aria-hidden="true"></span>
     <span>Currently working with</span>
     <span class="clients-eyebrow-rule" aria-hidden="true"></span>
-  </p>
+  </h2>
   <div class="clients-marquee" role="region" aria-label="Current clients">
     <div class="clients-track">
       <ul class="clients-set">
@@ -1242,7 +1242,7 @@ body.rail-in .hero {
    Fades + lifts away the moment the side rail comes in. */
 .hero-mark {
   position: absolute;
-  top: clamp(2.5rem, 8vh, 6rem);
+  top: clamp(3.75rem, 11vh, 8rem);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -2832,8 +2832,11 @@ body.rail-in .hero-mark {
        back out (and bring the centered hero-mark back) when the user
        returns to the very top. The threshold is a band, not a hard
        line, so we don't snap on/off with sub-pixel scroll jitter. */
-    const SHOW = 40;
-    const HIDE = 8;
+    // Hysteresis band: reveal once you've committed to scrolling, retract
+    // well before you reach the very top so the centred hero-mark has
+    // room to come back in cleanly.
+    const SHOW = 100;
+    const HIDE = 60;
     function checkScroll() {
       const y = window.scrollY;
       const cls = document.body.classList;

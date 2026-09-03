@@ -16,12 +16,12 @@ Strategic and visual design are documented for agent reference: `PRODUCT.md` (re
 ## Pages
 | Route | Purpose |
 |---|---|
-| `/` | Studio hub: pinned wordmark intro with the four-compartment tray (Websites/Photography/Graphic design/Marketing), the "missing piece" kelp card, Selected Work (three live site cards), about teaser (terracotta card: cutout portrait on a linen panel with the hover video and a scroll parallax), clients marquee, contact card |
+| `/` | Studio hub: pinned wordmark intro with the four-compartment tray (Websites/Photography/Graphic design/Marketing), the "missing piece" kelp card, Selected Work (three live site cards), about teaser (terracotta card: a cutout portrait tucked under the card's bottom edge and rising past its top, with the hover video and a scroll parallax), clients marquee, contact card |
 | `/web-design` | SEO anchor ("web design southampton"): terracotta PageHead, services, Selected Work (six sites), pricing tiers with monthly/upfront segmented toggle, process strip, FAQ (7 items via `Faq.astro`, mirrored in FAQPage schema) |
 | `/design` | Graphic design: ochre PageHead, disciplines ledger, from-prices, case studies |
 | `/photography` | Kelp PageHead, category-filterable masonry gallery, instant quote calculator inline in the page (Google Places + postcodes.io), FAQ |
 | `/marketing` | Mist PageHead (three-image collage), services, Hospitality Health Check (8 categories, from £295), infrastructure ask-cards, studio partnership from £950/mo, FAQ |
-| `/about` | Terracotta portrait card (cutout on a linen panel, "Say hello" video cue), one-trusted-route ledger, onward pills to the four disciplines, clients marquee, contact card |
+| `/about` | Terracotta portrait card (cutout tucked under the card edge, "Say hello" video cue), one-trusted-route ledger, onward pills to the four disciplines, clients marquee, contact card |
 
 ## Architecture notes
 - `src/layouts/Layout.astro`: the whole document. Head carries meta/OG/Twitter/geo/PWA/favicons and the JSON-LD base graph (WebSite + ProfessionalService/LocalBusiness + Person) merged with each page's `extraSchema` prop, same props interface as before (`title`, `description`, `canonical`, `ogImage*`, `ogType`, `extraSchema`); body carries every client script (Lenis bootstrap, the pinned intro sequence, portrait-video hover, mobile menu, lightbox, live site frames) plus the service worker registration. `<slot name="head" />` lets a page add its own head content (the photography page uses it for the Google Places script). A noscript block forces the floating nav visible and collapses the pinned intro's scroll padding, mirroring what `.no-motion` already does, since without JS the nav would otherwise sit permanently at `opacity:0`.

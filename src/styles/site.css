@@ -338,7 +338,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .card {
   border: var(--line) solid var(--c-ink);
   border-radius: var(--r-card);
-  padding: clamp(2rem, 4vw, 4.5rem);
+  --card-pad: clamp(2rem, 4vw, 4.5rem);
+  padding: var(--card-pad);
 }
 .card--kelp { background: var(--c-kelp); color: var(--c-linen); }
 .card--ochre { background: var(--c-ochre); }
@@ -400,38 +401,39 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 }
 
 /* ---------- About ---------- */
-.about { display: grid; grid-template-columns: minmax(0, 640px) minmax(0, 1fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
-.about .portrait { margin-inline-start: var(--s-2); }
+/* The portrait sits on the card itself, no frame: the cutout's bottom
+   quarter is tucked under the card's bottom outline (clipped at the
+   outline's inner edge, with the card's inner corner radius) and its head
+   rises past the card's top edge by --rise. The card is the inline-size
+   container so the stage can size itself from the column it sits in: the
+   cutout is as wide as the column plus the card padding on each side, and
+   the stage is tall enough that the visible three quarters of the cutout
+   reach from --rise above the card to its bottom edge. When the text column
+   is taller (the about page), the stage stretches and the head sits inside
+   the card instead. */
+.about { display: grid; grid-template-columns: minmax(0, 52%) minmax(0, 1fr); gap: clamp(2rem, 5vw, 6rem); align-items: stretch; container-type: inline-size; }
+.about .stack { align-self: center; }
 .about .stack p { max-width: 58ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
-/* The portrait is three layers on the terracotta card: a linen panel with
-   the 2px ink outline, the cutout rising out of it (clipped to the panel's
-   bottom corners so the torso ends where the panel ends, but free above it
-   so the cap breaks the top edge), and the video, which takes the panel's
-   rect when it plays. JS nudges the panel and the cutout apart on scroll;
-   --par-panel and --par-cut carry that offset and are 0 at rest. */
 .portrait {
-  position: relative; aspect-ratio: 1 / 1.1; max-width: 640px;   /* just tall enough for the cutout plus its parallax travel */
-  transform: rotate(-1.5deg);
-  --panel-top: 30%;
+  position: relative;
+  --rise: clamp(48px, 4.5vw, 88px);
+  --tuck: 24%;   /* the slice of the cutout hidden under the card's bottom edge; below it the photo's own frame cuts begin */
+  min-height: calc(0.708 * (52cqw + 2 * var(--card-pad)) - 2 * var(--card-pad) - var(--rise));
 }
-.portrait-panel {
-  position: absolute; left: 0; right: 0; top: var(--panel-top); bottom: 0;
-  background: var(--c-linen); border: var(--line) solid var(--c-ink); border-radius: var(--r-card);
-  transform: translateY(var(--par-panel, 0px)); will-change: transform;
-}
-/* inset by the outline width so the panel's bottom rule stays visible under the cutout */
 .portrait-clip {
-  position: absolute; left: var(--line); right: var(--line); top: 0; bottom: var(--line);
-  border-radius: 0 0 calc(var(--r-card) - var(--line)) calc(var(--r-card) - var(--line));
+  position: absolute;
+  left: calc(-1 * var(--card-pad)); right: calc(-1 * var(--card-pad));
+  top: calc(-1 * (var(--card-pad) + var(--rise))); bottom: calc(-1 * var(--card-pad));
+  border-radius: 0 0 0 calc(var(--r-card) - var(--line));
   overflow: hidden; pointer-events: none;
   transition: opacity 350ms ease-out;
 }
 .portrait-cut {
-  position: absolute; left: 50%; bottom: 0; width: 110%; max-width: none; height: auto;   /* the global img max-width would pin it to the clip */
-  transform: translate(-50%, var(--par-cut, 0px)); will-change: transform;
+  position: absolute; left: 50%; bottom: 0; width: 100%; max-width: none; height: auto;   /* the global img max-width would otherwise cap it */
+  transform: translate(-50%, calc(var(--tuck) + var(--par-cut, 0px))); will-change: transform;
 }
 .portrait-video {
-  position: absolute; left: 0; right: 0; top: var(--panel-top); bottom: 0; width: 100%; height: auto;
+  position: absolute; inset: 0; width: 100%; height: 100%;
   border: var(--line) solid var(--c-ink); border-radius: var(--r-card); object-fit: cover;
   opacity: 0; transition: opacity 350ms ease-out; pointer-events: none;
 }
@@ -447,7 +449,14 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .portrait-cue:hover { transform: translateY(2px); }
 .portrait.video-playing .portrait-cue { opacity: 0; }
 .no-motion .portrait-cue, .no-motion .portrait-video { display: none; }
-@media (max-width: 900px) { .about { grid-template-columns: 1fr; } .portrait { max-width: 420px; } }
+/* One column: the text first, then the cutout rising from the card's bottom
+   edge under it, sized so its visible part exactly fills the stage. */
+@media (max-width: 900px) {
+  .about { grid-template-columns: 1fr; }
+  .about .stack { order: 1; }
+  .about .portrait { order: 2; --rise: 0px; min-height: 0; height: calc(0.708 * (100cqw + 2 * var(--card-pad)) - var(--card-pad)); }
+  .portrait-clip { top: 0; border-radius: 0 0 calc(var(--r-card) - var(--line)) calc(var(--r-card) - var(--line)); }
+}
 
 /* ---------- Clients marquee ---------- */
 .clients { padding-block: var(--band); }

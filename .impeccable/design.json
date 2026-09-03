@@ -1,127 +1,414 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-07T00:00:00Z",
+  "generatedAt": "2026-09-03T18:18:41Z",
   "title": "Design System: Kombu",
   "extensions": {
     "colorMeta": {
-      "terracotta": { "role": "primary", "displayName": "Terracotta", "canonical": "oklch(0.66 0.132 42)", "tonalRamp": ["oklch(0.24 0.06 42)", "oklch(0.34 0.09 42)", "oklch(0.44 0.11 42)", "oklch(0.54 0.125 42)", "oklch(0.66 0.132 42)", "oklch(0.76 0.11 42)", "oklch(0.86 0.07 42)", "oklch(0.95 0.03 42)"] },
-      "terracotta-light": { "role": "primary", "displayName": "Terracotta Light", "canonical": "oklch(0.74 0.115 45)" },
-      "terracotta-deep": { "role": "primary", "displayName": "Terracotta Deep (AA)", "canonical": "oklch(0.56 0.13 40)" },
-      "warm-white": { "role": "neutral", "displayName": "Warm White", "canonical": "oklch(0.975 0.006 60)", "tonalRamp": ["oklch(0.22 0.008 55)", "oklch(0.34 0.008 55)", "oklch(0.47 0.008 58)", "oklch(0.60 0.007 58)", "oklch(0.73 0.007 60)", "oklch(0.85 0.006 60)", "oklch(0.93 0.006 60)", "oklch(0.975 0.006 60)"] },
-      "warm-sand": { "role": "neutral", "displayName": "Warm Sand", "canonical": "oklch(0.94 0.01 62)" },
-      "warm-elevated": { "role": "neutral", "displayName": "Warm Elevated", "canonical": "oklch(0.955 0.008 60)" },
-      "card-white": { "role": "neutral", "displayName": "Card White", "canonical": "oklch(1 0 0)" },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(0.20 0.012 40)", "tonalRamp": ["oklch(0.20 0.012 40)", "oklch(0.28 0.013 40)", "oklch(0.37 0.014 42)", "oklch(0.47 0.014 44)", "oklch(0.58 0.012 46)", "oklch(0.70 0.010 50)", "oklch(0.83 0.008 55)", "oklch(0.93 0.006 58)"] },
-      "ink-secondary": { "role": "neutral", "displayName": "Ink Secondary", "canonical": "oklch(0.29 0.013 42)" },
-      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "oklch(0.47 0.014 50)" },
-      "border": { "role": "neutral", "displayName": "Warm Border", "canonical": "oklch(0.88 0.008 60)" },
-      "charcoal-bg": { "role": "neutral", "displayName": "Charcoal", "canonical": "oklch(0.20 0.012 40)", "tonalRamp": ["oklch(0.16 0.012 40)", "oklch(0.20 0.012 40)", "oklch(0.28 0.014 42)", "oklch(0.40 0.016 44)", "oklch(0.55 0.014 50)", "oklch(0.70 0.012 55)", "oklch(0.82 0.010 58)", "oklch(0.93 0.008 60)"] },
-      "charcoal-text": { "role": "neutral", "displayName": "Charcoal Text", "canonical": "oklch(0.94 0.012 65)" },
-      "charcoal-body": { "role": "neutral", "displayName": "Charcoal Body", "canonical": "oklch(0.78 0.014 62)" },
-      "charcoal-muted": { "role": "neutral", "displayName": "Charcoal Muted", "canonical": "oklch(0.67 0.014 62)" },
-      "charcoal-border": { "role": "neutral", "displayName": "Charcoal Border", "canonical": "oklch(0.33 0.012 45)" },
-      "error": { "role": "supporting", "displayName": "Error", "canonical": "oklch(0.53 0.16 34)" }
+      "linen": {
+        "role": "neutral",
+        "displayName": "Linen",
+        "canonical": "oklch(0.95 0.011 89.7)",
+        "tonalRamp": [
+          "oklch(0.16 0.004 89.7)",
+          "oklch(0.26 0.008 89.7)",
+          "oklch(0.37 0.010 89.7)",
+          "oklch(0.48 0.011 89.7)",
+          "oklch(0.58 0.011 89.7)",
+          "oklch(0.69 0.010 89.7)",
+          "oklch(0.80 0.008 89.7)",
+          "oklch(0.92 0.004 89.7)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(1 0 0)"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.18 0.005 67.5)",
+        "tonalRamp": [
+          "oklch(0.16 0.002 67.5)",
+          "oklch(0.26 0.004 67.5)",
+          "oklch(0.37 0.004 67.5)",
+          "oklch(0.48 0.005 67.5)",
+          "oklch(0.58 0.005 67.5)",
+          "oklch(0.69 0.004 67.5)",
+          "oklch(0.80 0.004 67.5)",
+          "oklch(0.92 0.002 67.5)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(0.33 0.013 67.3)"
+      },
+      "ink-mute": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(0.50 0.017 70.7)"
+      },
+      "ink-hover": {
+        "role": "neutral",
+        "displayName": "Ink Hover",
+        "canonical": "oklch(0.27 0.012 67.3)"
+      },
+      "terracotta": {
+        "role": "primary",
+        "displayName": "Terracotta",
+        "canonical": "oklch(0.65 0.134 39.9)",
+        "tonalRamp": [
+          "oklch(0.16 0.047 39.9)",
+          "oklch(0.26 0.095 39.9)",
+          "oklch(0.37 0.120 39.9)",
+          "oklch(0.48 0.132 39.9)",
+          "oklch(0.58 0.132 39.9)",
+          "oklch(0.69 0.120 39.9)",
+          "oklch(0.80 0.095 39.9)",
+          "oklch(0.92 0.047 39.9)"
+        ]
+      },
+      "terracotta-hover": {
+        "role": "primary",
+        "displayName": "Terracotta Hover",
+        "canonical": "oklch(0.69 0.128 40.8)"
+      },
+      "kelp": {
+        "role": "secondary",
+        "displayName": "Kelp",
+        "canonical": "oklch(0.37 0.054 169.5)",
+        "tonalRamp": [
+          "oklch(0.16 0.019 169.5)",
+          "oklch(0.26 0.038 169.5)",
+          "oklch(0.37 0.048 169.5)",
+          "oklch(0.48 0.053 169.5)",
+          "oklch(0.58 0.053 169.5)",
+          "oklch(0.69 0.048 169.5)",
+          "oklch(0.80 0.038 169.5)",
+          "oklch(0.92 0.019 169.5)"
+        ]
+      },
+      "ochre": {
+        "role": "tertiary",
+        "displayName": "Ochre",
+        "canonical": "oklch(0.80 0.135 82.7)",
+        "tonalRamp": [
+          "oklch(0.16 0.047 82.7)",
+          "oklch(0.26 0.096 82.7)",
+          "oklch(0.37 0.121 82.7)",
+          "oklch(0.48 0.133 82.7)",
+          "oklch(0.58 0.133 82.7)",
+          "oklch(0.69 0.121 82.7)",
+          "oklch(0.80 0.096 82.7)",
+          "oklch(0.92 0.047 82.7)"
+        ]
+      },
+      "mist": {
+        "role": "supporting",
+        "displayName": "Mist",
+        "canonical": "oklch(0.89 0.028 299.5)",
+        "tonalRamp": [
+          "oklch(0.16 0.010 299.5)",
+          "oklch(0.26 0.020 299.5)",
+          "oklch(0.37 0.025 299.5)",
+          "oklch(0.48 0.028 299.5)",
+          "oklch(0.58 0.028 299.5)",
+          "oklch(0.69 0.025 299.5)",
+          "oklch(0.80 0.020 299.5)",
+          "oklch(0.92 0.010 299.5)"
+        ]
+      },
+      "linen-mute": {
+        "role": "neutral",
+        "displayName": "Muted Linen",
+        "canonical": "oklch(0.77 0.017 79.3)"
+      },
+      "linen-soft": {
+        "role": "neutral",
+        "displayName": "Soft Linen",
+        "canonical": "oklch(0.87 0.015 80.7)"
+      },
+      "error": {
+        "role": "supporting",
+        "displayName": "Error Red",
+        "canonical": "oklch(0.46 0.121 36.5)"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero headlines only, uppercase, one per page. Self-hosted Supermassive." },
-      "headline": { "displayName": "Headline", "purpose": "Section headings." },
-      "title": { "displayName": "Title", "purpose": "Card and case-study titles." },
-      "body": { "displayName": "Body", "purpose": "Reading copy, Switzer extralight, measure 65-75ch." },
-      "label": { "displayName": "Label", "purpose": "Buttons, eyebrows, nav labels. Uppercase, 0.1em tracking." }
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "The full bleed KOMBU mark in the intro stage and the footer lid, grown to the gutters at 900 weight."
+      },
+      "nav-mark": {
+        "displayName": "Nav Mark",
+        "purpose": "The small KOMBU mark inside the floating nav pill."
+      },
+      "pagehead-title": {
+        "displayName": "Page Head Title",
+        "purpose": "The h1 on every interior page's opening card (PageHead), at the wordmark's 900 weight, capped by its own column width via cqw."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2): the missing piece, selected work, clients, contact, and every card section heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and sub section titles (h3): tier names, ledger row titles, work card names, case study headings."
+      },
+      "cell-title": {
+        "displayName": "Cell Title",
+        "purpose": "The tray compartment titles (Websites, Photography, Graphic design, Marketing and infrastructure), sized in cqh so they scale with the compartment."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The lead paragraph under a section heading or beside a portrait: the missing piece copy, about bio, contact copy, two column intros."
+      },
+      "pagehead-lead": {
+        "displayName": "Page Head Lead",
+        "purpose": "The lede directly under an interior page's h1, capped at 44ch (or larger and white on the terracotta head, for AA)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default reading copy: the base body style set on body, inherited everywhere without an explicit override."
+      },
+      "ledger": {
+        "displayName": "Ledger",
+        "purpose": "Ledger row copy: What I build, What I design, How I help, One trusted route."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Pill labels: every button and link styled as a pill, at the default size."
+      },
+      "control-small": {
+        "displayName": "Control Small",
+        "purpose": "Small pill labels: the Visit pill on work cards, the segmented pricing switch."
+      },
+      "chip": {
+        "displayName": "Chip",
+        "purpose": "The fact chip: a single checkable figure, a real price, inside a linen pill with an ink outline."
+      },
+      "tag": {
+        "displayName": "Tag",
+        "purpose": "Small non interactive labels on white service cards: the tag row under What I build."
+      },
+      "small-print": {
+        "displayName": "Small Print",
+        "purpose": "Footer row copy: copyright, the email link, the row below the footer's ruled divider."
+      }
     },
-    "shadows": [
-      { "name": "resting-card", "value": "0 2px 20px rgba(26, 20, 18, 0.05)", "purpose": "Barely-there lift separating a white card from the warm base." },
-      { "name": "hover-lift", "value": "0 12px 30px rgba(26, 20, 18, 0.14)", "purpose": "Paired with a -2px translate on interactive cards and buttons." },
-      { "name": "accent-glow", "value": "0 8px 24px rgba(212, 113, 78, 0.3)", "purpose": "The one terracotta-tinted shadow, primary button hover only." },
-      { "name": "floating-chrome", "value": "0 14px 36px rgba(26, 20, 18, 0.16)", "purpose": "Mobile bottom dock and floating navigation." },
-      { "name": "lightbox-media", "value": "0 30px 90px rgba(0, 0, 0, 0.6)", "purpose": "Full-screen image overlays only." }
-    ],
+    "shadows": [],
     "motion": [
-      { "name": "transition-fast", "value": "0.2s cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Small state changes." },
-      { "name": "transition-base", "value": "0.3s cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default state transitions, buttons and cards." },
-      { "name": "transition-slow", "value": "0.6s cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Larger reveals." },
-      { "name": "rail-ease", "value": "cubic-bezier(0.65, 0, 0.2, 1)", "purpose": "Nav rail and bottom-dock slide, 0.55s duration." }
+      {
+        "name": "pill-hover",
+        "value": "transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out",
+        "purpose": "Every pill's hover and focus state: a 2px downward translate, never a lift."
+      },
+      {
+        "name": "cell-pop",
+        "value": "620ms cubic-bezier(0.3, 0.1, 0.2, 1)",
+        "purpose": "Each tray compartment's one way pop in during the intro sequence, translateY(56px) scale(0.9) to rest with a slight overshoot, committing the moment its scroll threshold is crossed and never un-popping."
+      },
+      {
+        "name": "wordmark-land",
+        "value": "460ms cubic-bezier(0.22, 0.9, 0.24, 1), 95ms letter stagger",
+        "purpose": "Each KOMBU letter landing separately on load, a hard scale-in with a short settle, staggered 95ms apart via animation-delay: calc(120ms + var(--i) * 95ms)."
+      },
+      {
+        "name": "marquee-drift",
+        "value": "40s linear infinite",
+        "purpose": "The clients logo marquee's continuous drift, paused on hover."
+      },
+      {
+        "name": "lightbox-crossfade",
+        "value": "opacity 200ms ease-out",
+        "purpose": "The case study and gallery lightbox fading in and out over its ink overlay."
+      },
+      {
+        "name": "video-crossfade",
+        "value": "opacity 350ms ease-out",
+        "purpose": "The about portrait's introduction video fading in over the still photo on the Say hello cue."
+      },
+      {
+        "name": "lenis-scroll",
+        "value": "lerp 0.1",
+        "purpose": "The smoothed wheel feel driving every scroll interaction across the site."
+      }
     ],
     "breakpoints": [
-      { "name": "mobile", "value": "820px" }
+      {
+        "name": "phone",
+        "value": "640px",
+        "purpose": "The tray collapses to one column; compartments switch to explicit fixed sizing since cqh has no container on a phone."
+      },
+      {
+        "name": "mobile-nav",
+        "value": "820px",
+        "purpose": "The floating nav collapses its links behind a Menu pill, the wordmark drops to 29.8vw, and the intro pin is skipped in favour of IntersectionObserver reveals."
+      },
+      {
+        "name": "two-column",
+        "value": "900px",
+        "purpose": "Two column layouts (about, contact, pagehead collage rows) stack to one column."
+      },
+      {
+        "name": "tray-collapse",
+        "value": "1024px",
+        "purpose": "The four tray compartments collapse from a 7/5, 5/7 split to a 2x2 grid of equal spans."
+      }
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Pill",
       "kind": "button",
-      "refersTo": "button-primary",
-      "description": "The terracotta call to action. Most CTAs point at WhatsApp.",
-      "html": "<a class=\"ds-btn-primary\" href=\"#\">Start a project</a>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: #D4714E; color: #FFFFFF; font-family: 'Supermassive RS', sans-serif; font-weight: 500; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; padding: 1rem 2rem; border: 2px solid #D4714E; border-radius: 8px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-primary:hover { background: #E8956A; border-color: #E8956A; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212, 113, 78, 0.3); } .ds-btn-primary:focus-visible { outline: 2px solid #B05433; outline-offset: 3px; }"
+      "refersTo": "pill",
+      "description": "The quiet outline action, ink on transparent, used everywhere a plain secondary action is needed.",
+      "html": "<a class=\"ds-pill\" href=\"#\">See the work</a>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.35rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.95rem; line-height: 1; color: var(--c-ink, #141210); background: transparent; text-decoration: none; white-space: nowrap; transition: transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out; } .ds-pill:hover, .ds-pill:focus-visible { transform: translateY(2px); } .ds-pill:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; }"
     },
     {
-      "name": "Outline Button",
+      "name": "Pill Filled Terracotta",
       "kind": "button",
-      "refersTo": "button-outline",
-      "description": "The quiet secondary action.",
-      "html": "<a class=\"ds-btn-outline\" href=\"#\">See the work</a>",
-      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: transparent; color: #D4714E; font-family: 'Supermassive RS', sans-serif; font-weight: 500; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; padding: 1rem 2rem; border: 2px solid #D4714E; border-radius: 8px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-outline:hover { background: #D4714E; color: #FFFFFF; transform: translateY(-2px); } .ds-btn-outline:focus-visible { outline: 2px solid #B05433; outline-offset: 3px; }"
+      "refersTo": "pill-fill",
+      "description": "The primary action: terracotta fill, ink text (white fails AA at this size on terracotta).",
+      "html": "<a class=\"ds-pill ds-pill--fill\" href=\"#\">Start a project</a>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.35rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.95rem; line-height: 1; color: var(--c-ink, #141210); background: transparent; text-decoration: none; white-space: nowrap; transition: transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out; } .ds-pill:hover, .ds-pill:focus-visible { transform: translateY(2px); } .ds-pill:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; } .ds-pill--fill { background: var(--c-terracotta, #D4714E); } .ds-pill--fill:hover { background: var(--c-terracotta-hover, #DE7F5C); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A fact in a linen pill with an ink outline. Only ever carries a checkable figure, a real price.",
+      "html": "<span class=\"ds-chip\">From &pound;199</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 0.6rem 0.95rem; background: var(--c-linen, #F1EEE6); color: var(--c-ink, #141210); border: 2px solid var(--c-ink, #141210); border-radius: 999px; font-family: var(--f-display, 'Supermassive RS', sans-serif); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1; } .ds-chip:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; }"
+    },
+    {
+      "name": "Compartment Cell",
+      "kind": "card",
+      "refersTo": "cell",
+      "description": "A tray compartment: 2px ink outline, a fill from the four, title with one line of copy, a fact chip and action pinned to the bottom, the work as a tilted tile bleeding from the corner.",
+      "html": "<article class=\"ds-cell\"><div class=\"ds-cell-head\"><h2 class=\"ds-cell-title\">Websites</h2><p class=\"ds-cell-lead\">Built, hosted and looked after, so it keeps earning after launch.</p></div><div class=\"ds-cell-foot\"><span class=\"ds-chip\">From &pound;199</span><a class=\"ds-pill\" href=\"#\">See web design</a></div><div class=\"ds-cell-tile\" aria-hidden=\"true\"></div></article>",
+      "css": ".ds-cell { position: relative; display: grid; grid-template-rows: auto 1fr auto; padding: clamp(1.25rem, 4.2cqh, 3.25rem); border: 2px solid var(--c-ink, #141210); border-radius: 28px; background: var(--c-terracotta, #D4714E); color: var(--c-ink, #141210); overflow: hidden; } .ds-cell-head { position: relative; z-index: 2; } .ds-cell-title { margin: 0; font-family: var(--f-display, 'Supermassive RS', sans-serif); text-transform: uppercase; font-weight: 800; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 0.85; letter-spacing: -0.025em; color: var(--c-white, #fff); } .ds-cell-lead { margin-top: 0.75rem; max-width: 30ch; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 300; font-size: 1rem; line-height: 1.5; } .ds-cell-foot { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.5rem; } .ds-cell .ds-chip { background: var(--c-linen, #F1EEE6); } .ds-cell .ds-pill { background: var(--c-white, #fff); color: var(--c-ink, #141210); border-color: var(--c-ink, #141210); } .ds-cell .ds-pill:hover, .ds-cell .ds-pill:focus-visible { transform: translateY(2px); } .ds-cell .ds-pill:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; } .ds-cell-tile { position: absolute; z-index: 1; right: -3%; bottom: -8%; width: 42%; aspect-ratio: 1 / 1.1; border: 2px solid var(--c-ink, #141210); border-radius: 16px; background: var(--c-white, #fff); transform: rotate(3deg); transition: transform 220ms ease-out; } .ds-cell:hover .ds-cell-tile { transform: rotate(2deg) translateY(-4px); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card-kelp",
+      "description": "The compartment shape at page width: same outline, same radius, a fill (kelp shown here), one crafted line, one filled pill.",
+      "html": "<section class=\"ds-card ds-card--kelp\"><h2 class=\"ds-card-title\">The missing piece</h2><p class=\"ds-card-body\">The bit nobody else owns is usually the bit that actually holds the whole thing together.</p><a class=\"ds-pill ds-pill--fill\" href=\"#\">Tell me what you need</a></section>",
+      "css": ".ds-card { border: 2px solid var(--c-ink, #141210); border-radius: 28px; padding: clamp(2rem, 4vw, 4.5rem); } .ds-card--kelp { background: var(--c-kelp, #1F4A3C); color: var(--c-linen, #F1EEE6); } .ds-card-title { margin: 0; font-family: var(--f-display, 'Supermassive RS', sans-serif); text-transform: uppercase; font-weight: 800; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 0.87; letter-spacing: -0.02em; } .ds-card-body { margin-top: 1.5rem; max-width: 56ch; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 300; font-size: 1.1rem; line-height: 1.6; } .ds-card .ds-pill--fill { margin-top: 2rem; display: inline-flex; align-items: center; padding: 0.85rem 1.35rem; border: 2px solid var(--c-linen, #F1EEE6); border-radius: 999px; background: var(--c-terracotta, #D4714E); color: var(--c-ink, #141210); font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: transform 140ms ease-out, background 140ms ease-out; } .ds-card .ds-pill--fill:hover { background: var(--c-terracotta-hover, #DE7F5C); transform: translateY(2px); } .ds-card .ds-pill--fill:focus-visible { outline: 3px solid var(--c-linen, #F1EEE6); outline-offset: 3px; }"
+    },
+    {
+      "name": "Page Head",
+      "kind": "card",
+      "refersTo": null,
+      "description": "The opening card on every interior page: h1 at the wordmark weight, the page's lede, a fact chip and two pills, a tilted work tile on the right (terracotta shown here, so the heading and lede go white to clear AA as large text).",
+      "html": "<header class=\"ds-pagehead\"><div class=\"ds-pagehead-text\"><h1 class=\"ds-pagehead-title\">Websites</h1><p class=\"ds-pagehead-lead\">A site that loads fast, reads clearly and keeps working after launch.</p><div class=\"ds-pagehead-row\"><span class=\"ds-chip\">From &pound;199</span><a class=\"ds-pill ds-pill--onfill\" href=\"#\">See pricing</a></div></div><div class=\"ds-pagehead-media\" aria-hidden=\"true\"></div></header>",
+      "css": ".ds-pagehead { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 6rem); align-items: center; border: 2px solid var(--c-ink, #141210); border-radius: 28px; padding: clamp(2rem, 4vw, 4.5rem); background: var(--c-terracotta, #D4714E); } .ds-pagehead-title { margin: 0; font-family: var(--f-display, 'Supermassive RS', sans-serif); text-transform: uppercase; font-weight: 900; font-size: min(clamp(3rem, 8.5vw, 9rem), 13cqw); line-height: 0.8; letter-spacing: -0.02em; color: var(--c-white, #fff); } .ds-pagehead-lead { margin-top: 1.5rem; max-width: 44ch; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 300; font-size: clamp(1.5rem, 1.55vw, 1.7rem); color: var(--c-white, #fff); } .ds-pagehead-row { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; } .ds-pagehead .ds-chip { background: var(--c-linen, #F1EEE6); } .ds-pagehead .ds-pill--onfill { display: inline-flex; align-items: center; padding: 0.85rem 1.35rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; background: var(--c-white, #fff); color: var(--c-ink, #141210); font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: transform 140ms ease-out; } .ds-pagehead .ds-pill--onfill:hover { transform: translateY(2px); } .ds-pagehead .ds-pill--onfill:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; } .ds-pagehead-media { min-width: 0; aspect-ratio: 4 / 3; border: 2px solid var(--c-ink, #141210); border-radius: 16px; background: var(--c-white, #fff); transform: rotate(2deg); }"
     },
     {
       "name": "Work Card",
       "kind": "card",
       "refersTo": null,
-      "description": "White media card on the warm base; rests flat, lifts on hover.",
-      "html": "<article class=\"ds-card\"><h3 class=\"ds-card__title\">Padharo</h3><p class=\"ds-card__body\">Three years of menu, brand and marketing from one mind.</p></article>",
-      "css": ".ds-card { background: #FFFFFF; border: 1px solid #E0D8D0; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 20px rgba(26, 20, 18, 0.05); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1); } .ds-card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(26, 20, 18, 0.14); } .ds-card__title { font-family: 'Supermassive RS', sans-serif; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.01em; color: #1A1412; margin: 0 0 0.5rem; } .ds-card__body { font-family: 'Switzer', sans-serif; font-weight: 200; font-size: 1rem; line-height: 1.6; color: #3A3028; margin: 0; }"
+      "description": "An outlined frame around a live site poster, name and one line beneath, a Visit pill in a row.",
+      "html": "<article class=\"ds-wcard\"><div class=\"ds-wcard-frame\"><div class=\"ds-wcard-poster\" aria-hidden=\"true\"></div></div><div class=\"ds-wcard-meta\"><div><h3 class=\"ds-wcard-title\">Padharo</h3><p class=\"ds-wcard-line\">Three years of menu, brand and marketing from one mind.</p></div><a class=\"ds-pill ds-pill--sm\" href=\"#\">Visit</a></div></article>",
+      "css": ".ds-wcard { display: flex; flex-direction: column; gap: 1rem; } .ds-wcard-frame { border: 2px solid var(--c-ink, #141210); border-radius: 28px; overflow: hidden; background: var(--c-ink, #141210); aspect-ratio: 1024 / 1180; } .ds-wcard-poster { width: 100%; height: 100%; background: var(--c-kelp, #1F4A3C); } .ds-wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; } .ds-wcard-title { margin: 0; font-family: var(--f-display, 'Supermassive RS', sans-serif); text-transform: uppercase; font-weight: 800; font-size: clamp(1.5rem, 1.8vw, 2rem); line-height: 0.88; letter-spacing: -0.02em; color: var(--c-ink, #141210); } .ds-wcard-line { margin-top: 0.5rem; max-width: 34ch; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 300; font-size: 0.95rem; color: var(--c-ink-soft, #3B352F); } .ds-wcard .ds-pill--sm { padding: 0.6rem 1rem; font-size: 0.85rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; background: transparent; color: var(--c-ink, #141210); font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; transition: transform 140ms ease-out; } .ds-wcard .ds-pill--sm:hover { transform: translateY(2px); } .ds-wcard .ds-pill--sm:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; }"
     },
     {
-      "name": "Text Input",
-      "kind": "input",
+      "name": "Ledger Row",
+      "kind": "custom",
       "refersTo": null,
-      "description": "Light field on white; terracotta focus.",
-      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Your postcode\" />",
-      "css": ".ds-input { font-family: 'Switzer', sans-serif; font-weight: 300; font-size: 1rem; color: #1A1412; background: #FFFFFF; border: 1px solid #E0D8D0; border-radius: 8px; padding: 0.85rem 1rem; width: 100%; transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1); } .ds-input::placeholder { color: #6A5E52; } .ds-input:focus-visible { outline: none; border-color: #D4714E; box-shadow: 0 0 0 3px rgba(212, 113, 78, 0.18); }"
+      "description": "A plain ruled list row, not a card: title in a 4/12 column, description and an optional list in an 8/12 column, ruled top with 2px ink.",
+      "html": "<div class=\"ds-ledger\"><div class=\"ds-ledger-row\"><h3 class=\"ds-ledger-title\">Websites</h3><div class=\"ds-ledger-body\"><p>Built in Astro, fast by default, and looked after once it is live.</p><ul class=\"ds-ledger-list\"><li>Design and build</li><li>Hosting and care</li></ul></div></div></div>",
+      "css": ".ds-ledger { border-bottom: 2px solid var(--c-ink, #141210); } .ds-ledger-row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(16px, 1.6vw, 22px); border-top: 2px solid var(--c-ink, #141210); padding-block: clamp(1.5rem, 3vw, 2.5rem); align-items: start; } .ds-ledger-title { margin: 0; font-family: var(--f-display, 'Supermassive RS', sans-serif); text-transform: uppercase; font-weight: 800; font-size: clamp(1.5rem, 2vw, 2rem); line-height: 0.88; letter-spacing: -0.02em; color: var(--c-ink, #141210); } .ds-ledger-body p { margin: 0; max-width: 58ch; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 300; font-size: clamp(1rem, 1.15vw, 1.15rem); color: var(--c-ink, #141210); } .ds-ledger-list { margin: 1rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; } .ds-ledger-list li { position: relative; padding-left: 1.1em; font-family: var(--f-body, 'Switzer', sans-serif); font-size: clamp(1rem, 1.15vw, 1.15rem); color: var(--c-ink, #141210); } .ds-ledger-list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }"
     },
     {
-      "name": "Bottom Dock Tab",
+      "name": "FAQ Row",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "A native details and summary row, ruled top with 2px ink, a drawn plus that turns to a cross when open. No script.",
+      "html": "<details class=\"ds-faq-row\"><summary class=\"ds-faq-summary\">Do you handle hosting too<span class=\"ds-faq-plus\" aria-hidden=\"true\"></span></summary><p class=\"ds-faq-answer\">Yes. Every build I ship stays looked after unless you would rather manage it yourself.</p></details>",
+      "css": ".ds-faq-row { border-top: 2px solid var(--c-ink, #141210); padding-block: clamp(1.25rem, 2.5vw, 1.75rem); } .ds-faq-summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; cursor: pointer; list-style: none; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 1.15rem; color: var(--c-ink, #141210); } .ds-faq-summary::-webkit-details-marker { display: none; } .ds-faq-summary::marker { content: ''; } .ds-faq-summary:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; border-radius: 4px; } .ds-faq-plus { position: relative; width: 18px; height: 18px; flex: 0 0 auto; transition: transform 220ms ease-out; } .ds-faq-plus::before, .ds-faq-plus::after { content: ''; position: absolute; background: var(--c-ink, #141210); } .ds-faq-plus::before { left: 0; top: 50%; width: 100%; height: 2px; transform: translateY(-50%); } .ds-faq-plus::after { top: 0; left: 50%; width: 2px; height: 100%; transform: translateX(-50%); } .ds-faq-row[open] .ds-faq-plus { transform: rotate(45deg); } .ds-faq-answer { margin-top: 1.5rem; max-width: 64ch; font-family: var(--f-body, 'Switzer', sans-serif); font-size: 1rem; color: var(--c-ink, #141210); }"
+    },
+    {
+      "name": "Floating Nav",
       "kind": "nav",
-      "refersTo": null,
-      "description": "Mobile app-style dock tab with terracotta active bar and label.",
-      "html": "<nav class=\"ds-dock\"><a class=\"ds-dock__item ds-dock__item--current\" aria-current=\"page\"><span class=\"ds-dock__bar\"></span><svg class=\"ds-dock__icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4.5 10.4 12 4.2l7.5 6.2\"/><path d=\"M6.4 8.9v9.7a1.3 1.3 0 0 0 1.3 1.3h8.6a1.3 1.3 0 0 0 1.3-1.3V8.9\"/></svg><span class=\"ds-dock__name\">Home</span></a><a class=\"ds-dock__item\"><span class=\"ds-dock__bar\"></span><svg class=\"ds-dock__icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3.5l8.5 4.2-8.5 4.2-8.5-4.2L12 3.5z\"/><path d=\"M3.5 12l8.5 4.2 8.5-4.2\"/></svg><span class=\"ds-dock__name\">Websites</span></a></nav>",
-      "css": ".ds-dock { display: inline-flex; align-items: stretch; height: 64px; padding: 0 8px; background: rgba(250, 247, 244, 0.9); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); border: 1px solid rgba(26, 20, 18, 0.09); border-radius: 21px; box-shadow: 0 14px 36px rgba(26, 20, 18, 0.16); } .ds-dock__item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0 16px; color: rgba(26, 20, 18, 0.52); text-decoration: none; } .ds-dock__item--current { color: #B05433; } .ds-dock__bar { position: absolute; top: -1px; left: 50%; width: 20px; height: 2px; border-radius: 0 0 2px 2px; background: #D4714E; transform: translateX(-50%) scaleX(0); transition: transform 0.3s cubic-bezier(0.65, 0, 0.2, 1); } .ds-dock__item--current .ds-dock__bar { transform: translateX(-50%) scaleX(1); } .ds-dock__icon { width: 22px; height: 22px; } .ds-dock__item--current .ds-dock__icon { color: #D4714E; } .ds-dock__name { font-family: 'Switzer', sans-serif; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; }"
+      "refersTo": "nav",
+      "description": "White, 2px ink, 999px, mark left, links centre, terracotta pill right. Under 820px the links collapse behind a Menu pill.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-mark\">Kombu</span><ul class=\"ds-nav-links\"><li><a href=\"#\" aria-current=\"page\">Websites</a></li><li><a href=\"#\">Design</a></li><li><a href=\"#\">Photography</a></li></ul><a class=\"ds-nav-cta\" href=\"#\">WhatsApp</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: min(100% - 2 * clamp(16px, 2vw, 28px), 1120px); padding: 8px 8px 8px 22px; background: var(--c-white, #fff); border: 2px solid var(--c-ink, #141210); border-radius: 999px; } .ds-nav-mark { font-family: var(--f-display, 'Supermassive RS', sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1; color: var(--c-ink, #141210); } .ds-nav-links { display: flex; gap: 1.6rem; margin: 0; padding: 0; list-style: none; } .ds-nav-links a { font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 400; font-size: 0.95rem; color: var(--c-ink-soft, #3B352F); text-decoration: none; } .ds-nav-links a:hover, .ds-nav-links a[aria-current='page'] { color: var(--c-ink, #141210); } .ds-nav-links a:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; border-radius: 4px; } .ds-nav-cta { display: inline-flex; align-items: center; padding: 0.6rem 1rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; background: var(--c-terracotta, #D4714E); color: var(--c-ink, #141210); font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.85rem; text-decoration: none; transition: transform 140ms ease-out, background 140ms ease-out; } .ds-nav-cta:hover { background: var(--c-terracotta-hover, #DE7F5C); transform: translateY(2px); } .ds-nav-cta:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Quiet Foundation",
-    "overview": "Kombu is the dependable base layer under a brand, the thing everything else rests on, so the design carries itself the same way: structural, unhurried, and confident without raising its voice. The warm off-white surface recedes; real client work sits on top and does the talking. Boldness is spent in exactly one place per page. The system deliberately escapes the warm-cream-plus-terracotta AI monoculture it superficially resembles, through a self-hosted display face, deep charcoal chapter sections, editorial numbered case studies, and choreographed rather than sprinkled motion. Voice is first person singular, plainly British: grounded, exacting, human.",
+    "northStar": "One person, four disciplines, one tray.",
+    "overview": "Two references pinned by Ryan, fused rather than averaged. From EVOKE: the brand name set to the full page width as architecture, flat colour fields, no depth of any kind. From Bento: a warm linen canvas, full-bleed colour bands stacked like a lunch tray, sticker-like cards ringed in a thick ink outline, pill controls, big tightly-set type. The product supplies every fact; the references supply form.\n\nThe intro. KOMBU alone in the middle of the screen, each letter landing separately on load (a hard scale-in with a short settle, 95ms apart), then a one-way scroll sequence: the name slides to the top and locks, the nav arrives on the first scroll, and the four compartments pop in one by one under it, each committing the moment its threshold is crossed and never un-popping, before the page lets go. The page opens and closes on the wordmark: ink on linen at the top, linen on ink at the bottom.\n\nOne spacing scale (0.5 / 1 / 1.5 / 2 / 3rem). Inside any text block, heading to body is 1.5rem and body to action is 2rem, everywhere, via .stack. A section heading block to its grid or list is --sec-head (clamp(1.5rem, 3vw, 3rem), 48px on desktop) via .sec-head. Between sections: plain linen sections open with --band above; consecutive cards sit --gap apart.",
     "keyCharacteristics": [
-      "Warm off-white base that recedes so client work is the loudest thing on screen.",
-      "One saturated terracotta accent, used sparingly, as the single brand voice.",
-      "Deep charcoal sections used as structural chapter breaks, not decoration.",
-      "Big self-hosted display type against extralight body text: a deliberate weight contrast.",
-      "Quiet by default; boldness rationed to one signature moment per page."
+      "One person, four disciplines, one tray.",
+      "The wordmark is the lid, the four compartments underneath are the offer, the work sits inside them.",
+      "Full palette, committed at page scale. Fills own whole regions; nothing is scattered as accent over a neutral ground.",
+      "There are no shadows. Elevation is a 2px ink outline on every card, tile, pill and image frame.",
+      "Supermassive RS is the only display face, in three jobs: 900 for the wordmark and the page-head titles, 800 for section headings and card titles.",
+      "One authored moment: the intro sequence. Lenis smooths the wheel. Nothing else animates on scroll."
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "Terracotta is the only saturated colour in the system and appears on a small share of any screen. Do not introduce a second accent hue; range comes from the charcoal/warm-white contrast and from typography.", "section": "colors" },
-      { "name": "The Dark-Ink-On-Terracotta Rule", "body": "White text fails WCAG AA on the terracotta surface (#D4714E). Body text on a terracotta fill uses dark ink (#1A1412); small terracotta text on light backgrounds uses Terracotta Deep (#B05433).", "section": "colors" },
-      { "name": "The Weight-Contrast Rule", "body": "Never pair Supermassive with another heavy sans, and never bring the body up to regular to match. The extralight-body against heavy-display contrast is the identity.", "section": "typography" },
-      { "name": "The Heading-Stack Rule", "body": "Every heading on every Kombu surface uses font-family: Supermassive RS, Supermassive FB, sans-serif with text-transform: uppercase. Supermassive RS is Ryan's licensed cut with custom-drawn punctuation, so it covers the full character set on its own and needs no fallback face. Never set a heading in a serif or in the body face.", "section": "typography" },
-      { "name": "The Warm-Shadow Rule", "body": "Shadows are built on the ink hue (rgba(26, 20, 18, ...)), never pure black. The only coloured shadow allowed is the terracotta accent glow on primary hover.", "section": "elevation" }
+      {
+        "name": "One Outline Weight",
+        "body": "Do keep every outline at 2px ink.",
+        "section": "shape and depth"
+      },
+      {
+        "name": "Terracotta Carries Ink Text",
+        "body": "Terracotta is never used as small text on linen (2.7:1, fails); it is a fill only, always carrying ink text.",
+        "section": "colour"
+      },
+      {
+        "name": "White On Terracotta Only At Large Text Size",
+        "body": "Websites terracotta (title and lede white, the lede at 24px minimum so white on terracotta clears AA as large text)",
+        "section": "interior pages"
+      },
+      {
+        "name": "No Shadows Ever",
+        "body": "There are no shadows. Elevation is a 2px ink outline on every card, tile, pill and image frame, exactly as both references do it. A hover is a 2px downward translate, never a lift and never a glow.",
+        "section": "shape and depth"
+      },
+      {
+        "name": "One Gutter Edge",
+        "body": "There is no content column. Every boxed grid and every band meets the same gutter, clamp(16px, 2vw, 28px), so the tray, the work cards and the wordmark share one edge at any width, including half of a 4K screen.",
+        "section": "layout"
+      },
+      {
+        "name": "The Stack Rhythm",
+        "body": "Inside any text block, heading to body is 1.5rem and body to action is 2rem, everywhere, via .stack.",
+        "section": "layout"
+      },
+      {
+        "name": "The Sec Head Rule",
+        "body": "A section heading block to its grid or list is --sec-head (clamp(1.5rem, 3vw, 3rem), 48px on desktop) via .sec-head.",
+        "section": "layout"
+      },
+      {
+        "name": "Headers Plain, No Eyebrows, No Full Stops",
+        "body": "Headers are plain labels except the one crafted line. No eyebrows or kickers above any heading. No full stops on headers.",
+        "section": "copy"
+      },
+      {
+        "name": "No Dashes In Copy",
+        "body": "First person singular, British English, no em or en dashes anywhere including aria-labels, never mentions AI.",
+        "section": "copy"
+      }
     ],
     "dos": [
-      "Do keep terracotta (#D4714E) as the only saturated colour, on a small share of any screen (The One Voice Rule).",
-      "Do put dark ink (#1A1412) on terracotta fills and use Terracotta Deep (#B05433) for small terracotta text on light backgrounds; verify body text hits AA.",
-      "Do preserve the weight contrast: heavy Supermassive display against extralight (200) Switzer body.",
-      "Do use charcoal (#1A1412) sections as deliberate chapter breaks between light sections.",
-      "Do spend boldness on one signature moment per page and keep everything around it restrained.",
-      "Do honour prefers-reduced-motion with the static .no-motion path, and keep content visible by default so reveals enhance rather than gate it.",
-      "Do write first person singular, British English, with no em-dashes or en-dashes anywhere including aria-labels."
+      "Do keep every outline at 2px ink.",
+      "Do keep terracotta as a fill that carries ink text.",
+      "Do keep the wordmark edge to edge on every viewport.",
+      "Do keep headers flat."
     ],
     "donts": [
-      "Don't let this become vibe-coded AI slop: no tracked uppercase eyebrow above every section, no identical icon-heading-text card grids, no gradient text, no big-number hero-metric block.",
-      "Don't use side-stripe borders (a border-left/right greater than 1px as a coloured accent). Use full borders, background tints or leading numerals.",
-      "Don't drift toward a generic agency look: no we/our voice, no team grid, no wall of identical service cards, no buzzwords.",
-      "Don't drift toward corporate SaaS: no cold navy-and-gradient, no feature-grid gloss with no human behind it.",
-      "Don't drift toward a loud freelancer portfolio: motion serves the work and never upstages it; no neon, no over-animation.",
-      "Don't introduce a second accent hue, hard pure-black shadows, or bring the body weight up to regular.",
-      "Don't mention AI or the tooling behind the work anywhere on the site."
+      "Don't add a shadow, a gradient, a glass effect, an eyebrow, a section number, or a fifth fill.",
+      "Don't set terracotta as small text on linen.",
+      "Don't animate sections on scroll.",
+      "Don't let a compartment become an icon-heading-text card."
     ]
   }
 }

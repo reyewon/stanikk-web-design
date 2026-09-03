@@ -16,50 +16,184 @@ colors:
   mist: "#DCD6EA"
   linen-mute: "#B9B2A7"
   linen-soft: "#D8D2C8"
+  error: "#8F3A22"
 typography:
   wordmark:
-    fontFamily: "Supermassive RS"
-    fontSize: "31.4vw desktop, 29.8vw under 820px"
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
+    fontSize: "min(31.4vw, 33vh) desktop, 29.8vw under 820px"
     fontWeight: 900
     lineHeight: 0.78
     letterSpacing: "-0.025em"
+  nav-mark:
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
+    fontSize: "1.2rem"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "-0.01em"
+  pagehead-title:
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
+    fontSize: "min(clamp(3rem, 8.5vw, 9rem), 13cqw)"
+    fontWeight: 900
+    lineHeight: 0.8
+    letterSpacing: "-0.02em"
   headline:
-    fontFamily: "Supermassive RS"
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
     fontSize: "clamp(2.4rem, 5.5vw, 5.4rem)"
     fontWeight: 800
     lineHeight: 0.87
     letterSpacing: "-0.02em"
   title:
-    fontFamily: "Supermassive RS"
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
     fontSize: "clamp(1.7rem, 2.6vw, 2.5rem)"
-    fontWeight: 700
+    fontWeight: 800
     lineHeight: 0.88
-  strapline:
-    fontFamily: "Switzer"
-    fontSize: "clamp(1.1rem, 1.55vw, 1.45rem)"
+    letterSpacing: "-0.02em"
+  cell-title:
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
+    fontSize: "clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem)"
+    fontWeight: 800
+    lineHeight: 0.85
+    letterSpacing: "-0.025em"
+  lead:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "clamp(1.02rem, 1.2vw, 1.15rem)"
     fontWeight: 300
-    lineHeight: 1.35
+    lineHeight: 1.6
+    letterSpacing: "normal"
+  pagehead-lead:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "clamp(1.05rem, 1.25vw, 1.3rem)"
+    fontWeight: 300
+    lineHeight: 1.6
+    letterSpacing: "normal"
   body:
-    fontFamily: "Switzer"
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
     fontSize: "17px"
     fontWeight: 300
     lineHeight: 1.6
+    letterSpacing: "normal"
+  ledger:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "clamp(1rem, 1.15vw, 1.15rem)"
+    fontWeight: 300
+    lineHeight: 1.6
+    letterSpacing: "normal"
   control:
-    fontFamily: "Switzer"
-    fontSize: "0.95rem (0.85rem small)"
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "0.95rem"
     fontWeight: 500
     lineHeight: 1
+    letterSpacing: "normal"
+  control-small:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "0.85rem"
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: "normal"
+  chip:
+    fontFamily: "'Supermassive RS', 'Supermassive FB', sans-serif"
+    fontSize: "0.9rem"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "0.02em"
+  tag:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "0.8rem"
+    fontWeight: 500
+    lineHeight: 1.6
+    letterSpacing: "normal"
+  small-print:
+    fontFamily: "'Switzer', 'Switzer FB', sans-serif"
+    fontSize: "0.85rem"
+    fontWeight: 300
+    lineHeight: 1.6
+    letterSpacing: "normal"
 rounded:
   pill: "999px"
   card: "28px"
   tile: "16px"
   chip: "10px"
-line: "2px"
+  focus: "4px"
+  circle: "50%"
 spacing:
+  s-1: "0.5rem"
+  s-2: "1rem"
+  s-3: "1.5rem"
+  s-4: "2rem"
+  s-5: "3rem"
   gutter: "clamp(16px, 2vw, 28px)"
   gap: "clamp(16px, 1.6vw, 22px)"
   band: "clamp(4rem, 8vw, 7.5rem)"
-  content: "1360px"
+  sec-head: "clamp(1.5rem, 3vw, 3rem)"
+components:
+  pill:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.pill}"
+    padding: "0.85rem 1.35rem"
+  pill-fill:
+    backgroundColor: "{colors.terracotta}"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.pill}"
+    padding: "0.85rem 1.35rem"
+  pill-ink:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.linen}"
+    typography: "{typography.control}"
+    rounded: "{rounded.pill}"
+    padding: "0.85rem 1.35rem"
+  pill-small:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.control-small}"
+    rounded: "{rounded.pill}"
+    padding: "0.6rem 1rem"
+  chip:
+    backgroundColor: "{colors.linen}"
+    textColor: "{colors.ink}"
+    typography: "{typography.chip}"
+    rounded: "{rounded.pill}"
+    padding: "0.6rem 0.95rem"
+  card:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "clamp(2rem, 4vw, 4.5rem)"
+  card-kelp:
+    backgroundColor: "{colors.kelp}"
+    textColor: "{colors.linen}"
+    rounded: "{rounded.card}"
+    padding: "clamp(2rem, 4vw, 4.5rem)"
+  card-ochre:
+    backgroundColor: "{colors.ochre}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "clamp(2rem, 4vw, 4.5rem)"
+  card-terracotta:
+    backgroundColor: "{colors.terracotta}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "clamp(2rem, 4vw, 4.5rem)"
+  cell:
+    backgroundColor: "{colors.terracotta}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "clamp(1.25rem, 4.2cqh, 3.25rem)"
+  tag:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.tag}"
+    rounded: "{rounded.pill}"
+    padding: "0.6rem 1rem"
+  nav:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.pill}"
+    padding: "8px 8px 8px 22px"
+    width: "min(100% - 2 * var(--gutter), 1120px)"
 ---
 
 # Kombu v2: the tray
@@ -103,7 +237,7 @@ No monospace anywhere. Captions are Switzer, not a typewriter costume.
 
 **There are no shadows.** Elevation is a 2px ink outline on every card, tile, pill and image frame, exactly as both references do it. A hover is a 2px downward translate, never a lift and never a glow.
 
-Radii by role: pills 999px for anything you press; 28px for compartments, tiles in the strip, work cards, the portrait; 16px for image frames inside a compartment; 10px for the small chip inside the print tile.
+Radii by role: pills 999px for anything you press, and for the fact chip, which reads as a pill rather than a rounded box; 28px for compartments, cards, work cards, the portrait; 16px for image frames inside a compartment.
 
 Sticker energy comes from rotation, not shadow: the print tile at -3°, the web tile at 2°, the Websites cell image at 2°, the marketing flyer at -2°, the portrait at -1.5°. One or two degrees, never more.
 

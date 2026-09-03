@@ -1,0 +1,894 @@
+/* ============================================================
+   Kombu v2 design system
+   A tray, not a stack of sections. Linen ground, warm ink for text
+   and every border, four compartment fills. Depth comes from a 2px
+   ink outline, never a shadow. The wordmark is the architecture.
+   ============================================================ */
+
+:root {
+  /* Ground and ink */
+  --c-linen: #F1EEE6;
+  --c-white: #FFFFFF;
+  --c-ink: #141210;
+  --c-ink-soft: #3B352F;
+  --c-ink-mute: #6B635A;
+
+  /* Compartment fills. Terracotta is the brand's existing voice; kelp is
+     the plant the studio is named after; ochre and mist balance it. */
+  --c-terracotta: #D4714E;
+  --c-kelp: #1F4A3C;
+  --c-ochre: #E7B44A;
+  --c-mist: #DCD6EA;
+  --c-terracotta-hover: #DE7F5C;
+  --c-linen-mute: #B9B2A7;
+  --c-linen-soft: #D8D2C8;
+  --c-ink-hover: #2A2520;
+  /* Error red for the quote calculator on mist, dark enough to read there. */
+  --c-error: #8F3A22;
+
+  /* Type */
+  --f-display: 'Supermassive RS', 'Supermassive FB', sans-serif;
+  --f-body: 'Switzer', 'Switzer FB', sans-serif;
+
+  /* Shape. Pills for anything you press, 28px for compartments,
+     16px for image tiles inside them. */
+  --r-pill: 999px;
+  --r-card: 28px;
+  --r-tile: 16px;
+  --r-chip: 10px;
+  --line: 2px;
+
+  /* Rhythm */
+  --gutter: clamp(16px, 2vw, 28px);
+  --band: clamp(4rem, 8vw, 7.5rem);
+  --gap: clamp(16px, 1.6vw, 22px);
+  /* Heading-block to content, everywhere: 48px at 1920. (The 2.5rem cap first
+     tried here only reaches 40px; 3rem is the value that actually lands on
+     the stated 48px target, so that is what ships.) */
+  --sec-head: clamp(1.5rem, 3vw, 3rem);
+  /* Spacing scale: heading to body is --s-2, body to action is --s-4. */
+  --s-1: 0.5rem; --s-2: 1rem; --s-3: 1.5rem; --s-4: 2rem; --s-5: 3rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+
+body {
+  margin: 0;
+  background: var(--c-linen);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+
+h1, h2, h3 {
+  font-family: var(--f-display);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+h2 { font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 5.4rem); line-height: 0.87; }
+/* 800, not 700: at 700 every display line (ledger titles, tier names, work
+   card names, case-study headings) rendered in the lightest Supermassive RS
+   cut available and read thin against the 800/900 headings around it. */
+h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.88; }
+
+/* One edge for everything. The tray, the work grid and the bands all meet
+   the same gutter, so nothing sits in a narrower column than its neighbour
+   once the viewport passes 1400px. Reading measure is capped on paragraphs,
+   never on containers. */
+.container, .bleed { padding-inline: var(--gutter); }
+
+:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; border-radius: 4px; }
+.band--ink :focus-visible, .band--kelp :focus-visible, .footer :focus-visible { outline-color: var(--c-linen); }
+.sr-only { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--c-ink); color: var(--c-linen); padding: 8px 14px; border-radius: var(--r-pill); }
+.skip:focus { left: 12px; z-index: 100; }
+
+/* ---------- Pills ---------- */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.35rem;
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-pill);
+  font-family: var(--f-body);
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--c-ink);
+  background: transparent;
+  white-space: nowrap;
+  transition: transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out;
+}
+.pill:hover, .pill:focus-visible { transform: translateY(2px); }
+.pill--fill { background: var(--c-terracotta); }
+.pill--fill:hover { background: var(--c-terracotta-hover); }
+.pill--ink { background: var(--c-ink); color: var(--c-linen); }
+.pill--ink:hover { background: var(--c-ink-hover); }
+.pill--linen { background: var(--c-linen); }
+.pill--sm { padding: 0.6rem 1rem; font-size: 0.85rem; }
+.pill svg { width: 18px; height: 18px; flex: 0 0 auto; }
+
+/* ---------- Floating nav ---------- */
+.nav {
+  position: fixed; top: 14px; left: 50%; transform: translate(-50%, -18px);
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 420ms ease-out, transform 420ms cubic-bezier(.2,.8,.2,1);
+  width: min(100% - 2 * var(--gutter), 1120px);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 8px 8px 8px 22px;
+  background: var(--c-white);
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-pill);
+}
+.nav.is-shown, .no-motion .nav { opacity: 1; transform: translate(-50%, 0); }
+.nav-mark {
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1;
+}
+.nav-links { display: flex; gap: 1.6rem; margin: 0; padding: 0; list-style: none; }
+.nav-links a { font-weight: 400; font-size: 0.95rem; color: var(--c-ink-soft); }
+.nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--c-ink); }
+.nav-toggle { display: none; }
+@media (max-width: 820px) {
+  .nav { padding-left: 18px; flex-wrap: wrap; }
+  .nav-toggle { display: inline-flex; margin-left: auto; }
+  .nav-links { order: 3; display: none; flex-basis: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0.25rem 0.25rem; border-top: var(--line) solid var(--c-ink); margin-top: 8px; }
+  .nav-links a { display: block; padding: 0.7rem 0.75rem; font-size: 1.05rem; }
+  .nav.is-open { border-radius: var(--r-card); }
+  .nav.is-open .nav-links { display: flex; }
+}
+
+/* ---------- The intro: a pinned stage ----------
+   On load the wordmark sits centred with nothing else. Scrolling slides it
+   to the top (and, on a short screen, shrinks it so the tray can fit under
+   it), then the four compartments pop in one after another. When all four
+   are in, the stage releases and the page scrolls as normal. JS in the
+   layout sets --wm-y / --wm-s on the wordmark and --in on each cell from the
+   scroll position; everything visual lives here. */
+.intro { height: calc(100vh + var(--intro-scroll, 200vh)); }
+.intro-stage {
+  position: sticky; top: 0;
+  height: 100vh;
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(1rem, 2vh, 2rem);
+  padding: 96px var(--gutter) var(--gutter);
+  overflow: hidden;
+}
+.wm {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.78;
+  /* full width on a tall screen; capped by height on a short one so the
+     tray still has room underneath once the wordmark has risen */
+  font-size: var(--wm-size, min(31.4vw, 33vh));
+  white-space: nowrap;
+  color: var(--c-ink);
+  margin: 0;
+  text-align: center;
+  transform: translateY(var(--wm-y, 0px)) scale(var(--wm-s, 1));
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+.wm span { display: inline-block; animation: land 460ms cubic-bezier(.22,.9,.24,1) both; animation-delay: calc(120ms + var(--i) * 95ms); }
+/* JS adds .measuring for one frame while it reads the wordmark's true width */
+.wm.measuring span { animation: none; transform: none; opacity: 1; }
+/* each letter arrives from above the plane, overshoots a touch, settles */
+@keyframes land {
+  0%   { opacity: 0; transform: scale(1.9) translateY(-4%); }
+  55%  { opacity: 1; transform: scale(0.965); }
+  78%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .wm span { animation: none; } }
+.no-motion .wm span { animation: none; }
+
+/* ---------- The tray ---------- */
+.tray-grid {
+  display: grid; gap: var(--gap);
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  min-height: 0;
+}
+/* Every compartment shares one skeleton: a big title with its one line of
+   copy at the top, a fact chip and the action pinned to the bottom, and the
+   work as a tilted tile bleeding out of the bottom-right corner behind the
+   text. Only the span and the fill change between cells. */
+.cell {
+  position: relative;
+  display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr);
+  min-height: 0; min-width: 0;
+  padding: clamp(1.25rem, 4.2cqh, 3.25rem);
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  color: var(--c-ink);
+}
+/* On anything wider than a phone the cell is a size container, so the title,
+   copy, chips and tile are set in cqh and fill a 740px cell on a 4K half as
+   well as a 300px cell on a laptop. (Not on phones: those cells are
+   auto-height and size containment would collapse them.) */
+@media (min-width: 641px) { .cell { container-type: size; } }
+/* JS marks the tray "armed" when it is running the intro; armed cells wait
+   hidden until their scroll threshold, then .is-in plays once and holds. */
+.tray-grid.is-armed .cell { opacity: 0; transform: translateY(56px) scale(0.9); will-change: transform, opacity; }
+.tray-grid.is-armed .cell.is-in { animation: pop 620ms cubic-bezier(.3,.1,.2,1) forwards; }
+@keyframes pop {
+  0%   { opacity: 0; transform: translateY(56px) scale(0.9); }
+  55%  { opacity: 1; transform: translateY(-6px) scale(1.025); }
+  75%  { transform: translateY(2px) scale(0.995); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.cell-head { position: relative; z-index: 2; min-width: 0; }
+.cell-head h2 { overflow-wrap: normal; }   /* never break inside a word */
+.cell--web h2, .cell--photo h2 { white-space: nowrap; font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), 16cqw); }
+.cell-head h2 {
+  font-weight: 800;
+  font-size: clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.025em;
+}
+.cell-head p { margin-top: clamp(0.75rem, 2.4cqh, 1.5rem); max-width: min(30ch, 64%); font-size: clamp(0.95rem, max(1.05vw, 3.6cqh), 1.6rem); line-height: 1.5; }
+.cell-foot { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: clamp(0.75rem, 1.8cqh, 1.25rem); align-items: center; align-self: end; margin-top: var(--s-3); }
+.cell-foot .pill, .cell-foot .chip { font-size: clamp(0.85rem, 2.3cqh, 1.2rem); padding: 0.65em 1.1em; }
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 0.6rem 0.95rem;
+  background: var(--c-linen); color: var(--c-ink);
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-pill);
+  font-family: var(--f-display); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1;
+}
+/* the tile is sized by the cell's HEIGHT so it always bleeds out of the
+   corner rather than spanning top to bottom, whatever the viewport */
+.cell-img {
+  position: absolute; z-index: 1;
+  right: -3%; bottom: -8%;
+  height: 80%; width: auto; max-width: 42%; aspect-ratio: 1 / 1.1;
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden;
+  background: var(--c-white);
+  transform: rotate(3deg);
+  transition: transform 220ms ease-out;
+}
+.cell:hover .cell-img { transform: rotate(2deg) translateY(-4px); }
+.cell-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+.cell--web   { grid-column: 1 / 8;  background: var(--c-terracotta); }
+.cell--photo { grid-column: 8 / 13; background: var(--c-kelp); color: var(--c-linen); }
+.cell--design{ grid-column: 1 / 6;  background: var(--c-ochre); }
+.cell--mktg  { grid-column: 6 / 13; background: var(--c-mist); }
+/* Websites cell: white title and a white-filled action on the terracotta.
+   White on #D4714E measures 3.2:1, which clears AA only for large text, so
+   the title goes white but the pill is white FILL with ink label rather
+   than white text, and the body copy stays ink at 5.7:1. */
+.cell--web h2 { color: var(--c-white); }
+.cell--web .pill { background: var(--c-white); color: var(--c-ink); }
+.cell--photo .pill { border-color: var(--c-linen); color: var(--c-linen); }
+.cell--photo .cell-img { border-color: var(--c-linen); }
+.cell--photo .cell-img, .cell--design .cell-img { height: 66%; max-width: 50%; aspect-ratio: 4 / 3; right: -6%; bottom: -10%; }
+.cell--photo .cell-head p, .cell--design .cell-head p { max-width: min(24ch, 60%); }
+
+/* Static path (reduced motion, ?nomotion, or JS unavailable): no pin, no
+   hidden cells, the tray at a comfortable fixed height. */
+.no-motion .intro { height: auto; }
+.no-motion .intro-stage { position: static; height: auto; overflow: visible; }
+.no-motion .tray-grid { grid-template-rows: none; }
+.no-motion .cell { min-height: clamp(380px, 27vw, 640px); }
+.no-motion .wm { transform: none; }
+
+@media (max-width: 1024px) {
+  .cell--web, .cell--photo, .cell--design, .cell--mktg { grid-column: span 6; }
+  .cell-head p { max-width: min(30ch, 70%); }
+  .cell-img, .cell--photo .cell-img, .cell--design .cell-img { height: 72%; max-width: 50%; aspect-ratio: 4 / 5; }
+}
+/* Phones: no pin (there is no height for it). The wordmark sits at the top
+   and the compartments pop in as they arrive, driven by IntersectionObserver
+   through the same --in variable, with a transition doing the easing. */
+@media (max-width: 820px) {
+  .intro { height: auto; }
+  .intro-stage { position: static; height: auto; overflow: visible; overflow-x: clip; padding-top: 96px; }  /* letters scale past the edge while landing */
+  .wm { --wm-size: 29.8vw; transform: none; }
+  .tray-grid { grid-template-rows: none; }
+  .cell { min-height: clamp(380px, 27vw, 640px); }
+}
+@media (max-width: 640px) {
+  .tray-grid { grid-template-columns: 1fr; }
+  .cell--web, .cell--photo, .cell--design, .cell--mktg { grid-column: 1; }
+  /* cqh has no container on a phone, so every cell size is set explicitly here */
+  .cell { min-height: 0; grid-template-rows: auto auto auto; padding: 1.4rem; }
+  .cell-head h2 { font-size: clamp(2.2rem, 11vw, 3rem); white-space: normal; }
+  .cell-head p { font-size: 1rem; margin-top: 0.75rem; max-width: none; }
+  .cell-foot { gap: 0.6rem; }
+  .cell-foot .pill, .cell-foot .chip { font-size: 0.85rem; padding: 0.65em 1.1em; }
+  .cell-img, .cell--photo .cell-img, .cell--design .cell-img {
+    position: static; width: 100%; max-width: none; height: auto; aspect-ratio: 16 / 10; transform: none; margin-top: var(--s-3); grid-row: 2;
+  }
+  .cell-foot { grid-row: 3; }
+}
+
+/* ---------- Cards: the sections that are not the tray still sit on the tray ----------
+   A card is the compartment shape at page width: same outline, same radius,
+   same fills, separated from its neighbours by the tray gap.
+   Section rhythm, defined once: a card-section (or a plain .band section)
+   always opens with --band of top padding, so a card following a plain
+   section and a plain section following a card both land on --band. Two
+   card-sections back to back tighten to --gap, reading as one cluster like
+   the tray's own compartments. Bottom padding is always 0: the NEXT
+   section's own top padding is what supplies every gap, never the
+   preceding one, so nothing ever stacks two paddings into one gap. */
+/* flow-root: a plain block section with padding-bottom:0 lets a child's
+   bottom margin (.sec-head's margin-bottom, when it has no following
+   sibling of its own) collapse straight through and land OUTSIDE the
+   section, stacking on top of the next section's own top padding instead
+   of being absorbed here. A new block-formatting-context stops that. */
+.card-section { padding-top: var(--band); padding-bottom: 0; display: flow-root; }
+.card-section + .card-section { padding-top: var(--gap); }
+.card {
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-card);
+  padding: clamp(2rem, 4vw, 4.5rem);
+}
+.card--kelp { background: var(--c-kelp); color: var(--c-linen); }
+.card--ochre { background: var(--c-ochre); }
+.card--terracotta { background: var(--c-terracotta); }
+.card--kelp .pill { border-color: var(--c-linen); color: var(--c-linen); }
+.card--kelp .pill--fill { background: var(--c-terracotta); color: var(--c-ink); border-color: var(--c-ink); }
+.card--kelp :focus-visible { outline-color: var(--c-linen); }
+/* Same treatment as the Websites cell: white heading (large text, 3.2:1),
+   white-filled pills with ink labels, body copy stays ink. */
+.card--terracotta h2 { color: var(--c-white); }
+.card--terracotta .pill { background: var(--c-white); color: var(--c-ink); border-color: var(--c-ink); }
+
+/* ---------- Bands ---------- */
+/* Plain (linen) sections always open with --band of top padding, same
+   rule as .card-section above; bottom is 0 so the same section never
+   contributes to two gaps. .band--kelp / --ochre / --terracotta / --ink
+   are full-bleed COLOUR bands (not used on the interior pages), which is
+   why they keep both-sides padding here rather than the section-rhythm
+   top-only model. */
+.band { padding-top: var(--band); padding-bottom: 0; display: flow-root; }
+.band--kelp, .band--ochre, .band--terracotta, .band--ink { padding-block: var(--band); }
+.band--kelp { background: var(--c-kelp); color: var(--c-linen); }
+.band--ochre { background: var(--c-ochre); }
+.band--terracotta { background: var(--c-terracotta); }
+.band--ink { background: var(--c-ink); color: var(--c-linen); }
+
+.band--kelp .pill { border-color: var(--c-linen); color: var(--c-linen); }
+.band--kelp .pill--fill { background: var(--c-terracotta); color: var(--c-ink); border-color: var(--c-ink); }
+
+.two { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 6rem); align-items: start; }
+.two p { font-size: clamp(1.02rem, 1.2vw, 1.15rem); max-width: 56ch; }
+/* .stack is the one vertical rhythm for text blocks: heading, then body at
+   --s-3, then the action at --s-4. Used in the kelp band, about and contact. */
+.stack { display: flex; flex-direction: column; align-items: flex-start; }
+.stack > * + * { margin-top: var(--s-3); }
+.stack > .pill, .stack > .contact-actions { margin-top: var(--s-4); }
+@media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+
+/* ---------- Selected work ---------- */
+/* Plain section: top-only padding, same rhythm as .band and .card-section. */
+.work { padding-block: var(--band) 0; display: flow-root; }
+.work-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--sec-head); }
+.work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.wcard { display: flex; flex-direction: column; gap: var(--s-2); }
+.project-browser {
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-card); overflow: hidden;
+  background: var(--c-ink);
+}
+.browser-viewport { aspect-ratio: 1024 / 1180; position: relative; overflow: hidden; background: var(--c-ink); contain: layout paint; }
+.browser-stack { position: absolute; top: 0; left: 0; width: 1024px; transform-origin: top left; }
+.browser-stack.panning { will-change: transform; }
+.browser-poster { width: 1024px; height: auto; display: block; position: relative; z-index: 1; }
+.wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
+.wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
+.wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 34ch; }
+@media (max-width: 900px) {
+  .work-grid { grid-template-columns: 1fr; }
+  .browser-viewport { aspect-ratio: 1024 / 900; }
+}
+
+/* ---------- About ---------- */
+.about { display: grid; grid-template-columns: minmax(0, 640px) minmax(0, 1fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+.about .portrait { margin-inline-start: var(--s-2); }
+.about .stack p { max-width: 58ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.portrait {
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-card); overflow: hidden;
+  aspect-ratio: 4 / 5; max-width: 640px; transform: rotate(-1.5deg); background: var(--c-ink);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+.portrait { position: relative; }
+.portrait-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 350ms ease-out; pointer-events: none; }
+.portrait.video-playing .portrait-video { opacity: 1; }
+.portrait-cue {
+  position: absolute; left: 14px; bottom: 14px; z-index: 2;
+  padding: 0.6rem 1rem; border: var(--line) solid var(--c-ink); border-radius: var(--r-pill);
+  background: var(--c-linen); color: var(--c-ink); font: 500 0.85rem/1 var(--f-body); cursor: pointer;
+  transition: transform 140ms ease-out, opacity 300ms ease-out;
+}
+.portrait-cue:hover { transform: translateY(2px); }
+.portrait.video-playing .portrait-cue { opacity: 0; }
+.no-motion .portrait-cue, .no-motion .portrait-video { display: none; }
+@media (max-width: 900px) { .about { grid-template-columns: 1fr; } .portrait { max-width: 420px; } }
+
+/* ---------- Clients marquee ---------- */
+.clients { padding-block: var(--band); }
+.clients + .card-section { padding-top: 0; }
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+.marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+.marquee-set { display: flex; align-items: center; gap: clamp(2rem, 5vw, 4.5rem); padding-right: clamp(2rem, 5vw, 4.5rem); list-style: none; margin: 0; padding-left: 0; }
+.marquee-set li { height: 46px; display: inline-flex; align-items: center; flex: 0 0 auto; }
+.marquee-set img { height: 100%; width: auto; max-width: 180px; object-fit: contain; filter: brightness(0); opacity: 0.85; }
+.marquee-set li[data-logo="soleto"] img { height: 28px; }
+.marquee-set li[data-logo="banana-wharf"] img { height: 38px; }
+.marquee-set li[data-logo="padharo"] img { height: 30px; }
+.marquee-set li[data-logo="the-grand"] img { height: 40px; }
+.marquee-set li[data-logo="kesarum"] img { height: 24px; }
+.marquee-set li[data-logo="ryan-stanikk-photography"] img { height: 28px; max-width: 220px; }
+.marquee-set li[data-logo="ark-angels"] img { height: 32px; }
+.marquee-set li[data-logo="ennios"] img { height: 44px; }
+.marquee-set li[data-logo="grumpy-monkey"] img { height: 40px; }
+.marquee-set li[data-logo="mustang-group"] img { height: 34px; }
+
+/* ---------- Contact ---------- */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-5); align-items: center; }
+.contact p { max-width: 46ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.contact-actions { display: flex; gap: var(--s-1); flex-wrap: wrap; }
+@media (max-width: 900px) { .contact { grid-template-columns: 1fr; } }
+
+/* ---------- Footer: the wordmark again, inverted ---------- */
+/* The footer is the lid: full width, ink, with the card radius on its top
+   corners so the page closes the way its compartments open. */
+.footer { margin-top: clamp(2.5rem, 4.5vw, 5.5rem); padding-block: var(--s-4) calc(var(--gutter) + 8px); border-radius: var(--r-card) var(--r-card) 0 0; }
+.footer .wm { margin-bottom: var(--s-4); }
+.footer .wm { color: var(--c-linen); }
+.footer .wm span { animation: none; }
+.footer-row { display: flex; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; align-items: center; margin-top: 0; padding-top: 1.25rem; border-top: var(--line) solid rgba(241, 238, 230, 0.25); font-size: 0.85rem; color: var(--c-linen-mute); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; list-style: none; margin: 0; padding: 0; }
+.footer-links a:hover { color: var(--c-linen); }
+.footer a { color: var(--c-linen-soft); }
+.footer-row p a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ============================================================
+   Interior pages
+   Everything below serves the five interior discipline pages: page
+   head, ledger rows, FAQ accordion, pricing tiers, process strip,
+   audit form, case studies, gallery, quote calculator, health
+   check grid, ask cards, partnership, lightbox, stat chips. Reuses
+   .card / .pill / .chip / .stack / .two / .work* wherever they fit.
+   ============================================================ */
+
+/* A plain, unfilled card: white against the linen page so its ink
+   outline still reads as a distinct region. */
+.card--white { background: var(--c-white); }
+
+/* ---------- Section heading block ---------- */
+/* The one wrapper for every section heading: h2 (+ an optional lede,
+   stacked at --s-3 like prose) on the left, an optional right-hand pill
+   or switch on the right. Always --sec-head to whatever content follows,
+   whether that is a grid, a ledger, a strip or a card cluster. */
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; margin-bottom: var(--sec-head); }
+.sec-head-text { min-width: 0; }
+.sec-head-text > * + * { margin-top: var(--s-3); }
+
+/* Generic lede paragraph under a section heading (used both inside
+   .sec-head-text and directly under a bare h2 in a card). Margins
+   between normal block siblings collapse, so this only ever contributes
+   the larger of the two gaps, never stacks on top of another. */
+.section-lede { max-width: 60ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); margin-top: var(--s-3); }
+.section-lede + * { margin-top: var(--sec-head); }
+h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid, h2 + .ask-grid-v2, h2 + .service-grid-v2 {
+  margin-top: var(--sec-head);
+}
+
+/* ---------- Page head ---------- */
+/* The opening card on every interior page. Sits below the fixed nav
+   via the top padding here. Desktop: a text column (h1 + stack, kept
+   together so they can be vertically centred as one unit) on the left,
+   the image tile on the right; the shorter column centres against the
+   taller. Phones: the text wrapper unwraps to display:contents so h1,
+   the image and the stack can be reordered independently. */
+.pagehead-section { padding-block: calc(96px + var(--gap)) 0; }
+.pagehead {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  /* Also a size container, as a fallback for phones: .pagehead-text (the
+     nearer container, used by the desktop cqw cap below) unwraps to
+     display:contents there and stops establishing a box at all, so cqw on
+     h1 would otherwise resolve against nothing. The card itself, which
+     .pagehead IS, still has a real box at every width. */
+  container-type: inline-size;
+}
+/* A size container so the h1 below can cap itself against the ACTUAL
+   column width, not just the viewport: at 8.5vw a heading with a long
+   unbreakable word ("Infrastructure", on marketing) sized fine against
+   the viewport but overflowed its own 7/12 column, worst at ~820px where
+   the two-column layout is still active but the column has narrowed. */
+.pagehead-text { min-width: 0; container-type: inline-size; }
+/* 900, the wordmark cut: at the inherited browser h1 bold (700) this was
+   the lightest Supermassive RS weight on the page and read thin.
+   13cqw is measured against Supermassive RS 900 itself: the longest
+   unbreakable word across every page head ("Infrastructure", 14
+   characters) fits inside its own column at that cap with room to
+   spare, at every width the two-column layout is active. */
+.pagehead h1 { font-weight: 900; font-size: min(clamp(3rem, 8.5vw, 9rem), 13cqw); line-height: 0.8; overflow-wrap: normal; }
+.pagehead .stack { margin-top: var(--s-3); }
+.pagehead .stack p { font-size: clamp(1.05rem, 1.25vw, 1.3rem); max-width: 44ch; }
+/* Fact chip and both pills share one wrapping row, chip first. */
+.pagehead-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); }
+.stack > .pagehead-row { margin-top: var(--s-4); }
+.pagehead-media { min-width: 0; }
+.pagehead-img { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; aspect-ratio: 4 / 3; transform: rotate(2deg); background: var(--c-white); }
+.pagehead-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* White heading on terracotta (large text, 3.2:1); kelp already gets
+   linen for free by inheriting .card--kelp's own text colour.
+   Compound selector, no space: .card--terracotta and .pagehead are BOTH
+   classes on the same outer div, so the descendant-combinator form
+   (".card--terracotta .pagehead h1") requires .pagehead to be a distinct
+   ancestor of an element that already carries .card--terracotta, which
+   the same div can never be relative to itself, so it silently never
+   matched. This was quietly wrong from the very first pass; the kelp line
+   only ever looked right by accident, via inheritance from .card--kelp's
+   own text colour applying regardless of whether this selector matched. */
+.card--terracotta.pagehead h1 { color: var(--c-white); }
+.card--kelp.pagehead h1 { color: var(--c-linen); }
+/* Ryan does not want ink body text on the terracotta head: the whole
+   stack reads white there, and since white on terracotta is 3.2:1 (AA
+   for large text only) the body copy steps up to 24px+ to qualify. The
+   chip stays linen/ink and the pills stay white-filled/ink regardless,
+   both already accessible at any size. */
+.card--terracotta.pagehead .stack p { color: var(--c-white); font-size: clamp(1.5rem, 1.55vw, 1.7rem); max-width: 38ch; }
+/* The ambient .card--terracotta .pill rule white-fills every pill in
+   a terracotta card (by design, for the contact card's three plain
+   pills), which would also whiten the page head's outline secondary.
+   This wins on specificity to keep the secondary a true outline. */
+.card--terracotta .pagehead-row .pill--secondary { background: transparent; color: var(--c-ink); border-color: var(--c-ink); }
+
+/* Optional image collage (marketing only): a portrait tile spanning the
+   full column height on the left half, two stacked tiles on the right.
+   The whole block gets a fixed aspect-ratio so percentage heights inside
+   it (the main tile, the two 1fr rows) have something definite to resolve
+   against; without that a stretch-to-fill child contributes no height
+   back to the auto-sized row it sits in. */
+.pagehead-collage { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); aspect-ratio: 4 / 3; }
+.pagehead-collage__tile { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; background: var(--c-white); height: 100%; }
+.pagehead-collage__tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pagehead-collage__tile--main { transform: rotate(-1.5deg); }
+.pagehead-collage__side { display: grid; grid-template-rows: 1fr 1fr; gap: var(--gap); height: 100%; }
+.pagehead-collage__side .pagehead-collage__tile:nth-child(1) { transform: rotate(1.5deg); }
+/* the first side tile is the free-starter graphic, whose headline sits at its left edge */
+.pagehead-collage__side .pagehead-collage__tile:nth-child(1) img { object-position: 0 50%; }
+.pagehead-collage__side .pagehead-collage__tile:nth-child(2) { transform: rotate(-1deg); }
+
+@media (max-width: 640px) {
+  .pagehead { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-3); align-items: start; }
+  .pagehead-text { display: contents; }
+  /* .pagehead-text (h1's direct parent, and the container the desktop cap
+     above uses) unwraps to display:contents at this width and stops
+     establishing a box, so cqw here resolves against .pagehead itself
+     instead (the next container up, still a real box: the card). The cap
+     is sized per title via --pagehead-word-len (set inline in
+     PageHead.astro from the longest word in `title`): 180cqw divided by
+     that word's character count is a safe size for that word to fit the
+     card's content box, with the card's own padding already excluded by
+     cqw. 180 is calibrated against measured per-character width in
+     Supermassive RS 900, not just character count: "Photography"
+     (11 chars) actually renders WIDER per character than the 14-char
+     "Infrastructure", so it is the binding case this constant is set
+     against, with "Infrastructure" left comfortably inside it too. A
+     title with only short words (Websites, Graphic design) computes a
+     cap well above its natural clamp size, so min() picks the clamp and
+     leaves it exactly as it already was. */
+  .pagehead h1 { order: 1; font-size: min(clamp(2.4rem, 13vw, 3.6rem), calc(180cqw / var(--pagehead-word-len, 14))); }
+  .pagehead-media { order: 2; }
+  .pagehead .stack { order: 3; margin-top: 0; }
+  .pagehead-img { aspect-ratio: 16 / 10; transform: none; }
+  /* One row of three equal tiles: unwrap the side pairing so all three
+     tiles become direct grid items of a 3-column row. */
+  .pagehead-collage { aspect-ratio: auto; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
+  .pagehead-collage__side { display: contents; }
+  .pagehead-collage__tile { aspect-ratio: 1; transform: none; height: auto; }
+}
+
+/* ---------- Ledger ---------- */
+/* A plain ruled list, not cards: title left, description (plus an
+   optional list and pill) right. */
+.ledger { border-bottom: var(--line) solid var(--c-ink); }
+.ledger-row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); border-top: var(--line) solid var(--c-ink); padding-block: clamp(1.5rem, 3vw, 2.5rem); align-items: start; }
+.ledger-row h3 { font-size: clamp(1.5rem, 2vw, 2rem); }
+.ledger-body p { max-width: 58ch; font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.ledger-body ul { margin: var(--s-2) 0 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; }
+.ledger-body li { position: relative; padding-left: 1.1em; font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.ledger-body li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.ledger-body .pill { margin-top: var(--s-3); }
+@media (max-width: 640px) { .ledger-row { grid-template-columns: 1fr; gap: var(--s-2); } }
+
+/* ---------- FAQ accordion ---------- */
+/* Heading spacing comes from .sec-head now (wrapped in Faq.astro). */
+.faq-list-v2 { border-bottom: var(--line) solid var(--c-ink); }
+.faq-row { border-top: var(--line) solid var(--c-ink); padding-block: clamp(1.25rem, 2.5vw, 1.75rem); }
+.faq-row summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+  cursor: pointer; list-style: none;
+  font-family: var(--f-body); font-weight: 500; font-size: 1.15rem;
+}
+.faq-row summary::-webkit-details-marker { display: none; }
+.faq-row summary::marker { content: ''; }
+.faq-plus { position: relative; width: 18px; height: 18px; flex: 0 0 auto; transition: transform 220ms ease-out; }
+.faq-plus::before, .faq-plus::after { content: ''; position: absolute; background: var(--c-ink); }
+.faq-plus::before { left: 0; top: 50%; width: 100%; height: 2px; transform: translateY(-50%); }
+.faq-plus::after { top: 0; left: 50%; width: 2px; height: 100%; transform: translateX(-50%); }
+.faq-row[open] .faq-plus { transform: rotate(45deg); }
+.faq-row p { margin-top: var(--s-3); max-width: 64ch; font-size: 1rem; }
+
+/* ---------- Pricing (web-design) ---------- */
+.pricing-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); }
+.toggle-pill { display: inline-flex; border: var(--line) solid var(--c-ink); border-radius: var(--r-pill); padding: 4px; gap: 4px; }
+.toggle-opt { border: 0; background: transparent; border-radius: var(--r-pill); padding: 0.6rem 1.1rem; font: 500 0.9rem/1 var(--f-body); color: var(--c-ink); cursor: pointer; transition: background 140ms ease-out, color 140ms ease-out; }
+.toggle-opt.is-active { background: var(--c-ink); color: var(--c-linen); }
+.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); align-items: stretch; }
+.tier-card { position: relative; display: flex; flex-direction: column; gap: var(--s-2); padding: clamp(1.75rem, 2.5vw, 2.5rem); }
+.tier-card .chip { align-self: flex-start; }
+.tier-card h3 { font-size: clamp(1.5rem, 1.8vw, 1.9rem); }
+.tier-desc { font-size: 0.95rem; max-width: 32ch; }
+.tier-amount { display: flex; align-items: baseline; gap: 0.15rem; margin-top: var(--s-1); font-family: var(--f-display); }
+.tier-currency { font-size: 1.4rem; font-weight: 800; }
+.tier-value { display: inline-block; font-size: clamp(2.4rem, 4vw, 3.2rem); font-weight: 800; line-height: 1; transition: opacity 150ms ease-out; }
+.tier-period { font-size: 0.95rem; font-family: var(--f-body); font-weight: 400; margin-left: 0.15rem; text-transform: none; }
+.tier-commitment { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--c-ink-mute); }
+.tier-card--featured .tier-commitment { color: var(--c-linen-soft); }
+.tier-renewal { font-size: 0.85rem; }
+.tier-features { list-style: none; margin: var(--s-2) 0 0; padding: 0; display: grid; gap: 0.5rem; }
+.tier-features li { position: relative; padding-left: 1.2em; font-size: 0.9rem; }
+.tier-features li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.tier-card .pill { margin-top: auto; align-self: flex-start; }
+.pricing-enterprise, .pricing-note { max-width: 64ch; margin-top: var(--s-4); font-size: 0.95rem; }
+.pricing-note { color: var(--c-ink-mute); margin-top: var(--s-2); }
+@media (max-width: 900px) { .tier-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Process strip (web-design, ochre card) ---------- */
+/* Heading spacing comes from the .sec-head wrapper around the h2, not
+   from the h2 itself: .sec-head is a flex container, and flex containers
+   never collapse a child's margin through them, so a margin set here too
+   would have stacked on top of .sec-head's instead of replacing it. */
+.process-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+.process-col { padding-left: var(--gap); border-left: var(--line) solid var(--c-ink); }
+.process-col:first-child { padding-left: 0; border-left: 0; }
+.process-col h3 { font-size: clamp(1.2rem, 1.6vw, 1.5rem); margin-bottom: 0.6rem; }
+.process-col p { font-size: 0.9rem; }
+@media (max-width: 900px) {
+  .process-cols { grid-template-columns: 1fr; gap: var(--s-4); }
+  .process-col { padding-left: 0; border-left: 0; padding-top: var(--s-3); border-top: var(--line) solid var(--c-ink); }
+  .process-col:first-child { padding-top: 0; border-top: 0; }
+}
+
+/* ---------- What I build (web-design): 2x2 white cards ---------- */
+.service-grid-v2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+.service-card-v2 { display: flex; flex-direction: column; gap: var(--s-2); }
+.service-card-v2 p { font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.service-card-v2 .pill { margin-top: auto; align-self: flex-start; }
+@media (max-width: 820px) { .service-grid-v2 { grid-template-columns: 1fr; } }
+
+/* A small, non-interactive label: same pill shape as .pill--sm, but a
+   plain <span> (no hover transform, nothing to press) at a slightly
+   smaller, more label-like weight. */
+.tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 0.6rem 1rem;
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-pill);
+  font-family: var(--f-body); font-weight: 500; font-size: 0.8rem;
+  color: var(--c-ink); background: transparent;
+}
+
+/* ---------- How I help (marketing, mist card): 4-col strip ----------
+   The same visual pattern as the process strip above (How I work), under
+   its own class names since the two live on different pages and column
+   counts differ (5 vs 4). */
+.help-strip .sec-head { margin-bottom: var(--sec-head); }
+.help-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.help-col { padding-left: var(--gap); border-left: var(--line) solid var(--c-ink); }
+.help-col:first-child { padding-left: 0; border-left: 0; }
+.help-col h3 { font-size: clamp(1.2rem, 1.6vw, 1.5rem); margin-bottom: 0.6rem; }
+.help-col p { font-size: 0.9rem; }
+@media (max-width: 900px) {
+  .help-cols { grid-template-columns: 1fr; gap: var(--s-4); }
+  .help-col { padding-left: 0; border-left: 0; padding-top: var(--s-3); border-top: var(--line) solid var(--c-ink); }
+  .help-col:first-child { padding-top: 0; border-top: 0; }
+}
+
+/* ---------- Free audit (web-design, kelp card) ---------- */
+.audit-field { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+.audit-field input {
+  flex: 1 1 240px;
+  background: transparent;
+  border: var(--line) solid var(--c-linen);
+  border-radius: var(--r-pill);
+  padding: 0.85rem 1.25rem;
+  font: 300 1rem/1.3 var(--f-body);
+  color: var(--c-linen);
+}
+.audit-field input::placeholder { color: var(--c-linen-soft); }
+.audit-hint { margin-top: var(--s-2); font-size: 0.85rem; color: var(--c-linen-soft); }
+.audit-success-v2 { margin-top: var(--s-2); font-size: 0.95rem; color: var(--c-linen); }
+
+/* ---------- Case studies (design) ---------- */
+.cs-lead { margin-top: var(--s-3); max-width: 62ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.cs-chips { margin-top: var(--s-3); display: flex; flex-wrap: wrap; gap: 0.5rem; }
+/* The text block (h2 + lead + chips) reads as one heading zone; the media
+   grid after it is content, so the gap is --sec-head like every other
+   heading-to-grid transition. */
+.cs-media, .cs-ideal-media, .cs-collage, .cs-row--posters { margin-top: var(--sec-head); }
+.cs-tile { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; cursor: zoom-in; background: var(--c-linen); }
+.cs-tile img { display: block; width: 100%; height: auto; }
+.cs-row--2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.cs-tile--menu1 { transform: rotate(-1deg); }
+.cs-tile--menu2 { transform: rotate(1deg); }
+.cs-row--campaign { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--gap); margin-top: var(--gap); align-items: start; }
+.cs-grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+/* align-items: start keeps the cover tile at its own 1060/1500 aspect
+   ratio instead of stretching to match the taller stacked-spreads
+   column, which left an empty panel under the cover image. */
+.cs-ideal-media { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--gap); align-items: start; }
+.cs-ideal-side { display: grid; gap: var(--gap); }
+/* 580px clears every absolutely-positioned piece at its tallest (the
+   portrait flyer bottoms out around 555px), so nothing bleeds past the
+   card's own rounded edge. */
+.cs-collage { position: relative; min-height: 580px; }
+.cs-collage__piece { position: absolute; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; cursor: zoom-in; background: var(--c-white); }
+.cs-collage__piece img, .cs-collage__piece picture { display: block; width: 100%; height: 100%; }
+.cs-collage__piece img { object-fit: cover; }
+.cs-collage__piece--stand { width: 56%; aspect-ratio: 900 / 1200; left: 0; top: 0; z-index: 1; }
+.cs-collage__piece--banner { width: 24%; aspect-ratio: 649 / 1600; right: 2%; top: 0; transform: rotate(-2deg); z-index: 2; }
+.cs-collage__piece--flyer { width: 32%; aspect-ratio: 917 / 1300; right: 4%; top: 40%; transform: rotate(2deg); z-index: 3; }
+.cs-collage__piece--card-b { width: 26%; aspect-ratio: 1200 / 778; left: 22%; bottom: 0; transform: rotate(-1deg); z-index: 4; }
+.cs-collage__piece--card-f { width: 26%; aspect-ratio: 1200 / 778; left: 42%; bottom: 8%; transform: rotate(1deg); z-index: 5; }
+@media (max-width: 900px) {
+  .cs-ideal-media { grid-template-columns: 1fr; }
+  .cs-collage { position: static; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .cs-collage__piece { position: static; width: auto; transform: none !important; aspect-ratio: auto; }
+  .cs-collage__piece--stand { grid-column: 1 / 3; aspect-ratio: 900 / 1200; }
+}
+@media (max-width: 640px) {
+  .cs-row--2, .cs-grid-2x2, .cs-row--campaign, .cs-ideal-media { grid-template-columns: 1fr; }
+  .cs-collage { grid-template-columns: 1fr; }
+  .cs-collage__piece--stand { grid-column: 1; }
+}
+
+/* ---------- Where it starts (design pricing) ---------- */
+.from-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.from-card { display: flex; flex-direction: column; gap: 0.5rem; padding: clamp(1.5rem, 2.5vw, 2rem); }
+.from-name { font: 500 1rem/1.2 var(--f-body); }
+.from-price { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(2rem, 3vw, 3rem); }
+@media (max-width: 900px) { .from-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .from-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Gallery masonry (photography) ---------- */
+.photo-masonry { columns: 3; column-gap: var(--gap); margin-top: var(--sec-head); }
+.photo-masonry__tile { break-inside: avoid; margin-bottom: var(--gap); border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; cursor: zoom-in; }
+.photo-masonry__tile img { display: block; width: 100%; height: auto; }
+@media (max-width: 900px) { .photo-masonry { columns: 2; } }
+@media (max-width: 640px) { .photo-masonry { columns: 1; } }
+
+/* ---------- Quote calculator (photography, mist card) ---------- */
+.quote-step { margin-top: var(--sec-head); }
+.quote-label { font: 500 0.95rem/1.3 var(--f-body); margin-bottom: var(--s-2); display: block; }
+.quote-cat-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.quote-cat { gap: 0.5rem; cursor: pointer; }
+.quote-cat svg { width: 18px; height: 18px; flex: 0 0 auto; }
+.quote-cat.selected { background: var(--c-ink); color: var(--c-linen); border-color: var(--c-ink); }
+.quote-special { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.quote-special__card p { margin-top: var(--s-2); max-width: 56ch; }
+.quote-special__actions { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-3); }
+.quote-form-v2 { margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 640px; display: grid; gap: var(--s-3); }
+.quote-field { display: flex; flex-direction: column; gap: 0.5rem; }
+.quote-input-wrap { position: relative; display: flex; align-items: center; }
+.quote-field input[type="text"], .quote-field input[type="url"], .quote-field select {
+  width: 100%;
+  background: var(--c-white);
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-pill);
+  padding: 0.85rem 1.25rem;
+  font: 400 1rem/1.3 var(--f-body);
+  color: var(--c-ink);
+  appearance: none;
+}
+.quote-field select {
+  padding-right: 2.75rem; cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141210' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat; background-position: right 1.1rem center; background-size: 16px;
+}
+.quote-input-wrap input { padding-right: 3rem; }
+.quote-locbtn {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border: var(--line) solid var(--c-ink); border-radius: 50%; background: var(--c-linen); color: var(--c-ink); cursor: pointer;
+}
+.quote-locbtn.is-loading { opacity: 0.5; }
+.quote-error { margin-top: 0.25rem; font-size: 0.85rem; color: var(--c-error); }
+.quote-field input.has-error { border-color: var(--c-error); }
+/* The submit button is a flex item in a column-flex .quote-field, which
+   stretches children to full width by default; pull it back to its own
+   content width so it reads as a pill, not a bar. */
+.quote-form-v2 button.pill { align-self: flex-start; }
+.quote-helper { font-size: 0.85rem; color: var(--c-ink-soft); }
+.quote-result { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.quote-result__card { display: flex; flex-direction: column; gap: 0.5rem; max-width: 760px; }
+.quote-result__label { font: 500 0.85rem/1 var(--f-body); text-transform: uppercase; letter-spacing: 0.04em; color: var(--c-ink-mute); }
+.quote-result__was { font-size: 0.9rem; text-decoration: line-through; color: var(--c-ink-mute); }
+.quote-result__price { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.4rem, 4.5vw, 3.6rem); text-transform: uppercase; line-height: 0.9; }
+.quote-result__lines { list-style: none; margin: var(--s-2) 0 0; padding: 0; display: grid; gap: 0.4rem; }
+.quote-result__lines li { position: relative; padding-left: 1.1em; font-size: 0.9rem; }
+.quote-result__lines li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: var(--c-ink); }
+.quote-result__trust { margin-top: var(--s-2); font-size: 0.85rem; color: var(--c-ink-soft); }
+.quote-result__actions { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-3); }
+.quote-result__footer { margin-top: var(--s-2); font-size: 0.8rem; color: var(--c-ink-mute); }
+
+/* ---------- Hospitality Health Check (marketing, kelp card) ---------- */
+.hhc-card .section-lede { color: var(--c-linen-soft); }
+.hhc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.hhc-item { border-top: var(--line) solid var(--c-linen); padding-top: var(--s-3); }
+.hhc-item h3 { font-size: clamp(1.1rem, 1.4vw, 1.35rem); }
+.hhc-item p { margin-top: 0.5rem; font-size: 0.9rem; color: var(--c-linen-soft); }
+.hhc-offer { margin-top: clamp(1.75rem, 3vw, 2.5rem); display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-3); padding-top: clamp(1.5rem, 2.5vw, 2rem); border-top: var(--line) solid var(--c-linen); }
+.hhc-offer p { flex: 1 1 220px; font-size: 0.95rem; }
+@media (max-width: 900px) { .hhc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .hhc-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Ask cards (marketing infrastructure) ---------- */
+.ask-grid-v2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+.ask-card-v2 { padding: clamp(1.75rem, 2.5vw, 2.25rem); }
+/* The quote is a real sentence, not a label, so it keeps sentence case
+   rather than the usual forced uppercase on h3. */
+.ask-card-v2 h3 { font-size: clamp(1.15rem, 1.6vw, 1.4rem); text-transform: none; letter-spacing: normal; }
+.ask-card-v2 p { margin-top: var(--s-2); font-size: 0.95rem; color: var(--c-ink-soft); }
+@media (max-width: 640px) { .ask-grid-v2 { grid-template-columns: 1fr; } }
+
+/* ---------- Studio partnership (marketing, ochre card) ---------- */
+.partnership-price { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+.partnership-from { font: 500 0.9rem/1 var(--f-body); text-transform: uppercase; letter-spacing: 0.04em; }
+.partnership-amount { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.6rem, 4.5vw, 4rem); text-transform: uppercase; line-height: 0.85; }
+.partnership-per { font-size: 1rem; font-family: var(--f-body); font-weight: 400; margin-left: 0.2rem; }
+
+/* ---------- About opener ---------- */
+/* The home page's about card sizes its heading via the global h2 rule
+   (it uses an <h2>). This page's card is the same shape but carries the
+   page's one true h1, which has no size of its own in the base rules
+   (only h2/h3 do), so it needs the same card-title scale explicitly. */
+.about h1 { font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 5.4rem); line-height: 0.87; }
+
+/* ---------- About stat chips and route pills ---------- */
+.about-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.about-next { margin-top: clamp(1.75rem, 3vw, 2.5rem); display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+.about-next__label { font: 500 0.95rem/1 var(--f-body); margin-right: 0.25rem; }
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--gutter);
+  background: rgba(20, 18, 16, 0.92);
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.lightbox.is-open { opacity: 1; pointer-events: auto; }
+.lightbox img { max-width: 92vw; max-height: 92vh; border: var(--line) solid var(--c-linen); border-radius: var(--r-tile); object-fit: contain; background: var(--c-ink); }
+.lightbox-close { position: absolute; top: var(--gutter); right: var(--gutter); border-color: var(--c-linen); color: var(--c-linen); background: transparent; }
+.lightbox :focus-visible { outline-color: var(--c-linen); }

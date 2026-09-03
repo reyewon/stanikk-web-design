@@ -3,7 +3,7 @@
    "Add to Home Screen" without a SW). Uses a network-first strategy
    with a tiny cache so offline reloads still surface the home page. */
 
-const CACHE_NAME = 'kombu-v1';
+const CACHE_NAME = 'kombu-v2';
 const OFFLINE_URLS = ['/', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {
@@ -31,10 +31,13 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Cache successful navigations + manifest for offline fallback
+        // Cache successful navigations + manifest for offline fallback.
+        // waitUntil keeps the worker alive for the write: without it the
+        // browser can kill the worker once the response is returned and the
+        // page never actually lands in the cache.
         if (response && response.status === 200 && (event.request.mode === 'navigate' || url.pathname === '/manifest.webmanifest')) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)));
         }
         return response;
       })

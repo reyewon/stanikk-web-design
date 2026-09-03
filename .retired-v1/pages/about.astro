@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ClientsMarquee from '../components/ClientsMarquee.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const title = "About Kombu | Ryan Stanikk, Southampton Creative Studio";
+const description = "Kombu is Ryan Stanikk: a Southampton designer, photographer and web developer running a one-person studio. An engineering mind paired with a designer's eye, across the whole brand.";
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/about#webpage", "url": "https://kombu.uk/about", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "mainEntity": { "@id": "https://kombu.uk/#person" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/about#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "About", "item": "https://kombu.uk/about" } ] }
+];
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+<main id="main-content">
+<!-- === ABOUT HERO (split) === -->
+<section class="about section dark-section" id="hero" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image reveal-left">
+        <div class="about-image-wrapper" id="about-image-wrapper">
+          <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk, Southampton designer, photographer and web developer" loading="eager" />
+          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata" aria-hidden="true"></video>
+          <button type="button" class="video-cue" aria-label="Play Ryan's introduction video">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+            <span>Say hello</span>
+          </button>
+        </div>
+      </div>
+      <div class="about-text reveal-right">
+        <span class="about-label">About Kombu</span>
+        <h1 id="about-heading">An engineering mind, <span class="accent">a designer's eye.</span></h1>
+        <p class="about-lede">I'm Ryan Stanikk, a Southampton designer, photographer and web developer. Kombu is the one-person studio I run it all through.</p>
+        <p>Most people lead with one or the other: the systems-and-frameworks side, or the felt-craft side. I have always run both at once. That is the whole point of Kombu, the foundation that makes everything around it work, like the kombu kelp it is named after.</p>
+        <p>In practice it means I can hold a whole brand in one head: the photography, the design, the website, the campaign, even the menu pricing. Work most studios split across three or four specialists, kept consistent because it never gets handed around.</p>
+        <p>And when something is missing, a printer nobody can source, two systems that refuse to talk, a tool that does not exist yet, I tend to go and build it rather than send you off to someone pricey who has never met your brand.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-number">20</span><span class="stat-label">Years in Design</span></div>
+          <div class="stat"><span class="stat-number">4</span><span class="stat-label">Disciplines</span></div>
+          <div class="stat"><span class="stat-number">1</span><span class="stat-label">Person You Talk To</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-content" id="page-content">
+<!-- === ONE ROUTE === -->
+<section class="section about-route" aria-labelledby="route-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="route-heading">One trusted route, not four invoices</h2>
+      <p class="section-lead reveal">Designer by trade, photographer for fifteen years, and in practice a one-stop studio for everything a business needs to look and work better, online and off.</p>
+    </div>
+    <div class="disc-grid">
+      <div class="disc-item reveal"><h3>No handoffs</h3><p>You talk to the person doing the work. Decisions happen in one conversation, not three.</p></div>
+      <div class="disc-item reveal"><h3>No specialist markup</h3><p>One bill from one person, instead of a chain of agencies each taking their cut.</p></div>
+      <div class="disc-item reveal"><h3>It all matches</h3><p>The brand, the photos, the site and the marketing finally agree with each other.</p></div>
+      <div class="disc-item reveal"><h3>Built to last</h3><p>I don't disappear after launch. I build things to keep working, and stay around to fix them.</p></div>
+    </div>
+
+    <nav class="about-next reveal" aria-label="Explore the disciplines">
+      <span class="about-next__label">See the work:</span>
+      <a href="/web-design">Web Design</a>
+      <a href="/design">Graphic Design</a>
+      <a href="/photography">Photography</a>
+      <a href="/marketing">Marketing &amp; Infrastructure</a>
+    </nav>
+  </div>
+</section>
+
+<ClientsMarquee label="Trusted by" />
+
+<ContactCTA heading="Let's make something&nbsp;solid." text="If you want one person who can see the whole thing and build it, that is the entire idea behind Kombu. Show me what you are working on." />
+</div><!-- .page-content -->
+</main>
+</Layout>

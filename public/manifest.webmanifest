@@ -1,7 +1,7 @@
 {
-  "name": "Kombu Web Design",
+  "name": "Kombu",
   "short_name": "Kombu",
-  "description": "Bespoke web design in Southampton. Design-led websites without the agency headaches.",
+  "description": "Creative studio in Southampton: web design, graphic design, commercial photography and marketing, plus the infrastructure that ties them together.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -10,7 +10,7 @@
   "theme_color": "#1A1412",
   "lang": "en-GB",
   "dir": "ltr",
-  "categories": ["business", "design", "productivity"],
+  "categories": ["business", "design", "photography", "productivity"],
   "icons": [
     {
       "src": "/favicon-32.png",

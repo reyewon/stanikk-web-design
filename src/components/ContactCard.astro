@@ -1,0 +1,21 @@
+---
+// The terracotta contact card, identical to the one on the home page.
+// Every page passes its own `text` verbatim from the old ContactCTA; the
+// heading stays the shared default.
+interface Props { text: string; heading?: string; }
+const { text, heading = "Tell me what you're trying to do" } = Astro.props as Props;
+const WA = 'https://wa.me/442381112819';
+---
+<section class="card-section bleed" id="contact" aria-labelledby="contact-h">
+  <div class="card card--terracotta contact">
+    <div class="stack">
+      <h2 id="contact-h">{heading}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="contact-actions">
+      <a href={WA} class="pill" target="_blank" rel="noopener">WhatsApp me</a>
+      <a href="tel:+442381112819" class="pill">Call me</a>
+      <!--email_off--><a href="mailto:design@kombu.uk" class="pill">Email me</a><!--email_on-->
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+const year = new Date().getFullYear(); // stamped at build time
+const nav = [
+  { href: '/web-design', label: 'Web Design' },
+  { href: '/design', label: 'Design' },
+  { href: '/photography', label: 'Photography' },
+  { href: '/marketing', label: 'Marketing' },
+  { href: '/about', label: 'About' },
+];
+const elsewhere = [
+  { href: 'https://wa.me/442381112819', label: 'WhatsApp' },
+  { href: 'https://www.instagram.com/ryanstanikkphotography/', label: 'Instagram' },
+  { href: 'https://uk.linkedin.com/in/ryanstanikk', label: 'LinkedIn' },
+  { href: 'https://ryanstanikk.co.uk', label: 'Ryan Stanikk Photography' },
+];
+---
+<footer class="footer dark-section">
+  <div class="container">
+    <div class="footer-top">
+      <p class="footer-tag">A one-person studio in Southampton. Design, web, photography, marketing and the infrastructure that ties them together.</p>
+      <nav class="footer-links" aria-label="Footer">
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        <span class="footer-links-sep" aria-hidden="true"></span>
+        {elsewhere.map((item) => <a href={item.href} target="_blank" rel="noopener">{item.label}</a>)}
+      </nav>
+    </div>
+
+    <!-- The wordmark is the footer's whole visual idea: one big mark set to the
+         page width, instead of a tall column of link lists. -->
+    <a href="/" class="footer-wordmark" aria-label="Kombu, back to top">Kombu</a>
+
+    <div class="footer-bottom">
+      <p>&copy; {year} Kombu. Southampton, Hampshire.</p>
+      <!--email_off--><a href="mailto:design@kombu.uk" class="footer-email">design@kombu.uk</a><!--email_on-->
+    </div>
+  </div>
+</footer>

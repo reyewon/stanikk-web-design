@@ -1,0 +1,283 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import '../styles/components.css';
+import '../styles/studio.css';
+import Loader from '../components/Loader.astro';
+import Rail from '../components/Rail.astro';
+import BottomNav from '../components/BottomNav.astro';
+import Footer from '../components/Footer.astro';
+import SiteRuntime from '../components/SiteRuntime.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageWidth?: string;
+  ogImageHeight?: string;
+  ogImageAlt?: string;
+  ogType?: string;
+  extraSchema?: any[];
+}
+
+const siteUrl = "https://kombu.uk";
+const siteName = "Kombu";
+const {
+  title,
+  description = "A one-person creative studio in Southampton: web design, graphic design, commercial photography, marketing and the infrastructure that ties a business together.",
+  canonical = new URL(Astro.url.pathname, siteUrl).href,
+  ogImage = `${siteUrl}/images/og-kombu-cafe.jpg?v=1`,
+  ogImageWidth = "1200",
+  ogImageHeight = "630",
+  ogImageAlt = "Someone reading the kombu.uk homepage on a laptop in a cafe",
+  ogType = "website",
+  extraSchema = [],
+} = Astro.props;
+
+const isHome = (Astro.url.pathname.replace(/\/+$/, '') || '/') === '/';
+
+// Shared entity graph — present on every page so the business/person stays
+// consistent. Pages add WebPage / Service / BreadcrumbList / FAQPage via extraSchema.
+const baseGraph = [
+  {
+    "@type": "WebSite",
+    "@id": "https://kombu.uk/#website",
+    "url": "https://kombu.uk",
+    "name": "Kombu",
+    "description": "Creative, design and marketing studio in Southampton.",
+    "publisher": { "@id": "https://kombu.uk/#business" },
+    "inLanguage": "en-GB"
+  },
+  {
+    "@type": ["ProfessionalService", "LocalBusiness"],
+    "@id": "https://kombu.uk/#business",
+    "name": "Kombu",
+    "alternateName": ["Kombu Studio", "Kombu Web Design", "Kombu Web Design Southampton"],
+    "disambiguatingDescription": "Kombu is a one-person creative studio in Southampton, England, covering web design, graphic design, commercial photography and marketing. It is named after kombu kelp as a metaphor for being the quiet foundation beneath a brand. It is a creative and marketing studio, not a food, seaweed or sushi product.",
+    "description": "A one-person creative studio in Southampton: web design and development, graphic design and branding, commercial photography, and marketing, plus the practical infrastructure that connects them. Direct, personal service from a designer with almost two decades of experience.",
+    "slogan": "One mind, the whole stack.",
+    "url": "https://kombu.uk",
+    "numberOfEmployees": 1,
+    "telephone": "+442381112819",
+    "email": "design@kombu.uk",
+    "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+    "logo": "https://kombu.uk/favicon-512.png",
+    "priceRange": "££",
+    "currenciesAccepted": "GBP",
+    "paymentAccepted": "Bank Transfer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Southampton",
+      "addressRegion": "Hampshire",
+      "addressCountry": "GB"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 50.9097, "longitude": -1.4044 },
+    "founder": { "@id": "https://kombu.uk/#person" },
+    "areaServed": [
+      { "@type": "City", "name": "Southampton", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Eastleigh", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Winchester", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Portsmouth", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Fareham", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Romsey", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Chandler's Ford", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Hedge End", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Totton", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "AdministrativeArea", "name": "Hampshire" },
+      { "@type": "Country", "name": "United Kingdom" }
+    ],
+    "serviceType": ["Web Design", "Web Development", "Graphic Design", "Brand Identity Design", "Logo Design", "Menu Design", "Print Design", "Commercial Photography", "Marketing Strategy", "Local SEO", "Hospitality Marketing"],
+    "knowsAbout": ["Web Design", "Responsive Web Design", "Web Development", "Graphic Design", "Brand Identity", "Logo Design", "Editorial Design", "Menu Design", "Commercial Photography", "Food Photography", "Marketing Strategy", "Local SEO", "Hospitality Marketing", "Small Business Marketing"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+442381112819",
+      "email": "design@kombu.uk",
+      "contactType": "customer service",
+      "areaServed": "GB",
+      "availableLanguage": "English"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Studio Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design & Development", "url": "https://kombu.uk/web-design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic Design & Branding", "url": "https://kombu.uk/design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Photography", "url": "https://kombu.uk/photography" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing & Hospitality Health Check", "url": "https://kombu.uk/marketing" } }
+      ]
+    },
+    "hasMap": "https://www.google.com/maps?cid=16407402703526049661",
+    "sameAs": [
+      "https://www.google.com/maps?cid=16407402703526049661",
+      "https://uk.linkedin.com/in/ryanstanikk",
+      "https://www.instagram.com/ryanstanikkphotography/",
+      "https://medium.com/@ryanstanikkphotography",
+      "https://wa.me/442381112819",
+      "https://ryanstanikk.co.uk"
+    ]
+  },
+  {
+    "@type": "Person",
+    "@id": "https://kombu.uk/#person",
+    "name": "Ryan Stanikk",
+    "jobTitle": "Designer, Photographer & Web Developer",
+    "description": "Southampton-based designer, commercial photographer and web developer with almost two decades of design and marketing experience, running Kombu as a one-person cross-disciplinary studio.",
+    "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+    "url": "https://kombu.uk/about",
+    "worksFor": { "@id": "https://kombu.uk/#business" },
+    "sameAs": [
+      "https://uk.linkedin.com/in/ryanstanikk",
+      "https://www.instagram.com/ryanstanikkphotography/",
+      "https://medium.com/@ryanstanikkphotography",
+      "https://ryanstanikk.co.uk"
+    ],
+    "knowsAbout": ["Web Design", "Graphic Design", "Commercial Photography", "Web Development", "Marketing", "Brand Identity", "SEO"]
+  }
+];
+
+// Freshness signal. AI answer engines weight recency heavily and undated pages
+// lose to dated ones, so every WebPage node carries a dateModified. Build time
+// is the honest source here: git is not, because most page files are untracked
+// and the site is redeployed whenever content changes.
+const buildISO = new Date().toISOString();
+const datedSchema = extraSchema.map((node) =>
+  node["@type"] === "WebPage" ? { ...node, dateModified: buildISO } : node
+);
+
+const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...datedSchema] };
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Self-hosted @font-face rules inlined FIRST so the faces exist from the
+         very first parse; paired with the preloads below, the first layout is
+         already in final font metrics (no swap, no layout shift). -->
+    <style is:inline>@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-I.woff2') format('woff2');font-weight:700;font-display:optional;font-style:normal}@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-II.woff2') format('woff2');font-weight:800;font-display:optional;font-style:normal}@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-III.woff2') format('woff2');font-weight:900;font-display:optional;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-200.woff2') format('woff2');font-weight:200;font-display:optional;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-display:optional;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:optional;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:optional;font-style:normal}@font-face{font-family:'Supermassive FB';src:local('Arial');size-adjust:88.29%;ascent-override:101.93%;descent-override:28.32%;line-gap-override:0%}@font-face{font-family:'Switzer FB';src:local('Arial');size-adjust:98.45%;ascent-override:99.55%;descent-override:25.39%;line-gap-override:0%}</style>
+
+    <!-- After the first visit of a session, skip the loader before paint (no flash) -->
+    <script is:inline>try{if(sessionStorage.getItem('kombu-seen'))document.documentElement.classList.add('kombu-seen');}catch(e){}</script>
+
+    <!-- Google tag (gtag.js) - GA4 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5H2CJESBZ0');
+    </script>
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ryan Stanikk" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="GB-HAM" />
+    <meta name="geo.placename" content="Southampton" />
+    <meta name="geo.position" content="50.9097;-1.4044" />
+    <meta name="ICBM" content="50.9097, -1.4044" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={ogImageWidth} />
+    <meta property="og:image:height" content={ogImageHeight} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- Theme & PWA -->
+    <meta name="theme-color" content="#1A1412" />
+    <meta name="msapplication-TileColor" content="#1A1412" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="application-name" content="Kombu" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kombu" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Fonts: all self-hosted. Preload the four faces used above the fold
+         (display headline + heading punctuation/labels + body) so the first
+         layout is already in final metrics - no swap, no layout shift. -->
+    <link rel="preload" href="/fonts/SupermassiveRS-II.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/switzer-200.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- No-JS fallback: without this, the loader overlay and the GSAP-hidden
+         reveal classes leave the site permanently blank when scripts are off. -->
+    <noscript>
+      <style>
+        .loader { display: none !important; }
+        .reveal, .reveal-left, .reveal-right,
+        .hero-sub, .hero-ctas, .hero-eyebrow, .hero-scroll-indicator { opacity: 1 !important; transform: none !important; }
+        .service-card, .pricing-card, .process-step, .process-line { visibility: visible !important; opacity: 1 !important; }
+        .hero-word-inner { transform: translateY(0) !important; }
+        .bnav { transform: translate(-50%, 0) !important; }
+        body { overflow: auto !important; }
+      </style>
+    </noscript>
+
+    <ClientRouter />
+  </head>
+  <body>
+    <script is:inline>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    </script>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <Loader />
+    <Rail />
+    <BottomNav />
+
+    {!isHome && (
+      <a href="/" class="back-home" aria-label="Back to home page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span class="back-home__label">Home</span>
+      </a>
+    )}
+
+    <slot />
+
+    <Footer />
+
+    <SiteRuntime />
+
+    <!-- Register the service worker so Android Chrome marks the site installable. -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>

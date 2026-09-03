@@ -1,13 +1,22 @@
 import { chromium } from 'playwright';
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
+
+// Embed the self-hosted display face as data URIs: setContent() has no page
+// origin, so a relative /fonts/ URL would never resolve.
+const FONT_FACES = [['I', 700], ['II', 800], ['III', 900]].map(([r, w]) =>
+  `@font-face{font-family:'Supermassive RS';src:url(data:font/woff2;base64,${readFileSync(`public/fonts/SupermassiveRS-${r}.woff2`).toString('base64')}) format('woff2');font-weight:${w};font-style:normal}`
+).join('\n');
 
 const html = `
 <!DOCTYPE html>
 <html>
 <head>
 <style>
-  @import url('https://api.fontshare.com/v2/css?f[]=bevellier@300,700&display=swap');
-  @import url('https://api.fontshare.com/v2/css?f[]=switzer@200&display=swap');
+  @import url('https://api.fontshare.com/v2/css?f[]=switzer@200,300&display=swap');
+  /* Supermassive RS is self-hosted, so it is embedded from disk below
+     (see FONT_FACES) rather than fetched: the card must use the real
+     display face, not a CDN stand-in. */
+  ${FONT_FACES}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     width: 1200px;
@@ -16,7 +25,7 @@ const html = `
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Bevellier', sans-serif;
+    font-family: 'Supermassive RS', sans-serif;
     overflow: hidden;
     position: relative;
   }
@@ -36,14 +45,14 @@ const html = `
     padding: 0 80px;
   }
   .logo-name {
-    font-weight: 700;
-    font-size: 28px;
+    font-weight: 900;
+    font-size: 30px;
     text-transform: uppercase;
     color: #F5EDE4;
     letter-spacing: -0.02em;
   }
   .logo-sub {
-    font-weight: 300;
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
     color: #D4714E;
@@ -51,11 +60,11 @@ const html = `
     margin-bottom: 48px;
   }
   h1 {
-    font-weight: 700;
-    font-size: 72px;
+    font-weight: 800;
+    font-size: 92px;
     text-transform: uppercase;
     color: #F5EDE4;
-    line-height: 0.9;
+    line-height: 0.8;
     letter-spacing: -0.02em;
     margin-bottom: 24px;
   }
@@ -64,8 +73,8 @@ const html = `
   }
   p {
     font-family: 'Switzer', sans-serif;
-    font-weight: 200;
-    font-size: 22px;
+    font-weight: 300;
+    font-size: 21px;
     color: #A89888;
     line-height: 1.5;
     max-width: 700px;
@@ -96,10 +105,10 @@ const html = `
   <div class="glow"></div>
   <div class="content">
     <div class="logo-name">Kombu</div>
-    <div class="logo-sub">Web Design</div>
-    <h1>Websites That <span class="accent">Work</span> As Hard As You Do</h1>
-    <p>Bespoke web design at a fraction of agency prices</p>
-    <span class="location">Southampton, UK</span>
+    <div class="logo-sub">Studio</div>
+    <h1>One Mind.<br />The Whole <span class="accent">Stack.</span></h1>
+    <p>Design, websites, photography and marketing from one person who understands how they fit together.</p>
+    <span class="location">Creative studio &middot; Southampton</span>
   </div>
   <div class="border-line"></div>
 </body>
@@ -117,4 +126,6 @@ async function generateOGImage() {
   console.log('OG image generated at public/images/og-image.jpg');
 }
 
-generateOGImage().catch(console.error);
+// Exit non-zero on failure: swallowing the error left the old OG image in place
+// and still reported success to whatever ran this.
+generateOGImage().catch((err) => { console.error(err); process.exitCode = 1; });

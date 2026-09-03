@@ -1,0 +1,158 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ContactCard from '../components/ContactCard.astro';
+import PageHead from '../components/PageHead.astro';
+import Faq from '../components/Faq.astro';
+
+const title = "Marketing for Hospitality & Small Business | Southampton | Kombu";
+const description = "Marketing and infrastructure for hospitality and small businesses in Southampton: strategy, ads, social, local SEO and the Hospitality Health Check diagnostic.";
+
+const services = [
+  { t: "Strategy & Positioning", d: "Working out what actually moves your numbers before spending a penny on ads." },
+  { t: "Paid Ads", d: "Google and Meta campaigns built and managed so the spend earns its place, not just spends." },
+  { t: "Social & Content", d: "A steady, on-brand content pipeline, with the photography to feed it." },
+  { t: "Local SEO & Google", d: "Google Business Profile, local search and reviews, so you show up when people search nearby." },
+];
+
+const hhc = [
+  { t: "Digital marketing", d: "Website, social, local search and reviews, audited end to end." },
+  { t: "Customer psychology", d: "How guests decide, and the small nudges that lift spend and loyalty." },
+  { t: "Ambience", d: "The felt experience, lighting, music, temperature and scent." },
+  { t: "Menu engineering", d: "Layout, pricing and placement that steer what people order." },
+  { t: "Location & community", d: "Footfall, local fit and the partnerships worth building." },
+  { t: "Delivery platforms", d: "Commission, packaging and whether the third-party apps are worth it." },
+  { t: "POS & reservations", d: "Systems, no-shows and the data you should be acting on." },
+  { t: "Branding & identity", d: "Consistency across every touchpoint, from the sign to the receipt." },
+];
+
+// The quotes are verbatim from the live page, minus their trailing full
+// stops: they render as h3s here, and headers never carry a full stop.
+const asks = [
+  { q: "The booking system and the till have never met", fix: "I wire them together so covers, sales and stock agree without a spreadsheet." },
+  { q: "We re-type the menu in four places every time it changes", fix: "One source of truth that updates the website, the print file and the QR menu together." },
+  { q: "Print quotes keep coming back silly money", fix: "I know which printer to ring, prep the artwork properly and manage the run." },
+  { q: "Sunday night is copy-and-paste night", fix: "The weekly report builds itself and lands in your inbox before service." },
+];
+
+const faqs = [
+  { q: "What is the Hospitality Health Check?", a: "A hands-on diagnostic for restaurants, bars and cafes, from £295. I visit your venue like a guest and review the eight things that quietly decide whether people come back: digital marketing, customer psychology, ambience, menu engineering, location and community, delivery platforms, POS and reservations, and branding. You get a written report with fixes ranked by impact." },
+  { q: "What does the studio partnership include?", a: "One retainer, from £950 a month, covering marketing, design, photography and the infrastructure behind them. It suits businesses that want one person holding the whole stack month to month instead of juggling separate suppliers and invoices." },
+  { q: "Do I have to commit to a retainer?", a: "No. One-off projects are welcome, a menu, a campaign, a Health Check, a website. The retainer exists for businesses that want ongoing help, not as a gate to working together." },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/marketing#webpage", "url": "https://kombu.uk/marketing", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/marketing#service", "name": "Marketing, Infrastructure & Hospitality Health Check", "serviceType": "Marketing", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Marketing strategy, paid ads, social and local SEO, the Hospitality Health Check diagnostic, and the practical infrastructure (systems, sourcing and bespoke tools) that ties a business together.",
+    "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Marketing services", "itemListElement": [
+      // Both are "from" prices on the visible page, so they are published as
+      // minPrice specifications: a flat `price` asserts an exact fee we do not charge.
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "295", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Hospitality Health Check", "description": "On-site diagnostic across eight categories with a written, prioritised report." } },
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "950", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Studio partnership retainer", "description": "Marketing, design, photography and infrastructure on one monthly retainer." } }
+    ] } },
+  { "@type": "FAQPage", "@id": "https://kombu.uk/marketing#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/marketing#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Marketing", "item": "https://kombu.uk/marketing" } ] }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema}>
+
+<Nav current="marketing" />
+
+<main id="main">
+
+  <PageHead
+    fill="mist"
+    title="Marketing & infrastructure"
+    body="Strategy, ads, social and local search for hospitality and small businesses. It all lands harder when the person running it also built the website, the brand, the photos and the systems behind them."
+    fact="Health Check from £295"
+    img="/images/design/padharo-veganuary.jpg"
+    alt="Padharo Veganuary offer graphic, designed by Kombu"
+    images={[
+      { src: '/images/design/padharo-veganuary.jpg', alt: 'Padharo Veganuary offer graphic, designed by Kombu' },
+      { src: '/images/design/padharo-free-starter.jpg', alt: 'Padharo free starter promotion with food photography' },
+      { src: '/images/design/kwackers-starters.jpg', alt: 'Kwackers menu spread, photographed and designed by Kombu' },
+    ]}
+    primary={{ href: '#health-check', label: 'See the Health Check' }}
+    secondary={{ href: 'https://wa.me/442381112819', label: 'WhatsApp me' }}
+  />
+
+  <section class="card-section bleed" id="health-check" aria-labelledby="hhc-h">
+    <div class="card card--kelp hhc-card">
+      <h2 id="hhc-h">The Hospitality Health Check</h2>
+      <p class="section-lede">I come to your venue, sit in it like a guest, and look at everything that quietly decides whether people come back, not just the marketing, but the lighting, the menu, the systems and the feel. You get a clear, honest report with the fixes that will move your covers most, ranked by impact.</p>
+      <div class="hhc-grid">
+        {hhc.map((c) => (
+          <div class="hhc-item">
+            <h3>{c.t}</h3>
+            <p>{c.d}</p>
+          </div>
+        ))}
+      </div>
+      <div class="hhc-offer">
+        <span class="chip">From £295</span>
+        <p>On-site visit, photography and a written, prioritised report.</p>
+        <a href="#contact" class="pill pill--fill">Book a Health Check</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="help-h">
+    <div class="card card--mist help-strip">
+      <div class="sec-head">
+        <div class="sec-head-text">
+          <h2 id="help-h">How I help</h2>
+          <p class="section-lede">No big retainer for the sake of it. The right few things, done well, with the creative and the systems already in hand.</p>
+        </div>
+      </div>
+      <div class="help-cols">
+        {services.map((s) => (
+          <div class="help-col">
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band bleed" aria-labelledby="infra-h">
+    <div class="sec-head">
+      <div class="sec-head-text">
+        <h2 id="infra-h">The infrastructure behind it</h2>
+        <p class="section-lede">Marketing only pays off when the plumbing works. These are the jobs I take off owners' plates every week.</p>
+      </div>
+    </div>
+    <div class="ask-grid-v2">
+      {asks.map((a) => (
+        <div class="card card--white ask-card-v2">
+          <h3>{a.q}</h3>
+          <p>{a.fix}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="partnership-h">
+    <div class="card card--ochre two partnership-v2">
+      <div class="stack">
+        <h2 id="partnership-h">Studio partnership</h2>
+        <p>For businesses that want the whole stack held month to month: marketing, design, photography and the infrastructure behind it, on one simple retainer instead of a pile of separate invoices.</p>
+      </div>
+      <div class="partnership-price">
+        <span class="partnership-from">from</span>
+        <span class="partnership-amount">£950<span class="partnership-per">/mo</span></span>
+        <a href="#contact" class="pill pill--ink">Enquire</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq heading="Quick answers" faqs={faqs} />
+
+  <ContactCard text="Quiet midweeks, a launch that needs noise, ad spend that is not landing? Say where you are stuck and I will tell you, straight, whether I can help." />
+
+</main>
+
+<Footer />
+
+</Layout>

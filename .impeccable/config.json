@@ -1,0 +1,16 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "numbered-section-markers"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "rgb(0, 0, 0)",
+        "reason": "Skip-link false positive: styled with palette vars (terracotta bg, cream text), detector samples off-screen link before linked CSS resolves",
+        "createdAt": "2026-07-07T00:45:32.466Z"
+      }
+    ]
+  }
+}

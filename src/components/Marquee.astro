@@ -1,0 +1,24 @@
+---
+// The clients marquee, identical to the one on the home page.
+const logos = [
+  { src: '/images/clients/soleto.png', alt: 'Soleto', key: 'soleto' },
+  { src: '/images/clients/padharo.svg', alt: 'Padharo', key: 'padharo' },
+  { src: '/images/clients/banana-wharf.png', alt: 'Banana Wharf', key: 'banana-wharf' },
+  { src: '/images/clients/the-grand.png', alt: 'The Grand', key: 'the-grand' },
+  { src: '/images/clients/kesarum.png', alt: 'Kesarum', key: 'kesarum' },
+  { src: '/images/clients/ryan-stanikk-photography.png', alt: 'Ryan Stanikk Photography', key: 'ryan-stanikk-photography' },
+  { src: '/images/clients/ark-angels.svg', alt: 'Ark Angels', key: 'ark-angels' },
+  { src: '/images/clients/ennios.png', alt: 'Ennios', key: 'ennios' },
+  { src: '/images/clients/grumpy-monkey.png', alt: 'Grumpy Monkey', key: 'grumpy-monkey' },
+  { src: '/images/clients/mustang-group.png', alt: 'Mustang Group', key: 'mustang-group' },
+];
+---
+<section class="clients" aria-labelledby="clients-h">
+  <h2 id="clients-h" class="sr-only">Clients</h2>
+  <div class="marquee">
+    <div class="marquee-track">
+      <ul class="marquee-set">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt={l.alt} decoding="async" /></li>)}</ul>
+      <ul class="marquee-set" aria-hidden="true">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt="" decoding="async" /></li>)}</ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const title = "Graphic Design Southampton | Logos, Menus & Print | Kombu";
+const description = "Graphic design in Southampton: brand identity, logos, menus and print, shown through real client case studies from Padharo, Kwackers and more.";
+
+const disciplines = [
+  { t: "Brand & Logo Identity", d: "Logos, colour, type and the rules that keep them consistent everywhere." },
+  { t: "Menus & Print", d: "Menus, flyers, signage and collateral, designed to print properly and read at a glance." },
+  { t: "Packaging & Labels", d: "Labels, packaging and product-facing design that survives the shelf." },
+  { t: "Social & Editorial", d: "Templates, decks and editorial layouts that stay on-brand at speed." },
+];
+
+const pricing = [
+  { t: "Logo & identity", p: "from £450" },
+  { t: "Menu design", p: "from £250" },
+  { t: "Print & collateral", p: "from £150" },
+  { t: "Brand guidelines", p: "from £600" },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/design#webpage", "url": "https://kombu.uk/design", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/design#service", "name": "Graphic Design & Branding", "serviceType": "Graphic Design", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Brand identity, logo design, menus, packaging, print and editorial design for hospitality and small businesses.",
+    "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Design services", "itemListElement": [
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "450", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Logo & brand identity" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "250", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Menu design" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "150", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Print & collateral design" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "600", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Brand guidelines" } }
+    ] } },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/design#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Design", "item": "https://kombu.uk/design" } ] }
+];
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+<main id="main-content">
+<!-- === DARK TYPE HERO === -->
+<section class="dark-hero" id="hero" aria-labelledby="hero-heading">
+  <div class="dark-hero__content container">
+    <span class="hero-eyebrow">Graphic design &amp; brand</span>
+    <h1 class="dark-hero__title" id="hero-heading">Design that <span class="accent">earns its keep.</span></h1>
+    <p class="dark-hero__sub">Twenty years of graphic design, since I was seventeen. Logos, brand identities, menus and print, shaped by someone who already knows exactly where they will end up: on the site, in the window, on the table.</p>
+    <div class="hero-ctas">
+      <a href="#design-work" class="btn btn-primary">See the Work</a>
+      <a href="#contact" class="btn btn-outline">Start a Project</a>
+    </div>
+  </div>
+</section>
+
+<div class="page-content" id="page-content">
+<!-- === DISCIPLINES === -->
+<section class="section disciplines" aria-labelledby="disciplines-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="disciplines-heading">What I Design</h2>
+      <p class="section-lead reveal">From a single logo to a full identity and the print that carries it, with the engineering side handled so files actually work at the printer.</p>
+    </div>
+    <div class="disc-grid">
+      {disciplines.map((d) => (
+        <div class="disc-item reveal">
+          <h3>{d.t}</h3>
+          <p>{d.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- === CASE STUDIES INTRO === -->
+<section class="section cs-intro" id="design-work" aria-labelledby="cs-intro-heading">
+  <div class="container">
+    <span class="cs-eyebrow reveal">Selected work</span>
+    <h2 class="blur-reveal" id="cs-intro-heading">Five clients, up&nbsp;close.</h2>
+    <p class="cs-intro__lead reveal">Real pieces from real projects, not mockups. A flagship restaurant menu, a two-year marketing partnership, a wholesale catalogue, an exhibition brand system and a clinic's ad campaign. Different briefs, same hand.</p>
+  </div>
+</section>
+
+<!-- === 1. PADHARO: centred, symmetrical, airy === -->
+<section class="section cs cs-flagship" id="cs-padharo" aria-labelledby="cs-padharo-heading">
+  <div class="container">
+    <div class="cs-head cs-head--center">
+      <span class="cs-num reveal" aria-hidden="true">01</span>
+      <span class="cs-eyebrow reveal">Padharo &middot; Menu &amp; full marketing</span>
+      <h2 class="blur-reveal" id="cs-padharo-heading">Padharo</h2>
+      <p class="cs-lead reveal">Three years in and still ongoing: photography, video, social, the website and the strategy behind an upmarket vegetarian Indian restaurant. The piece I refine most is the menu, rebuilt once or twice a year so every dish, description and allergen stays easy to read and quietly classy.</p>
+    </div>
+    <div class="cs-plinth cs-plinth--padharo reveal">
+      <div class="cs-plinth__pair">
+        <figure>
+          <img src="/images/design/padharo-menu-front.jpg" width="1059" height="1500" alt="Padharo menu, front: nibbles, tandoor grilled and chaat in a classy cream and terracotta layout" loading="lazy" />
+        </figure>
+        <figure>
+          <img src="/images/design/padharo-menu-back.jpg" width="1059" height="1500" alt="Padharo menu, reverse: street food, mains, rice, naan and desserts with allergen marks" loading="lazy" />
+        </figure>
+      </div>
+    </div>
+    <div class="cs-campaign-row reveal">
+      <figure class="cs-camp cs-camp--starter">
+        <img src="/images/design/padharo-free-starter.jpg" width="1600" height="902" alt="Padharo free-starter promotion with food photography" loading="lazy" />
+      </figure>
+      <figure class="cs-camp cs-camp--vegan">
+        <img src="/images/design/padharo-veganuary.jpg" width="1200" height="1600" alt="Padharo Veganuary campaign poster with seasonal vegan offers" loading="lazy" />
+      </figure>
+    </div>
+    <ul class="cs-meta reveal" aria-label="Services provided to Padharo">
+      <li>Photography</li><li>Video</li><li>Social media</li><li>Website</li><li>Menu design</li><li>Consultancy</li>
+    </ul>
+  </div>
+</section>
+
+<!-- === 2. KWACKERS: split text + 2x2 gallery, on dark === -->
+<section class="section dark-section cs cs-split" id="cs-kwackers" aria-labelledby="cs-kwackers-heading">
+  <div class="container">
+    <div class="cs-split__grid">
+      <div class="cs-split__text">
+        <span class="cs-num reveal" aria-hidden="true">02</span>
+        <span class="cs-eyebrow reveal">Kwackers &middot; Two-year marketing partnership</span>
+        <h2 class="blur-reveal" id="cs-kwackers-heading">Kwackers</h2>
+        <p class="cs-lead reveal">I ran the marketing for this Asian street food brand for over two years. The menus are my photography and design working as one: I shoot the food already knowing where the words need to land, so nothing fights for space.</p>
+        <p class="cs-lead reveal">Beyond the menus came product photography across both sites, social, TV assets, van signage, stationery and the launch of their second venue, a much larger kitchen and sports bar.</p>
+        <ul class="cs-tags reveal" aria-label="Services provided to Kwackers">
+          <li>Menu design</li><li>Food photography</li><li>Social media</li><li>TV assets</li><li>Van signage</li><li>Stationery</li><li>Launch</li>
+        </ul>
+      </div>
+      <div class="cs-split__media reveal">
+        <figure><img src="/images/design/kwackers-starters.jpg" width="1500" height="1060" alt="Kwackers menu spread: starters, with food photography shot to leave room for the text" loading="lazy" /></figure>
+        <figure><img src="/images/design/kwackers-rice.jpg" width="1500" height="1060" alt="Kwackers menu spread: rice bowls and new arrivals" loading="lazy" /></figure>
+        <figure><img src="/images/design/kwackers-burgers.jpg" width="1500" height="1060" alt="Kwackers menu spread: burgers and combos" loading="lazy" /></figure>
+        <figure><img src="/images/design/kwackers-sharers.jpg" width="1500" height="1058" alt="Kwackers menu spread: sharing platters and sides" loading="lazy" /></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === 3. IDEAL PRODUCE: cover hero + stacked spreads on a plinth === -->
+<section class="section cs cs-editorial" id="cs-ideal" aria-labelledby="cs-ideal-heading">
+  <div class="container">
+    <div class="cs-head cs-head--split">
+      <div>
+        <span class="cs-num reveal" aria-hidden="true">03</span>
+        <span class="cs-eyebrow reveal">Ideal Produce &middot; Brochure &amp; layout</span>
+        <h2 class="blur-reveal" id="cs-ideal-heading">Ideal Produce</h2>
+      </div>
+      <div>
+        <p class="cs-lead reveal">A big wholesale produce catalogue: page after page of listings to structure, and real product photography to source and place alongside them. Built with proper document and brochure layout so a catering buyer can find and reference anything at a glance.</p>
+        <ul class="cs-meta cs-meta--left reveal" aria-label="Work provided to Ideal Produce">
+          <li>Brochure design</li><li>Document layout</li><li>Image sourcing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cs-plinth reveal">
+      <div class="cs-ip-grid">
+        <figure class="cs-ip-cover"><img src="/images/design/ideal-produce-cover.jpg" width="1060" height="1500" alt="Ideal Produce catalogue cover: dramatic food photography with the Ideal Produce wordmark" loading="lazy" /></figure>
+        <div class="cs-ip-side">
+          <figure><img src="/images/design/ideal-produce-spread-1.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: canned goods, crisps, oils and syrups in a clean navy layout" loading="lazy" /></figure>
+          <figure><img src="/images/design/ideal-produce-spread-2.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: condiments and sauces listings with product photography" loading="lazy" /></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === 4. BUILD BUDGET EXPERT: brand-system collage, on dark === -->
+<section class="section dark-section cs cs-collage" id="cs-bbe" aria-labelledby="cs-bbe-heading">
+  <div class="container">
+    <div class="cs-collage__grid">
+      <div class="cs-collage__text">
+        <span class="cs-num reveal" aria-hidden="true">04</span>
+        <span class="cs-eyebrow reveal">Build Budget Expert &middot; Brand collateral system</span>
+        <h2 class="blur-reveal" id="cs-bbe-heading">Build Budget Expert</h2>
+        <p class="cs-lead reveal">An ongoing client I keep exhibition-ready: flyers, business cards, roller banners, podiums and pull-up stands, refreshed as he needs them. Every piece holds the exact same brand, type and colour, so a full stand reads as one clean, professional presence rather than a pile of odds and ends.</p>
+        <ul class="cs-tags reveal" aria-label="Pieces produced for Build Budget Expert">
+          <li>Roller banners</li><li>Flyers</li><li>Business cards</li><li>Podiums</li><li>Pull-up stands</li>
+        </ul>
+      </div>
+      <div class="cs-collage__stage reveal">
+        <figure class="cs-piece cs-piece--stand">
+          <picture>
+            <source srcset="/images/design/bbe-stand.webp" type="image/webp" />
+            <img src="/images/design/bbe-stand.jpg" width="900" height="1200" alt="The full Build Budget Expert exhibition stand assembled at a trade show: matching dark green and gold roller banners, pull-up displays and a branded podium" loading="lazy" />
+          </picture>
+          <figcaption class="cs-piece__cap" aria-hidden="true">The full stand, assembled</figcaption>
+        </figure>
+        <figure class="cs-piece cs-piece--banner"><img src="/images/design/bbe-banner.jpg" width="649" height="1600" alt="Build Budget Expert roller banner in dark green and gold" loading="lazy" /></figure>
+        <figure class="cs-piece cs-piece--flyer"><img src="/images/design/bbe-flyer-front.jpg" width="917" height="1300" alt="Build Budget Expert A5 flyer, front" loading="lazy" /></figure>
+        <figure class="cs-piece cs-piece--card-b"><img src="/images/design/bbe-card-back.jpg" width="1200" height="778" alt="Build Budget Expert business card, reverse" loading="lazy" /></figure>
+        <figure class="cs-piece cs-piece--card-f"><img src="/images/design/bbe-card-front.jpg" width="1200" height="778" alt="Build Budget Expert business card, front, for Owen Gartside" loading="lazy" /></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === 5. REMEDI HEALTH: corporate two-up === -->
+<section class="section cs cs-corporate" id="cs-remedi" aria-labelledby="cs-remedi-heading">
+  <div class="container">
+    <div class="cs-head cs-head--split">
+      <div>
+        <span class="cs-num reveal" aria-hidden="true">05</span>
+        <span class="cs-eyebrow reveal">Remedi Health &middot; Corporate design</span>
+        <h2 class="blur-reveal" id="cs-remedi-heading">Remedi Health</h2>
+      </div>
+      <p class="cs-lead reveal">A private health clinic whose early adverts were basic and needed lifting to match the quality of their care. I sourced the imagery, shaped the messaging and laid it out across posters, flyers and web banners. A more corporate register, for when the brief calls for it.</p>
+    </div>
+    <div class="cs-plinth cs-plinth--remedi reveal">
+      <div class="cs-remedi-pair">
+        <figure><img src="/images/design/remedi-poster-1.jpg" width="942" height="1400" alt="Remedi Health poster: a father with his children, with a private health services message" loading="lazy" /></figure>
+        <figure><img src="/images/design/remedi-poster-2.jpg" width="942" height="1400" alt="Remedi Health poster: a smiling woman with a warm message about staying healthy for family" loading="lazy" /></figure>
+      </div>
+    </div>
+    <ul class="cs-meta reveal" aria-label="Work provided to Remedi Health">
+      <li>Posters</li><li>Flyers</li><li>Web banners</li><li>Image sourcing</li><li>Messaging</li>
+    </ul>
+  </div>
+</section>
+
+<!-- === PRICING === -->
+<section class="section design-pricing" aria-labelledby="design-pricing-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="design-pricing-heading">Where It Starts</h2>
+      <p class="section-lead reveal">Indicative starting points. Every project is scoped and quoted properly once I know what you need.</p>
+    </div>
+    <div class="from-grid">
+      {pricing.map((p) => (
+        <div class="from-card reveal">
+          <span class="from-card__name">{p.t}</span>
+          <span class="from-card__price">{p.p}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<ContactCTA heading="Make it look the&nbsp;part." text="A menu, a logo, a full rebrand, whatever you are putting out into the world, I will make it look like you mean it. Brief me in plain English; no jargon required." />
+</div><!-- .page-content -->
+</main>
+</Layout>

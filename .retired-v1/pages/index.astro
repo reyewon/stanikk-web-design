@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ClientsMarquee from '../components/ClientsMarquee.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const title = "Kombu | Creative, Design & Marketing Studio in Southampton";
+const description = "A one-person creative studio in Southampton: web design, graphic design, commercial photography and marketing that finally pull in the same direction.";
+
+const capabilities = [
+  { href: "/web-design", tag: "Web", title: "Web Design & Build", desc: "Bespoke, fast, design-led websites and web apps. No templates, no agency runaround.", img: "/images/capabilities/cap-web.jpg", imgAlt: "The Grumpy Monkey bar website, built by Kombu" },
+  { href: "/design", tag: "Design", title: "Graphic Design", desc: "Brand identities, menus, print and editorial, with two decades behind the pen.", img: "/images/capabilities/cap-design.jpg", imgAlt: "A Kwackers menu spread, designed by Kombu" },
+  { href: "/photography", tag: "Photo", title: "Commercial Photography", desc: "Food, interiors, product and brand photography that earns the booking.", img: "/images/capabilities/cap-photo.jpg", imgAlt: "Commercial food photography by Kombu" },
+  { href: "/marketing", tag: "Marketing", title: "Marketing & Infrastructure", desc: "Strategy, ads, social and local SEO, plus the systems, sourcing and tools that tie a business together.", mosaic: [
+    "/images/capabilities/mosaic/padharo-menu-front.jpg",
+    "/images/capabilities/mosaic/kwackers-burgers.jpg",
+    "/images/capabilities/mosaic/padharo-veganuary.jpg",
+    "/images/capabilities/mosaic/bbe-flyer-front.jpg",
+    "/images/capabilities/mosaic/ideal-produce-cover.jpg",
+    "/images/capabilities/mosaic/remedi-poster-1.jpg",
+    "/images/capabilities/mosaic/padharo-free-starter.jpg",
+    "/images/capabilities/mosaic/kwackers-rice.jpg",
+    "/images/capabilities/mosaic/bbe-card-front.jpg",
+    "/images/capabilities/mosaic/ideal-produce-spread-1.jpg",
+    "/images/capabilities/mosaic/padharo-menu-back.jpg",
+    "/images/capabilities/mosaic/kwackers-sharers.jpg",
+    "/images/capabilities/mosaic/remedi-poster-2.jpg",
+    "/images/capabilities/mosaic/bbe-flyer-back.jpg",
+  ] },
+];
+
+const extraSchema = [
+  {
+    "@type": "WebPage",
+    "@id": "https://kombu.uk/#webpage",
+    "url": "https://kombu.uk/",
+    "name": title,
+    "isPartOf": { "@id": "https://kombu.uk/#website" },
+    "about": { "@id": "https://kombu.uk/#business" },
+    "description": description,
+    "inLanguage": "en-GB"
+  }
+];
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+<a href="/" class="hero-mark" id="hero-mark" aria-label="Kombu, back to top">
+  <span class="hero-mark-name">Kombu</span>
+  <span class="hero-mark-sub">Studio</span>
+</a>
+
+<main id="main-content">
+<!-- === HERO === -->
+<section class="hero" id="hero" aria-labelledby="hero-heading">
+  <div class="hero-shader" id="hero-shader" aria-hidden="true"></div>
+  <!-- Rapid-fire discipline flash: plays once per session, then resolves into
+       the persistent headline below. Decorative; hidden from AT and no-JS. -->
+  <div class="hero-flash" id="hero-flash" aria-hidden="true">
+    <div class="hero-flash__mask">
+      <span class="hero-flash__word">Websites</span>
+      <span class="hero-flash__word">Design</span>
+      <span class="hero-flash__word">Photography</span>
+      <span class="hero-flash__word">Marketing</span>
+      <span class="hero-flash__word hero-flash__word--accent">Infrastructure</span>
+    </div>
+    <span class="hero-flash__bar"></span>
+  </div>
+  <div class="hero-content container">
+    <span class="hero-eyebrow">Creative studio · Southampton</span>
+    <h1 class="hero-heading" id="hero-heading">
+      <span class="hero-word"><span class="hero-word-inner">ONE</span></span>
+      <span class="hero-word"><span class="hero-word-inner">MIND.</span></span>
+      <span class="line-break" aria-hidden="true"></span>
+      <span class="hero-word"><span class="hero-word-inner">THE</span></span>
+      <span class="hero-word"><span class="hero-word-inner">WHOLE</span></span>
+      <span class="line-break" aria-hidden="true"></span>
+      <span class="hero-word accent"><span class="hero-word-inner">STACK.</span></span>
+    </h1>
+    <p class="hero-sub">Design, websites, photography and marketing from one person who understands how they fit together. I build the parts your business is missing, and connect the ones that should already be talking.</p>
+    <div class="hero-ctas">
+      <a href="#capabilities" class="btn btn-primary">Explore the Studio</a>
+      <a href="https://wa.me/442381112819" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp Me</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true"><div class="hero-scroll-line"></div></div>
+</section>
+
+<div class="page-content" id="page-content">
+<!-- === CAPABILITIES === -->
+<section class="capabilities section" id="capabilities" aria-labelledby="capabilities-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="capabilities-heading">What I Do</h2>
+      <p class="section-lead reveal">Most studios do one of these. I do all of them, which means the website, the brand, the photography and the marketing finally pull in the same direction.</p>
+    </div>
+    <div class="cap-grid">
+      {capabilities.map((c) => (
+        <a href={c.href} class="cap-card reveal">
+          {c.mosaic ? (
+            <div class="cap-strip cap-strip--mosaic" aria-hidden="true">
+              <div class="cap-mosaic">
+                {c.mosaic.map((src) => <img src={src} alt="" loading="lazy" />)}
+              </div>
+            </div>
+          ) : (
+            <div class="cap-strip"><img src={c.img} alt={c.imgAlt} loading="lazy" width="900" height="506" /></div>
+          )}
+          <div class="cap-body">
+            <span class="cap-tag">{c.tag}</span>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+          </div>
+          <span class="cap-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- === INFRASTRUCTURE MANIFESTO === -->
+<section class="infra section dark-section" id="infrastructure" aria-labelledby="infra-heading">
+  <div class="container">
+    <div class="infra-head">
+      <span class="infra-eyebrow reveal">The bit nobody else owns</span>
+      <h2 class="blur-reveal" id="infra-heading">Whatever the missing piece is,<span class="line-break" aria-hidden="true"></span> <span class="accent">I build it.</span></h2>
+      <p class="infra-lede reveal">I am a designer and photographer by trade, but the thing clients keep me around for is broader than that: an engineering mind paired with a designer's eye. When something in your setup is broken, slow or simply does not exist yet, I work out how to fix it and then go and do it, rather than handing you off to a specialist who charges a fortune and does not know your brand.</p>
+    </div>
+  </div>
+</section>
+
+<!-- === SELECTED WORK === -->
+<section class="portfolio section terracotta-section" id="work" aria-labelledby="work-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="work-heading">Selected Work</h2>
+      <a href="/web-design#work" class="section-link reveal">All six sites <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="portfolio-intro reveal">Three builds, three very different briefs. Mostly Southampton hospitality, and the same hands on the website, the brand and the photos, which is rather the point.</p>
+    <div class="portfolio-columns" id="portfolio-columns">
+      <div class="portfolio-col" id="project-1">
+        <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Padharo</div></div>
+            <!-- padharo.co.uk's CSP now allows kombu.uk, localhost and the
+                 kombu preview deploys to frame it, so the live frame mounts
+                 everywhere, same as the other cards. -->
+            <div class="browser-viewport" data-site="https://www.padharo.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/padharo.jpg" alt="Padharo vegetarian Indian restaurant website with reservations and menus" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-title-link">Padharo</a></h3>
+          <p>An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work. <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Padharo website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="project-2">
+        <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Grumpy Monkey</div></div>
+            <!-- grumpy-monkey.co.uk sends no X-Frame-Options and no CSP, so it
+                 embeds from any origin: no data-frame-on gate needed and the
+                 live frame mounts on localhost and previews too. -->
+            <div class="browser-viewport" data-site="https://www.grumpy-monkey.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/grumpy-monkey.jpg" alt="Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-title-link">Grumpy Monkey</a></h3>
+          <p>A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone. <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Grumpy Monkey website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="project-3">
+        <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Ryan Stanikk Photography</div></div>
+            <div class="browser-viewport" data-site="https://www.ryanstanikk.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/ryanstanikk.jpg" alt="Ryan Stanikk photography portfolio website, dark and image-led" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-title-link">Ryan Stanikk Photography</a></h3>
+          <p>My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch. <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit the Ryan Stanikk photography website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+    <nav class="about-next portfolio-next reveal" aria-label="More work">
+      <span class="about-next__label">The rest of the work:</span>
+      <a href="/web-design#work">All six websites</a>
+      <a href="/design">Design case studies</a>
+      <a href="/photography">Photography</a>
+    </nav>
+  </div>
+</section>
+
+<!-- === ABOUT TEASER === -->
+<section class="about section dark-section" id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image reveal-left">
+        <div class="about-image-wrapper" id="about-image-wrapper">
+          <picture>
+            <source media="(max-width: 768px)" srcset="/images/ryan-stanikk-square.jpg" />
+            <img src="/images/ryan-stanikk.jpg" alt="Ryan Stanikk, Southampton designer, photographer and web developer" loading="lazy" />
+          </picture>
+          <video src="/images/ryan-stanikk.mp4" id="profile-video" muted playsinline preload="metadata" aria-hidden="true"></video>
+          <!-- The chip is off the picture by request. It stays in the markup,
+               visible only on keyboard focus, because hover is the desktop
+               trigger and without this there is no keyboard way to play it.
+               Touch users still get the once-in-view autoplay. -->
+          <button type="button" class="video-cue video-cue--quiet" aria-label="Play Ryan's introduction video">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+            <span>Say hello</span>
+          </button>
+        </div>
+      </div>
+      <div class="about-text reveal-right">
+        <span class="about-label">About Me</span>
+        <h2 id="about-heading">Ryan Stanikk</h2>
+        <p class="about-lede">I'm a Southampton designer, photographer and web developer running Kombu as a one-person studio.</p>
+        <p>In Japanese cooking, kombu is the ingredient you never see, the quiet foundation that makes everything around it better. That is roughly the idea here: the base layer a business is built on, kept in one place instead of farmed out across a chain of agencies.</p>
+        <p>Two decades of graphic design, fifteen years behind the camera, and a tendency to just build the thing rather than charge you to wait for it.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-number">20</span><span class="stat-label">Years in Design</span></div>
+          <div class="stat"><span class="stat-number">4</span><span class="stat-label">Disciplines</span></div>
+        </div>
+        <a href="/about" class="section-link about-more">More about me <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ClientsMarquee label="Currently working with" />
+
+<ContactCTA />
+</div><!-- .page-content -->
+</main>
+</Layout>

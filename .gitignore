@@ -22,3 +22,47 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+dist-quotes/
+dist-v1/
+
+# ---- Added 3 September 2026, at the v2 relaunch ----
+# Every pattern here is anchored with a leading slash. Unanchored names match at
+# any depth, and macOS git matches case-insensitively, so a bare "Images/" also
+# swallowed public/images/ and would have dropped every site asset.
+
+# Client quote documents: individual pricing sent to named clients. This repo is
+# PUBLIC, and the quote pages are deliberately noindex and robots-disallowed, so
+# they stay out of git. They still deploy: build-quotes.mjs reads them from disk.
+/quotes/
+/public/nova-quote/
+
+# Client commercial documents and internal research
+/Mustang-Group-*.pdf
+/docs/
+
+# Trial cuts of Supermassive, superseded by the licensed SupermassiveRS files and
+# watermarked. Not ours to redistribute in a public repo.
+/.retired-fonts/
+
+# Local agent, tooling and editor scratch
+/.agents/
+/.codex/
+/.firecrawl/
+/.playwright-cli/
+/.playwright-mcp/
+/.claude/settings.local.json
+/.claude/skills/
+/.impeccable/hook.cache.json
+
+# Source art, reference captures and personal files that are not part of the build
+/Images/
+/Supermassive Font Family/
+/screencapture-*.png
+/IMG_*.jpeg
+/IMG_*.webp
+/profile video*.mp4
+/profile-picture-3.jpg
+/favicon.png
+/font-check.png
+/Meta Image.jpg
+/public/images/og-desk-source.png

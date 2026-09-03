@@ -1,0 +1,23 @@
+---
+// A plain list of rows, not cards. Each row: a 2px ink top rule, a title
+// left, description (plus optional list and pill) right. Stacks on phones.
+interface Item { t: string; d: string; list?: string[]; cta?: { href: string; label: string }; }
+interface Props { items: Item[]; }
+const { items } = Astro.props as Props;
+---
+<div class="ledger">
+  {items.map((it) => (
+    <div class="ledger-row">
+      <h3>{it.t}</h3>
+      <div class="ledger-body">
+        <p>{it.d}</p>
+        {it.list && (
+          <ul>
+            {it.list.map((l) => <li>{l}</li>)}
+          </ul>
+        )}
+        {it.cta && <a href={it.cta.href} class="pill pill--sm">{it.cta.label}</a>}
+      </div>
+    </div>
+  ))}
+</div>

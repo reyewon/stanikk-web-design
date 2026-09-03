@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import QuoteCalculator from '../components/QuoteCalculator.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const title = "Commercial Photographer Southampton | Food & Brand | Kombu";
+const description = "Commercial photography in Southampton: food, interiors, product and brand imagery. Get an instant ballpark with the quote calculator.";
+
+// Order varies subject and orientation; the hero image sits deep in the set
+// so the same shot doesn't appear twice in the first two scrolls.
+const gallery = [
+  { src: "/images/photography/food-barga.jpg", alt: "Italian dish styled for a menu, food photography", w: 1500, h: 1500 },
+  { src: "/images/photography/interior-room.jpg", alt: "Hospitality interior photography, warm restaurant room", w: 1500, h: 989 },
+  { src: "/images/photography/lifestyle-lenovo.jpg", alt: "Behind-the-scenes brand lifestyle photography on location", w: 1000, h: 1500 },
+  { src: "/images/photography/food-banana-wharf.jpg", alt: "Waterfront restaurant dish, hospitality food photography", w: 1500, h: 937 },
+  { src: "/images/photography/food-figurati.jpg", alt: "Pasta dish twirled on a fork, restaurant food photography", w: 843, h: 1500 },
+  { src: "/images/photography/interior-aspiga.jpg", alt: "Retail interior and product display photography", w: 1500, h: 937 },
+  { src: "/images/photography/portrait-mayfair.jpg", alt: "Environmental business portrait on location", w: 1500, h: 1000 },
+  { src: "/images/photography/product-aspiga.jpg", alt: "Styled product photography on a clean set", w: 1000, h: 1500 },
+  { src: "/images/photography/food-roppongi.jpg", alt: "Japanese plated dishes, commercial food photography, Southampton", w: 1500, h: 1000 },
+  { src: "/images/photography/interior-leisha.jpg", alt: "Architectural interior detail photography", w: 843, h: 1500 },
+  { src: "/images/photography/lifestyle-aspiga.jpg", alt: "Lifestyle brand photography with natural light", w: 1000, h: 1500 },
+  { src: "/images/photography/corporate-networking.jpg", alt: "Corporate event photography, Southampton business showcase", w: 1500, h: 1000 },
+];
+
+const faqs = [
+  { q: "How much does commercial photography cost in Southampton?", a: "Standard commercial sessions are £275 for two hours, £415 for a half day and £690 for a full day, including editing and high-resolution files. Independent businesses and charities within about 30 miles of Southampton get 20% off. The quote calculator on this page gives an instant ballpark." },
+  { q: "Do you travel outside Southampton for shoots?", a: "Yes. Travel is a simple flat fee by distance: free within about 30 miles, then £40, £90 or £150 by band, with London at £80. National campaign and worldwide usage are quoted per project, from £1,100 a day." },
+  { q: "What do I get after the shoot?", a: "Edited, high-resolution files, sized and formatted for wherever they are going: the menu, the website, socials or print. Because I often build the website and design the menus too, the photography is shot with those layouts already in mind." },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/photography#webpage", "url": "https://kombu.uk/photography", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/photography#service", "name": "Commercial Photography", "serviceType": "Commercial Photography", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Food and drink, interiors, product and brand photography for hospitality and small businesses, with an instant quote calculator.",
+    "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Photography sessions", "itemListElement": [
+      { "@type": "Offer", "price": "275", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Two-hour commercial photography session" } },
+      { "@type": "Offer", "price": "415", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Half-day commercial photography session" } },
+      { "@type": "Offer", "price": "690", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day commercial photography session" } }
+    ] } },
+  { "@type": "FAQPage", "@id": "https://kombu.uk/photography#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/photography#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Photography", "item": "https://kombu.uk/photography" } ] }
+];
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/photography/food-roppongi.jpg" ogImageWidth="1500" ogImageHeight="1000" ogImageAlt="Commercial food photography by Ryan Stanikk for Kombu">
+<main id="main-content">
+<!-- === PHOTO HERO === -->
+<section class="photo-hero" id="hero" aria-labelledby="hero-heading">
+  <img class="photo-hero__bg" src="/images/photography/food-roppongi.jpg" alt="" aria-hidden="true" width="1500" height="1000" fetchpriority="high" />
+  <div class="photo-hero__overlay" aria-hidden="true"></div>
+  <div class="photo-hero__content container">
+    <span class="hero-eyebrow">Commercial photography · Southampton</span>
+    <h1 class="photo-hero__title" id="hero-heading">Pictures that <span class="accent">sell the place.</span></h1>
+    <p class="photo-hero__sub">Food, interiors, product and brand photography for hospitality and small businesses. Fifteen years behind the camera, shooting for the menu, the website and the campaign in one go.</p>
+    <div class="hero-ctas">
+      <a href="#quote" class="btn btn-primary">Get an Instant Quote</a>
+      <a href="#gallery" class="btn btn-outline">See Recent Work</a>
+    </div>
+  </div>
+</section>
+
+<div class="page-content" id="page-content">
+<!-- === INTRO === -->
+<section class="section photo-intro" aria-labelledby="photo-intro-heading">
+  <div class="container">
+    <div class="photo-intro__grid">
+      <div class="reveal-left">
+        <h2 class="blur-reveal" id="photo-intro-heading">The same eye, across the whole brand</h2>
+      </div>
+      <div class="photo-intro__text reveal-right">
+        <p>Most businesses hire a photographer, a designer and a web person separately, then wonder why nothing quite matches. I shoot knowing exactly where the images are going, because more often than not I am building the website and the brand too.</p>
+        <p>That means food shot for the way your menu is laid out, interiors framed for the hero of a homepage, and product shots that drop straight into the shop. One visual language, start to finish.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === GALLERY === -->
+<section class="section photo-gallery-section dark-section" id="gallery" aria-labelledby="gallery-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="gallery-heading">Recent Work</h2>
+      <a href="https://ryanstanikk.co.uk" class="section-link reveal" target="_blank" rel="noopener">See it all <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="photo-gallery reveal">
+      {gallery.map((img) => (
+        <figure class="photo-gallery__item">
+          <img src={img.src} alt={img.alt} width={img.w} height={img.h} loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- === QUOTE CALCULATOR === -->
+<QuoteCalculator />
+
+<!-- === FULL PORTFOLIO LINK === -->
+<section class="section photo-more" aria-labelledby="photo-more-heading">
+  <div class="container">
+    <div class="photo-more__card reveal">
+      <h2 id="photo-more-heading">Weddings, portraits &amp; the full shebang</h2>
+      <p>This page is the commercial side. Personal work, weddings and the complete gallery live on my photography site.</p>
+      <a href="https://ryanstanikk.co.uk" class="btn btn-primary" target="_blank" rel="noopener">Visit ryanstanikk.co.uk</a>
+    </div>
+  </div>
+</section>
+
+<!-- === FAQ (mirrored exactly in FAQPage schema) === -->
+<section class="faq section" id="faq" aria-labelledby="photo-faq-heading">
+  <div class="container">
+    <div class="section-header"><h2 class="blur-reveal" id="photo-faq-heading">Quick Answers</h2></div>
+    <div class="faq-list">
+      {faqs.map((f, i) => (
+        <div class="faq-item reveal">
+          <button class="faq-question" id={`faq-question-${i}`} aria-expanded="false" aria-controls={`faq-answer-${i}`}>
+            <span>{f.q}</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-answer" id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-question-${i}`}><p>{f.a}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<ContactCTA heading="Need the shoot booked&nbsp;in?" text="Tell me what you are after. If you are local I will come to you; further afield, the diary still has room. Honest pricing, fast turnaround, and the files are yours to keep." />
+</div><!-- .page-content -->
+</main>
+</Layout>

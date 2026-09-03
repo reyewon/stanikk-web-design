@@ -1,0 +1,65 @@
+---
+// Editorial side rail — now page-level navigation.
+// Active state is rendered server-side for first paint and re-synced by the
+// runtime on every astro:page-load (the rail persists across View Transitions).
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const items = [
+  { href: '/web-design', label: 'Web Design' },
+  { href: '/design', label: 'Design' },
+  { href: '/photography', label: 'Photography' },
+  { href: '/marketing', label: 'Marketing' },
+  { href: '/about', label: 'About' },
+];
+
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+<aside class="rail" id="rail" aria-label="Site navigation" transition:persist="rail">
+  <button class="rail-burger" id="rail-burger" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <a href="/" class="rail-logo" id="rail-logo" aria-label="Kombu, home">
+    <img class="rail-mark" src="/images/loader-mark.png" alt="" aria-hidden="true" />
+    <span class="rail-wordmark" aria-hidden="true">
+      <span class="rail-wordmark-name">Kombu</span>
+      <span class="rail-wordmark-sub">Studio</span>
+    </span>
+  </a>
+
+  <nav class="rail-nav" aria-label="Pages">
+    {items.map((item) => (
+      <a href={item.href} class:list={["rail-item", { current: isCurrent(item.href) }]} data-page={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+        <span class="rail-item-bar" aria-hidden="true"></span>
+        <span class="rail-item-icon" aria-hidden="true">
+          {item.href === '/web-design' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 3.5l8.5 4.2-8.5 4.2-8.5-4.2L12 3.5z"/><path d="M3.5 12l8.5 4.2 8.5-4.2"/><path d="M3.5 16.3l8.5 4.2 8.5-4.2"/></svg>
+          )}
+          {item.href === '/design' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M15.6 4.4 19.6 8.4M3.5 20.5l1.4-4.7L15 5.7a1.8 1.8 0 0 1 2.5 0l1 1a1.8 1.8 0 0 1 0 2.5L8.2 19.1z"/><path d="M4.9 15.8 8.2 19.1"/></svg>
+          )}
+          {item.href === '/photography' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.5 8.5a1.6 1.6 0 0 1 1.6-1.6h1.7l1.1-1.8h6.2l1.1 1.8h1.7a1.6 1.6 0 0 1 1.6 1.6v8a1.6 1.6 0 0 1-1.6 1.6H5.1a1.6 1.6 0 0 1-1.6-1.6z"/><circle cx="12" cy="12.2" r="3.1"/></svg>
+          )}
+          {item.href === '/marketing' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 9.5v5a1 1 0 0 0 1 1h2l8 4.5V4L7 8.5H5a1 1 0 0 0-1 1z"/><path d="M18.5 9a4 4 0 0 1 0 6"/></svg>
+          )}
+          {item.href === '/about' && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20.5c.7-3.4 3.5-5.4 7-5.4s6.3 2 7 5.4"/></svg>
+          )}
+        </span>
+        <span class="rail-item-name">{item.label}</span>
+      </a>
+    ))}
+  </nav>
+
+  <a href="#contact" class="rail-cta" id="rail-cta">
+    <span class="rail-cta-text">Start a project</span>
+    <span class="rail-cta-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </a>
+</aside>
+
+<div class="rail-backdrop" id="rail-backdrop" aria-hidden="true"></div>

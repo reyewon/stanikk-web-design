@@ -1,0 +1,73 @@
+---
+// The opening card for every interior page: one skeleton, only the fill and
+// content change. Sits below the fixed nav via .pagehead-section's top
+// padding. Desktop: text column left (7/12), vertically centred against the
+// image column right (5/12). Phones: h1, then the image tile, then the rest
+// of the stack (order set in CSS via .pagehead-text becoming display:contents).
+interface Props {
+  fill: 'terracotta' | 'kelp' | 'ochre' | 'mist';
+  title: string;
+  body: string;
+  fact: string;
+  img: string;
+  alt: string;
+  primary: { href: string; label: string };
+  secondary: { href: string; label: string };
+  // Optional: up to three images replace the single tile with a collage
+  // (a portrait tile spanning the column, two stacked beside it). Used on
+  // marketing only; every other page keeps the single tile.
+  images?: { src: string; alt: string }[];
+}
+const { fill, title, body, fact, img, alt, primary, secondary, images } = Astro.props as Props;
+
+// Primary pill: white fill on terracotta (inherited from .card--terracotta
+// .pill), terracotta fill on kelp (.card--kelp .pill--fill), ink fill on
+// ochre/mist (the base .pill--ink treatment, no card-level override needed).
+const primaryClass = fill === 'ochre' || fill === 'mist' ? 'pill pill--ink' : 'pill pill--fill';
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+
+// The phone-width h1 cap (in site.css) is sized per title, not one fixed
+// number: it divides a measured constant by this word length, so a title
+// with a long unbreakable word ("Infrastructure") gets pulled down only
+// as far as it needs to fit the card, while shorter titles land above
+// their own natural clamp size and are left untouched by the cap.
+const longestWord = title.split(/\s+/).reduce((max, w) => Math.max(max, w.replace(/[^\p{L}\p{N}]/gu, '').length), 1);
+---
+<section class="card-section pagehead-section bleed" aria-labelledby="pagehead-h">
+  <div class={`card card--${fill} pagehead`} style={`--pagehead-word-len: ${longestWord}`}>
+    <div class="pagehead-text">
+      <h1 id="pagehead-h">{title}</h1>
+      <div class="stack">
+        <p>{body}</p>
+        <div class="pagehead-row">
+          <span class="chip">{fact}</span>
+          <a
+            href={primary.href}
+            class={primaryClass}
+            target={isExternal(primary.href) ? '_blank' : undefined}
+            rel={isExternal(primary.href) ? 'noopener' : undefined}
+          >{primary.label}</a>
+          <a
+            href={secondary.href}
+            class="pill pill--secondary"
+            target={isExternal(secondary.href) ? '_blank' : undefined}
+            rel={isExternal(secondary.href) ? 'noopener' : undefined}
+          >{secondary.label}</a>
+        </div>
+      </div>
+    </div>
+    <div class="pagehead-media">
+      {images && images.length ? (
+        <div class="pagehead-collage">
+          <div class="pagehead-collage__tile pagehead-collage__tile--main"><img src={images[0].src} alt={images[0].alt} loading="eager" /></div>
+          <div class="pagehead-collage__side">
+            {images[1] && <div class="pagehead-collage__tile"><img src={images[1].src} alt={images[1].alt} loading="eager" /></div>}
+            {images[2] && <div class="pagehead-collage__tile"><img src={images[2].src} alt={images[2].alt} loading="eager" /></div>}
+          </div>
+        </div>
+      ) : (
+        <div class="pagehead-img"><img src={img} alt={alt} loading="eager" /></div>
+      )}
+    </div>
+  </div>
+</section>

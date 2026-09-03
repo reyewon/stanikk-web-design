@@ -1,33 +1,14 @@
 /* === Kombu Web Design - Global Styles === */
 
-/* Fontshare imports (must come before other rules) */
-@import url('https://api.fontshare.com/v2/css?f[]=bevellier@200,300,400,500,600,700&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=switzer@200,300,400,500&display=swap');
+/* Switzer: self-hosted (ITF Free Font Licence, files as served by Fontshare's
+   CDN). Same-origin + preloaded criticals means the fonts are ready at first
+   layout; display: optional means a late font never swaps mid-view, so
+   headings cannot reflow the page (CLS). */
 
-/* Supermassive (self-hosted, trial: only letters and numbers render correctly) */
-@font-face {
-  font-family: 'Supermassive';
-  src: url('/fonts/Supermassive-I.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
-}
-@font-face {
-  font-family: 'Supermassive';
-  src: url('/fonts/Supermassive-II.woff2') format('woff2');
-  font-weight: 800;
-  font-display: swap;
-  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
-}
-@font-face {
-  font-family: 'Supermassive';
-  src: url('/fonts/Supermassive-III.woff2') format('woff2');
-  font-weight: 900;
-  font-display: swap;
-  unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
-}
+/* Supermassive RS: Ryan's licensed cut with custom-drawn punctuation,
+   so the display face now covers the full character set on its own. */
 
-/* No separate punctuation fix needed - Bevellier in the font stack handles broken Supermassive trial glyphs */
+/* No punctuation fallback needed any more: Supermassive RS draws its own. */
 
 /* === CSS Custom Properties === */
 :root {
@@ -38,6 +19,8 @@
   --color-bg-elevated: #F5F0EB;
   --color-accent: #D4714E;
   --color-accent-light: #E8956A;
+  --color-accent-deep: #B05433;  /* AA-contrast terracotta for small text on light bg */
+  --color-error: #B0472F;        /* form errors, tuned to the palette */
   --color-text-primary: #1A1412;
   --color-text-secondary: #3A3028;
   --color-text-muted: #6A5E52;
@@ -50,11 +33,14 @@
   --color-dark-bg: #1A1412;
   --color-dark-text: #F5EDE4;
   --color-dark-muted: #A89888;
+  --color-dark-body: #C4B8AA;
   --color-dark-border: #4A3E34;
 
-  /* Typography */
-  --font-heading: 'Supermassive', 'Bevellier', sans-serif;
-  --font-body: 'Switzer', sans-serif;
+  /* Typography — the ' FB' faces are metric-matched local Arial (size-adjust
+     + overrides measured against the real fonts) so a pre-font first paint
+     occupies exactly the same space: no layout shift when fonts activate. */
+  --font-heading: 'Supermassive RS', 'Supermassive FB', sans-serif;
+  --font-body: 'Switzer', 'Switzer FB', sans-serif;
 
   /* Font weights */
   --weight-extralight: 200;
@@ -84,13 +70,6 @@
   --drawer-w: 300px;
   --rail-ease: cubic-bezier(0.65, 0, 0.2, 1);
   --rail-dur: 0.55s;
-}
-
-@media (max-width: 820px) {
-  :root {
-    --rail-w: 44px;
-    --drawer-w: 86vw;
-  }
 
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,7 +81,13 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+}
 
+@media (max-width: 820px) {
+  :root {
+    --rail-w: 44px;
+    --drawer-w: 86vw;
+  }
 }
 
 /* === Dark section utility === */
@@ -161,8 +146,10 @@
   color: #1A1412;
 }
 
+/* Dark ink on terracotta: white body text on #D4714E fails WCAG AA (~3:1),
+   dark ink passes (~5.4:1). Headings keep their existing treatment. */
 .terracotta-section p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(26, 20, 18, 0.87);
 }
 
 .terracotta-section .section-link {
@@ -181,7 +168,7 @@
 }
 
 .terracotta-section .project-info p {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(26, 20, 18, 0.87);
 }
 
 .terracotta-section .project-info h3 {
@@ -220,11 +207,12 @@ body {
 }
 
 /* === Typography === */
+/* Line height is set per level below, not shared: the display face wants to
+   sit tighter the larger it gets, so one value across all three was wrong. */
 h1, h2, h3 {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
   text-transform: uppercase;
-  line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
@@ -238,16 +226,19 @@ h4, h5, h6 {
 
 h1 {
   font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 0.8;
 }
 
 h2 {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2.4rem, 6vw, 5rem);
   font-weight: 800;
+  line-height: 0.87;
 }
 
 h3 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 800;
+  line-height: 0.88;
 }
 
 h4 {
@@ -255,13 +246,15 @@ h4 {
 }
 
 p {
-  font-weight: var(--weight-extralight);
+  font-weight: var(--weight-light);
+  font-size: 16px;
   line-height: 1.7;
   color: var(--color-text-secondary);
 }
 
 a {
   color: inherit;
+  font-weight: var(--weight-light);
   text-decoration: none;
   transition: color var(--transition-fast);
 }

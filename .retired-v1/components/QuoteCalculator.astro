@@ -1,0 +1,506 @@
+---
+// Commercial photography quote calculator, ported from ryanstanikk.co.uk and
+// restyled for Kombu. Same pricing logic; trimmed to commercial categories;
+// points at design@kombu.uk; lead-capture POST removed (WhatsApp/email/call
+// instead). View Transitions safe: the IIFE runs once per session and
+// re-initialises on astro:after-swap; the Maps script's rsInitPlaces callback
+// re-attaches when the field exists (verified over soft navigations).
+const cats = [
+  { v: 'food-drink', label: 'Food & Drink', path: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>' },
+  { v: 'styled-products', label: 'Styled Products', path: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>' },
+  { v: 'ecommerce', label: 'eCommerce', path: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' },
+  { v: 'lifestyle', label: 'Lifestyle', path: '<circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/>' },
+  { v: 'portraits', label: 'Portraits', path: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
+  { v: 'interiors', label: 'Interiors', path: '<path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/>' },
+  { v: 'architecture', label: 'Architecture', path: '<rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><rect x="8" y="6" width="8" height="12"/>' },
+  { v: 'music', label: 'Events & Music', path: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
+  { v: 'corporate', label: 'Corporate', path: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { v: 'other', label: 'Other', path: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
+];
+---
+<section class="quote-calc section" id="quote" aria-labelledby="quote-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="quote-heading">Instant Quote</h2>
+      <p class="section-lead reveal">Pick a category, set the details, and get a ballpark in seconds. Then send it over and I will firm it up.</p>
+    </div>
+
+    <div class="quote-calc__inner reveal">
+      <!-- Step 1: category -->
+      <div class="quote-step">
+        <p class="quote-label" id="rsCategoryLabel">What would you like shot?</p>
+        <div class="category-grid" id="rsCategoryGrid" role="group" aria-labelledby="rsCategoryLabel">
+          {cats.map((c) => (
+            <button type="button" class="category-card" aria-pressed="false" data-value={c.v}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" set:html={c.path} />
+              <span>{c.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Special message (Other) -->
+      <div class="special-msg" id="rsSpecialMsg" style="display:none;">
+        <div class="special-msg__card">
+          <h3 class="special-msg__heading" id="rsSpecialHeading"></h3>
+          <p class="special-msg__text" id="rsSpecialText"></p>
+          <div class="special-msg__actions">
+            <a href="https://wa.me/442381112819" target="_blank" rel="noopener" class="btn btn-primary">WhatsApp Me</a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="quote-form" id="rsQuoteForm" style="display:none;">
+        <div class="quote-field">
+          <label class="quote-label" for="rsPostcode">Shoot location</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" id="rsPostcode" placeholder="Business name, address or postcode" autocomplete="off" aria-describedby="rsPostcodeError" />
+            <button type="button" class="location-btn" id="rsCurrentLocation" aria-label="Use current location" title="Use current location">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M2 12h2"/><path d="M20 12h2"/></svg>
+            </button>
+          </div>
+          <p class="field-error" id="rsPostcodeError" role="alert" style="display:none;">Please pick a location from the suggestions, or enter a valid UK postcode.</p>
+        </div>
+
+        <div class="quote-field" id="rsFoodTypeWrap" style="display:none;">
+          <label class="quote-label" for="rsFoodType">Type of shoot</label>
+          <div class="select-wrap">
+            <select id="rsFoodType">
+              <option value="restaurant">Restaurant & plated dining</option>
+              <option value="cafe">Cafe, brunch & light bites</option>
+              <option value="drinks">Drinks, cocktails & bar</option>
+              <option value="takeaway">Takeaway & street food</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <div class="quote-field" id="rsSkuWrap" style="display:none;">
+          <label class="quote-label" for="rsSkuCount">How many products?</label>
+          <div class="select-wrap">
+            <select id="rsSkuCount">
+              <option value="15">Up to 15 products</option>
+              <option value="40">16 - 40 products</option>
+              <option value="volume">More than 40 products</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <p class="field-helper">A guide only, simple packshots go quicker than styled sets.</p>
+        </div>
+
+        <div class="quote-field" id="rsDurationWrap">
+          <label class="quote-label" for="rsDuration">Session duration</label>
+          <div class="select-wrap">
+            <select id="rsDuration">
+              <option value="2">2 Hours</option>
+              <option value="4">Half Day (3.5 Hours)</option>
+              <option value="8" selected>Full Day (7 Hours)</option>
+              <option value="multi">Multi-Day</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <p class="field-helper" id="rsDurationHelper" style="display:none;">For a full menu shoot, a full day is generally recommended.</p>
+        </div>
+
+        <div class="quote-field" id="rsDaysWrap" style="display:none;">
+          <label class="quote-label" for="rsDays">Number of days</label>
+          <div class="select-wrap">
+            <select id="rsDays">
+              <option value="2">2 Days</option>
+              <option value="3">3 Days</option>
+              <option value="4">4 Days</option>
+              <option value="5">5 Days</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <div class="quote-field">
+          <label class="quote-label" for="rsUsageScope">Business type & usage</label>
+          <div class="select-wrap">
+            <select id="rsUsageScope">
+              <option value="standard" selected>Standard - regional & multi-site businesses</option>
+              <option value="local">Local independent or charity - 20% off</option>
+              <option value="national">National campaign usage</option>
+              <option value="worldwide">Worldwide / international usage</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <p class="field-helper" id="rsUsageHelper">The standard rate for regional and multi-site business use.</p>
+        </div>
+
+        <div class="quote-field">
+          <button type="button" class="btn btn-primary quote-submit" id="rsCalculate">Get My Estimate</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="quote-result" id="rsResult" aria-live="polite" style="display:none;">
+        <div class="quote-result__card">
+          <p class="quote-result__label">Your estimate</p>
+          <p class="quote-result__was" id="rsWasPrice" style="display:none;"></p>
+          <h3 class="quote-result__price" id="rsPrice"></h3>
+          <ul class="quote-result__lines" id="rsResultLines" style="display:none;"></ul>
+          <p class="quote-result__trust"><span class="quote-result__trust-stars" aria-hidden="true">★★★★★</span> 5.0 on Google as Ryan Stanikk Photography · Costa, Novotel, John Lewis & TGI Fridays</p>
+          <div class="quote-result__actions">
+            <a id="rsEmailBtn" href="#" class="btn btn-primary">Email Me</a>
+            <a id="rsWhatsAppBtn" href="#" target="_blank" rel="noopener" class="btn btn-outline">WhatsApp Me</a>
+            <a href="tel:+442381112819" class="btn btn-outline">Call Me</a>
+          </div>
+          <p class="quote-result__footer">Includes editing and high-resolution files. All quotes are estimates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Google Places API (async; rsInitPlaces fires on load or is called from init() if Maps arrived first) -->
+<script is:inline async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArZcPxNWn_0b4OFup2VSTTdiUAJ4vkI-g&libraries=places&loading=async&callback=rsInitPlaces"></script>
+
+<script is:inline>
+(function () {
+  'use strict';
+  var BASE_LAT = 50.9097, BASE_LON = -1.4044;
+  var CONTACT_EMAIL = 'design@kombu.uk';
+  var WHATSAPP_URL = 'https://wa.me/442381112819';
+  var LONDON_REGEX = /^(EC|WC|E\d|N\d|NW|SE|SW|W\d)/i;
+  var LONDON_POSTCODE_START = /^(EC|WC|NW|SE|SW|E|N|W)\s*\d/i;
+  var UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
+  var LONDON_BOUNDS = { north: 51.6918, south: 51.2868, west: -0.5104, east: 0.3340 };
+
+  var RACK = { '2': 275, '4': 415, '8': 690 };
+  var LOCAL_DISCOUNT = 0.8, LOCAL_RADIUS_MILES = 30;
+  var QUOTED_USAGE = { national: { from: 1100, label: 'National campaign usage' }, worldwide: { from: 1500, label: 'Worldwide usage' } };
+  var USAGE_HELPERS = {
+    'standard': 'The standard rate for regional and multi-site business use.',
+    'local': 'Independent businesses and charities within ~30 miles of Southampton, single-venue usage. 20% off the standard rate.',
+    'national': 'UK-wide campaign, PR and editorial usage. Quoted per campaign, from £1,100 a day.',
+    'worldwide': 'International usage and global distribution. Quoted per campaign, from £1,500 a day.'
+  };
+  var SPECIALS = { other: { heading: 'Something else in mind?', text: "If your project doesn't fit the categories above, drop me a message and I'll put together a custom quote." } };
+  var CATEGORY_NAMES = { 'food-drink': 'Food & Drink', 'styled-products': 'Styled Products', 'ecommerce': 'eCommerce', 'lifestyle': 'Lifestyle', 'portraits': 'Portraits', 'interiors': 'Interiors', 'architecture': 'Architecture', 'music': 'Events & Music', 'corporate': 'Corporate', 'other': 'Other' };
+
+  var state = { category: null, lat: null, lng: null, isLondon: false, placeSelected: false, autocomplete: null };
+  var els = {};
+  function cacheDom() {
+    els.categoryGrid = document.getElementById('rsCategoryGrid');
+    els.specialMsg = document.getElementById('rsSpecialMsg');
+    els.specialHeading = document.getElementById('rsSpecialHeading');
+    els.specialText = document.getElementById('rsSpecialText');
+    els.quoteForm = document.getElementById('rsQuoteForm');
+    els.foodTypeWrap = document.getElementById('rsFoodTypeWrap');
+    els.foodType = document.getElementById('rsFoodType');
+    els.durationHelper = document.getElementById('rsDurationHelper');
+    els.duration = document.getElementById('rsDuration');
+    els.daysWrap = document.getElementById('rsDaysWrap');
+    els.days = document.getElementById('rsDays');
+    els.postcode = document.getElementById('rsPostcode');
+    els.postcodeError = document.getElementById('rsPostcodeError');
+    els.usageScope = document.getElementById('rsUsageScope');
+    els.usageHelper = document.getElementById('rsUsageHelper');
+    els.calculateBtn = document.getElementById('rsCalculate');
+    els.result = document.getElementById('rsResult');
+    els.price = document.getElementById('rsPrice');
+    els.wasPrice = document.getElementById('rsWasPrice');
+    els.resultLines = document.getElementById('rsResultLines');
+    els.emailBtn = document.getElementById('rsEmailBtn');
+    els.whatsappBtn = document.getElementById('rsWhatsAppBtn');
+    els.skuWrap = document.getElementById('rsSkuWrap');
+    els.skuCount = document.getElementById('rsSkuCount');
+    els.durationWrap = document.getElementById('rsDurationWrap');
+  }
+
+  function toRad(d) { return d * (Math.PI / 180); }
+  function haversine(lat1, lon1, lat2, lon2) {
+    var R = 3958.8, dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function getTravel(lat, lng, postcode) {
+    // Only run the London text test on input that actually looks like a
+    // postcode (letters then a digit): the field usually holds a place or
+    // business name, and LONDON_REGEX alone would classify Swanage, Swindon,
+    // Seaford etc. as London. With coordinates, the bounds check decides.
+    var textLondon = postcode && LONDON_POSTCODE_START.test(postcode.trim()) && LONDON_REGEX.test(postcode.trim());
+    var isLondon = state.isLondon || (!(lat && lng) && textLondon);
+    if (!isLondon && lat && lng && lat >= LONDON_BOUNDS.south && lat <= LONDON_BOUNDS.north && lng >= LONDON_BOUNDS.west && lng <= LONDON_BOUNDS.east) isLondon = true;
+    if (isLondon) return { fee: 80, label: 'Includes £80 London travel (rail + transfers)', minDuration: '4', miles: null, london: true };
+    if (lat && lng) {
+      var miles = haversine(BASE_LAT, BASE_LON, lat, lng);
+      if (miles > 150) return { fee: 150, label: 'Includes £150 travel (rail + transfers)', minDuration: '8', miles: miles, london: false };
+      if (miles > 80) return { fee: 90, label: 'Includes £90 travel (rail + transfers)', minDuration: '8', miles: miles, london: false };
+      if (miles > 30) return { fee: 40, label: 'Includes £40 travel (rail + transfers)', minDuration: '4', miles: miles, london: false };
+      return { fee: 0, label: null, minDuration: '2', miles: miles, london: false };
+    }
+    return { fee: 0, label: null, minDuration: '2', miles: null, london: false };
+  }
+
+  var DURATION_RANK = { '2': 1, '4': 2, '8': 3, 'multi': 4 };
+  function roundTo5(n) { return Math.round(n / 5) * 5; }
+
+  function calculatePrice() {
+    var postcode = els.postcode.value.trim();
+    var travel = getTravel(state.lat, state.lng, postcode);
+    var durationVal = els.duration.value, skuCap = null;
+    if (state.category === 'ecommerce') { skuCap = parseInt(els.skuCount.value, 10); durationVal = skuCap <= 15 ? '4' : '8'; }
+    var bumped = false;
+    if (DURATION_RANK[durationVal] < DURATION_RANK[travel.minDuration]) {
+      durationVal = travel.minDuration; bumped = true;
+      if (state.category !== 'ecommerce') { els.duration.value = durationVal; updateDurationHelper(); }
+    }
+    var base, multiDay = durationVal === 'multi';
+    if (multiDay) { base = parseInt(els.days.value, 10) * RACK['8'] * 0.9; } else { base = RACK[durationVal]; }
+    var foodTypeMultiplier = (state.category === 'food-drink' && els.foodType.value === 'takeaway') ? 1.25 : 1;
+    var rackRate = base * foodTypeMultiplier;
+    var usage = els.usageScope.value, discountApplied = false, discountUnavailable = false, rate = rackRate;
+    if (usage === 'local') {
+      // The 20% local rate needs a verified distance: an empty location no
+      // longer qualifies automatically.
+      var eligible = !travel.london && travel.miles !== null && travel.miles <= LOCAL_RADIUS_MILES;
+      if (eligible) { rate = rackRate * LOCAL_DISCOUNT; discountApplied = true; } else { discountUnavailable = true; }
+    }
+    return {
+      price: roundTo5(rate) + travel.fee, rackTotal: roundTo5(rackRate) + travel.fee,
+      discountApplied: discountApplied, discountUnavailable: discountUnavailable, travelLabel: travel.label, travelFee: travel.fee,
+      multiDay: multiDay, bumped: bumped, bumpedTo: durationVal, bumpedLondon: travel.london, skuCap: skuCap, usage: usage
+    };
+  }
+
+  function formatGBP(a) { return a % 1 === 0 ? '£' + a.toLocaleString('en-GB') : '£' + a.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function durationLabelFor(d) { if (d === 'multi') return els.days.value + ' days'; if (d === '2') return '2 hours'; if (d === '4') return 'Half day (3.5 hours)'; return 'Full day (7 hours)'; }
+
+  function buildSummary(result) {
+    var catName = CATEGORY_NAMES[state.category] || state.category;
+    var durationLabel = durationLabelFor(result.bumpedTo || els.duration.value);
+    var location = els.postcode.value.trim() || 'Not specified';
+    var usageLabel = els.usageScope.options[els.usageScope.selectedIndex].text;
+    var foodTypeLabel = state.category === 'food-drink' ? els.foodType.options[els.foodType.selectedIndex].text : '';
+    var intro;
+    if (result.quotedFrom) intro = "I used the quote calculator - my project needs " + result.quotedLabel.toLowerCase() + ", so I understand it's quoted individually (from " + formatGBP(result.quotedFrom) + " a day).";
+    else if (result.perImage) intro = "I used the quote calculator - I have more than 40 products to shoot, so I understand it's priced per image.";
+    else intro = "I used the quote calculator and got an estimate of " + formatGBP(result.price) + ".";
+    var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName + (foodTypeLabel ? ' (' + foodTypeLabel + ')' : ''), 'Duration: ' + (result.perImage ? 'To discuss (40+ products)' : durationLabel), 'Location: ' + location, 'Usage: ' + usageLabel];
+    if (result.skuCap && !result.perImage) lines.push('Products: up to ' + result.skuCap);
+    if (result.travelFee) lines.push('Travel: ' + formatGBP(result.travelFee) + ' included in the estimate');
+    if (result.discountApplied) lines.push('Rate: local independent / charity (20% off the standard rate)');
+    lines.push('', 'Could we discuss this further?', '', 'Thanks');
+    return lines;
+  }
+
+  function countUp(el, target, duration) {
+    var start = performance.now(), dur = duration || 1200, targetPence = Math.round(target * 100), isWhole = target % 1 === 0;
+    function ease(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    function tick(now) {
+      var p = Math.min((now - start) / dur, 1), pounds = Math.round(targetPence * ease(p)) / 100;
+      el.textContent = isWhole ? '£' + Math.round(pounds).toLocaleString('en-GB') : '£' + pounds.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function addResultLine(t) { var li = document.createElement('li'); li.textContent = t; els.resultLines.appendChild(li); }
+
+  function showResult(result) {
+    if (result.quotedFrom) els.price.textContent = 'From ' + formatGBP(result.quotedFrom);
+    else if (result.perImage) els.price.textContent = 'Per-image pricing';
+    else { els.price.textContent = '£0'; setTimeout(function () { countUp(els.price, result.price, 1200); }, 350); }
+    if (result.discountApplied && result.rackTotal > result.price) { els.wasPrice.textContent = 'Standard rate ' + formatGBP(result.rackTotal); els.wasPrice.style.display = ''; } else els.wasPrice.style.display = 'none';
+    els.resultLines.innerHTML = '';
+    if (result.discountApplied) addResultLine('Local independent / charity discount applied (20% off)');
+    if (result.discountUnavailable) addResultLine('The independent/charity discount covers ~30 miles around Southampton, so the standard rate applies here');
+    if (result.travelLabel) addResultLine(result.travelLabel);
+    if (result.multiDay) addResultLine('Includes 10% multi-day discount');
+    if (result.bumped && !result.perImage) addResultLine(result.bumpedLondon ? 'London shoots start at a half day, so the estimate is for ' + durationLabelFor(result.bumpedTo).toLowerCase() : 'At this distance shoots start at ' + durationLabelFor(result.bumpedTo).toLowerCase() + ', so the estimate reflects that');
+    if (result.skuCap && !result.perImage) addResultLine('Covers up to ' + result.skuCap + ' products (about ' + formatGBP(Math.ceil(result.price / result.skuCap)) + ' per product)');
+    if (result.perImage) addResultLine('Shoots over 40 products are priced per image with a half-day minimum - message me your product count for a per-image rate');
+    if (result.quotedFrom) addResultLine('Licensed per campaign - territories, duration and exclusivity are priced individually');
+    els.resultLines.style.display = els.resultLines.children.length ? '' : 'none';
+    var summary = buildSummary(result);
+    els.emailBtn.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Photography Quote - ' + (CATEGORY_NAMES[state.category] || state.category)) + '&body=' + encodeURIComponent(summary.join('\n'));
+    els.whatsappBtn.href = WHATSAPP_URL + '?text=' + encodeURIComponent(summary.join('\n'));
+    els.result.style.display = '';
+    setTimeout(function () { els.result.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+    if (typeof gtag === 'function') gtag('event', 'quote_calculated', { event_category: 'Quote', event_label: state.category, value: Math.round(result.quotedFrom || result.price || 0), currency: 'GBP', usage: result.usage, duration: result.perImage ? 'volume' : (result.bumpedTo || els.duration.value) });
+  }
+
+  function resolvePostcode(postcode, cb) {
+    fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(postcode.replace(/\s+/g, '').toUpperCase()))
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.status === 200 && d.result) cb(null, { lat: d.result.latitude, lng: d.result.longitude }); else cb('Invalid postcode'); })
+      .catch(function () { cb('Network error'); });
+  }
+
+  function onCategoryClick(e) {
+    var card = e.target.closest('.category-card'); if (!card) return;
+    var value = card.getAttribute('data-value');
+    els.categoryGrid.querySelectorAll('.category-card').forEach(function (c) { c.classList.remove('selected'); c.setAttribute('aria-pressed', 'false'); });
+    card.classList.add('selected'); card.setAttribute('aria-pressed', 'true');
+    state.category = value;
+    els.result.style.display = 'none';
+    var isFood = value === 'food-drink';
+    els.foodTypeWrap.style.display = isFood ? '' : 'none';
+    updateDurationHelper();
+    if (!isFood) els.foodType.value = 'restaurant';
+    var isEcom = value === 'ecommerce';
+    els.skuWrap.style.display = isEcom ? '' : 'none';
+    els.durationWrap.style.display = isEcom ? 'none' : '';
+    if (isEcom) els.daysWrap.style.display = 'none';
+    if (SPECIALS[value]) {
+      els.specialHeading.textContent = SPECIALS[value].heading;
+      els.specialText.textContent = SPECIALS[value].text;
+      els.specialMsg.style.display = ''; els.quoteForm.style.display = 'none';
+    } else { els.specialMsg.style.display = 'none'; els.quoteForm.style.display = ''; }
+    if (typeof gtag === 'function') gtag('event', 'category_selected', { event_category: 'Quote', event_label: value });
+    var revealed = SPECIALS[value] ? els.specialMsg : els.quoteForm;
+    if (revealed) requestAnimationFrame(function () { revealed.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+  }
+
+  function updateDurationHelper() { els.durationHelper.style.display = (state.category === 'food-drink' && (els.duration.value === '2' || els.duration.value === '4')) ? '' : 'none'; }
+  function onDurationChange() { els.daysWrap.style.display = els.duration.value === 'multi' ? '' : 'none'; updateDurationHelper(); els.result.style.display = 'none'; }
+  function onUsageScopeChange() { if (USAGE_HELPERS[els.usageScope.value]) els.usageHelper.textContent = USAGE_HELPERS[els.usageScope.value]; els.result.style.display = 'none'; }
+
+  function isLondonNow() {
+    if (state.isLondon) return true;
+    if (state.lat && state.lng && state.lat >= LONDON_BOUNDS.south && state.lat <= LONDON_BOUNDS.north && state.lng >= LONDON_BOUNDS.west && state.lng <= LONDON_BOUNDS.east) return true;
+    return LONDON_POSTCODE_START.test(els.postcode.value.trim());
+  }
+  var localUsageOption = null, durationOptionNodes = null;
+  function updateDurationOptions() {
+    if (!durationOptionNodes) return;
+    var travel = getTravel(state.lat, state.lng, els.postcode.value.trim()), minRank = DURATION_RANK[travel.minDuration], selected = els.duration.value;
+    durationOptionNodes.forEach(function (o) { if (o.parentNode === els.duration) els.duration.removeChild(o); });
+    durationOptionNodes.forEach(function (o) { if (DURATION_RANK[o.value] >= minRank) els.duration.appendChild(o); });
+    if (DURATION_RANK[selected] >= minRank) els.duration.value = selected; else { els.duration.value = travel.minDuration; onDurationChange(); }
+  }
+  function updateUsageOptions() {
+    if (!localUsageOption || (!document.body.contains(localUsageOption) && els.usageScope.querySelector('option[value="local"]'))) localUsageOption = els.usageScope.querySelector('option[value="local"]');
+    if (!localUsageOption) return;
+    var london = isLondonNow(), attached = localUsageOption.parentNode === els.usageScope;
+    if (london && attached) { if (els.usageScope.value === 'local') { els.usageScope.value = 'standard'; onUsageScopeChange(); } els.usageScope.removeChild(localUsageOption); }
+    else if (!london && !attached) els.usageScope.insertBefore(localUsageOption, els.usageScope.children[1] || null);
+  }
+  function updateLocationDependentFields() { updateUsageOptions(); updateDurationOptions(); }
+
+  function onCalculateClick() {
+    els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error');
+    if (state.category === 'ecommerce' && els.skuCount.value === 'volume') { showResult({ perImage: true, usage: els.usageScope.value }); return; }
+    var usageVal = els.usageScope.value;
+    if (QUOTED_USAGE[usageVal]) { showResult({ quotedFrom: QUOTED_USAGE[usageVal].from, quotedLabel: QUOTED_USAGE[usageVal].label, usage: usageVal }); return; }
+    var postcode = els.postcode.value.trim();
+    if (state.placeSelected && state.lat && state.lng) { showResult(calculatePrice()); return; }
+    if (!postcode) { state.lat = null; state.lng = null; state.isLondon = false; showResult(calculatePrice()); return; }
+    if (UK_POSTCODE_REGEX.test(postcode)) {
+      els.calculateBtn.textContent = 'Calculating...'; els.calculateBtn.disabled = true;
+      // The field stays editable while this is in flight. Without checking the
+      // postcode back, a lookup that resolves after the visitor has typed a
+      // different one prices the OLD location against the NEW label.
+      var requestedFor = postcode;
+      resolvePostcode(postcode, function (err, data) {
+        els.calculateBtn.textContent = 'Get My Estimate'; els.calculateBtn.disabled = false;
+        if (els.postcode.value.trim() !== requestedFor) return;   // stale, the input moved on
+        if (err) { els.postcodeError.style.display = ''; els.postcode.classList.add('has-error'); return; }
+        state.lat = data.lat; state.lng = data.lng; state.placeSelected = true; updateLocationDependentFields(); showResult(calculatePrice());
+      });
+      return;
+    }
+    els.postcodeError.style.display = ''; els.postcode.classList.add('has-error');
+  }
+
+  window.rsInitPlaces = function () {
+    if (!els.postcode) return;
+    try {
+      var ac = new google.maps.places.Autocomplete(els.postcode, { componentRestrictions: { country: 'gb' }, types: ['establishment', 'geocode'], fields: ['geometry', 'formatted_address', 'address_components'] });
+      state.autocomplete = ac;
+      ac.addListener('place_changed', function () {
+        var place = ac.getPlace();
+        if (!place.geometry) { state.placeSelected = false; state.lat = null; state.lng = null; return; }
+        state.lat = place.geometry.location.lat(); state.lng = place.geometry.location.lng(); state.placeSelected = true; state.isLondon = false;
+        if (place.address_components) place.address_components.forEach(function (c) { if (c.types.indexOf('postal_town') !== -1 && c.long_name === 'London') state.isLondon = true; });
+        var pc = place.address_components && place.address_components.find(function (c) { return c.types.indexOf('postal_code') !== -1; });
+        if (pc && LONDON_REGEX.test(pc.long_name)) state.isLondon = true;
+        els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error'); els.result.style.display = 'none'; updateLocationDependentFields();
+      });
+    } catch (e) { console.warn('Google Places unavailable; falling back to postcode lookup.'); }
+  };
+
+  function onPostcodeInput() { state.placeSelected = false; state.lat = null; state.lng = null; state.isLondon = false; els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error'); els.result.style.display = 'none'; updateLocationDependentFields(); }
+
+  function init() {
+    cacheDom();
+    if (!els.categoryGrid) return;
+    // Re-arming after a View Transition: the DOM is fresh but this module
+    // survives, so stale location state must not leak into the new form.
+    state.category = null; state.lat = null; state.lng = null;
+    state.isLondon = false; state.placeSelected = false;
+    els.categoryGrid.addEventListener('click', onCategoryClick);
+    els.foodType.addEventListener('change', function () { els.result.style.display = 'none'; });
+    els.duration.addEventListener('change', onDurationChange);
+    els.usageScope.addEventListener('change', onUsageScopeChange);
+    els.skuCount.addEventListener('change', function () { els.result.style.display = 'none'; });
+    els.postcode.addEventListener('input', onPostcodeInput);
+    durationOptionNodes = Array.from(els.duration.options);
+    updateLocationDependentFields();
+    els.calculateBtn.addEventListener('click', onCalculateClick);
+    els.postcode.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); setTimeout(onCalculateClick, 300); } });
+
+    var locBtn = document.getElementById('rsCurrentLocation');
+    if (locBtn && 'geolocation' in navigator) {
+      function extractPlaceName(results) {
+        var best = results[0]; if (!best) return null;
+        var comp = best.address_components || [], nb = null, sub = null, loc = null, pt = null, county = null;
+        for (var c = 0; c < comp.length; c++) { var t = comp[c].types || [];
+          if (t.indexOf('neighborhood') !== -1) nb = comp[c].long_name;
+          if (t.indexOf('sublocality') !== -1 || t.indexOf('sublocality_level_1') !== -1) sub = comp[c].long_name;
+          if (t.indexOf('locality') !== -1) loc = comp[c].long_name;
+          if (t.indexOf('postal_town') !== -1) pt = comp[c].long_name;
+          if (t.indexOf('administrative_area_level_2') !== -1) county = comp[c].long_name;
+        }
+        var specific = nb || sub, town = loc || pt, parts = [];
+        if (specific) parts.push(specific); if (town && town !== specific) parts.push(town); if (county && county !== town && county !== specific) parts.push(county);
+        if (parts.length) return parts.join(', ');
+        return (best.formatted_address || '').replace(/, UK$/, '').replace(/, United Kingdom$/, '');
+      }
+      function setLocation(lat, lng, name) {
+        els.postcode.value = name; state.lat = lat; state.lng = lng; state.placeSelected = true;
+        els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error'); locBtn.classList.remove('is-loading');
+        updateLocationDependentFields();
+        if (typeof gtag === 'function') gtag('event', 'used_current_location', { page: '/photography/', location_found: name });
+      }
+      function tryPlacesFallback(lat, lng) {
+        if (window.google && window.google.maps && window.google.maps.places) {
+          new google.maps.places.PlacesService(document.createElement('div')).nearbySearch({ location: { lat: lat, lng: lng }, radius: 5000, type: 'locality' }, function (res, status) {
+            if (status === 'OK' && res && res[0]) setLocation(lat, lng, res[0].name + (res[0].vicinity ? ', ' + res[0].vicinity : ''));
+            else setLocation(lat, lng, 'My Location (near ' + lat.toFixed(2) + ', ' + lng.toFixed(2) + ')');
+          });
+        } else setLocation(lat, lng, 'My Location (near ' + lat.toFixed(2) + ', ' + lng.toFixed(2) + ')');
+      }
+      locBtn.addEventListener('click', function () {
+        locBtn.classList.add('is-loading');
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          var lat = pos.coords.latitude, lng = pos.coords.longitude;
+          if (window.google && window.google.maps && window.google.maps.Geocoder) {
+            new google.maps.Geocoder().geocode({ location: { lat: lat, lng: lng } }, function (res, status) {
+              if (status === 'OK' && res && res.length) setLocation(lat, lng, extractPlaceName(res) || (lat.toFixed(4) + ', ' + lng.toFixed(4)));
+              else tryPlacesFallback(lat, lng);
+            });
+          } else tryPlacesFallback(lat, lng);
+        }, function () {
+          // Denied or timed out: say so instead of silently stopping the spinner.
+          locBtn.classList.remove('is-loading');
+          els.postcodeError.textContent = 'Could not get your location. Type a postcode or place name instead.';
+          els.postcodeError.style.display = '';
+        }, { enableHighAccuracy: false, timeout: 8000 });
+      });
+    } else if (locBtn) locBtn.style.display = 'none';
+
+    if (window.google && window.google.maps && window.google.maps.places) window.rsInitPlaces();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  document.addEventListener('astro:after-swap', init);
+})();
+</script>

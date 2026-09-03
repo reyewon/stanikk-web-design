@@ -1,0 +1,196 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ContactCard from '../components/ContactCard.astro';
+import PageHead from '../components/PageHead.astro';
+import Ledger from '../components/Ledger.astro';
+
+const title = "Graphic Design Southampton | Logos, Menus & Print | Kombu";
+const description = "Graphic design in Southampton: brand identity, logos, menus and print, shown through real client case studies from Padharo, Kwackers and more.";
+
+const disciplines = [
+  { t: "Brand & Logo Identity", d: "Logos, colour, type and the rules that keep them consistent everywhere." },
+  { t: "Menus & Print", d: "Menus, flyers, signage and collateral, designed to print properly and read at a glance." },
+  { t: "Packaging & Labels", d: "Labels, packaging and product-facing design that survives the shelf." },
+  { t: "Social & Editorial", d: "Templates, decks and editorial layouts that stay on-brand at speed." },
+];
+
+const pricing = [
+  { t: "Logo & identity", p: "from £450" },
+  { t: "Menu design", p: "from £250" },
+  { t: "Print & collateral", p: "from £150" },
+  { t: "Brand guidelines", p: "from £600" },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/design#webpage", "url": "https://kombu.uk/design", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/design#service", "name": "Graphic Design & Branding", "serviceType": "Graphic Design", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Brand identity, logo design, menus, packaging, print and editorial design for hospitality and small businesses.",
+    "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Design services", "itemListElement": [
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "450", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Logo & brand identity" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "250", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Menu design" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "150", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Print & collateral design" } },
+      { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "600", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Brand guidelines" } }
+    ] } },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/design#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Design", "item": "https://kombu.uk/design" } ] }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema}>
+
+<Nav current="design" />
+
+<main id="main">
+
+  <PageHead
+    fill="ochre"
+    title="Graphic design"
+    body="Twenty years of graphic design, since I was seventeen. Logos, brand identities, menus and print, shaped by someone who already knows exactly where they will end up: on the site, in the window, on the table."
+    fact="Logos from £450"
+    img="/images/design/kwackers-burgers.jpg"
+    alt="The Kwackers burger menu, designed by Kombu"
+    primary={{ href: '#work', label: 'See the work' }}
+    secondary={{ href: 'https://wa.me/442381112819', label: 'WhatsApp me' }}
+  />
+
+  <section class="band bleed" aria-labelledby="what-design-h">
+    <div class="sec-head">
+      <div class="sec-head-text">
+        <h2 id="what-design-h">What I design</h2>
+        <p class="section-lede">From a single logo to a full identity and the print that carries it, with the engineering side handled so files actually work at the printer.</p>
+      </div>
+    </div>
+    <Ledger items={disciplines} />
+  </section>
+
+  <section class="band bleed" id="work" aria-labelledby="work-h">
+    <div class="sec-head">
+      <div class="sec-head-text">
+        <h2 id="work-h">Selected work</h2>
+        <p class="section-lede">Real pieces from real projects, not mockups. A flagship restaurant menu, a two-year marketing partnership, a wholesale catalogue, an exhibition brand system and a clinic's ad campaign. Different briefs, same hand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Padharo: outlined white card, two menu images then a wide + tall campaign row -->
+  <section class="card-section bleed" id="cs-padharo" aria-labelledby="cs-padharo-h">
+    <div class="card card--white cs-card">
+      <h2 id="cs-padharo-h">Padharo</h2>
+      <p class="cs-lead">Three years in and still ongoing: photography, video, social, the website and the strategy behind an upmarket vegetarian Indian restaurant. The piece I refine most is the menu, rebuilt once or twice a year so every dish, description and allergen stays easy to read and quietly classy.</p>
+      <div class="cs-chips">
+        <span class="chip">Photography</span><span class="chip">Video</span><span class="chip">Social media</span><span class="chip">Website</span><span class="chip">Menu design</span><span class="chip">Consultancy</span>
+      </div>
+      <div class="cs-media">
+        <div class="cs-row cs-row--2">
+          <div class="cs-tile cs-tile--menu1" data-lightbox><img src="/images/design/padharo-menu-front.jpg" width="1059" height="1500" alt="Padharo menu, front: nibbles, tandoor grilled and chaat in a classy cream and terracotta layout" loading="lazy" /></div>
+          <div class="cs-tile cs-tile--menu2" data-lightbox><img src="/images/design/padharo-menu-back.jpg" width="1059" height="1500" alt="Padharo menu, reverse: street food, mains, rice, naan and desserts with allergen marks" loading="lazy" /></div>
+        </div>
+        <div class="cs-row cs-row--campaign">
+          <div class="cs-tile cs-tile--wide" data-lightbox><img src="/images/design/padharo-free-starter.jpg" width="1600" height="902" alt="Padharo free-starter promotion with food photography" loading="lazy" /></div>
+          <div class="cs-tile cs-tile--tall" data-lightbox><img src="/images/design/padharo-veganuary.jpg" width="1200" height="1600" alt="Padharo Veganuary campaign poster with seasonal vegan offers" loading="lazy" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kwackers: kelp card, text left, 2x2 spreads right -->
+  <section class="card-section bleed" id="cs-kwackers" aria-labelledby="cs-kwackers-h">
+    <div class="card card--kelp cs-card two">
+      <div class="stack">
+        <h2 id="cs-kwackers-h">Kwackers</h2>
+        <p>I ran the marketing for this Asian street food brand for over two years. The menus are my photography and design working as one: I shoot the food already knowing where the words need to land, so nothing fights for space.</p>
+        <p>Beyond the menus came product photography across both sites, social, TV assets, van signage, stationery and the launch of their second venue, a much larger kitchen and sports bar.</p>
+        <div class="cs-chips">
+          <span class="chip">Menu design</span><span class="chip">Food photography</span><span class="chip">Social media</span><span class="chip">TV assets</span><span class="chip">Van signage</span><span class="chip">Stationery</span><span class="chip">Launch</span>
+        </div>
+      </div>
+      <div class="cs-grid-2x2">
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-starters.jpg" width="1500" height="1060" alt="Kwackers menu spread: starters, with food photography shot to leave room for the text" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-rice.jpg" width="1500" height="1060" alt="Kwackers menu spread: rice bowls and new arrivals" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-burgers.jpg" width="1500" height="1060" alt="Kwackers menu spread: burgers and combos" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-sharers.jpg" width="1500" height="1058" alt="Kwackers menu spread: sharing platters and sides" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ideal Produce: white outlined card, text top, cover + stacked spreads -->
+  <section class="card-section bleed" id="cs-ideal" aria-labelledby="cs-ideal-h">
+    <div class="card card--white cs-card">
+      <h2 id="cs-ideal-h">Ideal Produce</h2>
+      <p class="cs-lead">A big wholesale produce catalogue: page after page of listings to structure, and real product photography to source and place alongside them. Built with proper document and brochure layout so a catering buyer can find and reference anything at a glance.</p>
+      <div class="cs-chips">
+        <span class="chip">Brochure design</span><span class="chip">Document layout</span><span class="chip">Image sourcing</span>
+      </div>
+      <div class="cs-ideal-media">
+        <div class="cs-tile cs-tile--cover" data-lightbox><img src="/images/design/ideal-produce-cover.jpg" width="1060" height="1500" alt="Ideal Produce catalogue cover: dramatic food photography with the Ideal Produce wordmark" loading="lazy" /></div>
+        <div class="cs-ideal-side">
+          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-1.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: canned goods, crisps, oils and syrups in a clean navy layout" loading="lazy" /></div>
+          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-2.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: condiments and sauces listings with product photography" loading="lazy" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Build Budget Expert: mist card, text left, collage right -->
+  <section class="card-section bleed" id="cs-bbe" aria-labelledby="cs-bbe-h">
+    <div class="card card--mist cs-card two">
+      <div class="stack">
+        <h2 id="cs-bbe-h">Build Budget Expert</h2>
+        <p>An ongoing client I keep exhibition-ready: flyers, business cards, roller banners, podiums and pull-up stands, refreshed as he needs them. Every piece holds the exact same brand, type and colour, so a full stand reads as one clean, professional presence rather than a pile of odds and ends.</p>
+        <div class="cs-chips">
+          <span class="chip">Roller banners</span><span class="chip">Flyers</span><span class="chip">Business cards</span><span class="chip">Podiums</span><span class="chip">Pull-up stands</span>
+        </div>
+      </div>
+      <div class="cs-collage">
+        <div class="cs-collage__piece cs-collage__piece--stand" data-lightbox>
+          <picture>
+            <source srcset="/images/design/bbe-stand.webp" type="image/webp" />
+            <img src="/images/design/bbe-stand.jpg" width="900" height="1200" alt="The full Build Budget Expert exhibition stand assembled at a trade show: matching dark green and gold roller banners, pull-up displays and a branded podium" loading="lazy" />
+          </picture>
+        </div>
+        <div class="cs-collage__piece cs-collage__piece--banner" data-lightbox><img src="/images/design/bbe-banner.jpg" width="649" height="1600" alt="Build Budget Expert roller banner in dark green and gold" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--flyer" data-lightbox><img src="/images/design/bbe-flyer-front.jpg" width="917" height="1300" alt="Build Budget Expert A5 flyer, front" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--card-b" data-lightbox><img src="/images/design/bbe-card-back.jpg" width="1200" height="778" alt="Build Budget Expert business card, reverse" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--card-f" data-lightbox><img src="/images/design/bbe-card-front.jpg" width="1200" height="778" alt="Build Budget Expert business card, front, for Owen Gartside" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Remedi Health: white outlined card, text top, two posters side by side -->
+  <section class="card-section bleed" id="cs-remedi" aria-labelledby="cs-remedi-h">
+    <div class="card card--white cs-card">
+      <h2 id="cs-remedi-h">Remedi Health</h2>
+      <p class="cs-lead">A private health clinic whose early adverts were basic and needed lifting to match the quality of their care. I sourced the imagery, shaped the messaging and laid it out across posters, flyers and web banners. A more corporate register, for when the brief calls for it.</p>
+      <div class="cs-chips">
+        <span class="chip">Posters</span><span class="chip">Flyers</span><span class="chip">Web banners</span><span class="chip">Image sourcing</span><span class="chip">Messaging</span>
+      </div>
+      <div class="cs-row cs-row--2 cs-row--posters">
+        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-1.jpg" width="942" height="1400" alt="Remedi Health poster: a father with his children, with a private health services message" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-2.jpg" width="942" height="1400" alt="Remedi Health poster: a smiling woman with a warm message about staying healthy for family" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band bleed" aria-labelledby="from-h">
+    <div class="sec-head">
+      <div class="sec-head-text">
+        <h2 id="from-h">Where it starts</h2>
+        <p class="section-lede">Indicative starting points. Every project is scoped and quoted properly once I know what you need.</p>
+      </div>
+    </div>
+    <div class="from-grid">
+      {pricing.map((p) => (
+        <div class="card from-card">
+          <span class="from-name">{p.t}</span>
+          <span class="from-price">{p.p}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <ContactCard text="A menu, a logo, a full rebrand, whatever you are putting out into the world, I will make it look like you mean it. Brief me in plain English; no jargon required." />
+
+</main>
+
+<Footer />
+
+</Layout>

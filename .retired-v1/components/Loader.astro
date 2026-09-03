@@ -1,0 +1,12 @@
+---
+// First-load brand moment. Persists across View Transitions so it is never
+// recreated mid-session; the runtime plays it once then hides it.
+---
+<div class="loader" id="loader" role="status" aria-label="Loading Kombu" transition:persist="loader">
+  <img class="loader-mark" src="/images/loader-mark.png" alt="" aria-hidden="true" />
+  <div class="loader-text" id="loader-text">
+    <span class="loader-name">Kombu</span>
+    <span class="loader-sub">Studio</span>
+  </div>
+  <div class="loader-bar" id="loader-bar"></div>
+</div>

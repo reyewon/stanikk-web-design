@@ -1,0 +1,2475 @@
+/* ============================================================
+   SIDE RAIL (editorial vertical nav)
+
+   Behaviour spec — implemented faithfully:
+   - Hidden until first 40 px scroll, then slides in once and stays.
+   - Hover (desktop) / tap (mobile) expands to drawer.
+   - Content squeeze via margin-left + width on <main> + .footer
+     (NOT padding — padding-left is silently dropped on direct
+     children of body when overflow-x: clip).
+   - 100dvh + safe-area-inset-bottom on the rail itself.
+   - Vertical bar (not dot) for current section.
+   - Constant terracotta accent across sections; rail surface
+     stays charcoal-brown so it sits like furniture against
+     either dark or terracotta page backgrounds.
+   ============================================================ */
+
+/* Light-theme rail: cream surface, dark ink, terracotta accent.
+   Tokens kept here as locals so the rail is one swap away from being
+   re-themed for a future dark variant. */
+.rail {
+  --rail-bg:     #FAF7F4;          /* cream surface */
+  --rail-edge:   rgba(26, 20, 18, 0.08);
+  --rail-ink:    #1A1412;          /* primary dark ink */
+  --rail-muted:  rgba(26, 20, 18, 0.55);
+  --rail-active: var(--color-accent);
+
+  position: fixed;
+  top: 0;
+  right: 0;                /* moved to right edge */
+  width: var(--rail-w);
+  height: 100dvh;
+  z-index: 950;
+  background: var(--rail-bg);
+  color: var(--rail-ink);
+  /* No edge stroke — solid surfaces only */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  /* Hidden off the right edge until body.rail-in lands */
+  transform: translateX(100%);
+  transition: transform var(--rail-dur) var(--rail-ease),
+              width var(--rail-dur) var(--rail-ease);
+  overflow: hidden;
+  will-change: transform, width;
+}
+
+body.rail-in .rail {
+  transform: translateX(0);
+}
+
+.rail.expanded {
+  width: var(--drawer-w);
+}
+
+/* Hairline accent — sits on the inner (left) edge now that the rail is right-anchored */
+.rail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(212, 113, 78, 0.22);
+  opacity: 0;
+  transition: opacity 0.4s var(--rail-ease);
+  pointer-events: none;
+}
+.rail.expanded::after { opacity: 1; }
+
+/* === Hamburger (mobile only) === */
+.rail-burger {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: var(--rail-w);
+  height: var(--rail-w);
+  flex: 0 0 auto;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--rail-ink);
+}
+.rail-burger span {
+  position: absolute;
+  left: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center;
+  transform: translateX(-50%);
+  transition: transform 0.35s var(--rail-ease), opacity 0.25s var(--rail-ease);
+}
+.rail-burger span:nth-child(1) { top: calc(50% - 6px); }
+.rail-burger span:nth-child(2) { top: 50%; transform: translate(-50%, -50%); }
+.rail-burger span:nth-child(3) { top: calc(50% + 6px); }
+.rail-burger.active span:nth-child(1) { transform: translate(-50%, 5.5px) rotate(45deg); }
+.rail-burger.active span:nth-child(2) { opacity: 0; }
+.rail-burger.active span:nth-child(3) { transform: translate(-50%, -5.5px) rotate(-45deg); }
+
+/* === Logo (K mark crossfades to KOMBU wordmark) === */
+.rail-logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 84px;        /* fixed because both children are absolutely positioned */
+  flex: 0 0 auto;
+  margin-top: 14px;
+  margin-bottom: 28px;
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.rail-mark,
+.rail-wordmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.45s var(--rail-ease),
+              transform 0.55s var(--rail-ease);
+}
+
+/* Collapsed mark: the loader-mark icon, tinted to terracotta */
+.rail-mark {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  /* loader-mark.png is white. Stamp it terracotta via two filters:
+     brightness(0) drops everything to black, then a colour matrix paints
+     it terracotta. We achieve the colour with a subtle tint stack. */
+  filter: brightness(0) saturate(100%)
+          invert(48%) sepia(70%) saturate(421%) hue-rotate(345deg)
+          brightness(95%) contrast(86%);
+  opacity: 1;
+}
+
+.rail-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  white-space: nowrap;
+}
+
+.rail-wordmark-name {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 2.55rem;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+  display: block;
+}
+
+.rail-wordmark-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.66rem;
+  letter-spacing: 0.42em;
+  color: var(--rail-muted);
+  display: block;
+  margin-top: 6px;
+  padding-left: 0.42em; /* visually centre after letter-spacing */
+}
+
+.rail.expanded .rail-mark {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+.rail.expanded .rail-wordmark {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* === Nav list === */
+.rail-nav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+.rail-nav::-webkit-scrollbar { display: none; }
+
+.rail-item {
+  position: relative;
+  /* Right-anchored rail: name on the LEFT (column 1), icon on the RIGHT
+     (column 2 = rail-w wide, the column nearest the viewport edge).
+     CRITICAL: minmax(0, 1fr) — plain `1fr` defaults to `minmax(auto, 1fr)`
+     which refuses to shrink below the name's intrinsic width, expanding
+     the whole rail-item past var(--rail-w) and pushing the icon off-screen.
+     With minmax(0, ...) the column collapses to 0 when the rail is
+     collapsed and grows to fill on expand. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--rail-w);
+  align-items: center;
+  height: 56px;
+  text-decoration: none;
+  color: var(--rail-muted);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.rail-item:hover {
+  color: var(--rail-active);
+}
+
+.rail-item-bar {
+  position: absolute;
+  /* Bar pinned to the rail's outer (right) edge — the viewport edge */
+  right: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  background: var(--rail-active);
+  border-radius: 2px 0 0 2px;
+  opacity: 0;
+  transform: scaleY(0.4);
+  transform-origin: center;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.rail-item.current .rail-item-bar {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.rail-item.current {
+  color: var(--rail-active);
+}
+
+.rail-item-icon {
+  /* Right-rail: icon sits in column 2 (the rail-w column on the viewport edge) */
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rail-w);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+.rail-item-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+.rail-item:hover .rail-item-icon {
+  transform: translateX(-1px); /* nudge inward toward the name */
+}
+.rail.expanded .rail-item-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.rail-item-name {
+  /* Right-rail: name sits in column 1 (left of icon), right-aligned so it
+     hugs the icon column for a tight pairing. */
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 18px;
+  padding-right: 4px;
+  opacity: 0;
+  transform: translateX(8px);  /* slides in from the right (toward icon) */
+  transition: opacity 0.35s var(--rail-ease) 0s,
+              transform 0.4s var(--rail-ease) 0s;
+}
+.rail.expanded .rail-item-name {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Stagger reveal of names when drawer expands */
+.rail.expanded .rail-item:nth-child(1) .rail-item-name { transition-delay: 0.05s; }
+.rail.expanded .rail-item:nth-child(2) .rail-item-name { transition-delay: 0.09s; }
+.rail.expanded .rail-item:nth-child(3) .rail-item-name { transition-delay: 0.13s; }
+.rail.expanded .rail-item:nth-child(4) .rail-item-name { transition-delay: 0.17s; }
+.rail.expanded .rail-item:nth-child(5) .rail-item-name { transition-delay: 0.21s; }
+.rail.expanded .rail-item:nth-child(6) .rail-item-name { transition-delay: 0.25s; }
+.rail.expanded .rail-item:nth-child(7) .rail-item-name { transition-delay: 0.29s; }
+
+/* === CTA strip — vertical when collapsed, horizontal when expanded === */
+.rail-cta {
+  position: relative;
+  flex: 0 0 auto;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  /* Taller closed CTA so the vertical "Start a project" text has clear
+     breathing room at both ends instead of pressing the strip edges. */
+  height: 220px;
+  width: 100%;
+  /* When collapsed the text is rotated 180 + writing-mode vertical-rl.
+     padding here translates to space at the TOP and BOTTOM of the
+     visible CTA strip, which is what the user is asking for. */
+  padding: 28px 0;
+  overflow: hidden;
+  transition: filter 0.3s ease,
+              height 0.45s var(--rail-ease),
+              padding 0.45s var(--rail-ease);
+}
+
+/* Hover stays the same brand terracotta — we just darken it via filter
+   so we never define a second terracotta hex elsewhere on the page. */
+.rail-cta:hover {
+  filter: brightness(0.9);
+}
+
+.rail-cta-text {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  transition: writing-mode 0s, transform 0s;
+}
+
+.rail-cta-arrow {
+  display: none;
+  margin-left: 12px;
+  width: 18px;
+  height: 18px;
+}
+.rail-cta-arrow svg { width: 100%; height: 100%; display: block; }
+
+.rail.expanded .rail-cta {
+  height: 78px;
+  padding: 0;            /* horizontal text doesn't need the closed-state padding */
+}
+.rail.expanded .rail-cta-text {
+  writing-mode: horizontal-tb;
+  transform: rotate(0);
+}
+.rail.expanded .rail-cta-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* === Backdrop (mobile only) === */
+.rail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 8, 0.45);
+  z-index: 940;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--rail-ease);
+}
+.rail-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === Content squeeze ===
+   Use margin-right + width — NEVER padding-right. Chrome silently drops
+   padding-right on direct children of <body> when overflow-x: clip is set. */
+main, footer.footer {
+  transition: margin-right var(--rail-dur) var(--rail-ease),
+              width var(--rail-dur) var(--rail-ease);
+}
+body.rail-in main,
+body.rail-in footer.footer {
+  margin-right: var(--rail-w);
+  width: calc(100% - var(--rail-w));
+}
+
+/* (Old top nav fade-out rule removed — there is no top nav any more.) */
+
+/* === Mobile ===
+   The side rail is desktop-only; small screens use the bottom dock
+   (.bnav below) instead, so the rail (and its content squeeze) never
+   applies under 820px. */
+@media (max-width: 820px) {
+  .rail, .rail-backdrop { display: none; }
+  body.rail-in main,
+  body.rail-in footer.footer {
+    margin-right: 0;
+    width: 100%;
+  }
+  body.rail-in .hero {
+    width: 100vw !important;
+  }
+}
+
+/* Hero is pinned by GSAP (ScrollTrigger.create({ pin: true })), which
+   sets inline `position: fixed; left: 0; width: <vw>px` while pinned —
+   that overrides any width change we apply to <main>. Result: when the
+   rail comes in, every other section shifts but the hero stays full-bleed.
+   We override the inline left + width with !important so the pinned hero
+   shifts in step with the rest of the page. The transition is the same
+   0.55 s rail easing so it animates with the slide-in.
+
+   When the hero is NOT pinned (before pin start, after pin end), it
+   sits inside <main> normally and inherits the squeeze for free —
+   these overrides are inert there because position is static. */
+body.rail-in .hero {
+  /* Right-anchored rail: hero stays at left: 0 but shrinks so its right
+     edge clears the rail. */
+  left: 0 !important;
+  width: calc(100vw - var(--rail-w)) !important;
+  transition: width var(--rail-dur) var(--rail-ease);
+}
+
+/* ============================================================
+   END SIDE RAIL
+   ============================================================ */
+
+/* ============================================================
+   MOBILE BOTTOM DOCK
+   App-style floating page nav for small screens. Speaks the same
+   language as the desktop rail: cream surface, hairline edge,
+   stroke icons, and the terracotta bar as the active marker
+   (the rail's .rail-item-bar, rotated onto the dock's top edge).
+   Hidden below the viewport until body.bnav-in lands: scroll-governed
+   on the home page, always in on interior pages (see SiteRuntime).
+   ============================================================ */
+.bnav { display: none; }
+
+@media (max-width: 820px) {
+  .bnav {
+    position: fixed;
+    left: 50%;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 960;
+    display: flex;
+    align-items: stretch;
+    width: min(calc(100% - 28px), 430px);
+    height: 64px;
+    padding: 0 8px;
+    background: rgba(250, 247, 244, 0.9);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(26, 20, 18, 0.09);
+    border-radius: 21px;
+    box-shadow:
+      0 14px 36px rgba(26, 20, 18, 0.16),
+      0 2px 8px rgba(26, 20, 18, 0.07);
+    /* Hidden below the bottom edge until body.bnav-in lands */
+    transform: translate(-50%, calc(100% + 16px + env(safe-area-inset-bottom, 0px)));
+    transition: transform var(--rail-dur) var(--rail-ease);
+    will-change: transform;
+  }
+  body.bnav-in .bnav {
+    transform: translate(-50%, 0);
+  }
+
+  .bnav-item {
+    position: relative;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+    color: rgba(26, 20, 18, 0.52);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.25s ease;
+  }
+  .bnav-item:active { color: var(--color-accent-deep); }
+
+  /* Active marker: terracotta bar bookmarked over the dock's top edge */
+  .bnav-item-bar {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: var(--color-accent);
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: 50% 50%;
+    transition: transform 0.3s var(--rail-ease);
+  }
+
+  .bnav-item-icon svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+
+  .bnav-item-name {
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bnav-item.current {
+    color: var(--color-accent-deep);
+  }
+  .bnav-item.current .bnav-item-bar {
+    transform: translateX(-50%) scaleX(1);
+  }
+  .bnav-item.current .bnav-item-icon { color: var(--color-accent); }
+
+  .bnav-item:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -6px;
+    border-radius: 14px;
+  }
+
+  /* Clearance so the floating dock never sits over the footer's last row.
+     footer.footer outranks the base .footer padding shorthand declared
+     later in this file. */
+  footer.footer {
+    padding-bottom: calc(var(--space-lg) + 88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ============================================================
+   END MOBILE BOTTOM DOCK
+   ============================================================ */
+
+/* === CLIENTS BAND ===
+   A quiet horizontal validation band placed between About and
+   Portfolio. Single-colour cream silhouettes against the dark
+   surface, sized at a uniform line-height so the wordmarks read
+   as a typographic row, not a logo soup. */
+.clients {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  border-top: 1px solid rgba(245, 237, 228, 0.06);
+  border-bottom: 1px solid rgba(245, 237, 228, 0.06);
+}
+
+.clients-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  text-align: center;
+  padding-left: 0.42em; /* compensate for trailing letter-spacing on last char */
+}
+
+.clients-eyebrow-rule {
+  flex: 0 1 90px;
+  height: 1px;
+  background: rgba(212, 113, 78, 0.45); /* terracotta to match the label */
+  display: inline-block;
+}
+
+/* === Infinite marquee ===
+   Two identical sets share the track; the track translates from 0 to
+   -50% over a long, slow duration so the loop is seamless (when the
+   track is at -50%, the second set occupies the position the first set
+   started in). Edges are masked so logos fade in/out instead of
+   hard-cutting. Pause on hover for readability. */
+.clients-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Soft edge fade — same on both sides */
+  -webkit-mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%);
+          mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%);
+}
+
+.clients-track {
+  display: flex;
+  width: max-content;       /* sized to two full sets so animation can shift -50% */
+  animation: clientsMarquee 40s linear infinite;
+  will-change: transform;
+}
+
+.clients-marquee:hover .clients-track {
+  animation-play-state: paused;
+}
+
+@keyframes clientsMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-track { animation: none; }
+}
+
+.clients-set {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-right: clamp(2rem, 5vw, 4rem); /* gap between the two sets */
+}
+
+.clients-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Tall enough to clear the largest per-logo nudge below (44px). The marquee
+     clips with overflow:hidden, so any logo taller than this box loses its
+     top and bottom edges — Ennios, The Grand and Banana Wharf all did. */
+  height: 46px;
+  flex: 0 0 auto;
+}
+
+.clients-item img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+
+  /* Stamp every logo to a uniform cream silhouette regardless of source.
+     brightness(0) → drops to black, invert(1) → flips to white, then a
+     tiny brightness pull-down (94%) softens it from pure white toward
+     the brand cream so it sits on the dark surface without glaring. */
+  filter: brightness(0) invert(1) brightness(94%);
+  opacity: 0.55;
+  transition: opacity 0.4s var(--rail-ease), transform 0.4s var(--rail-ease);
+}
+
+.clients-item:hover img {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* Slight per-logo height nudges where the artwork has uneven padding,
+   so the optical baseline matches the others. Keyed on data-logo (set on
+   the li) because the duplicated aria-hidden marquee set has empty alts. */
+.clients-item[data-logo="soleto"] img            { height: 28px; }
+.clients-item[data-logo="banana-wharf"] img      { height: 38px; }
+.clients-item[data-logo="padharo"] img           { height: 30px; }
+.clients-item[data-logo="the-grand"] img         { height: 40px; }
+.clients-item[data-logo="kesarum"] img           { height: 24px; }
+.clients-item[data-logo="ryan-stanikk-photography"] img { height: 28px; max-width: 220px; }
+.clients-item[data-logo="ark-angels"] img        { height: 32px; }
+.clients-item[data-logo="ennios"] img            { height: 44px; }
+.clients-item[data-logo="grumpy-monkey"] img     { height: 40px; }
+.clients-item[data-logo="mustang-group"] img     { height: 34px; }
+
+@media (max-width: 820px) {
+  .clients {
+    padding: 2.25rem 0;
+  }
+  .clients-row {
+    gap: 1.5rem 2.25rem;
+  }
+  /* Keyed on data-logo, not alt: the duplicated aria-hidden marquee set has
+     empty alts, so alt-based rules only ever hit the first set and the logos
+     changed size halfway through each loop. Height clears the 36px nudge. */
+  .clients-item { height: 38px; }
+  .clients-item[data-logo="soleto"] img            { height: 22px; }
+  .clients-item[data-logo="banana-wharf"] img      { height: 32px; }
+  .clients-item[data-logo="padharo"] img           { height: 24px; }
+  .clients-item[data-logo="the-grand"] img         { height: 32px; }
+  .clients-item[data-logo="kesarum"] img           { height: 18px; }
+  .clients-item[data-logo="ryan-stanikk-photography"] img { height: 22px; max-width: 180px; }
+  .clients-item[data-logo="ark-angels"] img        { height: 26px; }
+  .clients-item[data-logo="ennios"] img            { height: 36px; }
+  .clients-item[data-logo="grumpy-monkey"] img     { height: 32px; }
+  .clients-item[data-logo="mustang-group"] img     { height: 28px; }
+  .clients-eyebrow {
+    font-size: 0.6rem;
+    gap: 0.75rem;
+  }
+  .clients-eyebrow-rule { flex-basis: 40px; }
+}
+
+/* === HERO-MARK ===
+   Centered Kombu / Web Design lockup floating above the hero text,
+   roughly half-way between the top of the page and the hero heading.
+   Fades + lifts away the moment the side rail comes in. */
+.hero-mark {
+  position: absolute;
+  top: clamp(3.75rem, 11vh, 8rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1;
+  z-index: 100;
+  transition: opacity 0.45s ease,
+              transform 0.55s var(--rail-ease);
+  /* Padding so the lockup has its own breathing room and a hover area */
+  padding: 6px 14px;
+  /* The terracotta wordmark used to disappear when the shader swept orange
+     under it. Multiply can only darken, so it stays terracotta on the cream
+     and deepens to a burnt tone over the orange. It has to sit on the mark
+     itself, not the inner text: z-index:100 makes this a stacking context,
+     which would seal a child's blend off from the shader behind it. */
+  mix-blend-mode: multiply;
+}
+
+@supports not (mix-blend-mode: multiply) {
+  .hero-mark-name { color: var(--color-accent-deep); }
+}
+
+.hero-mark-name {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+  display: block;
+}
+
+.hero-mark-sub {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: clamp(0.7rem, 1vw, 0.82rem);
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  color: var(--color-text-secondary);
+  display: block;
+  margin-top: 4px;        /* tightened — sub now hugs the wordmark */
+  padding-left: 0.42em;
+}
+
+/* Mobile: pull the mark up so it sits about a third of the way down
+   from the top — visually halfway between the page edge and the hero
+   H1. Also tighten the gap between the name and "Web Design". */
+@media (max-width: 820px) {
+  .hero-mark {
+    top: clamp(1.5rem, 5vh, 3.5rem);
+    padding: 4px 10px;
+  }
+  .hero-mark-sub {
+    margin-top: 2px;
+  }
+}
+
+/* Once the side rail slides in, the centered mark fades up and away */
+body.rail-in .hero-mark {
+  opacity: 0;
+  transform: translate(-50%, -14px);
+  pointer-events: none;
+}
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: calc(var(--nav-height) + 2rem) 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background: var(--color-bg-primary);
+}
+
+/* Post-hero wrapper scrolls over pinned hero */
+.page-content {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.page-content > section:first-child,
+.page-content > .dark-section:first-child {
+  border-radius: 22px 22px 0 0;
+}
+
+.hero-shader {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* No z-index here on purpose. z-index:2 made this a stacking context, which
+   sealed the accent word off from the shader behind it and stopped its blend
+   working. The shader is z-index:0 and comes first in the DOM, so this still
+   paints on top without it. */
+.hero-content {
+  position: relative;
+  max-width: 1100px;
+}
+
+.hero-heading {
+  font-size: clamp(2.6rem, 10.5vw, 10rem);
+  font-weight: 800;
+  line-height: 0.8;
+  margin-bottom: 1rem;
+}
+
+/* Forces a line break inside a heading. Lines are set deliberately rather than
+   left to wrap, so an accent phrase always starts its own line and no line is
+   left holding a single orphan word. text-wrap:balance is dropped wherever
+   this is used, because it fought the explicit breaks. */
+.line-break {
+  display: block;
+  height: 0;
+}
+
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.04em;
+}
+
+.hero-word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+/* Same problem as the wordmark: the accent word sat in flat terracotta while
+   the shader swept orange underneath it, and the two cancelled out. Multiply
+   keeps it terracotta on the cream and drives it darker over the orange, so
+   it is never lighter than what is behind it. */
+.hero-word.accent {
+  mix-blend-mode: multiply;
+}
+
+@supports not (mix-blend-mode: multiply) {
+  .hero-word.accent { color: var(--color-accent-deep); }
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+  opacity: 0;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+}
+
+.hero-ctas .btn-outline {
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+
+.hero-ctas .btn-outline:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg-primary);
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--color-accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* === ABOUT === */
+.about {
+  background-color: var(--color-dark-bg);
+  position: relative;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-3xl);
+  align-items: center;
+}
+
+.about-image-wrapper {
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.about-image-wrapper img,
+.about-image-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.about-image-wrapper {
+  position: relative;
+}
+
+.about-image-wrapper video {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-image-wrapper.video-playing video {
+  opacity: 1;
+}
+
+/* Video cue chip: makes the profile video discoverable and keyboard-operable */
+.video-cue {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.9rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.7rem;
+  border: 0;
+  border-radius: 100px;
+  background: rgba(26, 20, 18, 0.72);
+  color: var(--color-dark-text);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition-base), transform var(--transition-base);
+}
+.video-cue:hover { background: var(--color-accent); transform: translateY(-2px); }
+.video-cue svg { width: 14px; height: 14px; }
+.about-image-wrapper.video-playing .video-cue { opacity: 0; pointer-events: none; }
+.video-cue { transition: background var(--transition-base), transform var(--transition-base), opacity var(--transition-base); }
+
+/* Hidden on the picture, but still reachable: it reappears on keyboard focus
+   so the video keeps a non-hover trigger. */
+.video-cue--quiet {
+  opacity: 0;
+  pointer-events: none;
+}
+.video-cue--quiet:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.about-label {
+  color: var(--color-dark-muted);
+  opacity: 1;
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-sm);
+}
+
+.about-text h2 {
+  margin-bottom: var(--space-lg);
+  font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+  color: var(--color-dark-text);
+}
+
+.about-text p {
+  margin-bottom: var(--space-md);
+  color: var(--color-dark-body);
+  opacity: 1;
+}
+
+.about-text p.about-lede {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--color-dark-text);
+}
+
+/* Inline prose links only. .section-link carries its own rule underneath the
+   text, so including it here drew two lines: an underline on the words and a
+   full-width score below them. */
+.about-text a:not(.section-link) {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 113, 78, 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+/* .section-link is display:flex, so as a block-level child it stretched to the
+   column width and its rule ran the full 646px. Everywhere else on the site it
+   sits inside a flex row and hugs its text: match that. */
+.about-more {
+  align-self: flex-start;
+  width: fit-content;
+}
+
+.about-text a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.about-stats {
+  display: flex;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(245, 237, 228, 0.15);
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 2rem;
+  color: var(--color-accent);
+  display: block;
+}
+
+.stat-label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-extralight);
+  font-size: 0.8rem;
+  color: var(--color-dark-muted);
+  opacity: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* === PORTFOLIO === */
+.portfolio .section-header {
+  margin-bottom: var(--space-md);
+}
+
+.portfolio h2 {
+  color: var(--color-dark-text);
+}
+
+.portfolio-intro {
+  max-width: 640px;
+  margin-bottom: var(--space-2xl);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.portfolio .section-link {
+  color: #1A1412;
+  border-color: #1A1412;
+}
+
+/* 3-column grid on desktop */
+/* Cross-discipline links under the portfolio cards. Reuses the about-next
+   row, but accent-coloured underlines vanish on the terracotta ground, so
+   swap them to ink and thicken on hover instead of recolouring. */
+.portfolio-next { border-top-color: rgba(26, 20, 18, 0.25); }
+.portfolio-next .about-next__label { color: rgba(26, 20, 18, 0.65); }
+.portfolio-next a { text-decoration-color: var(--color-text-primary); }
+.portfolio-next a:hover { color: var(--color-text-primary); text-decoration-thickness: 2px; }
+
+.portfolio-columns {
+  display: grid;
+  /* minmax(0, 1fr) — same fix as the rail. The browser-stack inside is
+     1024 px wide intrinsically, which would push each column to 1024 px
+     under plain `1fr`. minmax(0, 1fr) makes columns honour the parent's
+     width regardless of intrinsic content size. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg);
+  position: relative;
+}
+
+.portfolio-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Browser frame mockup */
+.project-browser {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #F0EBE5;
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.project-browser:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 0.75rem;
+  background: #E8E2DA;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.browser-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.browser-dots span:first-child { background: #ff5f57; }
+.browser-dots span:nth-child(2) { background: #ffbd2e; }
+.browser-dots span:last-child { background: #28c840; }
+
+.browser-title {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--weight-extralight);
+  color: #6A5E52;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.browser-viewport {
+  aspect-ratio: 1024 / 1366;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  background: #1A1412;
+  /* Isolate paint + layout so off-screen frames don't repaint when on-screen
+     ones animate. Combined with content-visibility on mobile, this stops the
+     compounding paint cost that causes flicker on the third frame. */
+  contain: layout paint;
+}
+
+/* NB: content-visibility: auto was tried here for mobile paint savings but
+   it makes the frames render as blank boxes in prerender/snapshot contexts
+   and before lazy images land, so the section looked broken. contain above
+   already isolates paint; that is enough. */
+
+/* The stack contains the full-page screenshot AND the iframe overlay.
+   It's transformed (scale + translateY) as a single unit on hover.
+
+   IMPORTANT: will-change is NOT set here — it's toggled on the .panning
+   class only while a transform animation is actively running. Three
+   always-promoted GPU layers (one per portfolio frame) on a phone is
+   exactly what causes the cumulative repaint glitches the user sees on
+   the third frame. */
+.browser-stack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1024px; /* matches embedded site viewport width */
+  transform-origin: top left;
+}
+
+.browser-stack.panning {
+  will-change: transform;
+}
+
+.browser-poster {
+  width: 1024px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.browser-viewport.iframe-loaded .browser-poster {
+  opacity: 0;
+}
+
+/* Project info — flex so the Visit Site buttons align along the row bottom
+   regardless of description length. */
+.project-info {
+  padding: var(--space-lg) 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.project-info .project-btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.project-info .tag {
+  margin-bottom: var(--space-xs);
+}
+
+.project-info h3 {
+  font-size: 1.4rem;
+  color: #1A1412;
+  margin-bottom: var(--space-xs);
+}
+
+.project-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-title-link:hover {
+  color: var(--color-accent);
+}
+
+.project-browser-link {
+  display: block;
+  text-decoration: none;
+}
+
+.project-inline-link {
+  display: none;
+}
+
+.project-info p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: var(--space-md);
+  color: #FFFFFF;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+}
+
+/* Portfolio visit buttons: white with orange text, hover to orange fill */
+.portfolio .btn-outline {
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border-color: #FFFFFF;
+}
+
+.portfolio .btn-outline:hover {
+  background: var(--color-accent);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+
+/* === SECTION RHYTHM VARIATIONS (desktop only — mobile keeps tight default) === */
+@media (min-width: 769px) {
+  /* About: tight on top, intimate. Continues from the hero. */
+  .about.section {
+    padding-top: calc(var(--space-section) * 0.75);
+    padding-bottom: calc(var(--space-section) * 1.1);
+  }
+
+  /* Portfolio: expansive. Let the work breathe. */
+  .portfolio.section {
+    padding-top: calc(var(--space-section) * 1.1);
+    padding-bottom: calc(var(--space-section) * 1.25);
+  }
+
+  /* Services: standard, slightly more open header. */
+  .services.section .section-header {
+    margin-bottom: calc(var(--space-3xl) * 0.85);
+  }
+
+  /* Pricing: compressed, focused. */
+  .pricing.section {
+    padding-top: calc(var(--space-section) * 0.85);
+    padding-bottom: calc(var(--space-section) * 0.85);
+  }
+
+  /* FAQ: compact reference section. Smaller heading, tighter rhythm. */
+  .faq.section {
+    padding-top: calc(var(--space-section) * 0.7);
+    padding-bottom: calc(var(--space-section) * 0.7);
+  }
+
+  .faq.section .section-header {
+    margin-bottom: calc(var(--space-3xl) * 0.5);
+  }
+
+  .faq #faq-heading {
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  }
+
+  /* Audit: compressed focused tool, not a section anchor. */
+  .audit.section {
+    padding-top: calc(var(--space-section) * 0.6);
+    padding-bottom: calc(var(--space-section) * 0.6);
+  }
+
+  .audit #audit-heading {
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  }
+}
+
+/* === SERVICES === */
+.services {
+  background: var(--color-bg-primary);
+  position: relative;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.service-card {
+  background: #FFFFFF;
+  color: #1A1412;
+  box-shadow: 0 2px 20px rgba(26, 20, 18, 0.06);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-lg);
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card.gsap-revealed {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.service-card h3 {
+  font-family: var(--font-heading);
+  color: #1A1412;
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(26, 20, 18, 0.1);
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.service-card p {
+  color: #3D3430;
+  font-size: 0.95rem;
+  font-weight: var(--weight-light);
+  margin-bottom: var(--space-md);
+}
+
+.service-list {
+  list-style: none;
+  margin-bottom: var(--space-lg);
+}
+
+.service-list li {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.925rem;
+  color: #3D3430;
+  padding: 0.375rem 0;
+  border-bottom: 1px solid rgba(26, 20, 18, 0.08);
+}
+
+.service-list li:last-child {
+  border-bottom: none;
+}
+
+/* === PROCESS === */
+.process {
+  position: relative;
+  overflow: hidden;
+}
+
+.process-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--space-3xl);
+  align-items: center;
+}
+
+.process-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  position: relative;
+  background: #D4714E;
+}
+
+.process-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(0.8);
+  mix-blend-mode: multiply;
+}
+
+.process-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #1A1412;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+}
+
+.process-grid {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.process-step {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  visibility: hidden;
+}
+
+.process-number {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 3rem;
+  color: var(--color-accent);
+  min-width: 80px;
+  line-height: 1;
+}
+
+.process-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-xs);
+}
+
+.process-content p {
+  font-size: 0.95rem;
+  color: #C4B8AA;
+}
+
+.process-line {
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
+  margin: var(--space-sm) 0 var(--space-sm) 38px;
+  visibility: hidden;
+}
+
+/* === FAQ === */
+.faq {
+  background: var(--color-bg-primary);
+  position: relative;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) 0;
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: color var(--transition-fast);
+}
+
+.faq-question:hover {
+  color: var(--color-accent);
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-item.active .faq-answer {
+  /* Generous cap: the longest answer wraps to ~11 lines on narrow phones,
+     300px silently clipped the final lines. */
+  max-height: 640px;
+  padding-bottom: var(--space-lg);
+}
+
+.faq-answer p {
+  font-size: 0.95rem;
+}
+
+/* === CTA === */
+.cta {
+  padding: 0;
+}
+
+.cta-bg {
+  background: var(--color-accent);
+  padding: var(--space-4xl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3xl);
+  position: relative;
+  z-index: 1;
+}
+
+.cta-text h2 {
+  margin-bottom: var(--space-sm);
+  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  color: #FFFFFF;
+}
+
+.cta-text p {
+  max-width: 500px;
+  /* Dark ink for AA contrast on the terracotta band (white ~3:1 fails) */
+  color: rgba(26, 20, 18, 0.87);
+}
+
+.cta-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.cta-actions .btn-primary {
+  background: #FFFFFF;
+  color: var(--color-accent);
+  border-color: #FFFFFF;
+}
+
+.cta-actions .btn-primary:hover {
+  background: #1A1412;
+  color: #FFFFFF;
+  border-color: #1A1412;
+}
+
+.cta-actions .btn-outline {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.cta-actions .btn-outline:hover {
+  background: #FFFFFF;
+  color: var(--color-accent);
+}
+
+/* === FOOTER ===
+   Rebuilt: the markup had moved to .footer-grid / .footer-nav / .footer-tag
+   while the CSS still described an older .footer-inner, so the whole block was
+   rendering unstyled as a ~940px stack of links on mobile. It is now a short
+   tagline + one wrapping link row, anchored by a full-width wordmark. */
+.footer {
+  padding: var(--space-xl) 0 var(--space-lg);
+  border-top: none;
+  background: #1A1412;
+  overflow: hidden;          /* the wordmark is deliberately width-hungry */
+}
+
+.footer-top {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.footer-tag {
+  flex: 1 1 22rem;
+  max-width: 32rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: #A89888;
+  margin: 0;
+}
+
+/* One wrapping row, not a column of lists: the same links in a fraction
+   of the vertical space. */
+.footer-links {
+  flex: 1 1 20rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.1rem;
+  justify-content: flex-end;
+}
+
+.footer-links a {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.82rem;
+  color: #C4B8AA;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible { color: var(--color-accent); }
+
+.footer-links-sep {
+  width: 1px;
+  height: 0.9rem;
+  background: rgba(245, 237, 228, 0.22);
+}
+
+/* .dark-section a (0,1,1) outranks a bare .footer-wordmark, so this is
+   scoped to win rather than silently rendering cream. */
+.footer a.footer-wordmark {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(4.5rem, 26vw, 22rem);
+  line-height: 0.78;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+  text-decoration: none;
+  margin: var(--space-lg) 0 var(--space-md);
+  white-space: nowrap;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(245, 237, 228, 0.1);
+}
+
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: #7A6E62;
+  margin: 0;
+}
+
+.footer-email {
+  font-size: 0.75rem;
+  color: #A89888;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-email:hover { color: var(--color-accent); }
+
+@media (max-width: 820px) {
+  /* The column direction turns flex-basis into a HEIGHT floor, which pinned the
+     tagline to 22rem and the links to 20rem. Reset both to content height. */
+  .footer-top {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .footer-tag,
+  .footer-links { flex: 0 0 auto; max-width: none; }
+  .footer-links {
+    justify-content: flex-start;
+    gap: 0.45rem 0.9rem;
+  }
+  .footer-links a { font-size: 0.78rem; }
+  .footer-links-sep { display: none; }
+}
+
+/* === PRICING === */
+.pricing {
+  background: var(--color-bg-secondary);
+  position: relative;
+}
+
+.pricing-header {
+  align-items: center;
+}
+
+.pricing-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pricing-toggle-label {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-light);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+}
+
+.pricing-toggle-label.active {
+  color: var(--color-text-primary);
+}
+
+.pricing-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.pricing-toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.pricing-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  transition: transform var(--transition-base);
+  pointer-events: none;
+}
+
+.pricing-toggle[aria-checked="true"] .pricing-toggle-thumb {
+  transform: translateX(24px);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+}
+
+.pricing-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-lg);
+  position: relative;
+  overflow: hidden;
+  visibility: hidden;
+  box-shadow: 0 2px 20px rgba(26, 20, 18, 0.06);
+}
+
+.pricing-card.gsap-revealed {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card--featured {
+  border: 2px solid var(--color-accent);
+  padding-top: calc(var(--space-xl) + 8px);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-align: center;
+  padding: 0.4rem 0;
+}
+
+.pricing-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pricing-tier {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: -0.01em;
+}
+
+.pricing-desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.925rem;
+  color: #3D3430;
+  line-height: 1.6;
+  margin: var(--space-xs) 0 var(--space-lg);
+}
+
+.pricing-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: var(--space-xs);
+  position: relative;
+}
+
+.pricing-from {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.85rem;
+  color: #5A4E44;
+  margin-right: 4px;
+}
+
+.pricing-currency {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: 1.2rem;
+  color: #1A1412;
+  line-height: 1;
+  vertical-align: super;
+}
+
+.pricing-value {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 3.5rem;
+  color: #1A1412;
+  line-height: 1;
+  transition: opacity 0.15s ease;
+}
+
+.pricing-period {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.95rem;
+  color: #3D3430;
+  margin-left: 2px;
+}
+
+.pricing-commitment {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.8rem;
+  color: #5A4E44;
+  display: block;
+}
+
+.pricing-renewal {
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.75rem;
+  color: var(--color-accent-deep); /* deep accent: 0.75rem on white needs AA contrast */
+  display: block;
+  margin-bottom: var(--space-lg);
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: var(--space-lg);
+  flex: 1;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-body);
+  font-weight: var(--weight-light);
+  font-size: 0.925rem;
+  color: #3D3430;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(26, 20, 18, 0.06);
+}
+
+.pricing-features li:last-child {
+  border-bottom: none;
+}
+
+.pricing-features li svg {
+  flex-shrink: 0;
+}
+
+.pricing-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+  align-items: start;
+}
+
+.pricing-note {
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.pricing-enterprise {
+  text-align: left;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+}
+
+.pricing-enterprise p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.pricing-enterprise a {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* === PHOTO BREAKS === */
+/* === GRAIN OVERLAY === */
+.hero::after,
+.about::after,
+.portfolio::after,
+.services::after,
+.pricing::after,
+.process::after,
+.faq::after,
+.audit::after,
+.cta-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+}
+
+/* Dark sections need a softer treatment so the grain reads as paper without muddying colour */
+.about::after,
+.process::after {
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+}
+
+/* Terracotta section: subtle weathered feel */
+.portfolio::after,
+.cta-bg::after {
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+}
+
+.hero {
+  position: relative;
+}
+
+.portfolio,
+.audit {
+  position: relative;
+}
+
+/* Ensure section content sits above the grain */
+.about .container,
+.portfolio .container,
+.services .container,
+.pricing .container,
+.faq .container,
+.audit .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* === AUDIT === */
+.audit-content {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.audit-label {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-sm);
+}
+
+.audit-content h2 {
+  margin-bottom: var(--space-md);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  color: #F5EDE4;
+}
+
+.audit-content > .audit-text p {
+  margin-bottom: var(--space-xl);
+  color: #C4B8AA;
+}
+
+.audit-form-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.audit-input-group {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid rgba(245, 237, 228, 0.15);
+  background: rgba(245, 237, 228, 0.08);
+  transition: border-color var(--transition-base);
+}
+
+.audit-input-group:focus-within {
+  border-color: var(--color-accent);
+}
+
+.audit-input {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border: none;
+  color: #F5EDE4;
+  font-family: var(--font-body);
+  font-weight: var(--weight-extralight);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.audit-input::placeholder {
+  color: #7A6E62;
+}
+
+.audit-submit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-base);
+}
+
+.audit-submit:hover {
+  background: var(--color-accent-light);
+}
+
+.audit-hint {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--weight-extralight);
+  font-size: 0.75rem;
+  color: #7A6E62;
+}
+
+.audit-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) 0;
+}
+
+.audit-success[hidden] {
+  display: none;
+}
+
+.audit-success-text {
+  font-size: 1rem;
+  color: var(--color-text-primary);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-card:last-child {
+    grid-column: 1 / -1;
+    max-width: 400px;
+    justify-self: center;
+    width: 100%;
+  }
+
+  .cta-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cta-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--color-bg-primary);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links .nav-link {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .about-image-wrapper {
+    aspect-ratio: 1/1;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .about-image-wrapper img {
+    object-fit: cover;
+  }
+
+  /* Stack the stats as rows: three-across in ~320px wraps the labels raggedly */
+  /* Two stats fit across a phone; the third ("UK wide service") was what
+     forced the column, and it has been removed. */
+  .about-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-xl);
+  }
+  .about-stats .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  /* Mobile portfolio: compact, no pop-in animation */
+  .portfolio-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .portfolio-columns .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .project-btn {
+    display: none !important;
+  }
+
+  .project-inline-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: var(--weight-medium);
+    /* Dark ink: accent-on-accent was invisible on the terracotta section */
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 0.35rem 0; /* bigger tap target */
+  }
+
+  .project-info p {
+    margin-bottom: 0;
+  }
+
+  .project-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .browser-viewport {
+    /* aspect-ratio inherited from desktop */
+    height: auto;
+  }
+
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card:last-child {
+    max-width: none;
+  }
+
+  .pricing-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-input-group {
+    flex-direction: column;
+  }
+
+  .audit-submit {
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* All three fit one row at 390px: 148+108+116+gaps was 388 against 342
+     available, so horizontal padding, gap and icon size come down. Vertical
+     padding is untouched so the tap target stays ~44px. */
+  .cta-actions { gap: 0.35rem; }
+
+  .cta-actions .btn {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: none;
+    padding: 0.75rem 0.55rem;
+    gap: 0.3rem;
+    letter-spacing: 0.04em;
+  }
+
+  .cta-actions .btn svg { width: 16px; height: 16px; flex: 0 0 auto; }
+
+  .process-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .process-image {
+    aspect-ratio: 16/9;
+    max-height: 280px;
+  }
+
+  .process-step {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .process-line {
+    margin-left: 0;
+    width: 40px;
+    height: 2px;
+    margin: var(--space-sm) 0;
+  }
+
+  /* CTA section: remove white gaps on mobile */
+  .cta.section {
+    padding: 0;
+  }
+
+  /* Hero: larger text, moved up, centred vertically */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--nav-height);
+  }
+
+  .hero-heading {
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+
+  .hero-content {
+    padding-top: 0;
+    padding-bottom: var(--space-xl);
+  }
+
+  .hero-scroll-indicator {
+    bottom: var(--space-md);
+  }
+
+  /* Section header margins: tighter on mobile */
+  .section-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  /* Process image: position face */
+  .process-image img {
+    object-position: center 20%;
+  }
+
+  /* Pricing: horizontal scroll carousel — narrower cards + tighter
+     padding so the next card clearly peeks past the right edge.
+     Stronger shadow on mobile because cards are white on cream bg —
+     subtle peeks otherwise read as empty space, not "another card". */
+  .pricing-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-sm);
+    padding: 0 6vw;
+    margin: 0 calc(-1 * clamp(1.5rem, 4vw, 3rem));
+    scrollbar-width: none;
+  }
+
+  .pricing-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pricing-card {
+    scroll-snap-align: center;
+    /* 56vw card leaves clear slices of BOTH neighbours visible inside the
+       area not covered by the fixed rail (the JS centring also offsets by
+       half the rail width so the right peek isn't hidden under it). */
+    min-width: 56vw;
+    flex: 0 0 56vw;
+    box-shadow: 0 12px 30px rgba(26, 20, 18, 0.14);
+  }
+
+  /* Services: compact collapsible on mobile */
+  .service-card {
+    position: relative;
+    padding: var(--space-md);
+  }
+
+  .service-card .service-icon {
+    display: none !important;
+  }
+
+  .service-card .service-badge {
+    margin-bottom: var(--space-xs) !important;
+  }
+
+  .service-card > p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .service-card.service-expanded > p {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .service-card .service-list {
+    display: none;
+  }
+
+  .service-card.service-expanded .service-list {
+    display: block;
+  }
+
+  .service-card .btn-card {
+    display: none;
+  }
+
+  .service-card.service-expanded .btn-card {
+    display: inline-flex;
+  }
+
+  .service-card .service-more {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: var(--weight-medium);
+    color: var(--color-accent-deep);
+    cursor: pointer;
+    margin-top: var(--space-xs);
+    /* real <button>: strip chrome, keep a 44px-ish tap target */
+    background: none;
+    border: 0;
+    padding: 0.55rem 0;
+    text-align: left;
+  }
+
+  .service-card.service-expanded .service-more {
+    display: none;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+}
+

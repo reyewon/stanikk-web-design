@@ -1,0 +1,444 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+
+const title = "Web Design Southampton | Bespoke Websites | Kombu";
+const description = "Bespoke web design in Southampton and across the UK. Design-led websites without the agency headaches, from a designer with two decades of experience.";
+
+const faqs = [
+  { q: "What is Kombu?", a: "Kombu is a one-person creative studio in Southampton run by Ryan Stanikk, covering web design, graphic design, commercial photography and marketing. The name comes from kombu kelp, the quiet ingredient that makes everything around it better: one person handling the whole stack so it all pulls in the same direction." },
+  { q: "How much does a website cost?", a: "Starter sites are £49 per month or £199 to build, Business sites £79 per month or £299, and Professional sites £149 per month or £499. Every plan includes hosting, SSL, domain setup and ongoing support, with no hidden fees. After the 12-month term, monthly plans drop to a lower retainer." },
+  { q: "How long does it take to build a website?", a: "Most projects are measured in days and weeks rather than weeks and months. A single-page site is often ready in one to two weeks, while larger multi-page or custom builds take longer. You will have a realistic timeline from the very first conversation." },
+  { q: "Do you design websites for businesses outside Southampton?", a: "Yes. I am based in Southampton and work with businesses right across Hampshire, including Eastleigh, Winchester, Portsmouth, Fareham and Romsey, and remotely with clients anywhere in the UK. If you are local I will meet you in person; if you are further afield I work over video call." },
+  { q: "Do I need to provide content and images?", a: "The more you can provide, the more I can get your website right from the start. That said, I do my own research and dig out any details that have been missed, and as a commercial photographer I can create imagery for your site too. Between what you give me and what I find, I will have everything I need." },
+  { q: "Do you handle hosting and domains?", a: "Yes. Domain registration, hosting, SSL and ongoing maintenance are all included in your plan. You own everything, there is no lock-in, and I handle every technical detail so you do not have to." },
+  { q: "I'm currently with an agency. What's different about working with Kombu?", a: "You talk to me, not an account manager, a junior developer or a sales team. I am a designer first, so I care about how things look and how they work. Changes happen fast because there are no layers of approval, everyday updates are included rather than itemised on an invoice, and your site stays current instead of frozen the moment the build is signed off." },
+];
+
+const extraSchema = [
+  {
+    "@type": "WebPage",
+    "@id": "https://kombu.uk/web-design#webpage",
+    "url": "https://kombu.uk/web-design",
+    "name": title,
+    "isPartOf": { "@id": "https://kombu.uk/#website" },
+    "about": { "@id": "https://kombu.uk/#business" },
+    "description": description,
+    "inLanguage": "en-GB"
+  },
+  {
+    "@type": "Service",
+    "@id": "https://kombu.uk/web-design#service",
+    "name": "Web Design & Development",
+    "serviceType": "Web Design",
+    "provider": { "@id": "https://kombu.uk/#business" },
+    "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ],
+    "description": "Bespoke, design-led websites and web apps for small businesses, with hosting, support and everyday changes included.",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Website packages",
+      "itemListElement": [
+        // Each tier is sold two ways, and the visible pricing toggle shows both:
+        // a 12-month monthly rate, or a one-off build then a lower renewal.
+        // Publishing only the first rate understated the offer to consumers.
+        { "@type": "Offer", "name": "Starter, monthly", "price": "49", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "Custom single-page design, mobile-first, SEO foundations, hosting and SSL included." } },
+        { "@type": "Offer", "name": "Starter, build up front", "price": "199", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "29", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "One-off build of £199, then £29 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Business, monthly", "price": "79", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "79", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "Up to 5 custom pages, contact forms, Google Business integration and priority support." } },
+        { "@type": "Offer", "name": "Business, build up front", "price": "299", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "One-off build of £299, then £49 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Professional, monthly", "price": "149", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "149", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "Up to 15 pages, CMS integration, advanced integrations and dedicated support." } },
+        { "@type": "Offer", "name": "Professional, build up front", "price": "499", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "One-off build of £499, then £99 a month for hosting, SSL and upkeep." } }
+      ]
+    }
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": "https://kombu.uk/web-design#breadcrumb",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" },
+      { "@type": "ListItem", "position": 2, "name": "Web Design", "item": "https://kombu.uk/web-design" }
+    ]
+  },
+  {
+    "@type": "FAQPage",
+    "@id": "https://kombu.uk/web-design#faq",
+    "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
+  }
+];
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+<main id="main-content">
+<!-- === HERO === -->
+<section class="hero" id="hero" aria-labelledby="hero-heading">
+  <div class="hero-shader" id="hero-shader" aria-hidden="true"></div>
+  <div class="hero-content container">
+    <span class="hero-eyebrow">Web design &amp; development &middot; Southampton</span>
+    <h1 class="hero-heading" id="hero-heading">
+      <span class="hero-word"><span class="hero-word-inner">WEBSITES</span></span>
+      <span class="hero-word"><span class="hero-word-inner">THAT</span></span>
+      <span class="hero-word accent"><span class="hero-word-inner">WORK</span></span>
+      <span class="hero-word"><span class="hero-word-inner">AS</span></span>
+      <span class="hero-word"><span class="hero-word-inner">HARD</span></span>
+      <span class="hero-word"><span class="hero-word-inner">AS</span></span>
+      <span class="hero-word"><span class="hero-word-inner">YOU</span></span>
+      <span class="hero-word"><span class="hero-word-inner">DO</span></span>
+    </h1>
+    <p class="hero-sub">Design-led websites without the agency headaches. No surprise fees, no week-long waits for simple changes. Just a designer with two decades of experience, building sites that actually work.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn btn-primary">See Pricing</a>
+      <a href="https://wa.me/442381112819" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp Me</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<div class="page-content" id="page-content">
+<!-- === SERVICES === -->
+<section class="services section" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="services-heading">What I Build</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <h3>Web Design</h3>
+        <p>Bespoke websites built around your business, not a template. Most developers build functional sites; I build beautiful ones, with a graphic designer's eye and no agency runaround.</p>
+        <ul class="service-list">
+          <li>Custom design</li>
+          <li>Mobile-first</li>
+          <li>Built to convert</li>
+          <li>SEO foundations</li>
+        </ul>
+        <a href="#contact" class="btn-card" aria-label="Get started with Web Design">Get Started</a>
+      </div>
+      <div class="service-card reveal">
+        <h3>Web Apps</h3>
+        <p>More than just websites. I build functional web applications with the features your business needs, from content management to bespoke tools that solve a real operational problem.</p>
+        <ul class="service-list">
+          <li>Custom web apps</li>
+          <li>CMS integration</li>
+          <li>Interactive features</li>
+          <li>Performance-first</li>
+        </ul>
+        <a href="#contact" class="btn-card" aria-label="Get started with Web Apps">Get Started</a>
+      </div>
+      <div class="service-card reveal">
+        <h3>Hosting &amp; Domains</h3>
+        <p>I handle the technical side so you do not have to. Domain registration, hosting setup, SSL certificates, and ongoing maintenance all taken care of.</p>
+        <ul class="service-list">
+          <li>Domain registration</li>
+          <li>Fast, secure hosting</li>
+          <li>SSL certificates</li>
+          <li>Ongoing support</li>
+        </ul>
+        <a href="#contact" class="btn-card" aria-label="Get started with Hosting and Domains">Get Started</a>
+      </div>
+      <div class="service-card reveal">
+        <h3>Content Management</h3>
+        <p>Send a change over and I will handle it, usually the same day. Everyday updates are always included, no sneaky invoices, or I can build you a CMS to do it yourself.</p>
+        <ul class="service-list">
+          <li>Quick turnaround updates</li>
+          <li>Optional CMS</li>
+          <li>No lock-in</li>
+          <li>Full control</li>
+        </ul>
+        <a href="#contact" class="btn-card" aria-label="Get started with Content Management">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === SELECTED WORK: all six live builds === -->
+<section class="portfolio section terracotta-section" id="work" aria-labelledby="wd-work-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="wd-work-heading">Selected Work</h2>
+    </div>
+    <p class="portfolio-intro reveal">Six live builds, no two alike. Restaurants, a boutique hotel, a live act and a photography portfolio, each designed around what the business actually needed.</p>
+    <div class="portfolio-columns" id="portfolio-columns">
+      <div class="portfolio-col" id="wd-project-1">
+        <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Padharo</div></div>
+            <div class="browser-viewport" data-site="https://www.padharo.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/padharo.jpg" alt="Padharo vegetarian Indian restaurant website with reservations and menus" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-title-link">Padharo</a></h3>
+          <p>An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work. <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.padharo.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Padharo website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="wd-project-2">
+        <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Ryan Stanikk Photography</div></div>
+            <div class="browser-viewport" data-site="https://www.ryanstanikk.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/ryanstanikk.jpg" alt="Ryan Stanikk photography portfolio website, dark and image-led" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-title-link">Ryan Stanikk Photography</a></h3>
+          <p>My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch. <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.ryanstanikk.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit the Ryan Stanikk photography website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="wd-project-3">
+        <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Grumpy Monkey</div></div>
+            <!-- grumpy-monkey.co.uk sends no X-Frame-Options and no CSP, so it
+                 embeds from any origin: no data-frame-on gate needed and the
+                 live frame mounts on localhost and previews too. -->
+            <div class="browser-viewport" data-site="https://www.grumpy-monkey.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/grumpy-monkey.jpg" alt="Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-title-link">Grumpy Monkey</a></h3>
+          <p>A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone. <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.grumpy-monkey.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Grumpy Monkey website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="wd-project-4">
+        <a href="https://www.bananawharf.co.uk" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Banana Wharf</div></div>
+            <div class="browser-viewport" data-site="https://www.bananawharf.co.uk">
+              <div class="browser-stack"><img src="/images/portfolio/banana-wharf.jpg" alt="Banana Wharf Ocean Village restaurant website with marina dining and bookings" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://www.bananawharf.co.uk" target="_blank" rel="noopener" class="project-title-link">Banana Wharf</a></h3>
+          <p>Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend. <a href="https://www.bananawharf.co.uk" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://www.bananawharf.co.uk" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit the Banana Wharf website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="wd-project-5">
+        <a href="https://arkangelsband.com" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Ark Angels</div></div>
+            <div class="browser-viewport" data-site="https://arkangelsband.com">
+              <div class="browser-stack"><img src="/images/portfolio/ark-angels.jpg" alt="Ark Angels community music platform website with event listings and bold layout" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://arkangelsband.com" target="_blank" rel="noopener" class="project-title-link">Ark Angels</a></h3>
+          <p>A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped. <a href="https://arkangelsband.com" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://arkangelsband.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Ark Angels website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="portfolio-col" id="wd-project-6">
+        <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-browser-link">
+          <div class="project-browser reveal">
+            <div class="browser-chrome" aria-hidden="true"><div class="browser-dots"><span></span><span></span><span></span></div><div class="browser-title">Soleto</div></div>
+            <div class="browser-viewport" data-site="https://soleto-website.pages.dev">
+              <div class="browser-stack"><img src="/images/portfolio/soleto.jpg" alt="Soleto Italian restaurant website, dark theme with gallery and private dining" loading="lazy" class="browser-poster" /></div>
+            </div>
+          </div>
+        </a>
+        <div class="project-info reveal">
+          <h3><a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-title-link">Soleto</a></h3>
+          <p>An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service. <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="project-inline-link">Visit site</a></p>
+          <a href="https://soleto-website.pages.dev" target="_blank" rel="noopener" class="btn btn-outline btn-sm project-btn" aria-label="Visit Soleto website">Visit Site <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === PRICING === -->
+<section class="pricing section" id="pricing" aria-labelledby="pricing-heading">
+  <div class="container">
+    <div class="section-header pricing-header">
+      <h2 class="blur-reveal" id="pricing-heading">Pricing</h2>
+      <div class="pricing-toggle-wrap reveal">
+        <span class="pricing-toggle-label" id="toggle-label-monthly">Monthly</span>
+        <button class="pricing-toggle" id="pricing-toggle" role="switch" aria-checked="false" aria-label="Switch between monthly and pay upfront pricing">
+          <span class="pricing-toggle-thumb"></span>
+        </button>
+        <span class="pricing-toggle-label" id="toggle-label-oneoff">Pay Upfront</span>
+      </div>
+    </div>
+
+    <div class="pricing-grid" aria-live="polite">
+      <div class="pricing-card reveal" data-tier="starter">
+        <div class="pricing-card-inner">
+          <span class="pricing-tier">Starter</span>
+          <p class="pricing-desc">A single-page site that makes you look as good online as you are in person.</p>
+          <div class="pricing-amount">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-value" data-monthly="49" data-upfront="199">49</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <span class="pricing-commitment">12-month commitment</span>
+          <span class="pricing-renewal" data-renewal="29">Then &pound;29/mo</span>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Custom single-page design</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Mobile-first &amp; responsive</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> SEO foundations</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Hosting &amp; SSL included</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Ongoing support</li>
+          </ul>
+          <a href="#contact" class="btn-card">Get Started</a>
+        </div>
+      </div>
+
+      <div class="pricing-card pricing-card--featured reveal" data-tier="business">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-card-inner">
+          <span class="pricing-tier">Business</span>
+          <p class="pricing-desc">A multi-page site with contact forms and your Google listing connected.</p>
+          <div class="pricing-amount">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-value" data-monthly="79" data-upfront="299">79</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <span class="pricing-commitment">12-month commitment</span>
+          <span class="pricing-renewal" data-renewal="49">Then &pound;49/mo</span>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Up to 5 custom pages</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Contact forms</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Google Business integration</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Everything in Starter</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Priority support</li>
+          </ul>
+          <a href="#contact" class="btn-card">Get Started</a>
+        </div>
+      </div>
+
+      <div class="pricing-card reveal" data-tier="professional">
+        <div class="pricing-card-inner">
+          <span class="pricing-tier">Professional</span>
+          <p class="pricing-desc">Larger sites with CMS, advanced integrations, and room to grow.</p>
+          <div class="pricing-amount">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-value" data-monthly="149" data-upfront="499">149</span>
+            <span class="pricing-period">/mo</span>
+          </div>
+          <span class="pricing-commitment">12-month commitment</span>
+          <span class="pricing-renewal" data-renewal="99">Then &pound;99/mo</span>
+          <ul class="pricing-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Up to 15 custom pages</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> CMS integration</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Advanced integrations</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Everything in Business</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Dedicated support</li>
+          </ul>
+          <a href="#contact" class="btn-card">Get Started</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-bottom">
+      <div class="pricing-enterprise reveal">
+        <p>Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
+      </div>
+      <p class="pricing-note reveal">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing spreads your build cost over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may be quoted separately depending on complexity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- === PROCESS === -->
+<section class="process section dark-section" id="process" aria-labelledby="process-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="blur-reveal" id="process-heading">How I Work</h2>
+    </div>
+    <div class="process-layout">
+      <div class="process-image reveal-left">
+        <picture>
+          <source srcset="/images/room2-laptop.webp" type="image/webp" />
+          <img src="/images/room2-laptop.jpg" alt="Business owner working at their laptop in a cafe, the kind of client I build websites for" width="800" height="1200" loading="lazy" decoding="async" />
+        </picture>
+      </div>
+      <div class="process-grid" role="list" aria-label="My 5-step process">
+        <div class="process-step reveal" role="listitem">
+          <div class="process-number" aria-hidden="true">01</div>
+          <div class="process-content"><h3>Discovery</h3><p>A proper conversation about your business, your brand, and your goals. Face to face if you are local, video call if not.</p></div>
+        </div>
+        <div class="process-line" aria-hidden="true"></div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-number" aria-hidden="true">02</div>
+          <div class="process-content"><h3>Design</h3><p>Layouts crafted with the mind of a graphic designer and the eye of a photographer. Every element is intentional.</p></div>
+        </div>
+        <div class="process-line" aria-hidden="true"></div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-number" aria-hidden="true">03</div>
+          <div class="process-content"><h3>Build</h3><p>Clean, fast, accessible code built for performance and SEO from the ground up.</p></div>
+        </div>
+        <div class="process-line" aria-hidden="true"></div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-number" aria-hidden="true">04</div>
+          <div class="process-content"><h3>Launch</h3><p>Domain, hosting, SSL, testing. I handle every detail of deployment.</p></div>
+        </div>
+        <div class="process-line" aria-hidden="true"></div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-number" aria-hidden="true">05</div>
+          <div class="process-content"><h3>Support</h3><p>I do not disappear after launch. Ongoing updates and maintenance included.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === FAQ === -->
+<section class="faq section" id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="section-header"><h2 class="blur-reveal" id="faq-heading">Common Questions</h2></div>
+    <div class="faq-list">
+      {faqs.map((f, i) => (
+        <div class="faq-item reveal">
+          <button class="faq-question" id={`faq-question-${i}`} aria-expanded="false" aria-controls={`faq-answer-${i}`}>
+            <span>{f.q}</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="faq-answer" id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-question-${i}`}><p>{f.a}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- === FREE AUDIT === -->
+<section class="audit section dark-section" id="audit" aria-labelledby="audit-heading">
+  <div class="container">
+    <div class="audit-content">
+      <div class="audit-text reveal">
+        <span class="audit-label">Free</span>
+        <h2 id="audit-heading">Is your website holding you back?</h2>
+        <p>Drop your URL below and I will personally review your site. You will get honest, no-nonsense feedback on what is working, what is not, and what could be better. No automated reports, just real insights from a designer.</p>
+      </div>
+      <div class="audit-form-wrap reveal">
+        <form class="audit-form" id="audit-form">
+          <div class="audit-input-group">
+            <label for="audit-url" class="visually-hidden">Your website URL</label>
+            <input type="url" id="audit-url" name="url" class="audit-input" placeholder="https://yourwebsite.co.uk" required />
+            <button type="submit" class="audit-submit">
+              <span class="audit-submit-text">Get Free Review</span>
+              <svg class="audit-submit-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+          <span class="audit-hint">Opens WhatsApp with your URL ready to send. No email required, no strings attached.</span>
+        </form>
+        <div class="audit-success" id="audit-success" hidden>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <p class="audit-success-text">Almost there. Hit send in WhatsApp and I will take a look and come back with honest feedback.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ContactCTA heading="Your site,&nbsp;sorted." text="A coffee in Southampton if you are local, a video call if you are not. Either way, a proper chat about what your website needs, not a sales pitch." />
+</div><!-- .page-content -->
+</main>
+</Layout>

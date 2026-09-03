@@ -1,0 +1,22 @@
+---
+// The footer lid, shared across every page.
+const nav = [
+  { href: '/web-design', label: 'Websites' },
+  { href: '/design', label: 'Design' },
+  { href: '/photography', label: 'Photography' },
+  { href: '/marketing', label: 'Marketing' },
+  { href: '/about', label: 'About' },
+];
+const year = new Date().getFullYear();
+---
+<footer class="footer band--ink bleed">
+  <a href="#main" class="wm" aria-label="Kombu, back to top"><span>K</span><span>O</span><span>M</span><span>B</span><span>U</span></a>
+  <div class="footer-row">
+    <ul class="footer-links">
+      {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      <li><a href="https://www.instagram.com/ryanstanikkphotography/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://uk.linkedin.com/in/ryanstanikk" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <p>&copy; {year} Kombu, Southampton. <!--email_off--><a href="mailto:design@kombu.uk">design@kombu.uk</a><!--email_on--></p>
+  </div>
+</footer>

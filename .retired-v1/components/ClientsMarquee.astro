@@ -1,0 +1,33 @@
+---
+interface Props { label?: string; }
+const { label = "Trusted by" } = Astro.props;
+const logos = [
+  { src: "/images/clients/soleto.png", alt: "Soleto" },
+  { src: "/images/clients/padharo.svg", alt: "Padharo" },
+  { src: "/images/clients/banana-wharf.png", alt: "Banana Wharf" },
+  { src: "/images/clients/the-grand.png", alt: "The Grand" },
+  { src: "/images/clients/kesarum.png", alt: "Kesarum" },
+  { src: "/images/clients/ryan-stanikk-photography.png", alt: "Ryan Stanikk Photography" },
+  { src: "/images/clients/ark-angels.svg", alt: "Ark Angels" },
+  { src: "/images/clients/ennios.png", alt: "Ennios" },
+  { src: "/images/clients/grumpy-monkey.png", alt: "Grumpy Monkey" },
+  { src: "/images/clients/mustang-group.png", alt: "Mustang Group" },
+];
+---
+<section class="clients dark-section" id="clients" aria-labelledby="clients-heading">
+  <h2 class="clients-eyebrow reveal" id="clients-heading">
+    <span class="clients-eyebrow-rule" aria-hidden="true"></span>
+    <span>{label}</span>
+    <span class="clients-eyebrow-rule" aria-hidden="true"></span>
+  </h2>
+  <div class="clients-marquee" role="region" aria-label="Clients">
+    <div class="clients-track">
+      <ul class="clients-set">
+        {logos.map((l) => <li class="clients-item" data-logo={l.alt.toLowerCase().replace(/\s+/g, '-')}><img src={l.src} alt={l.alt} loading="lazy" /></li>)}
+      </ul>
+      <ul class="clients-set" aria-hidden="true">
+        {logos.map((l) => <li class="clients-item" data-logo={l.alt.toLowerCase().replace(/\s+/g, '-')}><img src={l.src} alt="" loading="lazy" /></li>)}
+      </ul>
+    </div>
+  </div>
+</section>

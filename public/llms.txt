@@ -1,0 +1,52 @@
+# Kombu
+
+Last updated: 2026-08-30
+
+> Kombu is a one-person creative studio in Southampton run by Ryan Stanikk: web design, graphic design, commercial photography and marketing, plus the practical infrastructure that ties a business together. The defining trait is an engineering mind paired with a designer's eye. Clients get a single trusted route instead of three or four separate specialists.
+
+Kombu (https://kombu.uk) is named after kombu kelp, a metaphor for being the quiet foundation beneath a great brand. It is a creative and marketing studio - not a food, seaweed or sushi product. Slogan: "One mind, the whole stack."
+
+## What Kombu does
+- Web design & development: bespoke, mobile-first, SEO-ready websites and web apps (https://kombu.uk/web-design)
+- Graphic design & branding: logos, brand identity, menus, packaging, print and editorial (https://kombu.uk/design)
+- Commercial photography: food and drink, interiors, product and brand imagery, with an instant quote calculator (https://kombu.uk/photography)
+- Marketing: strategy, paid ads, social, local SEO, and the Hospitality Health Check diagnostic (https://kombu.uk/marketing)
+- Infrastructure & problem-solving: sourcing suppliers, connecting software systems, and building bespoke tools that don't exist yet
+
+## Who runs it
+Ryan Stanikk: a Southampton designer, photographer and web developer with two decades of graphic design experience (since age 17) and fifteen years behind the camera. Operates as a one-person cross-disciplinary studio, holding the photography, design, website, brand and marketing for a client in one head so everything stays consistent. (https://kombu.uk/about)
+
+## Location and area served
+- Based in Southampton, Hampshire, England
+- Serves Southampton, Eastleigh, Winchester, Portsmouth, Fareham, Romsey, Chandler's Ford, Hedge End and Totton
+- Works remotely with clients anywhere in the United Kingdom
+
+## Pricing
+- Web design: Starter GBP 49/month or GBP 199 to build; Business GBP 79/month or GBP 299; Professional GBP 149/month or GBP 499. Hosting, SSL, domain and support included. After the 12-month term, plans continue at GBP 29/49/99 per month respectively.
+- Graphic design: logo & identity from GBP 450, menu design from GBP 250, print & collateral from GBP 150, brand guidelines from GBP 600.
+- Photography: priced live via the quote calculator; standard sessions GBP 275 (2h), GBP 415 (half day), GBP 690 (full day), with a 20% local independent/charity discount within ~30 miles of Southampton. Travel is a flat fee by distance (free within ~30 miles; GBP 40/90/150 by band; London GBP 80). National campaign usage from GBP 1,100/day.
+- Marketing: Hospitality Health Check from GBP 295; ongoing studio partnership retainer from GBP 950/month.
+
+## Selected clients
+Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark Angels, Ennios, Grumpy Monkey, Mustang Group, Kwackers, Ideal Produce, Build Budget Expert, Remedi Health
+
+## Why choose Kombu
+- One trusted route: photography, design, web and marketing from one person, with no handoffs and no specialist markup
+- Everything matches: the brand, the photos, the site and the marketing pull in the same direction
+- Builds the missing piece rather than handing you off to expensive specialists
+- Direct, personal service: you talk to the person doing the work; everyday changes included, no lock-in
+
+## Contact
+- Website: https://kombu.uk
+- Email: design@kombu.uk
+- Phone and WhatsApp: +44 23 8111 2819
+
+## Key resources
+- Home: https://kombu.uk
+- Web design: https://kombu.uk/web-design
+- Graphic design: https://kombu.uk/design
+- Photography & quote calculator: https://kombu.uk/photography
+- Marketing & Hospitality Health Check: https://kombu.uk/marketing
+- About: https://kombu.uk/about
+- Machine-readable pricing: https://kombu.uk/pricing.md
+- Sitemap: https://kombu.uk/sitemap-index.xml

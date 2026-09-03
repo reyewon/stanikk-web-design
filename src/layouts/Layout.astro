@@ -1,21 +1,156 @@
 ---
+// Live site layout. Built from zero rather than layered on the retired v1
+// look (no global.css / components.css / studio.css, no GSAP/shader runtime),
+// but the document head is the same production SEO head the v1 Layout.astro
+// carried: meta, Open Graph, Twitter, geo, PWA, favicons and the JSON-LD
+// entity graph, so search engines and AI answer engines see one consistent
+// site across the swap.
+import '../styles/site.css';
+
 interface Props {
   title: string;
   description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageWidth?: string;
+  ogImageHeight?: string;
+  ogImageAlt?: string;
+  ogType?: string;
+  extraSchema?: any[];
 }
 
-const { title, description = "Bespoke web design in Southampton, serving the UK. Design-led websites without the agency headaches. Almost two decades of graphic design expertise." } = Astro.props;
-
 const siteUrl = "https://kombu.uk";
-const siteName = "Kombu Web Design";
-const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
----
+const siteName = "Kombu";
+const {
+  title,
+  description = "A one-person creative studio in Southampton: web design, graphic design, commercial photography, marketing and the infrastructure that ties a business together.",
+  canonical = new URL(Astro.url.pathname, siteUrl).href,
+  ogImage = `${siteUrl}/images/og-kombu-cafe.jpg?v=1`,
+  ogImageWidth = "1200",
+  ogImageHeight = "630",
+  ogImageAlt = "Someone reading the kombu.uk homepage on a laptop in a cafe",
+  ogType = "website",
+  extraSchema = [],
+} = Astro.props;
 
+// Shared entity graph, present on every page so the business/person stays
+// consistent. Pages add WebPage / Service / BreadcrumbList / FAQPage via extraSchema.
+const baseGraph = [
+  {
+    "@type": "WebSite",
+    "@id": "https://kombu.uk/#website",
+    "url": "https://kombu.uk",
+    "name": "Kombu",
+    "description": "Creative, design and marketing studio in Southampton.",
+    "publisher": { "@id": "https://kombu.uk/#business" },
+    "inLanguage": "en-GB"
+  },
+  {
+    "@type": ["ProfessionalService", "LocalBusiness"],
+    "@id": "https://kombu.uk/#business",
+    "name": "Kombu",
+    "alternateName": ["Kombu Studio", "Kombu Web Design", "Kombu Web Design Southampton"],
+    "disambiguatingDescription": "Kombu is a one-person creative studio in Southampton, England, covering web design, graphic design, commercial photography and marketing. It is named after kombu kelp as a metaphor for being the quiet foundation beneath a brand. It is a creative and marketing studio, not a food, seaweed or sushi product.",
+    "description": "A one-person creative studio in Southampton: web design and development, graphic design and branding, commercial photography, and marketing, plus the practical infrastructure that connects them. Direct, personal service from a designer with almost two decades of experience.",
+    "slogan": "One mind, the whole stack.",
+    "url": "https://kombu.uk",
+    "numberOfEmployees": 1,
+    "telephone": "+442381112819",
+    "email": "design@kombu.uk",
+    "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+    "logo": "https://kombu.uk/favicon-512.png",
+    "priceRange": "££",
+    "currenciesAccepted": "GBP",
+    "paymentAccepted": "Bank Transfer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Southampton",
+      "addressRegion": "Hampshire",
+      "addressCountry": "GB"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 50.9097, "longitude": -1.4044 },
+    "founder": { "@id": "https://kombu.uk/#person" },
+    "areaServed": [
+      { "@type": "City", "name": "Southampton", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Eastleigh", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Winchester", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Portsmouth", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Fareham", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Romsey", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Chandler's Ford", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Hedge End", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "City", "name": "Totton", "containedInPlace": { "@type": "AdministrativeArea", "name": "Hampshire" } },
+      { "@type": "AdministrativeArea", "name": "Hampshire" },
+      { "@type": "Country", "name": "United Kingdom" }
+    ],
+    "serviceType": ["Web Design", "Web Development", "Graphic Design", "Brand Identity Design", "Logo Design", "Menu Design", "Print Design", "Commercial Photography", "Marketing Strategy", "Local SEO", "Hospitality Marketing"],
+    "knowsAbout": ["Web Design", "Responsive Web Design", "Web Development", "Graphic Design", "Brand Identity", "Logo Design", "Editorial Design", "Menu Design", "Commercial Photography", "Food Photography", "Marketing Strategy", "Local SEO", "Hospitality Marketing", "Small Business Marketing"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+442381112819",
+      "email": "design@kombu.uk",
+      "contactType": "customer service",
+      "areaServed": "GB",
+      "availableLanguage": "English"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Studio Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design & Development", "url": "https://kombu.uk/web-design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic Design & Branding", "url": "https://kombu.uk/design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Photography", "url": "https://kombu.uk/photography" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing & Hospitality Health Check", "url": "https://kombu.uk/marketing" } }
+      ]
+    },
+    "hasMap": "https://www.google.com/maps?cid=16407402703526049661",
+    "sameAs": [
+      "https://www.google.com/maps?cid=16407402703526049661",
+      "https://uk.linkedin.com/in/ryanstanikk",
+      "https://www.instagram.com/ryanstanikkphotography/",
+      "https://medium.com/@ryanstanikkphotography",
+      "https://wa.me/442381112819",
+      "https://ryanstanikk.co.uk"
+    ]
+  },
+  {
+    "@type": "Person",
+    "@id": "https://kombu.uk/#person",
+    "name": "Ryan Stanikk",
+    "jobTitle": "Designer, Photographer & Web Developer",
+    "description": "Southampton-based designer, commercial photographer and web developer with almost two decades of design and marketing experience, running Kombu as a one-person cross-disciplinary studio.",
+    "image": "https://kombu.uk/images/ryan-stanikk.jpg",
+    "url": "https://kombu.uk/about",
+    "worksFor": { "@id": "https://kombu.uk/#business" },
+    "sameAs": [
+      "https://uk.linkedin.com/in/ryanstanikk",
+      "https://www.instagram.com/ryanstanikkphotography/",
+      "https://medium.com/@ryanstanikkphotography",
+      "https://ryanstanikk.co.uk"
+    ],
+    "knowsAbout": ["Web Design", "Graphic Design", "Commercial Photography", "Web Development", "Marketing", "Brand Identity", "SEO"]
+  }
+];
+
+// Freshness signal. AI answer engines weight recency heavily and undated pages
+// lose to dated ones, so every WebPage node carries a dateModified. Build time
+// is the honest source here: git is not, because most page files are untracked
+// and the site is redeployed whenever content changes.
+const buildISO = new Date().toISOString();
+const datedSchema = extraSchema.map((node) =>
+  node["@type"] === "WebPage" ? { ...node, dateModified: buildISO } : node
+);
+
+const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...datedSchema] };
+---
 <!doctype html>
 <html lang="en-GB">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- After the first visit of a session, skip the loader before paint (no flash) -->
+    <script is:inline>try{if(sessionStorage.getItem('kombu-seen'))document.documentElement.classList.add('kombu-seen');}catch(e){}</script>
 
     <!-- Google tag (gtag.js) - GA4 -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0"></script>
@@ -30,9 +165,9 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="author" content="Ryan" />
+    <meta name="author" content="Ryan Stanikk" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href={siteUrl} />
+    <link rel="canonical" href={canonical} />
 
     <!-- Geo Meta Tags -->
     <meta name="geo.region" content="GB-HAM" />
@@ -41,34 +176,30 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <meta name="ICBM" content="50.9097, -1.4044" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Kombu Web Design - Bespoke websites in Southampton, UK" />
+    <meta property="og:image:width" content={ogImageWidth} />
+    <meta property="og:image:height" content={ogImageHeight} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_GB" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={siteUrl} />
+    <meta name="twitter:url" content={canonical} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content="Kombu Web Design - Bespoke websites in Southampton, UK" />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Theme & PWA -->
     <meta name="theme-color" content="#1A1412" />
     <meta name="msapplication-TileColor" content="#1A1412" />
-
-    <!-- PWA: web-app manifest enables "Install / Add to Home Screen" -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="application-name" content="Kombu" />
-
-    <!-- iOS standalone web-app behaviour (no Safari chrome when launched from home screen) -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -80,233 +211,294 @@ const ogImage = `${siteUrl}/images/og-image.jpg?v=2`;
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- Fonts preload -->
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="dns-prefetch" href="https://api.fontshare.com" />
+    <slot name="head" />
 
-    <!-- JSON-LD: LocalBusiness + ProfessionalService -->
-    <script is:inline type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://kombu.uk/#website",
-          "url": "https://kombu.uk",
-          "name": "Kombu Web Design",
-          "description": "Bespoke web design in Southampton, serving the UK",
-          "publisher": {
-            "@id": "https://kombu.uk/#business"
-          },
-          "inLanguage": "en-GB"
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://kombu.uk/#webpage",
-          "url": "https://kombu.uk",
-          "name": "Kombu Web Design | Bespoke Websites That Work As Hard As You Do",
-          "isPartOf": {
-            "@id": "https://kombu.uk/#website"
-          },
-          "about": {
-            "@id": "https://kombu.uk/#business"
-          },
-          "description": "Bespoke web design in Southampton, serving the UK. Design-led websites without the agency headaches. Almost two decades of graphic design expertise.",
-          "inLanguage": "en-GB"
-        },
-        {
-          "@type": ["ProfessionalService", "LocalBusiness"],
-          "@id": "https://kombu.uk/#business",
-          "name": "Kombu Web Design",
-          "alternateName": "Kombu",
-          "description": "Bespoke web design and development based in Southampton, serving small businesses across the UK. Design-led websites without the agency headaches, with personal, face-to-face service.",
-          "url": "https://kombu.uk",
-          "telephone": "+442381112819",
-          "email": "design@kombu.uk",
-          "image": "https://kombu.uk/images/ryan-stanikk.jpg",
-          "logo": "https://kombu.uk/favicon-512.png",
-          "priceRange": "££",
-          "currenciesAccepted": "GBP",
-          "paymentAccepted": "Bank Transfer",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Southampton",
-            "addressRegion": "Hampshire",
-            "addressCountry": "GB",
-            "postalCode": "SO"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 50.9097,
-            "longitude": -1.4044
-          },
-          "founder": {
-            "@type": "Person",
-            "@id": "https://kombu.uk/#person",
-            "name": "Ryan",
-            "jobTitle": "Web Designer & Developer",
-            "description": "Designer and commercial photographer with almost two decades of design and marketing expertise, specialising in bespoke web design for small businesses.",
-            "image": "https://kombu.uk/images/ryan-stanikk.jpg",
-            "url": "https://kombu.uk",
-            "sameAs": [
-              "https://uk.linkedin.com/in/ryanstanikk",
-              "https://www.instagram.com/ryanstanikkphotography/",
-              "https://medium.com/@ryanstanikkphotography",
-              "https://ryanstanikk.co.uk"
-            ],
-            "knowsAbout": ["Web Design", "Graphic Design", "Commercial Photography", "Web Development", "Marketing", "SEO"]
-          },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Web Design Services",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "name": "Starter",
-                "price": "49",
-                "priceCurrency": "GBP",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "49",
-                  "priceCurrency": "GBP",
-                  "unitText": "MONTH",
-                  "billingDuration": "P12M"
-                },
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Starter Web Design",
-                  "description": "Custom single-page website design, mobile-first and responsive, with SEO foundations, hosting, SSL, and ongoing support included."
-                }
-              },
-              {
-                "@type": "Offer",
-                "name": "Business",
-                "price": "79",
-                "priceCurrency": "GBP",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "79",
-                  "priceCurrency": "GBP",
-                  "unitText": "MONTH",
-                  "billingDuration": "P12M"
-                },
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Business Web Design",
-                  "description": "Multi-page website with up to 5 custom pages, contact forms, Google Business integration, and priority support."
-                }
-              },
-              {
-                "@type": "Offer",
-                "name": "Growth",
-                "price": "129",
-                "priceCurrency": "GBP",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "129",
-                  "priceCurrency": "GBP",
-                  "unitText": "MONTH",
-                  "billingDuration": "P12M"
-                },
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Growth Web Application",
-                  "description": "Custom web applications with e-commerce, payments, CMS integration, and dedicated support."
-                }
-              }
-            ]
-          },
-          "areaServed": [
-            {
-              "@type": "City",
-              "name": "Southampton",
-              "containedInPlace": {
-                "@type": "AdministrativeArea",
-                "name": "Hampshire"
-              }
-            },
-            {
-              "@type": "Country",
-              "name": "United Kingdom"
-            }
-          ],
-          "serviceType": ["Web Design", "Web Development", "Web Apps", "Hosting", "Domain Registration", "Content Management"],
-          "knowsAbout": ["Web Design", "Responsive Design", "SEO", "Graphic Design", "Commercial Photography", "Web Development"],
-          "sameAs": [
-            "https://uk.linkedin.com/in/ryanstanikk",
-            "https://www.instagram.com/ryanstanikkphotography/",
-            "https://medium.com/@ryanstanikkphotography",
-            "https://wa.me/442381112819",
-            "https://ryanstanikk.co.uk"
-          ]
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://kombu.uk/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How much does a website cost?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Starter websites from £49 per month or £499 one-off, Business sites from £79 per month or £999 one-off, Growth packages from £129 per month. All plans include hosting, SSL, domain setup, and ongoing support with no hidden fees."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How long does it take to build a website?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A typical single-page site can be ready in 1 to 2 weeks. Larger multi-page sites or sites with custom features may take 3 to 6 weeks. I will give you a realistic timeline during our initial conversation."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Do I need to provide content and images?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "I take in everything you have: documents, existing websites, social media, images, videos. As a commercial photographer, I can also create imagery for your site. I will work with whatever materials you have and fill in the gaps."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Do you handle hosting and domains?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes. Domain registration, hosting, SSL, ongoing maintenance. It is all included in your plan. You own everything, there is no lock-in, and I handle every technical detail so you do not have to."
-              }
-            }
-          ]
-        }
-      ]
-    }
+    <!-- Fonts: all self-hosted. Preload the faces used above the fold
+         (display headline weights + body) so the first layout is already in
+         final metrics - no swap, no layout shift. -->
+    <link rel="preload" href="/fonts/SupermassiveRS-III.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SupermassiveRS-II.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/switzer-300.woff2" as="font" type="font/woff2" crossorigin />
+    <style is:inline>@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-I.woff2') format('woff2');font-weight:700;font-display:swap;font-style:normal}@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-II.woff2') format('woff2');font-weight:800;font-display:swap;font-style:normal}@font-face{font-family:'Supermassive RS';src:url('/fonts/SupermassiveRS-III.woff2') format('woff2');font-weight:900;font-display:swap;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-display:swap;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-display:swap;font-style:normal}@font-face{font-family:'Switzer';src:url('/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-display:swap;font-style:normal}@font-face{font-family:'Supermassive FB';src:local('Arial');size-adjust:88.29%;ascent-override:101.93%;descent-override:28.32%;line-gap-override:0%}@font-face{font-family:'Switzer FB';src:local('Arial');size-adjust:98.45%;ascent-override:99.55%;descent-override:25.39%;line-gap-override:0%}</style>
+
+    <!-- JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- No-JS fallback: the floating nav starts hidden (opacity 0) awaiting a
+         scroll-triggered JS class, and the home page's pinned intro relies on
+         JS to release its scroll padding, so without this a no-JS visitor
+         gets an invisible nav and ~200vh of empty scroll on '/'. Mirrors the
+         same resting state the .no-motion class already renders. -->
+    <noscript>
+      <style>
+        .nav { opacity: 1 !important; transform: translate(-50%, 0) !important; }
+        .intro { height: auto !important; }
+        .intro-stage { position: static !important; height: auto !important; overflow: visible !important; }
+        .wm { transform: none !important; }
+        .wm span { animation: none !important; }
+        .tray-grid.is-armed .cell { opacity: 1 !important; transform: none !important; }
+        .portrait-cue, .portrait-video { display: none !important; }
+      </style>
+    </noscript>
+
+    <script is:inline>
+      // Same static test path the main site uses: ?nomotion or a reduced-motion
+      // preference renders everything in its resting state.
+      // Always open at the top on the home page, since the intro is the first
+      // thing it says and a reload landing mid-page would skip it. Interior
+      // pages must not fight a hash link (e.g. /web-design#pricing).
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      function isHome() { return location.pathname.replace(/\/$/, '') === ''; }
+      function toTop() { if (isHome() && !location.hash) scrollTo(0, 0); }
+      toTop();
+      addEventListener('pageshow', toTop);
+      if (location.search.indexOf('nomotion') !== -1 || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('no-motion');
+        // Static test renders want every image present, same as the main site.
+        addEventListener('DOMContentLoaded', function () { document.querySelectorAll('img[loading="lazy"]').forEach(function (i) { i.loading = 'eager'; }); });
+      }
     </script>
   </head>
   <body>
-    <script is:inline>
-      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-      window.scrollTo(0, 0);
-    </script>
+    <a href="#main" class="skip">Skip to content</a>
     <slot />
-
-    <!-- GSAP -->
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script is:inline src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+    <script is:inline>
+      // Lenis and the nav reveal run on EVERY page, intro or not: an interior
+      // page has no #intro to pop the nav in via the pinned sequence, so it
+      // needs its own arm-on-load / arm-on-scroll logic. Lenis exposes itself
+      // as window.__lenis so the lightbox can stop/start it while open.
+      (function () {
+        var html = document.documentElement, nav = document.querySelector('.nav'), intro = document.getElementById('intro');
+        var noMo = html.classList.contains('no-motion');
+        function showNav() { if (nav && !nav.classList.contains('is-shown')) nav.classList.add('is-shown'); }
+        if (!noMo && typeof Lenis !== 'undefined') {
+          var lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+          window.__lenis = lenis;
+          (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+        }
+        if (noMo || !intro) { showNav(); return; }
+        // A page with #intro (home) lets the pinned sequence below reveal the
+        // nav on first scroll instead, so it does not show it immediately.
+      })();
+    </script>
+    <script is:inline>
+      // The intro is one way. Progress p runs 0 to 1 across the pinned
+      // stage's scroll budget. Until the wordmark has risen (p 0.2) its slide
+      // follows the scroll; after that it locks at the top. Each compartment
+      // pops in once, when p first crosses its threshold (0.24, 0.40, 0.56,
+      // 0.72), and stays in; scrolling back never undoes it. The nav arrives
+      // on the first scroll. Phones and reduced motion skip the pin: phones
+      // pop cells in as they arrive, reduced motion shows everything.
+      // Interior pages have no #intro, so this whole sequence is a no-op there
+      // (the nav and Lenis are handled by the IIFE above instead).
+      (function () {
+        var html = document.documentElement, intro = document.getElementById('intro'), wm = document.getElementById('wm');
+        var tray = document.getElementById('tray'), nav = document.querySelector('.nav');
+        var cells = tray ? Array.prototype.slice.call(tray.querySelectorAll('.cell')) : [];
+        if (!intro || !wm || !cells.length) return;
+        var noMo = html.classList.contains('no-motion');
+        var pinned = !noMo && matchMedia('(min-width: 821px)').matches;
+        var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+        var easeOut = function (t) { return 1 - Math.pow(1 - t, 3); };
+        function showNav() { if (nav && !nav.classList.contains('is-shown')) nav.classList.add('is-shown'); }
+        if (noMo) { showNav(); return; }
+        addEventListener('scroll', function onFirst() { if (scrollY > 24) { showNav(); removeEventListener('scroll', onFirst); } }, { passive: true });
+        if (scrollY > 24) showNav();
+        if (pinned) {
+          tray.classList.add('is-armed');
+          var y0 = 0, s0 = 1, range = 1, ticking = false, risen = false, done = 0;
+          function measure() {
+            wm.style.setProperty('--wm-y', '0px'); wm.style.setProperty('--wm-s', '1');
+            wm.classList.add('measuring');           /* letters at rest, not mid-land */
+            var vh = innerHeight, rect = wm.getBoundingClientRect(), top = rect.top + scrollY;
+            var r = document.createRange(); r.selectNodeContents(wm);
+            s0 = Math.min(1.9, (innerWidth - 2 * 28) / r.getBoundingClientRect().width);
+            y0 = (vh / 2 - (wm.offsetHeight * s0) / 2) - top;
+            wm.classList.remove('measuring');
+            range = intro.offsetHeight - vh;
+          }
+          function frame() {
+            ticking = false;
+            var p = clamp(scrollY / range);
+            intro.dataset.p = p.toFixed(3);
+            if (!risen) {
+              var a = easeOut(clamp(p / 0.2));
+              wm.style.setProperty('--wm-y', (y0 * (1 - a)).toFixed(1) + 'px');
+              wm.style.setProperty('--wm-s', (s0 - (s0 - 1) * a).toFixed(4));
+              if (p >= 0.2) { risen = true; wm.style.setProperty('--wm-y', '0px'); wm.style.setProperty('--wm-s', '1'); }
+            }
+            while (done < cells.length && p >= 0.24 + done * 0.16) { cells[done].classList.add('is-in'); done++; }
+          }
+          function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+          measure(); frame();
+          addEventListener('scroll', onScroll, { passive: true });
+          addEventListener('resize', function () { if (!risen) { measure(); frame(); } });
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!risen) { measure(); frame(); } });
+        } else {
+          tray.classList.add('is-armed');
+          var io = new IntersectionObserver(function (es) {
+            es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+          }, { threshold: 0.25 });
+          // Anything already inside the first viewport shows at once; only the
+          // cells below it wait for the observer. Holding a visible cell at
+          // opacity 0 until the observer fired was the page's largest paint.
+          cells.forEach(function (c) { if (c.getBoundingClientRect().top < innerHeight) c.classList.add('is-in'); else io.observe(c); });
+        }
+      })();
+    </script>
+    <script is:inline>
+      // Portrait video: hover plays it on desktop, the cue toggles it anywhere,
+      // and the crossfade waits for frames to actually render. Mirrors the
+      // main site's behaviour.
+      (function () {
+        var wrap = document.getElementById('portrait'), video = wrap && wrap.querySelector('video'), cue = wrap && wrap.querySelector('.portrait-cue');
+        if (!wrap || !video || document.documentElement.classList.contains('no-motion')) return;
+        var start = function () { video.currentTime = 0; video.play().catch(function () {}); };
+        var stop = function () { video.pause(); wrap.classList.remove('video-playing'); video.currentTime = 0; };
+        video.addEventListener('playing', function () { wrap.classList.add('video-playing'); });
+        video.addEventListener('ended', function () { wrap.classList.remove('video-playing'); video.currentTime = 0; });
+        if (cue) cue.addEventListener('click', function (e) { e.preventDefault(); video.paused ? start() : stop(); });
+        if (!matchMedia('(max-width: 768px)').matches) { wrap.addEventListener('mouseenter', start); wrap.addEventListener('mouseleave', stop); }
+      })();
+    </script>
+    <script is:inline>
+      // Mobile menu: the pill nav opens its links as a stacked sheet.
+      (function () {
+        var nav = document.querySelector('.nav'), btn = document.querySelector('.nav-toggle');
+        if (!nav || !btn) return;
+        btn.addEventListener('click', function () {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          btn.textContent = open ? 'Close' : 'Menu';
+        });
+        function close() { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Menu'; }
+        nav.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', close); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('is-open')) { close(); btn.focus(); } });
+        document.addEventListener('click', function (e) { if (nav.classList.contains('is-open') && !nav.contains(e.target)) close(); });
+      })();
+    </script>
+    <script is:inline>
+      // Lightbox: any [data-lightbox] wrapper opens its <img> full size in a
+      // fixed ink overlay. Used on /design and /photography. Disabled
+      // under .no-motion, where the images stay plain.
+      (function () {
+        var noMo = document.documentElement.classList.contains('no-motion');
+        if (noMo) return;
+        var opener = null, overlay = null;
+        function build() {
+          overlay = document.createElement('div');
+          overlay.className = 'lightbox';
+          overlay.setAttribute('role', 'dialog');
+          overlay.setAttribute('aria-modal', 'true');
+          var img = document.createElement('img');
+          overlay.appendChild(img);
+          var close = document.createElement('button');
+          close.type = 'button';
+          close.className = 'pill lightbox-close';
+          close.textContent = 'Close';
+          overlay.appendChild(close);
+          close.addEventListener('click', hide);
+          overlay.addEventListener('click', function (e) { if (e.target === overlay) hide(); });
+          document.body.appendChild(overlay);
+          return overlay;
+        }
+        function show(src, alt, trigger) {
+          opener = trigger;
+          if (!overlay) build();
+          var img = overlay.querySelector('img');
+          img.src = src; img.alt = '';
+          overlay.setAttribute('aria-label', alt || 'Enlarged image');
+          overlay.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+          if (window.__lenis) window.__lenis.stop();
+          overlay.querySelector('.lightbox-close').focus();
+          document.addEventListener('keydown', onKey);
+        }
+        function hide() {
+          if (!overlay || !overlay.classList.contains('is-open')) return;
+          overlay.classList.remove('is-open');
+          document.body.style.overflow = '';
+          if (window.__lenis) window.__lenis.start();
+          document.removeEventListener('keydown', onKey);
+          if (opener) opener.focus();
+        }
+        function onKey(e) { if (e.key === 'Escape') hide(); }
+        document.addEventListener('click', function (e) {
+          var img = e.target.closest('[data-lightbox] img');
+          if (!img) return;
+          e.preventDefault();
+          show(img.currentSrc || img.src, img.alt, img);
+        });
+      })();
+    </script>
+    <script is:inline>
+      // Live site frames inside the work cards: mount the real site on
+      // approach, pan the full-page poster on hover. Ported from the main
+      // runtime with the GSAP / Lenis dependencies removed, since this page
+      // has no need for either.
+      (function () {
+        var noMo = document.documentElement.classList.contains('no-motion');
+        var isMob = matchMedia('(max-width: 768px)').matches;
+        var SITE_W = 1024, HERO_H = 1366, PAN_MS = 7000;
+        document.querySelectorAll('.browser-viewport').forEach(function (vp) {
+          var url = vp.dataset.site, stack = vp.querySelector('.browser-stack'), poster = vp.querySelector('.browser-poster');
+          if (!stack || !poster) return;
+          var iframe = null, scale = vp.clientWidth / SITE_W, anim = null, top = 0, panning = false, mobDone = false;
+          var apply = function (t) { stack.style.transform = 'translateY(' + t + 'px) scale(' + scale + ')'; };
+          var maxPan = function () { var w = poster.naturalWidth || SITE_W; return Math.max(0, poster.naturalHeight * (SITE_W / w) * scale - vp.offsetHeight); };
+          function mount() {
+            if (iframe || !url) return;
+            iframe = document.createElement('iframe');
+            iframe.src = url; iframe.loading = 'lazy'; iframe.title = poster.alt || 'Site preview';
+            iframe.tabIndex = -1; iframe.setAttribute('aria-hidden', 'true');
+            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:' + SITE_W + 'px;height:' + HERO_H + 'px;border:0;pointer-events:none;opacity:0;transition:opacity .5s ease-out;z-index:2';
+            iframe.addEventListener('load', function () { if (iframe && !panning) iframe.style.opacity = '1'; });
+            stack.appendChild(iframe);
+          }
+          apply(0);
+          function start() {
+            if (noMo || anim || (isMob && mobDone)) return;
+            panning = true;
+            if (iframe) { iframe.style.transition = 'opacity .25s ease-out'; iframe.style.opacity = '0'; }
+            var target = -maxPan();
+            if (target === 0) { if (!(poster.complete && poster.naturalHeight > 0)) poster.addEventListener('load', start, { once: true }); return; }
+            var t0 = performance.now(), from = top, dist = target - from;
+            stack.classList.add('panning'); stack.style.transition = '';
+            (function step(now) {
+              var t = Math.min((now - t0) / PAN_MS, 1), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+              top = from + dist * e; apply(top);
+              if (t < 1) anim = requestAnimationFrame(step);
+              else { anim = null; stack.classList.remove('panning'); if (isMob) { mobDone = true; setTimeout(reset, 700); } }
+            })(t0);
+          }
+          function reset() {
+            if (anim) { cancelAnimationFrame(anim); anim = null; }
+            panning = false;
+            stack.style.transition = 'transform .6s ease-out'; top = 0; apply(0);
+            if (iframe) setTimeout(function () { if (iframe && !panning) iframe.style.opacity = '1'; }, 620);
+            setTimeout(function () { stack.classList.remove('panning'); stack.style.transition = ''; }, 700);
+          }
+          addEventListener('resize', function () { scale = vp.clientWidth / SITE_W; apply(top); });
+          if (!isMob) {
+            new IntersectionObserver(function (es, ob) { es.forEach(function (en) { if (en.isIntersecting) { poster.complete && poster.naturalWidth ? mount() : poster.addEventListener('load', mount, { once: true }); ob.unobserve(vp); } }); }, { rootMargin: '200px' }).observe(vp);
+            var card = vp.closest('.project-browser');
+            if (card) { card.addEventListener('mouseenter', start); card.addEventListener('mouseleave', reset); }
+          } else if (!noMo) {
+            new IntersectionObserver(function (es) { es.forEach(function (en) { en.isIntersecting ? start() : reset(); }); }, { threshold: 0.4 }).observe(vp);
+          }
+        });
+      })();
+    </script>
 
-    <!-- Register the service worker so Android Chrome marks the site
-         as installable. iOS uses the manifest alone for Add-to-Home. -->
+    <!-- Register the service worker so Android Chrome marks the site installable. -->
     <script is:inline>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-          navigator.serviceWorker.register('/sw.js').catch(function () { /* swallow */ });
+          navigator.serviceWorker.register('/sw.js').catch(function () {});
         });
       }
     </script>
   </body>
 </html>
-
-<style is:global>
-  @import '../styles/global.css';
-</style>

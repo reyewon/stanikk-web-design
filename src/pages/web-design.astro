@@ -1,0 +1,280 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ContactCard from '../components/ContactCard.astro';
+import PageHead from '../components/PageHead.astro';
+import Faq from '../components/Faq.astro';
+
+const title = "Web Design Southampton | Bespoke Websites | Kombu";
+const description = "Bespoke web design in Southampton and across the UK. Design-led websites without the agency headaches, from a designer with two decades of experience.";
+
+const services = [
+  { t: 'Web Design', d: 'Bespoke websites built around your business, not a template. Most developers build functional sites; I build beautiful ones, with a graphic designer’s eye and no agency runaround.', list: ['Custom design', 'Mobile-first', 'Built to convert', 'SEO foundations'], cta: { href: '#contact', label: 'Get started' } },
+  { t: 'Web Apps', d: 'More than just websites. I build functional web applications with the features your business needs, from content management to bespoke tools that solve a real operational problem.', list: ['Custom web apps', 'CMS integration', 'Interactive features', 'Performance-first'], cta: { href: '#contact', label: 'Get started' } },
+  { t: 'Hosting & Domains', d: 'I handle the technical side so you do not have to. Domain registration, hosting setup, SSL certificates, and ongoing maintenance all taken care of.', list: ['Domain registration', 'Fast, secure hosting', 'SSL certificates', 'Ongoing support'], cta: { href: '#contact', label: 'Get started' } },
+  { t: 'Content Management', d: 'Send a change over and I will handle it, usually the same day. Everyday updates are always included, no sneaky invoices, or I can build you a CMS to do it yourself.', list: ['Quick turnaround updates', 'Optional CMS', 'No lock-in', 'Full control'], cta: { href: '#contact', label: 'Get started' } },
+];
+
+const work = [
+  { name: 'Grumpy Monkey', url: 'https://www.grumpy-monkey.co.uk', poster: '/images/portfolio/grumpy-monkey.jpg', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
+  { name: 'Padharo', url: 'https://www.padharo.co.uk', poster: '/images/portfolio/padharo.jpg', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
+  { name: 'Ryan Stanikk Photography', url: 'https://www.ryanstanikk.co.uk', poster: '/images/portfolio/ryanstanikk.jpg', alt: 'Ryan Stanikk photography portfolio website, dark and image-led', line: 'My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch.' },
+  { name: 'Banana Wharf', url: 'https://www.bananawharf.co.uk', poster: '/images/portfolio/banana-wharf.jpg', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
+  { name: 'Ark Angels', url: 'https://arkangelsband.com', poster: '/images/portfolio/ark-angels.jpg', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
+  { name: 'Soleto', url: 'https://soleto-website.pages.dev', poster: '/images/portfolio/soleto.jpg', alt: 'Soleto Italian restaurant website, dark theme with gallery and private dining', line: 'An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service.' },
+];
+
+const tiers = [
+  { tier: 'starter', name: 'Starter', desc: 'A single-page site that makes you look as good online as you are in person.', monthly: 49, upfront: 199, renewal: 29, featured: false, features: ['Custom single-page design', 'Mobile-first & responsive', 'SEO foundations', 'Hosting & SSL included', 'Ongoing support'] },
+  { tier: 'business', name: 'Business', desc: 'A multi-page site with contact forms and your Google listing connected.', monthly: 79, upfront: 299, renewal: 49, featured: true, features: ['Up to 5 custom pages', 'Contact forms', 'Google Business integration', 'Everything in Starter', 'Priority support'] },
+  { tier: 'professional', name: 'Professional', desc: 'Larger sites with CMS, advanced integrations, and room to grow.', monthly: 149, upfront: 499, renewal: 99, featured: false, features: ['Up to 15 custom pages', 'CMS integration', 'Advanced integrations', 'Everything in Business', 'Dedicated support'] },
+];
+
+const process = [
+  { t: 'Discovery', d: 'A proper conversation about your business, your brand, and your goals. Face to face if you are local, video call if not.' },
+  { t: 'Design', d: 'Layouts crafted with the mind of a graphic designer and the eye of a photographer. Every element is intentional.' },
+  { t: 'Build', d: 'Clean, fast, accessible code built for performance and SEO from the ground up.' },
+  { t: 'Launch', d: 'Domain, hosting, SSL, testing. I handle every detail of deployment.' },
+  { t: 'Support', d: 'I do not disappear after launch. Ongoing updates and maintenance included.' },
+];
+
+const faqs = [
+  { q: "What is Kombu?", a: "Kombu is a one-person creative studio in Southampton run by Ryan Stanikk, covering web design, graphic design, commercial photography and marketing. The name comes from kombu kelp, the quiet ingredient that makes everything around it better: one person handling the whole stack so it all pulls in the same direction." },
+  { q: "How much does a website cost?", a: "Starter sites are £49 per month or £199 to build, Business sites £79 per month or £299, and Professional sites £149 per month or £499. Every plan includes hosting, SSL, domain setup and ongoing support, with no hidden fees. After the 12-month term, monthly plans drop to a lower retainer." },
+  { q: "How long does it take to build a website?", a: "Most projects are measured in days and weeks rather than weeks and months. A single-page site is often ready in one to two weeks, while larger multi-page or custom builds take longer. You will have a realistic timeline from the very first conversation." },
+  { q: "Do you design websites for businesses outside Southampton?", a: "Yes. I am based in Southampton and work with businesses right across Hampshire, including Eastleigh, Winchester, Portsmouth, Fareham and Romsey, and remotely with clients anywhere in the UK. If you are local I will meet you in person; if you are further afield I work over video call." },
+  { q: "Do I need to provide content and images?", a: "The more you can provide, the more I can get your website right from the start. That said, I do my own research and dig out any details that have been missed, and as a commercial photographer I can create imagery for your site too. Between what you give me and what I find, I will have everything I need." },
+  { q: "Do you handle hosting and domains?", a: "Yes. Domain registration, hosting, SSL and ongoing maintenance are all included in your plan. You own everything, there is no lock-in, and I handle every technical detail so you do not have to." },
+  { q: "I'm currently with an agency. What's different about working with Kombu?", a: "You talk to me, not an account manager, a junior developer or a sales team. I am a designer first, so I care about how things look and how they work. Changes happen fast because there are no layers of approval, everyday updates are included rather than itemised on an invoice, and your site stays current instead of frozen the moment the build is signed off." },
+];
+
+const extraSchema = [
+  {
+    "@type": "WebPage",
+    "@id": "https://kombu.uk/web-design#webpage",
+    "url": "https://kombu.uk/web-design",
+    "name": title,
+    "isPartOf": { "@id": "https://kombu.uk/#website" },
+    "about": { "@id": "https://kombu.uk/#business" },
+    "description": description,
+    "inLanguage": "en-GB"
+  },
+  {
+    "@type": "Service",
+    "@id": "https://kombu.uk/web-design#service",
+    "name": "Web Design & Development",
+    "serviceType": "Web Design",
+    "provider": { "@id": "https://kombu.uk/#business" },
+    "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ],
+    "description": "Bespoke, design-led websites and web apps for small businesses, with hosting, support and everyday changes included.",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Website packages",
+      "itemListElement": [
+        // Each tier is sold two ways, and the visible pricing toggle shows both:
+        // a 12-month monthly rate, or a one-off build then a lower renewal.
+        // Publishing only the first rate understated the offer to consumers.
+        { "@type": "Offer", "name": "Starter, monthly", "price": "49", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "Custom single-page design, mobile-first, SEO foundations, hosting and SSL included." } },
+        { "@type": "Offer", "name": "Starter, build up front", "price": "199", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "29", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "One-off build of £199, then £29 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Business, monthly", "price": "79", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "79", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "Up to 5 custom pages, contact forms, Google Business integration and priority support." } },
+        { "@type": "Offer", "name": "Business, build up front", "price": "299", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "One-off build of £299, then £49 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Professional, monthly", "price": "149", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "149", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "Up to 15 pages, CMS integration, advanced integrations and dedicated support." } },
+        { "@type": "Offer", "name": "Professional, build up front", "price": "499", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "One-off build of £499, then £99 a month for hosting, SSL and upkeep." } }
+      ]
+    }
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": "https://kombu.uk/web-design#breadcrumb",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" },
+      { "@type": "ListItem", "position": 2, "name": "Web Design", "item": "https://kombu.uk/web-design" }
+    ]
+  },
+  {
+    "@type": "FAQPage",
+    "@id": "https://kombu.uk/web-design#faq",
+    "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
+  }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema}>
+
+<Nav current="web-design" />
+
+<main id="main">
+
+  <PageHead
+    fill="terracotta"
+    title="Websites"
+    body="Design-led websites without the agency headaches. No surprise fees, no week-long waits for simple changes. Just a designer with two decades of experience, building sites that actually work."
+    fact="From £49 a month"
+    img="/images/portfolio/ark-angels.jpg"
+    alt="The Ark Angels band website, built by Kombu"
+    primary={{ href: '#pricing', label: 'See pricing' }}
+    secondary={{ href: 'https://wa.me/442381112819', label: 'WhatsApp me' }}
+  />
+
+  <section class="work bleed" id="work" aria-labelledby="work-h">
+    <div class="sec-head work-head">
+      <h2 id="work-h">Selected work</h2>
+    </div>
+    <div class="work-grid work-grid--six">
+      {work.map((w) => (
+        <article class="wcard">
+          <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
+            <div class="browser-viewport" data-site={w.url}>
+              <div class="browser-stack"><img src={w.poster} alt={w.alt} loading="lazy" class="browser-poster" /></div>
+            </div>
+          </a>
+          <div class="wcard-meta">
+            <div>
+              <h3>{w.name}</h3>
+              <p>{w.line}</p>
+            </div>
+            <a href={w.url} target="_blank" rel="noopener" class="pill pill--sm" aria-label={`Visit the ${w.name} website`}>Visit</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="band bleed" aria-labelledby="build-h">
+    <div class="sec-head">
+      <h2 id="build-h">What I build</h2>
+    </div>
+    <div class="service-grid-v2">
+      {services.map((s) => (
+        <div class="card card--white service-card-v2">
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+          <div class="tag-row">
+            {s.list.map((l) => <span class="tag">{l}</span>)}
+          </div>
+          <a href={s.cta.href} class="pill pill--sm">{s.cta.label}</a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="band bleed" id="pricing" aria-labelledby="pricing-h">
+    <div class="sec-head pricing-head">
+      <h2 id="pricing-h">Pricing</h2>
+      <div class="toggle-pill" role="group" aria-label="Pricing period">
+        <button type="button" class="toggle-opt is-active" id="ptMonthly" aria-pressed="true">Monthly</button>
+        <button type="button" class="toggle-opt" id="ptUpfront" aria-pressed="false">Pay upfront</button>
+      </div>
+    </div>
+    <div class="tier-grid" aria-live="polite">
+      {tiers.map((t) => (
+        <div class={`card tier-card${t.featured ? ' card--kelp tier-card--featured' : ''}`} data-tier={t.tier}>
+          {t.featured && <span class="chip">Most popular</span>}
+          <h3>{t.name}</h3>
+          <p class="tier-desc">{t.desc}</p>
+          <div class="tier-amount">
+            <span class="tier-currency">£</span>
+            <span class="tier-value" data-monthly={t.monthly} data-upfront={t.upfront}>{t.monthly}</span>
+            <span class="tier-period">/mo</span>
+          </div>
+          <p class="tier-commitment">12-month commitment</p>
+          <p class="tier-renewal" data-renewal={t.renewal}>Then £{t.renewal}/mo</p>
+          <ul class="tier-features">
+            {t.features.map((f) => <li>{f}</li>)}
+          </ul>
+          <a href="#contact" class="pill pill--sm">Get started</a>
+        </div>
+      ))}
+    </div>
+    <p class="pricing-enterprise">Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
+    <p class="pricing-note">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing spreads your build cost over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may be quoted separately depending on complexity.</p>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="process-h">
+    <div class="card card--ochre process-strip">
+      <div class="sec-head">
+        <h2 id="process-h">How I work</h2>
+      </div>
+      <div class="process-cols">
+        {process.map((p) => (
+          <div class="process-col">
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Faq heading="Common questions" faqs={faqs} />
+
+  <section class="card-section bleed" id="audit" aria-labelledby="audit-h">
+    <div class="card card--kelp two audit-card">
+      <div class="stack">
+        <h2 id="audit-h">Is your website holding you back?</h2>
+        <p>Drop your URL below and I will personally review your site. You will get honest, no-nonsense feedback on what is working, what is not, and what could be better. No automated reports, just real insights from a designer.</p>
+      </div>
+      <div class="audit-form-wrap">
+        <form class="audit-form-v2" id="auditFormV2">
+          <label for="auditUrlV2" class="sr-only">Your website URL</label>
+          <div class="audit-field">
+            <input type="url" id="auditUrlV2" name="url" placeholder="https://yourwebsite.co.uk" required />
+            <button type="submit" class="pill pill--fill">Get free review</button>
+          </div>
+          <p class="audit-hint">Opens WhatsApp with your URL ready to send. No email required, no strings attached.</p>
+        </form>
+        <p class="audit-success-v2" id="auditSuccessV2" hidden>Almost there. Hit send in WhatsApp and I will take a look and come back with honest feedback.</p>
+      </div>
+    </div>
+  </section>
+
+  <ContactCard text="A coffee in Southampton if you are local, a video call if you are not. Either way, a proper chat about what your website needs, not a sales pitch." />
+
+</main>
+
+<Footer />
+
+<script is:inline>
+  (function () {
+    var monthlyBtn = document.getElementById('ptMonthly'), upfrontBtn = document.getElementById('ptUpfront');
+    if (monthlyBtn && upfrontBtn) {
+      var values = document.querySelectorAll('.tier-value');
+      var periods = document.querySelectorAll('.tier-period');
+      var commitments = document.querySelectorAll('.tier-commitment');
+      var renewals = document.querySelectorAll('.tier-renewal');
+      function setMode(monthly) {
+        monthlyBtn.classList.toggle('is-active', monthly);
+        monthlyBtn.setAttribute('aria-pressed', String(monthly));
+        upfrontBtn.classList.toggle('is-active', !monthly);
+        upfrontBtn.setAttribute('aria-pressed', String(!monthly));
+        values.forEach(function (el) {
+          el.style.opacity = '0';
+          setTimeout(function () { el.textContent = monthly ? el.dataset.monthly : el.dataset.upfront; el.style.opacity = '1'; }, 150);
+        });
+        periods.forEach(function (el) { el.style.display = monthly ? '' : 'none'; });
+        commitments.forEach(function (el) { el.textContent = monthly ? '12-month commitment' : 'One-off build fee'; });
+        renewals.forEach(function (el) {
+          var rate = el.dataset.renewal || '';
+          el.textContent = rate ? (monthly ? 'Then £' + rate + '/mo' : '£' + rate + '/mo from day one') : '';
+        });
+      }
+      monthlyBtn.addEventListener('click', function () { setMode(true); });
+      upfrontBtn.addEventListener('click', function () { setMode(false); });
+    }
+
+    var auditForm = document.getElementById('auditFormV2');
+    if (auditForm) {
+      var auditSuccess = document.getElementById('auditSuccessV2');
+      auditForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var url = document.getElementById('auditUrlV2').value;
+        if (!url) return;
+        window.open('https://wa.me/442381112819?text=' + encodeURIComponent('Hi Ryan, I would like a free website review for: ' + url), '_blank');
+        auditForm.hidden = true;
+        if (auditSuccess) auditSuccess.hidden = false;
+      });
+    }
+  })();
+</script>
+
+</Layout>

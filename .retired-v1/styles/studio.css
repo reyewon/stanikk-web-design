@@ -1,0 +1,905 @@
+/* ============================================================
+   Kombu studio — new shared styles layered over components.css.
+   Reuses the same tokens (terracotta, cream, charcoal, fonts).
+   Sections are added here as the multi-page studio site grows.
+   ============================================================ */
+
+/* === HERO EYEBROW + SECTION LEAD === */
+.hero-eyebrow {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+  padding-left: 0.32em;
+}
+/* Only the animated shader hero hides its eyebrow for the GSAP fade-in.
+   Sub-page heroes (dark/plain/photo) and the partnership card render it
+   statically — a bare opacity: 0 here left them permanently invisible. */
+.hero .hero-eyebrow { opacity: 0; }
+/* On light backgrounds the 0.72rem eyebrow needs the deeper terracotta for
+   WCAG AA; on dark heroes standard accent already passes. */
+.hero .hero-eyebrow, .plain-hero .hero-eyebrow { color: var(--color-accent-deep); }
+/* Sub-page heroes are left-aligned columns; the CTA row inherits the home
+   hero's centring unless anchored back to the text edge. */
+.dark-hero .hero-ctas, .plain-hero .hero-ctas, .photo-hero .hero-ctas { justify-content: flex-start; }
+.hero-ctas { margin-top: var(--space-sm); }
+
+.section-lead {
+  max-width: 46ch;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  align-self: flex-end;
+}
+
+/* === HERO DISCIPLINE FLASH ===
+   Rapid-fire roll of the five disciplines: each word sweeps up with a slight
+   skew, the next overlapping its exit, all over a terracotta rhythm bar.
+   Type matches the headline exactly (Supermassive 800, -0.02em). */
+.hero-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 2.5vw, 1.6rem);
+  pointer-events: none;
+}
+.hero-flash__mask {
+  position: relative;
+  width: 100%;
+  height: 1.18em;
+  font-size: clamp(2.6rem, 8.5vw, 7rem);
+  overflow: hidden;
+}
+.hero-flash__word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  visibility: hidden;
+  will-change: transform;
+  white-space: nowrap;
+}
+.hero-flash__word--accent { color: var(--color-accent); }
+.hero-flash__bar {
+  width: clamp(3rem, 8vw, 5.5rem);
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+}
+.no-motion .hero-flash { display: none; }
+
+/* === CAPABILITIES === */
+.capabilities { background: var(--color-bg-primary); position: relative; }
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.cap-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 2px 18px rgba(26, 20, 18, 0.05);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+.cap-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent);
+  box-shadow: 0 18px 50px rgba(26, 20, 18, 0.14);
+}
+.cap-card:hover::before { transform: scaleX(1); }
+
+/* 16:9 strip with a slight Dutch tilt, alternating direction per card */
+.cap-strip {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+.cap-strip img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: rotate(var(--cap-tilt, -2.5deg)) scale(1.14);
+  transition: transform var(--transition-slow);
+}
+.cap-card:nth-child(odd)  { --cap-tilt: -2.5deg; }
+.cap-card:nth-child(even) { --cap-tilt: 2.5deg; }
+.cap-card:hover .cap-strip img { transform: rotate(var(--cap-tilt, -2.5deg)) scale(1.2); }
+.cap-body {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  padding: var(--space-lg) var(--space-lg) calc(var(--space-lg) + 1.4rem);
+}
+
+/* Marketing & infrastructure: a tilted masonry of work, mid-scroll */
+.cap-strip--mosaic { position: relative; background: var(--color-dark-bg); }
+.cap-mosaic {
+  position: absolute; top: 50%; left: 50%;
+  width: 152%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  column-count: 5; column-gap: 5px;
+  transition: transform var(--transition-slow);
+}
+.cap-mosaic img {
+  width: 100%; display: block; margin-bottom: 5px; border-radius: 2px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+}
+.cap-card:hover .cap-mosaic { transform: translate(-50%, -56%) rotate(-5deg); }
+
+.cap-tag {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  /* AA-safe deep terracotta: --color-accent fails contrast as small text on
+     the white capability cards (3.35:1). --color-accent-deep clears 4.5:1. */
+  color: var(--color-accent-deep);
+}
+.cap-card h3 { font-size: 1.4rem; color: var(--color-text-primary); }
+.cap-card p { font-size: 0.92rem; color: var(--color-text-muted); margin: 0; }
+
+.cap-arrow {
+  position: absolute;
+  left: var(--space-lg);
+  bottom: var(--space-md);
+  width: 22px;
+  height: 22px;
+  color: var(--color-accent);
+  transform: translateX(-4px);
+  opacity: 0.6;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+.cap-arrow svg { width: 100%; height: 100%; }
+.cap-card:hover .cap-arrow { transform: translateX(0); opacity: 1; }
+
+@media (max-width: 1100px) { .cap-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .cap-grid { grid-template-columns: 1fr; } }
+
+/* === INFRASTRUCTURE MANIFESTO === */
+.infra { position: relative; }
+/* Two-column head: heading left, lede right, so the section's upper-right
+   quadrant isn't a large empty block at desktop widths. Top-aligned with a
+   small optical offset so the lede's first line sits on the h2's cap height. */
+.infra-head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); column-gap: var(--space-3xl); align-items: start; margin-bottom: 0; }  /* was space-2xl to clear the ask grid, which has been removed */
+.infra-head .infra-eyebrow { grid-column: 1 / -1; }
+.infra-head .infra-lede { margin: 0.55rem 0 0; }
+@media (max-width: 900px) { .infra-head { grid-template-columns: 1fr; row-gap: var(--space-sm); } }
+.infra-eyebrow {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+.infra h2 { color: var(--color-dark-text); margin-bottom: var(--space-md); }
+.infra-lede { font-size: 1.08rem; line-height: 1.75; color: var(--color-dark-muted); }
+
+/* The forced break before "I build it" is a desktop composition choice. On a
+   phone the heading already wraps, so the break only bought an orphan line. */
+@media (max-width: 820px) {
+  #infra-heading .line-break { display: none; }
+}
+
+.ask-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+@media (max-width: 720px) { .ask-grid { grid-template-columns: 1fr; } }
+.ask-card {
+  padding: var(--space-lg);
+  border: 1px solid var(--color-dark-border);
+  border-radius: var(--radius-md);
+  background: rgba(245, 237, 228, 0.05);
+}
+/* These are things clients actually say. At 1.1rem with inline quote marks
+   they read as ordinary copy, and the marks were too small to register, so
+   the card lost the "someone said this, here is my answer" structure. The
+   quote now carries a real quotation mark at display scale and steps up in
+   size, and the answer sits clearly below it as the quieter voice. */
+/* Display face, stepped up in size so it carries the card, with the quotation
+   mark and the rule below doing the work of marking it as something a client
+   actually said rather than a heading. */
+.ask-quote {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-dark-text);
+  margin: 0 0 var(--space-md);
+}
+/* The mark is set in the body face too: the display face has no punctuation
+   under its trial licence, so it fell back to a small, weak glyph. */
+.ask-quote::before {
+  content: "\201C";
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 4rem;
+  line-height: 0.55;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+.ask-fix {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-dark-muted);
+  margin: 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-dark-border);
+}
+
+/* === ABOUT PAGE: h1 in the split hero sized like the teaser h2 === */
+.about-text h1 {
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.05;
+  color: var(--color-dark-text);
+  margin-bottom: var(--space-lg);
+}
+
+/* === ABOUT TEASER === */
+.about-more {
+  margin-top: var(--space-lg);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* === TEST MODE (?nomotion): show everything statically === */
+.no-motion .reveal,
+.no-motion .reveal-left,
+.no-motion .reveal-right { opacity: 1 !important; transform: none !important; }
+.no-motion .service-card,
+.no-motion .pricing-card,
+.no-motion .process-step,
+.no-motion .process-line { visibility: visible !important; opacity: 1 !important; transform: none !important; }
+.no-motion .hero-word-inner { transform: translateY(0) !important; opacity: 1 !important; }
+.no-motion .hero-sub,
+.no-motion .hero-ctas,
+.no-motion .hero-eyebrow,
+.no-motion .hero-scroll-indicator { opacity: 1 !important; }
+.no-motion #loader { display: none !important; }
+
+/* Loader already shown this session: hide before paint, no terracotta flash. */
+html.kombu-seen .loader { display: none !important; }
+
+/* === RAIL: subtle panel definition on light backgrounds ===
+   The rail surface is cream, so over a cream hero it needs a faint edge to
+   read as a panel. Invisible/harmless over dark and terracotta sections. */
+.rail { box-shadow: -10px 0 34px rgba(26, 20, 18, 0.06); }
+
+/* ============================================================
+   PHOTOGRAPHY PAGE
+   ============================================================ */
+.photo-hero {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--color-dark-bg);
+}
+.photo-hero__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.photo-hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20, 12, 8, 0.92) 0%, rgba(20, 12, 8, 0.5) 45%, rgba(20, 12, 8, 0.25) 100%);
+}
+.photo-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+  max-width: 900px;
+}
+.photo-hero__title {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 0.92;
+  color: var(--color-dark-text);
+  margin-bottom: var(--space-md);
+}
+.photo-hero__sub {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  max-width: 600px;
+  color: rgba(245, 237, 228, 0.86);
+  margin-bottom: var(--space-xl);
+}
+.photo-hero .hero-ctas { opacity: 1; }
+.photo-hero .btn-outline { color: var(--color-dark-text); border-color: var(--color-dark-text); }
+.photo-hero .btn-outline:hover { background: var(--color-dark-text); color: var(--color-dark-bg); }
+
+.photo-intro { background: var(--color-bg-primary); }
+.photo-intro__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--space-3xl); align-items: start; }
+.photo-intro__grid h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+.photo-intro__text p { margin-bottom: var(--space-md); font-size: 1.02rem; }
+@media (max-width: 820px) { .photo-intro__grid { grid-template-columns: 1fr; gap: var(--space-lg); } }
+
+.photo-gallery { columns: 3; column-gap: var(--space-sm); }
+.photo-gallery__item { break-inside: avoid; margin: 0 0 var(--space-sm); border-radius: var(--radius-md); overflow: hidden; }
+.photo-gallery__item img { display: block; width: 100%; height: auto; transition: transform var(--transition-slow); }
+.photo-gallery__item:hover img { transform: scale(1.04); }
+@media (max-width: 900px) { .photo-gallery { columns: 2; } }
+/* Keep two columns on phones: a single column stacks ~5,000px of images
+   between the intro and the quote calculator. */
+@media (max-width: 560px) { .photo-gallery { columns: 2; column-gap: 0.5rem; } .photo-gallery__item { margin-bottom: 0.5rem; } }
+
+.photo-more { background: var(--color-bg-primary); }
+.photo-more__card {
+  text-align: center; max-width: 640px; margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg); box-shadow: 0 2px 20px rgba(26, 20, 18, 0.05);
+}
+.photo-more__card h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: var(--space-sm); }
+.photo-more__card p { margin-bottom: var(--space-lg); }
+
+/* ============================================================
+   QUOTE CALCULATOR
+   ============================================================ */
+.quote-calc { background: var(--color-bg-secondary); position: relative; }
+.quote-calc__inner {
+  max-width: 780px; margin: 0 auto;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: 0 8px 40px rgba(26, 20, 18, 0.07);
+}
+.quote-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.7rem;
+}
+.quote-step { margin-bottom: var(--space-lg); }
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 0.6rem;
+}
+.category-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body); font-weight: var(--weight-light); font-size: 0.82rem;
+  text-align: center; cursor: pointer;
+  transition: border-color var(--transition-base), background var(--transition-base), color var(--transition-base), transform var(--transition-base);
+}
+.category-card svg { color: var(--color-accent); transition: color var(--transition-base); }
+.category-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+.category-card.selected { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-white); }
+.category-card.selected svg { color: var(--color-white); }
+
+.quote-form { margin-top: var(--space-lg); }
+.quote-field { margin-bottom: var(--space-lg); }
+
+.input-wrap, .select-wrap { position: relative; }
+.input-wrap .input-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+.quote-form input[type="text"], .quote-form select {
+  width: 100%;
+  padding: 0.95rem 1rem 0.95rem 2.7rem;
+  font-family: var(--font-body); font-weight: var(--weight-light); font-size: 0.95rem;
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+.quote-form select { padding-left: 1rem; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.quote-form input[type="text"]:focus, .quote-form select:focus { border-color: var(--color-accent); }
+/* Visible keyboard focus: a 1px border tint alone is too weak an indicator */
+.quote-form input[type="text"]:focus-visible, .quote-form select:focus-visible, .category-card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.quote-form input.has-error { border-color: var(--color-error); }
+.location-btn {
+  position: absolute; right: 0.25rem; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; border-radius: 50%; color: var(--color-accent); cursor: pointer;
+  transition: background var(--transition-base);
+}
+.location-btn:hover { background: rgba(212, 113, 78, 0.12); }
+.location-btn.is-loading { opacity: 0.5; pointer-events: none; }
+.select-chevron { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+.field-helper { margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-text-muted); }
+.field-error { margin-top: 0.5rem; font-size: 0.82rem; color: var(--color-error); }
+.quote-submit { width: 100%; margin-top: 0.5rem; }
+
+.special-msg__card {
+  text-align: center; padding: var(--space-xl);
+  background: var(--color-bg-primary); border: 1px dashed var(--color-accent); border-radius: var(--radius-lg);
+}
+.special-msg__heading { color: var(--color-accent); margin-bottom: var(--space-sm); }
+.special-msg__text { margin-bottom: var(--space-lg); }
+.special-msg__actions { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
+
+.quote-result { margin-top: var(--space-lg); }
+.quote-result__card {
+  text-align: center; padding: var(--space-2xl) var(--space-xl);
+  background: var(--color-dark-bg); color: var(--color-dark-text);
+  border-radius: var(--radius-lg);
+}
+.quote-result__label { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.75rem; color: var(--color-accent); margin-bottom: 0.5rem; }
+.quote-result__was { font-size: 0.9rem; color: var(--color-dark-muted); text-decoration: line-through; margin-bottom: 0.25rem; }
+.quote-result__price { font-size: clamp(3rem, 9vw, 5rem); color: var(--color-dark-text); line-height: 1; margin-bottom: var(--space-md); }
+.quote-result__lines { list-style: none; max-width: 460px; margin: 0 auto var(--space-lg); padding: 0; }
+.quote-result__lines li { font-size: 0.88rem; color: var(--color-dark-muted); padding: 0.3rem 0; border-bottom: 1px solid var(--color-dark-border); }
+.quote-result__lines li:last-child { border-bottom: none; }
+.quote-result__trust { font-size: 0.82rem; color: var(--color-dark-muted); margin-bottom: var(--space-lg); }
+.quote-result__trust-stars { color: var(--color-accent); letter-spacing: 0.1em; }
+.quote-result__actions { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; margin-bottom: var(--space-md); }
+.quote-result__card .btn-outline { color: var(--color-dark-text); border-color: var(--color-dark-text); }
+.quote-result__card .btn-outline:hover { background: var(--color-dark-text); color: var(--color-dark-bg); }
+.quote-result__footer { font-size: 0.78rem; color: var(--color-dark-muted); margin: 0; }
+
+/* ============================================================
+   SHARED HEROES (dark type / plain cream) + DESIGN + MARKETING
+   ============================================================ */
+.dark-hero, .plain-hero {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.dark-hero { background: var(--color-dark-bg); }
+.plain-hero { background: var(--color-bg-primary); }
+.dark-hero__content, .plain-hero__content { max-width: 880px; padding-top: var(--space-3xl); padding-bottom: var(--space-xl); }
+.dark-hero__title, .plain-hero__title { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1; margin-bottom: var(--space-md); }
+.dark-hero__title { color: var(--color-dark-text); }
+.dark-hero__sub, .plain-hero__sub { font-size: clamp(1rem, 1.5vw, 1.2rem); max-width: 620px; margin-bottom: var(--space-lg); }
+.dark-hero__sub { color: var(--color-dark-muted); }
+.plain-hero__sub { color: var(--color-text-secondary); }
+.dark-hero .hero-ctas, .plain-hero .hero-ctas { opacity: 1; }
+.dark-hero .btn-outline { color: var(--color-dark-text); border-color: var(--color-dark-text); }
+.dark-hero .btn-outline:hover { background: var(--color-dark-text); color: var(--color-dark-bg); }
+.plain-hero .btn-outline { color: var(--color-text-primary); border-color: var(--color-text-primary); }
+.plain-hero .btn-outline:hover { background: var(--color-text-primary); color: var(--color-bg-primary); }
+
+/* Disciplines / services grid (design + marketing) */
+.disc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md); }
+.disc-item {
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+}
+.disc-item h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+.disc-item p { font-size: 0.92rem; color: var(--color-text-muted); margin: 0; }
+
+/* Design portfolio grid */
+.design-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); }
+.design-card { margin: 0; }
+.design-card__media {
+  aspect-ratio: 4 / 3; border-radius: var(--radius-md); overflow: hidden;
+  background: linear-gradient(135deg, rgba(212,113,78,0.18), rgba(245,237,228,0.04));
+  display: flex; align-items: center; justify-content: center;
+}
+.design-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow); }
+.design-card:hover .design-card__media img { transform: scale(1.04); }
+.design-card__placeholder {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); text-transform: uppercase;
+  font-size: 1.3rem; letter-spacing: 0.02em; color: var(--color-accent); text-align: center; padding: 1rem;
+}
+.design-card__body { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.8rem 0.2rem 0; }
+.design-card__title { font-family: var(--font-heading); font-weight: var(--weight-medium); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.04em; color: var(--color-dark-text); }
+.design-card__tag { font-size: 0.78rem; color: var(--color-accent); white-space: nowrap; }
+
+/* "From" pricing cards (design) */
+.from-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); }
+.from-card {
+  display: flex; flex-direction: column; gap: 0.4rem;
+  padding: var(--space-lg);
+  background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-md);
+}
+.from-card__name { font-family: var(--font-heading); font-weight: var(--weight-medium); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.08em; color: var(--color-text-primary); }
+.from-card__price { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: 1.5rem; color: var(--color-accent); }
+
+/* Hospitality Health Check */
+.hhc-head { max-width: 760px; margin-bottom: var(--space-2xl); }
+.hhc h2 { color: var(--color-dark-text); margin-bottom: var(--space-md); }
+.hhc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-2xl); }
+/* No leading 01/02/03 marker: the headings carry the list on their own. */
+.hhc-item h3 { font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--color-dark-text); }
+.hhc-item p { font-size: 0.86rem; color: var(--color-dark-muted); margin: 0; line-height: 1.6; }
+@media (max-width: 1024px) { .hhc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .hhc-grid { grid-template-columns: 1fr; } }
+
+.hhc-offer {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap;
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-dark-border); border-radius: var(--radius-md);
+  background: rgba(245, 237, 228, 0.05);
+}
+.hhc-offer__label { display: block; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; color: var(--color-accent); }
+.hhc-offer__price { display: block; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: 2rem; color: var(--color-dark-text); }
+.hhc-offer__note { display: block; font-size: 0.85rem; color: var(--color-dark-muted); margin-top: 0.2rem; }
+
+/* Studio partnership card */
+.partnership { background: var(--color-bg-secondary); }
+.partnership__card {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-2xl); flex-wrap: wrap;
+  padding: var(--space-2xl); border-radius: var(--radius-xl); background: var(--color-bg-card);
+  border: 1px solid var(--color-border); box-shadow: 0 8px 40px rgba(26, 20, 18, 0.07);
+}
+.partnership__text { flex: 1 1 320px; }
+.partnership__text h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: var(--space-sm); }
+.partnership__text p { margin: 0; max-width: 52ch; }
+.partnership__price { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+.partnership__from { font-size: 0.85rem; color: var(--color-text-muted); }
+.partnership__amount { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: clamp(2.5rem, 6vw, 3.5rem); color: var(--color-accent); line-height: 1; }
+.partnership__per { font-size: 1rem; color: var(--color-text-muted); }
+
+/* ============================================================
+   DESIGN PAGE — CLIENT CASE STUDIES (5 distinct layouts)
+   ============================================================ */
+
+/* Shared bits */
+.cs-eyebrow {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+}
+/* Light case studies: the brighter terracotta fails WCAG AA as small text on
+   the cream ground (3.14:1), so use the AA-safe deep terracotta. Dark case
+   studies keep --color-accent (5.44:1 on charcoal). Mirrors .hero-eyebrow. */
+.cs-intro .cs-eyebrow,
+.cs-flagship .cs-eyebrow,
+.cs-editorial .cs-eyebrow,
+.cs-corporate .cs-eyebrow { color: var(--color-accent-deep); }
+.cs h2 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 0.98; margin-bottom: var(--space-md); }
+.cs-lead { font-size: 1.02rem; line-height: 1.75; color: var(--color-text-secondary); margin: 0 0 var(--space-md); }
+.cs-lead:last-of-type { margin-bottom: var(--space-lg); }
+.cs.dark-section h2 { color: var(--color-dark-text); }
+.cs.dark-section .cs-lead { color: var(--color-dark-muted); }
+
+/* Tag / meta lists */
+.cs-tags, .cs-meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+.cs-tags li {
+  font-family: var(--font-heading); font-weight: var(--weight-medium);
+  text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.66rem;
+  padding: 0.42rem 0.7rem; border-radius: 100px;
+  border: 1px solid var(--color-border); color: var(--color-text-muted);
+}
+.cs.dark-section .cs-tags li { border-color: var(--color-dark-border); color: var(--color-dark-muted); }
+.cs-meta { gap: 0.4rem 1.05rem; justify-content: center; }
+.cs-meta--left { justify-content: flex-start; }
+.cs-meta li {
+  font-size: 0.82rem; letter-spacing: 0.02em; color: var(--color-text-muted);
+}
+/* Inline dot AFTER each item (bar the last): an absolutely positioned dot
+   before each item left orphaned dots at the start of wrapped lines. */
+.cs-meta li:not(:last-child)::after {
+  content: ""; display: inline-block; width: 3px; height: 3px; border-radius: 50%;
+  background: var(--color-accent); margin-left: 1.05rem; vertical-align: middle;
+}
+
+/* Case-studies intro band */
+.cs-intro { padding-bottom: var(--space-lg); }
+.cs-intro h2 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); line-height: 0.98; margin-bottom: var(--space-md); }
+.cs-intro__lead { max-width: 60ch; font-size: 1.05rem; line-height: 1.75; color: var(--color-text-muted); }
+
+/* Section heads */
+.cs-head { margin-bottom: var(--space-2xl); }
+.cs-head--center { max-width: 720px; margin-left: auto; margin-right: auto; text-align: center; }
+.cs-head--center .cs-lead { color: var(--color-text-secondary); }
+.cs-head--split { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--space-2xl); align-items: end; }
+.cs-head--split .cs-lead { margin: 0; }
+
+/* Ghost index numerals: the editorial spine binding the five case studies */
+.cs-num {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 0.85;
+  margin-bottom: 0.5rem;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(26, 20, 18, 0.25);
+}
+.cs.dark-section .cs-num { -webkit-text-stroke-color: rgba(245, 237, 228, 0.3); }
+
+/* Plinth: a tinted panel the artwork sits on, so pieces read as mounted
+   work rather than scraps floating on the page background. */
+.cs-plinth {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+/* ---- 1. PADHARO — menus mounted on a plinth, campaigns breaking the edge ---- */
+.cs-flagship { background: var(--color-bg-primary); }
+.cs-plinth--padharo { max-width: 1020px; margin: 0 auto; padding-bottom: clamp(4rem, 9vw, 7rem); }
+.cs-plinth__pair { display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.5rem); }
+.cs-plinth__pair figure { margin: 0; flex: 0 1 46%; }
+.cs-plinth__pair img {
+  width: 100%; height: auto; display: block; border-radius: 3px;
+  box-shadow: 0 18px 44px rgba(26, 20, 18, 0.18);
+  transform: rotate(-0.6deg);
+  transition: transform var(--transition-base);
+}
+.cs-plinth__pair figure:last-child img { transform: rotate(0.6deg); }
+.cs-plinth__pair figure:hover img { transform: rotate(0deg) translateY(-5px); }
+/* Campaign pieces pull up over the plinth's bottom edge: smaller, deliberate */
+.cs-campaign-row {
+  position: relative; z-index: 2;
+  display: flex; justify-content: center; align-items: flex-start;
+  gap: clamp(1.2rem, 3.5vw, 2.6rem);
+  max-width: 860px;
+  margin: calc(-1 * clamp(3rem, 7vw, 5.5rem)) auto var(--space-2xl);
+}
+.cs-campaign-row figure { margin: 0; }
+.cs-campaign-row img {
+  width: 100%; height: auto; display: block; border-radius: 3px;
+  border: 4px solid var(--color-white);
+  box-shadow: 0 20px 48px rgba(26, 20, 18, 0.26);
+  transition: transform var(--transition-base);
+}
+.cs-camp--starter { flex: 0 1 48%; transform: rotate(1.2deg); }
+.cs-camp--vegan { flex: 0 1 23%; transform: rotate(-2.5deg); margin-top: 2rem; }
+.cs-camp:hover img { transform: translateY(-4px); }
+
+/* ---- 2. KWACKERS — split text + 2x2 gallery (dark) ---- */
+.cs-split__grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.cs-split__media { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+.cs-split__media figure { margin: 0; }
+.cs-split__media img {
+  width: 100%; height: auto; display: block; border-radius: var(--radius-sm);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+  transition: transform var(--transition-base);
+}
+.cs-split__media figure:hover img { transform: scale(1.03); }
+.cs-split__text .cs-tags { margin-top: var(--space-xs); }
+
+/* ---- 3. IDEAL PRODUCE — cover hero left, spreads stacked right, on a plinth ---- */
+.cs-ip-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  align-items: stretch;
+}
+.cs-ip-grid figure { margin: 0; }
+.cs-ip-grid img {
+  width: 100%; height: auto; display: block; border-radius: 3px;
+  box-shadow: 0 12px 32px rgba(26, 20, 18, 0.16);
+  transition: transform var(--transition-base);
+}
+.cs-ip-grid figure:hover img { transform: translateY(-4px); }
+/* The cover fills the column height; it is photographic with a centred
+   wordmark, so the cover-crop is safe. */
+.cs-ip-cover { display: flex; }
+.cs-ip-cover img { height: 100%; object-fit: cover; }
+.cs-ip-side { display: flex; flex-direction: column; gap: clamp(1rem, 2.5vw, 1.75rem); }
+
+/* ---- 4. BUILD BUDGET EXPERT — brand-system collage (dark) ---- */
+.cs-collage__grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.cs-collage__stage { position: relative; aspect-ratio: 4 / 3; }
+.cs-piece { position: absolute; margin: 0; }
+.cs-piece img {
+  width: 100%; height: auto; display: block; border-radius: 3px;
+  border: 1px solid rgba(245, 237, 228, 0.12);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
+}
+/* The real-world stand photo anchors the composition: the finished exhibition
+   presence, with the individual flat artefacts fanned around it as the pieces
+   that make it up. Spread so no piece chops another's copy. */
+.cs-piece--stand  { top: 4%;  left: 1%;  width: 41%; z-index: 3; transform: rotate(-3deg); }
+.cs-piece--banner { top: 1%;  left: 41%; width: 15%; z-index: 2; transform: rotate(-6deg); }
+.cs-piece--flyer  { top: 3%;  left: 55%; width: 31%; z-index: 4; transform: rotate(2.5deg); }
+.cs-piece--card-b { top: 47%; left: 57%; width: 30%; z-index: 3; transform: rotate(7deg); }
+.cs-piece--card-f { top: 66%; left: 40%; width: 32%; z-index: 5; transform: rotate(-5deg); }
+.cs-piece--stand img { box-shadow: 0 26px 60px rgba(0, 0, 0, 0.62); }
+
+/* Caption chip marking the stand as the assembled culmination */
+.cs-piece__cap {
+  position: absolute;
+  left: 7%; bottom: 6%;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: clamp(0.46rem, 0.82vw, 0.62rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dark-text);
+  background: rgba(26, 20, 18, 0.74);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  border: 1px solid rgba(245, 237, 228, 0.14);
+  padding: 0.32rem 0.6rem;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.cs-collage__stage figure { transition: transform var(--transition-base); }
+.cs-collage__stage:hover .cs-piece--stand { transform: rotate(-3deg) translateY(-6px); }
+
+/* ---- 5. REMEDI HEALTH — staggered poster pair on a plinth ---- */
+.cs-corporate { background: var(--color-bg-primary); }
+.cs-plinth--remedi { max-width: 1060px; margin: 0 auto var(--space-2xl); padding-bottom: clamp(3rem, 6vw, 5rem); }
+.cs-remedi-pair { display: flex; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem); }
+.cs-remedi-pair figure { margin: 0; flex: 0 1 40%; }
+.cs-remedi-pair figure:last-child { transform: translateY(clamp(1.2rem, 3vw, 2.4rem)); }
+.cs-remedi-pair img {
+  width: 100%; height: auto; display: block; border-radius: 3px;
+  box-shadow: 0 16px 40px rgba(26, 20, 18, 0.16);
+  transition: transform var(--transition-base);
+}
+.cs-remedi-pair figure:hover img { transform: translateY(-5px); }
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .cs-split__grid, .cs-collage__grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .cs-head--split { grid-template-columns: 1fr; gap: var(--space-md); align-items: start; }
+  .cs-collage__stage { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+  .cs-piece { position: static; width: auto !important; transform: none !important; }
+  /* Stand photo leads full-width as the hero; artefacts flow beneath it */
+  .cs-piece--stand { grid-column: 1 / -1; text-align: center; }
+  .cs-piece--stand img { max-width: min(340px, 78%); margin: 0 auto; }
+  .cs-piece__cap { position: static; display: inline-block; margin-top: 0.65rem; }
+  .cs-piece--banner { grid-row: span 2; align-self: start; }
+}
+@media (max-width: 720px) {
+  .cs-plinth { padding: var(--space-md); border-radius: var(--radius-lg); }
+  /* Padharo: menus stack full-width; campaigns sit side by side below,
+     still pulling up over the plinth edge */
+  .cs-plinth--padharo { padding-bottom: clamp(3.5rem, 14vw, 5rem); }
+  .cs-plinth__pair { flex-direction: column; align-items: center; gap: var(--space-md); }
+  .cs-plinth__pair figure { flex: 0 1 auto; width: 100%; max-width: 380px; }
+  .cs-campaign-row { margin-top: calc(-1 * clamp(2rem, 9vw, 3.2rem)); gap: var(--space-sm); padding: 0 var(--space-sm); }
+  .cs-camp--starter { flex: 0 1 60%; }
+  .cs-camp--vegan { flex: 0 1 32%; margin-top: 1rem; }
+  /* Ideal Produce: single column, natural heights */
+  .cs-ip-grid { grid-template-columns: 1fr; }
+  .cs-ip-cover img { height: auto; object-fit: contain; }
+  /* Remedi: stack, no stagger */
+  .cs-remedi-pair { flex-direction: column; align-items: center; gap: var(--space-md); }
+  .cs-remedi-pair figure { flex: 0 1 auto; width: 100%; max-width: 360px; }
+  .cs-remedi-pair figure:last-child { transform: none; }
+  .cs-plinth--remedi { padding-bottom: var(--space-md); }
+}
+@media (max-width: 540px) {
+  .cs-split__media { grid-template-columns: 1fr; }
+  .cs-collage__stage { grid-template-columns: 1fr; }
+  .cs-piece--banner { grid-row: auto; max-width: 60%; }
+}
+
+/* Back-to-home affordance (sub-pages only) */
+.back-home {
+  position: fixed;
+  top: clamp(0.9rem, 2vw, 1.4rem);
+  left: clamp(0.9rem, 2vw, 1.4rem);
+  z-index: 90;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.7rem;
+  border-radius: 100px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--weight-medium);
+  text-transform: uppercase; letter-spacing: 0.13em; font-size: 0.68rem;
+  box-shadow: 0 6px 20px rgba(26, 20, 18, 0.22);
+  transition: background var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+.back-home:hover { background: var(--color-text-primary); transform: translateX(-2px); box-shadow: 0 8px 26px rgba(26, 20, 18, 0.28); }
+.back-home svg { width: 16px; height: 16px; }
+.back-home__label { line-height: 1; }
+@media (max-width: 600px) {
+  .back-home { padding: 0.5rem; gap: 0; }
+  .back-home__label { display: none; }
+}
+
+/* Partnership card: desktop padding swallowed the text column on phones */
+@media (max-width: 600px) {
+  .partnership__card { padding: var(--space-lg); }
+}
+
+/* Light ask-cards (marketing infrastructure): same quote-card form as the
+   home manifesto, on the cream background, so the section doesn't read as a
+   second identical services grid. */
+.ask-grid--light .ask-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+}
+.ask-grid--light .ask-quote { color: var(--color-text-primary); }
+.ask-grid--light .ask-fix { color: var(--color-text-muted); border-top-color: var(--color-border); }
+
+/* About: onward links to the discipline pages */
+.about-next {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 1.4rem;
+  margin-top: var(--space-2xl); padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+.about-next__label {
+  font-family: var(--font-heading); font-weight: var(--weight-medium);
+  text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+.about-next a {
+  font-size: 0.95rem; color: var(--color-text-primary);
+  text-decoration: underline; text-decoration-color: var(--color-accent);
+  text-underline-offset: 4px;
+}
+.about-next a:hover { color: var(--color-accent-deep); }
+
+/* === Image lightbox (case studies + photo gallery) === */
+.lb-zoom img { cursor: zoom-in; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(20, 12, 8, 0.92);
+  animation: lbFade 0.25s ease-out;
+}
+@keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+.lightbox img {
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+  cursor: zoom-out;
+}
+.lightbox__close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(245, 237, 228, 0.12); border: 0; border-radius: 50%;
+  color: var(--color-dark-text); font-size: 1.5rem; line-height: 1; cursor: pointer;
+}
+.lightbox__close:hover { background: rgba(245, 237, 228, 0.24); }
+

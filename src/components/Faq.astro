@@ -1,0 +1,22 @@
+---
+// Native details/summary accordion, no JS. A "+" drawn from two CSS bars
+// rotates 45deg to read as a close cross when open.
+interface Props { faqs: { q: string; a: string }[]; heading: string; }
+const { faqs, heading } = Astro.props as Props;
+---
+<section class="band bleed faq-v2" aria-labelledby="faq-v2-h">
+  <div class="sec-head">
+    <h2 id="faq-v2-h">{heading}</h2>
+  </div>
+  <div class="faq-list-v2">
+    {faqs.map((f) => (
+      <details class="faq-row">
+        <summary>
+          <span>{f.q}</span>
+          <span class="faq-plus" aria-hidden="true"></span>
+        </summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>

@@ -225,11 +225,6 @@
         "purpose": "The case study and gallery lightbox fading in and out over its ink overlay."
       },
       {
-        "name": "video-crossfade",
-        "value": "opacity 350ms ease-out",
-        "purpose": "The about portrait's introduction video fading in over the cutout on the Say hello cue."
-      },
-      {
         "name": "lenis-scroll",
         "value": "lerp 0.1",
         "purpose": "The smoothed wheel feel driving every scroll interaction across the site."

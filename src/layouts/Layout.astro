@@ -237,7 +237,6 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         .wm { transform: none !important; }
         .wm span { animation: none !important; }
         .tray-grid.is-armed .cell { opacity: 1 !important; transform: none !important; }
-        .portrait-cue, .portrait-video { display: none !important; }
       </style>
     </noscript>
 
@@ -348,36 +347,24 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
       })();
     </script>
     <script is:inline>
-      // Portrait video: hover plays it on desktop, the cue toggles it anywhere,
-      // and the crossfade waits for frames to actually render. Mirrors the
-      // main site's behaviour.
+      // Portrait parallax: as the about card crosses the viewport the cutout
+      // drifts a few pixels against the card, so it reads as a layer sitting
+      // on it. Runs only while the card is on screen, never under .no-motion.
       (function () {
-        var wrap = document.getElementById('portrait'), video = wrap && wrap.querySelector('video'), cue = wrap && wrap.querySelector('.portrait-cue');
-        if (!wrap || !video || document.documentElement.classList.contains('no-motion')) return;
-        var start = function () { video.currentTime = 0; video.play().catch(function () {}); };
-        var stop = function () { video.pause(); wrap.classList.remove('video-playing'); video.currentTime = 0; };
-        video.addEventListener('playing', function () { wrap.classList.add('video-playing'); });
-        video.addEventListener('ended', function () { wrap.classList.remove('video-playing'); video.currentTime = 0; });
-        if (cue) cue.addEventListener('click', function (e) { e.preventDefault(); video.paused ? start() : stop(); });
-        if (!matchMedia('(max-width: 768px)').matches) { wrap.addEventListener('mouseenter', start); wrap.addEventListener('mouseleave', stop); }
-        // Mild parallax: as the card crosses the viewport the cutout drifts a
-        // few pixels against the card, so it reads as a layer sitting on it.
-        // Runs only while the card is on screen.
-        var cut = wrap.querySelector('.portrait-cut');
-        if (cut) {
-          var live = false, queued = false;
-          function settle() {
-            queued = false;
-            var r = wrap.getBoundingClientRect();
-            var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
-            p = p < -1 ? -1 : p > 1 ? 1 : p;
-            wrap.style.setProperty('--par-cut', (p * -16).toFixed(1) + 'px');
-          }
-          function onScroll() { if (live && !queued) { queued = true; requestAnimationFrame(settle); } }
-          new IntersectionObserver(function (es) { live = es[0].isIntersecting; if (live) settle(); }, { rootMargin: '80px' }).observe(wrap);
-          addEventListener('scroll', onScroll, { passive: true });
-          addEventListener('resize', onScroll);
+        var wrap = document.getElementById('portrait'), cut = wrap && wrap.querySelector('.portrait-cut');
+        if (!wrap || !cut || document.documentElement.classList.contains('no-motion')) return;
+        var live = false, queued = false;
+        function settle() {
+          queued = false;
+          var r = wrap.getBoundingClientRect();
+          var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+          p = p < -1 ? -1 : p > 1 ? 1 : p;
+          wrap.style.setProperty('--par-cut', (p * -16).toFixed(1) + 'px');
         }
+        function onScroll() { if (live && !queued) { queued = true; requestAnimationFrame(settle); } }
+        new IntersectionObserver(function (es) { live = es[0].isIntersecting; if (live) settle(); }, { rootMargin: '80px' }).observe(wrap);
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll);
       })();
     </script>
     <script is:inline>

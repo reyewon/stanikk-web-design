@@ -216,9 +216,9 @@ Strategy: **full palette**, committed at page scale. Fills own whole regions; no
 |---|---|---|---|
 | Ground | linen | #F1EEE6 | page canvas, work section, clients |
 | Ink | ink | #141210 | all text, every outline, the wordmark, the footer ground |
-| Compartment 1 | terracotta | #D4714E | Websites cell, contact band, the one filled pill, the print tile field |
+| Compartment 1 | terracotta | #D4714E | Websites cell, the about card, the one filled pill |
 | Compartment 2 | kelp | #1F4A3C | Photography cell, the "missing piece" band, the web tile field |
-| Compartment 3 | ochre | #E7B44A | Graphic design cell, the about band |
+| Compartment 3 | ochre | #E7B44A | Graphic design cell, the contact card |
 | Compartment 4 | mist | #DCD6EA | Marketing & infrastructure cell |
 
 Terracotta stays the brand's existing voice; kelp is the plant the studio is named after; ochre and mist balance the two warm hues with one warm and one cool neutral-ish fill.
@@ -251,9 +251,9 @@ Sequence, and why each section exists:
 2. **The tray**: four compartments on a 12-column grid, sized 7/5 then 5/7 so no two rows match. Each cell is a size container above phone width, so title, copy, chips and tile are set in cqh and scale with the cell, filling a 750px compartment on a 4K half as fully as a 300px one on a laptop. Every one the same skeleton: a title at up to 6.2rem with its one line of copy, a fact chip (a real price from pricing.md) and the action pinned to the bottom, and the work as a tilted tile bleeding out of the bottom-right corner behind the text. Each is one link to its discipline page.
 3. **The missing piece** (kelp card): the page's single crafted line, the paragraph that explains the differentiator, one filled pill. A card, not a band: the compartment shape at page width, separated from the tray by the tray gap.
 4. **Selected work**: three live site frames in outlined cards, name and one line beneath, a Visit pill. Hover pans the full-page capture; the live iframe mounts on approach.
-5. **Ryan Stanikk** (ochre card): portrait tile with the introduction video playing on hover (a Say hello cue toggles it anywhere), bio with the two facts folded into the prose, More about me.
+5. **Ryan Stanikk** (terracotta card): the portrait as three layers, a linen panel with the ink outline, the cutout of Ryan rising out of it with the cap breaking the panel's top edge, and the introduction video taking the panel's rect when it plays (hover on desktop, the Say hello cue anywhere). The panel and the cutout drift a few pixels apart as the card crosses the viewport. Bio with the two facts folded into the prose, More about me.
 6. **Clients**: ink logos on linen in a marquee, ruled top and bottom, with no visible label; the logos say it.
-7. **Tell me what you're trying to do** (terracotta card): the heading matches the first words of the copy beneath it; the three contact routes as pills in one row.
+7. **Tell me what you're trying to do** (ochre card, ink text): the heading matches the first words of the copy beneath it; the three contact routes as outline pills in one row.
 8. **Footer**: the lid. Full width, ink, with the card radius on its top corners so the page closes the way its compartments open; the wordmark again, inverted; one row of links; copyright and email.
 
 Mobile: everything stacks in the same order, the nav pill keeps the mark, a Menu pill and the WhatsApp pill, and Menu opens the five links as a stacked sheet inside the same outlined pill, the wordmark drops to 29.8vw so it stays inside the gutter, the tray becomes one column.
@@ -287,7 +287,7 @@ Don't add a shadow, a gradient, a glass effect, an eyebrow, a section number, or
 
 Every interior page is the tray applied to one discipline. Same nav, same footer lid, same contact card; only the opening fill and the middle change.
 
-**Opening card (PageHead).** A full-width card in the discipline's own fill, directly under the nav: h1 at the wordmark weight (900, `clamp(3rem, 8.5vw, 9rem)`), the page's existing lede at `clamp(1.05rem, 1.25vw, 1.3rem)` capped at 44ch, then one row of a fact chip and two pills; a real piece of work in a 4/3 outlined tile at 2° on the right. Websites terracotta (title and lede white, the lede at 24px minimum so white on terracotta clears AA as large text), Photography kelp, Graphic design ochre, Marketing mist (a three-tile collage instead of the single tile). Web design puts Selected work straight under the head, then the four services as a 2x2 of white cards with their list items as tags; Marketing puts the Health Check card second and folds How I help into a mist strip. About opens on the ochre portrait card instead (h1 "An engineering mind, a designer's eye", the bio, three fact chips).
+**Opening card (PageHead).** A full-width card in the discipline's own fill, directly under the nav: h1 at the wordmark weight (900, `clamp(3rem, 8.5vw, 9rem)`), the page's existing lede at `clamp(1.05rem, 1.25vw, 1.3rem)` capped at 44ch, then one row of a fact chip and two pills; a real piece of work in a 4/3 outlined tile at 2° on the right. Websites terracotta (title and lede white, the lede at 24px minimum so white on terracotta clears AA as large text), Photography kelp, Graphic design ochre, Marketing mist (a three-tile collage instead of the single tile). Web design puts Selected work straight under the head, then the four services as a 2x2 of white cards with their list items as tags; Marketing puts the Health Check card second and folds How I help into a mist strip. About opens on the terracotta portrait card instead (h1 "An engineering mind, a designer's eye", the bio, three fact chips).
 
 **Ledger.** Plain-label lists (What I build, What I design, How I help, One trusted route) are rows ruled with 2px ink, title 4/12 and copy 8/12, never a grid of cards. Copy at `clamp(1rem, 1.15vw, 1.15rem)`, 58ch.
 

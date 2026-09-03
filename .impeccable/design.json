@@ -227,7 +227,7 @@
       {
         "name": "video-crossfade",
         "value": "opacity 350ms ease-out",
-        "purpose": "The about portrait's introduction video fading in over the still photo on the Say hello cue."
+        "purpose": "The about portrait's introduction video fading in over the cutout and its linen panel on the Say hello cue."
       },
       {
         "name": "lenis-scroll",

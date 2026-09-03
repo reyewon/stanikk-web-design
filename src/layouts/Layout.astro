@@ -360,6 +360,25 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         video.addEventListener('ended', function () { wrap.classList.remove('video-playing'); video.currentTime = 0; });
         if (cue) cue.addEventListener('click', function (e) { e.preventDefault(); video.paused ? start() : stop(); });
         if (!matchMedia('(max-width: 768px)').matches) { wrap.addEventListener('mouseenter', start); wrap.addEventListener('mouseleave', stop); }
+        // Mild parallax: as the card crosses the viewport the linen panel
+        // drifts one way and the cutout the other, a few pixels each, so the
+        // two layers read as separate. Runs only while the card is on screen.
+        var panel = wrap.querySelector('.portrait-panel'), cut = wrap.querySelector('.portrait-cut');
+        if (panel && cut) {
+          var live = false, queued = false;
+          function settle() {
+            queued = false;
+            var r = wrap.getBoundingClientRect();
+            var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+            p = p < -1 ? -1 : p > 1 ? 1 : p;
+            wrap.style.setProperty('--par-panel', (p * 10).toFixed(1) + 'px');
+            wrap.style.setProperty('--par-cut', (p * -16).toFixed(1) + 'px');
+          }
+          function onScroll() { if (live && !queued) { queued = true; requestAnimationFrame(settle); } }
+          new IntersectionObserver(function (es) { live = es[0].isIntersecting; if (live) settle(); }, { rootMargin: '80px' }).observe(wrap);
+          addEventListener('scroll', onScroll, { passive: true });
+          addEventListener('resize', onScroll);
+        }
       })();
     </script>
     <script is:inline>

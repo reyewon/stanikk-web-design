@@ -26,9 +26,9 @@ const cells = [
 ];
 
 const work = [
-  { name: 'Padharo', url: 'https://www.padharo.co.uk', slug: 'padharo', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
-  { name: 'Grumpy Monkey', url: 'https://www.grumpy-monkey.co.uk', slug: 'grumpy-monkey', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
-  { name: 'Ryan Stanikk Photography', url: 'https://ryanstanikk.co.uk', slug: 'ryanstanikk', alt: 'Ryan Stanikk Photography portfolio website', line: 'My own photography portfolio. Food, interiors and portraits, with the galleries doing the talking.' },
+  { name: 'Padharo', url: 'https://www.padharo.co.uk', poster: '/images/portfolio/padharo.jpg', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
+  { name: 'Grumpy Monkey', url: 'https://www.grumpy-monkey.co.uk', poster: '/images/portfolio/grumpy-monkey.jpg', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
+  { name: 'Ryan Stanikk Photography', url: 'https://ryanstanikk.co.uk', poster: '/images/portfolio/ryanstanikk.jpg', alt: 'Ryan Stanikk Photography portfolio website', line: 'My own photography portfolio. Food, interiors and portraits, with the galleries doing the talking.' },
 ];
 
 const WA = 'https://wa.me/442381112819';
@@ -98,15 +98,10 @@ const extraSchema = [
     <div class="work-grid">
       {work.map((w) => (
         <article class="wcard">
-          <a href={w.url} target="_blank" rel="noopener" class="wtile" aria-label={`Visit the ${w.name} website`}>
-            <img
-              src={`/images/work/${w.slug}.webp`}
-              srcset={`/images/work/${w.slug}-sm.webp 800w, /images/work/${w.slug}.webp 1400w`}
-              sizes="(max-width: 900px) 100vw, 33vw"
-              alt={w.alt}
-              width="1400" height="1540"
-              loading="lazy" decoding="async"
-            />
+          <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
+            <div class="browser-viewport" data-site={w.url}>
+              <div class="browser-stack"><img src={w.poster} alt={w.alt} loading="lazy" class="browser-poster" /></div>
+            </div>
           </a>
           <div class="wcard-meta">
             <div>

@@ -110,7 +110,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   transition: transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out;
 }
 .pill:hover, .pill:focus-visible { transform: translateY(2px); }
-.pill--fill { background: var(--c-terracotta); }
+.pill--fill { background: var(--c-terracotta); color: var(--c-white); }
 .pill--fill:hover { background: var(--c-terracotta-hover); }
 .pill--ink { background: var(--c-ink); color: var(--c-linen); }
 .pill--ink:hover { background: var(--c-ink-hover); }
@@ -416,15 +416,14 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 /* Ryan's own cropped screenshot in a plain outlined tile: no live iframe,
    no panning poster, just a 2px-ink frame that dips 2px on hover like every
    other pill and tile in the system. */
-.wtile {
-  display: block;
-  border: var(--line) solid var(--c-ink); border-radius: var(--r-card);
-  aspect-ratio: 1 / 1.1; overflow: hidden;
-  background: var(--c-white);
-  transition: transform 140ms ease-out;
+.project-browser {
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-card); overflow: hidden;
+  background: var(--c-ink);
 }
-.wtile:hover, .wtile:focus-visible { transform: translateY(2px); }
-.wtile img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.browser-viewport { aspect-ratio: 1024 / 1180; position: relative; overflow: hidden; background: var(--c-ink); contain: layout paint; }
+.browser-stack { position: absolute; top: 0; left: 0; width: 1024px; transform-origin: top left; }
+.browser-stack.panning { will-change: transform; }
+.browser-poster { width: 1024px; height: auto; display: block; position: relative; z-index: 1; }
 .wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
 .wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
 .wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 34ch; }

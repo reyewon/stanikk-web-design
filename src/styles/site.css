@@ -254,7 +254,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   position: relative;
   display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr);
   min-height: 0; min-width: 0;
-  padding: clamp(1.25rem, 4.2cqh, 3.25rem);
+  --cell-pad: clamp(1.25rem, 4.2cqh, 3.25rem);
+  padding: var(--cell-pad);
+  /* the tile size: 36% of the cell's width or 84% of its height, whichever is tighter, so the pair grows with the window */
+  --tw: min(36cqw, 84cqh);
+  /* how far the pair reaches in from the right: the back tile alone at the top, the whole pair lower down */
+  --clear: var(--tw);
   border: var(--line) solid var(--c-ink);
   border-radius: var(--r-card);
   overflow: hidden;
@@ -281,11 +286,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .cell-head h2 {
   font-weight: 800;
   /* capped by the longest word (--wl, set per cell): Supermassive 800 runs about 0.56em a glyph */
-  font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), calc(94cqw / (0.56 * var(--wl, 8))));
+  max-width: calc(100% - var(--clear) - 1rem);   /* the tilted tile's corner needs the extra half rem */
+  font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), calc((100cqw - var(--clear) - 1rem) / (0.56 * var(--wl, 8))));
   line-height: 0.85;
   letter-spacing: -0.025em;
 }
-.cell-head p { margin-top: clamp(0.75rem, 2.4cqh, 1.5rem); max-width: min(26ch, 52%); font-size: clamp(0.95rem, max(1.05vw, 3.6cqh), 1.6rem); line-height: 1.5; }
+.cell-head p { margin-top: clamp(0.75rem, 2.4cqh, 1.5rem); max-width: min(30ch, calc(100% - 1.5 * var(--tw) - 1rem)); font-size: clamp(0.95rem, max(1.05vw, 3.6cqh), 1.6rem); line-height: 1.5; }
 /* Above phone width the chip and fact stack vertically so the wider tile
    pair gets the horizontal room it needs; phones keep them in a row
    (reset in the 640px block below). */
@@ -310,22 +316,17 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
    so when the cap bites (the narrow cells) the tiles shrink and the top /
    bottom anchoring adds a vertical step to the stack as well. */
 .cell-imgs {
-  position: absolute; z-index: 1;
-  right: -3%; bottom: -8%;
-  /* at its aspect, as wide as 62% of the cell or as tall as 58% of it, whichever bites; the top of the cell stays clear for the title and copy */
-  width: min(70%, calc(62cqh * 1.364)); height: auto; aspect-ratio: 1.5 / 1.1;
-  container-type: size;   /* the tiles size themselves from this box */
+  position: absolute; z-index: 1; inset: var(--cell-pad);
+  pointer-events: none;   /* the tiles take the pointer, the box does not */
 }
 .cell-tile {
-  position: absolute;
-  /* whichever of the box's dimensions is tighter decides the tile: two thirds of its width, or its full height */
-  --tw: min(66cqw, 87cqh);
+  position: absolute; pointer-events: auto;
   width: var(--tw); height: auto; aspect-ratio: 1 / 1.1;
   border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden;
   background: var(--c-white);
   transition: transform 160ms ease-out;
 }
-/* the pair hugs the right of the box, one and a half tiles wide */
+/* back tile top-right, front tile bottom-left, overlapping by half a tile */
 .cell-tile--back { right: 0; top: 0; transform: rotate(3deg); z-index: 1; }
 .cell-tile--front { right: calc(0.5 * var(--tw)); bottom: 0; transform: rotate(-2deg); z-index: 2; }
 .cell-tile:hover { z-index: 3; }
@@ -356,8 +357,6 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 
 @media (max-width: 1024px) {
   .cell--web, .cell--photo, .cell--design, .cell--mktg { grid-column: span 6; }
-  .cell-head p { max-width: min(28ch, 60%); }
-  .cell-imgs { width: min(70%, calc(60cqh * 1.364)); }
 }
 /* Phones: no pin (there is no height for it). The wordmark sits at the top
    and the compartments pop in as they arrive, driven by IntersectionObserver
@@ -389,10 +388,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   /* The same stacked pair as desktop, in flow under the copy: two tilted
      tiles overlapping like a couple of photos dropped on the table. */
   .cell-imgs {
-    position: relative; right: auto; bottom: auto;
+    position: relative; inset: auto;
     width: 100%; max-width: none; height: auto; aspect-ratio: 1.5 / 1.1;
-    margin-top: var(--s-3); grid-row: 2;
+    margin-top: var(--s-3); grid-row: 2; container-type: size;
   }
+  .cell-tile { --tw: min(66cqw, 87cqh); }
+  .cell-head { --clear: 0px; }
   .cell-foot { grid-row: 3; }
   .cell-foot { grid-row: 3; }
 }
@@ -404,24 +405,30 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
    and a smaller corner pair. Cells taller than they are wide (a third of a
    4K screen) take the pair in flow beneath the copy, filling whatever height
    is left, with the chip and pill in a row under it. */
-/* Cells with real height to spare (a 4K half): the pair shows whole rather
-   than bleeding out of the corner, and fills the band beneath the copy. */
-@container (min-height: 600px) and (min-aspect-ratio: 1.15 / 1) {
-  .cell-imgs { right: 2%; bottom: 2%; width: min(72%, calc(66cqh * 1.364)); }   /* the tilt needs a little inset to stay uncropped */
-}
-@container (max-height: 400px) {
+@container (max-height: 400px) and (min-width: 700px) {
   .cell-foot { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+}
+/* short cells have no height for a wrapped title: cap it to one line by its whole length */
+@container (max-height: 400px) {
+  .cell-head h2 { font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), calc((100cqw - var(--clear) - 1rem) / (0.56 * var(--tl, 8)))); white-space: nowrap; }
 }
 @container (max-height: 300px) {
   .cell-head p { font-size: 0.85rem; line-height: 1.35; margin-top: 0.4rem; }
 }
 @container (max-height: 400px) and (max-width: 560px) {
   .cell-foot .pill, .cell-foot .chip { font-size: 0.8rem; padding: 0.55em 0.9em; }
-  .cell-imgs { width: min(40%, calc(72cqh * 1.364)); }
 }
-@container (max-aspect-ratio: 1.15 / 1) {
+/* Wide cells: the front tile reaches nearly to the top, so the title has to
+   clear it as well as the back tile. */
+@container (min-aspect-ratio: 1.9 / 1) {
+  .cell-head { --clear: calc(1.5 * var(--tw)); }   /* set on a child: a container cannot be styled by its own query */
+}
+@container (max-aspect-ratio: 1.25 / 1) {
   .cell { grid-template-rows: auto minmax(0, 1fr) auto; }
-  .cell-imgs { position: relative; right: auto; bottom: auto; grid-row: 2; width: 100%; height: calc(100% - 2 * var(--s-2)); aspect-ratio: auto; margin: var(--s-2) 0; }
+  .cell-imgs { position: relative; inset: auto; grid-row: 2; width: 100%; height: calc(100% - 2 * var(--s-2)); margin: var(--s-2) 0; container-type: size; }
+  .cell-tile { --tw: min(66cqw, 87cqh); }
+  .cell-head { --clear: 0px; }
+  .cell-head p { max-width: min(30ch, 70%); }
   .cell-foot { grid-row: 3; flex-direction: row; flex-wrap: wrap; align-items: center; margin-top: 0; }
 }
 

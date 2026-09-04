@@ -140,7 +140,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--c-ink); }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--c-ink); }
 .nav-toggle { display: none; }
-@media (max-width: 820px) {
+@media (max-width: 767px) {
   /* phones get the nav from the first paint; there is no pinned intro to wait for */
   .nav { padding-left: 18px; opacity: 1; transform: translate(-50%, 0); }
   .nav-toggle { display: inline-flex; margin-left: auto; }
@@ -185,7 +185,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .menu.is-open .menu-tile { animation: pop 520ms cubic-bezier(.3,.1,.2,1) both; animation-delay: calc(60ms + var(--i) * 70ms); }
 .no-motion .menu.is-open .menu-tile { animation: none; }
 @media (prefers-reduced-motion: reduce) { .menu.is-open .menu-tile { animation: none; } }
-@media (min-width: 821px) { .menu { display: none !important; } }
+@media (min-width: 768px) { .menu { display: none !important; } }
 
 /* ---------- The intro: a pinned stage ----------
    On load the wordmark sits centred with nothing else. Scrolling slides it
@@ -277,10 +277,11 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 }
 .cell-head { position: relative; z-index: 2; min-width: 0; }
 .cell-head h2 { overflow-wrap: normal; }   /* never break inside a word */
-.cell--web h2, .cell--photo h2 { white-space: nowrap; font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), 16cqw); }
+.cell--web h2, .cell--photo h2 { white-space: nowrap; }
 .cell-head h2 {
   font-weight: 800;
-  font-size: clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem);
+  /* capped by the longest word (--wl, set per cell): Supermassive 800 runs about 0.56em a glyph */
+  font-size: min(clamp(2.2rem, max(3.2vw, 15cqh), 8.5rem), calc(94cqw / (0.56 * var(--wl, 8))));
   line-height: 0.85;
   letter-spacing: -0.025em;
 }
@@ -311,17 +312,22 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .cell-imgs {
   position: absolute; z-index: 1;
   right: -3%; bottom: -8%;
-  height: 80%; aspect-ratio: 1.5 / 1.1; max-width: 62%;
+  /* at its aspect, as wide as 62% of the cell or as tall as 58% of it, whichever bites; the top of the cell stays clear for the title and copy */
+  width: min(62%, calc(58cqh * 1.364)); height: auto; aspect-ratio: 1.5 / 1.1;
+  container-type: size;   /* the tiles size themselves from this box */
 }
 .cell-tile {
   position: absolute;
-  width: 66%; height: auto; aspect-ratio: 1 / 1.1;
+  /* whichever of the box's dimensions is tighter decides the tile: two thirds of its width, or its full height */
+  --tw: min(66cqw, 87cqh);
+  width: var(--tw); height: auto; aspect-ratio: 1 / 1.1;
   border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden;
   background: var(--c-white);
   transition: transform 160ms ease-out;
 }
+/* the pair hugs the right of the box, one and a half tiles wide */
 .cell-tile--back { right: 0; top: 0; transform: rotate(3deg); z-index: 1; }
-.cell-tile--front { left: 0; bottom: 0; transform: rotate(-2deg); z-index: 2; }
+.cell-tile--front { right: calc(0.5 * var(--tw)); bottom: 0; transform: rotate(-2deg); z-index: 2; }
 .cell-tile:hover { z-index: 3; }
 .cell-tile--back:hover { transform: rotate(3deg) translateY(-4px); }
 .cell-tile--front:hover { transform: rotate(-2deg) translateY(-4px); }
@@ -351,16 +357,24 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 @media (max-width: 1024px) {
   .cell--web, .cell--photo, .cell--design, .cell--mktg { grid-column: span 6; }
   .cell-head p { max-width: min(28ch, 60%); }
-  .cell-imgs { height: 72%; max-width: 70%; }
+  .cell-imgs { width: min(70%, calc(60cqh * 1.364)); }
 }
 /* Phones: no pin (there is no height for it). The wordmark sits at the top
    and the compartments pop in as they arrive, driven by IntersectionObserver
    through the same --in variable, with a transition doing the easing. */
-@media (max-width: 820px) {
+/* Tablets and below: no pin. A 100vh stage cannot hold four compartments at
+   these widths, so the stage is static, the cells take a fixed comfortable
+   height and pop in as they arrive (the observer path in the layout). */
+@media (max-width: 1024px) {
   .intro { height: auto; }
-  .intro-stage { position: static; height: auto; overflow: visible; overflow-x: clip; padding-top: 96px; }  /* letters scale past the edge while landing */
-  .wm { --wm-size: 29.8vw; transform: none; }
+  .intro-stage { position: static; height: auto; overflow: visible; overflow-x: clip; }  /* letters scale past the edge while landing */
+  .wm { transform: none; }
   .tray-grid { grid-template-rows: none; }
+  .cell { min-height: clamp(440px, 56vw, 560px); }
+}
+@media (max-width: 767px) {
+  .intro-stage { padding-top: 96px; }
+  .wm { --wm-size: 29.8vw; }
   .cell { min-height: clamp(380px, 27vw, 640px); }
 }
 @media (max-width: 640px) {
@@ -380,6 +394,30 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
     margin-top: var(--s-3); grid-row: 2;
   }
   .cell-foot { grid-row: 3; }
+  .cell-foot { grid-row: 3; }
+}
+
+/* The cell is a size container, so its own shape decides the layout.
+   Wide cells (the default): the pair floats out of the bottom-right corner
+   beside the stacked chip and pill. Short wide cells put the chip and pill on
+   one row so they fit; short narrow cells do the same with smaller controls
+   and a smaller corner pair. Cells taller than they are wide (a third of a
+   4K screen) take the pair in flow beneath the copy, filling whatever height
+   is left, with the chip and pill in a row under it. */
+@container (max-height: 400px) {
+  .cell-foot { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+}
+@container (max-height: 300px) {
+  .cell-head p { font-size: 0.85rem; line-height: 1.35; margin-top: 0.4rem; }
+}
+@container (max-height: 400px) and (max-width: 560px) {
+  .cell-foot .pill, .cell-foot .chip { font-size: 0.8rem; padding: 0.55em 0.9em; }
+  .cell-imgs { width: min(40%, calc(72cqh * 1.364)); }
+}
+@container (max-aspect-ratio: 1.15 / 1) {
+  .cell { grid-template-rows: auto minmax(0, 1fr) auto; }
+  .cell-imgs { position: relative; right: auto; bottom: auto; grid-row: 2; width: 100%; height: calc(100% - 2 * var(--s-2)); aspect-ratio: auto; margin: var(--s-2) 0; }
+  .cell-foot { grid-row: 3; flex-direction: row; flex-wrap: wrap; align-items: center; margin-top: 0; }
 }
 
 /* ---------- Cards: the sections that are not the tray still sit on the tray ----------
@@ -781,7 +819,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .service-card-v2 { display: flex; flex-direction: column; gap: var(--s-2); }
 .service-card-v2 p { font-size: clamp(1rem, 1.15vw, 1.15rem); }
 .service-card-v2 .pill { margin-top: auto; align-self: flex-start; }
-@media (max-width: 820px) { .service-grid-v2 { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .service-grid-v2 { grid-template-columns: 1fr; } }
 
 /* A small, non-interactive label: same pill shape as .pill--sm, but a
    plain <span> (no hover transform, nothing to press) at a slightly

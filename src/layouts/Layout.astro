@@ -297,7 +297,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         var cells = tray ? Array.prototype.slice.call(tray.querySelectorAll('.cell')) : [];
         if (!intro || !wm || !cells.length) return;
         var noMo = html.classList.contains('no-motion');
-        var pinned = !noMo && matchMedia('(min-width: 821px)').matches;
+        var pinned = !noMo && matchMedia('(min-width: 1025px)').matches;
         var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
         var easeOut = function (t) { return 1 - Math.pow(1 - t, 3); };
         function showNav() { if (nav && !nav.classList.contains('is-shown')) nav.classList.add('is-shown'); }

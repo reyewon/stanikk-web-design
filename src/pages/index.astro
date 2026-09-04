@@ -60,7 +60,7 @@ const extraSchema = [
       </h1>
       <div class="tray-grid" id="tray">
         {cells.map((c, i) => (
-          <a href={c.href} class={`cell cell--${c.id}`}>
+          <a href={c.href} class={`cell cell--${c.id}`} style={`--wl: ${c.title.split(/\s+/).reduce((m, w) => Math.max(m, w.replace(/[^\p{L}\p{N}]/gu, '').length), 1)}`}>
             <div class="cell-head">
               <h2>{c.title}</h2>
               <p>{c.body}</p>

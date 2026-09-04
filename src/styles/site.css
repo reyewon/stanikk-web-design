@@ -147,22 +147,21 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   .nav-links { display: none; }
 }
 /* ---------- The phone menu: a tray of its own ----------
-   Fixed over everything on the ink lid: the mark and a Close pill on top,
+   Fixed over everything on the linen ground: the mark and a Close pill on top,
    the five sections as filled compartments that fill the height and pop
    in one after another, the three contact routes along the bottom. */
 .menu {
   position: fixed; inset: 0; z-index: 60;
   display: flex; flex-direction: column; gap: var(--s-2);
   padding: 14px var(--gutter) calc(var(--gutter) + 6px);
-  background: var(--c-ink); color: var(--c-linen);
+  background: var(--c-linen); color: var(--c-ink);
   overflow-y: auto;
   opacity: 0; transition: opacity 220ms ease-out;
 }
 .menu[hidden] { display: none; }   /* the attribute must beat the flex display above */
 .menu.is-open { opacity: 1; }
 .menu-top { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding-left: 4px; }
-.menu-mark { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1; color: var(--c-linen); }
-.menu-close { border-color: var(--c-linen); color: var(--c-linen); }
+.menu-mark { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1; color: var(--c-ink); }
 .menu-tiles { display: flex; flex-direction: column; gap: var(--s-2); flex: 1 1 auto; min-height: 0; }
 .menu-tile {
   flex: 1 1 0; min-height: 72px;
@@ -175,15 +174,13 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .menu-tile--ochre { background: var(--c-ochre); }
 .menu-tile--kelp { background: var(--c-kelp); color: var(--c-linen); }
 .menu-tile--mist { background: var(--c-mist); }
-.menu-tile--linen { background: var(--c-linen); }
+.menu-tile--linen { background: var(--c-white); }
 .menu-tile--terracotta .menu-tile__title { color: var(--c-white); }
-.menu-tile[aria-current="page"] { border-color: var(--c-linen); }
+.menu-tile[aria-current="page"] { outline: 3px solid var(--c-ink); outline-offset: 3px; }
 .menu-tile__title { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.9; font-size: clamp(2rem, 9.5vw, 3rem); }
 .menu-tile__line { font-size: 0.95rem; line-height: 1.3; }
-.menu-foot { display: flex; gap: 0.45rem; flex-wrap: wrap; }
-.menu-foot .pill { border-color: var(--c-linen); color: var(--c-linen); padding: 0.8rem 1.05rem; font-size: 0.9rem; }
-.menu-foot .pill--fill { border-color: var(--c-terracotta); color: var(--c-white); }
-.menu :focus-visible { outline-color: var(--c-linen); }
+.menu-foot { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; }
+.menu-foot .pill { padding: 0.8rem 1.05rem; font-size: 0.9rem; }
 /* the compartments pop in one after another, same move as the home tray */
 .menu.is-open .menu-tile { animation: pop 520ms cubic-bezier(.3,.1,.2,1) both; animation-delay: calc(60ms + var(--i) * 70ms); }
 .no-motion .menu.is-open .menu-tile { animation: none; }

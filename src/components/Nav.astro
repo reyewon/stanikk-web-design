@@ -5,19 +5,40 @@ interface Props { current: 'home' | 'web-design' | 'design' | 'photography' | 'm
 const { current } = Astro.props as Props;
 
 const nav = [
-  { id: 'web-design', href: '/web-design', label: 'Websites' },
-  { id: 'design', href: '/design', label: 'Design' },
-  { id: 'photography', href: '/photography', label: 'Photography' },
-  { id: 'marketing', href: '/marketing', label: 'Marketing' },
-  { id: 'about', href: '/about', label: 'About' },
+  { id: 'web-design', href: '/web-design', label: 'Websites', line: 'Bespoke sites and web apps', fill: 'terracotta' },
+  { id: 'design', href: '/design', label: 'Design', line: 'Logos, menus and print', fill: 'ochre' },
+  { id: 'photography', href: '/photography', label: 'Photography', line: 'Food, interiors, product and brand', fill: 'kelp' },
+  { id: 'marketing', href: '/marketing', label: 'Marketing', line: 'Strategy, ads, social and the systems behind them', fill: 'mist' },
+  { id: 'about', href: '/about', label: 'About', line: 'Ryan Stanikk, a one-person studio', fill: 'linen' },
 ];
 const WA = 'https://wa.me/442381112819';
 ---
 <nav class="nav" aria-label="Primary">
   <a href="/" class="nav-mark" aria-label="Kombu, home" aria-current={current === 'home' ? 'page' : undefined}>Kombu</a>
-  <button class="pill pill--sm nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+  <button class="pill pill--sm nav-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   <ul class="nav-links" id="nav-links">
     {nav.map((n) => <li><a href={n.href} aria-current={current === n.id ? 'page' : undefined}>{n.label}</a></li>)}
   </ul>
   <a href={WA} class="pill pill--fill pill--sm" target="_blank" rel="noopener">WhatsApp me</a>
 </nav>
+<!-- Phones: the menu is a tray of its own. The five sections as filled
+     compartments on the ink lid, popping in one after another. -->
+<div class="menu" id="menu" hidden>
+  <div class="menu-top">
+    <a href="/" class="menu-mark" aria-label="Kombu, home">Kombu</a>
+    <button class="pill pill--sm menu-close" type="button">Close</button>
+  </div>
+  <div class="menu-tiles">
+    {nav.map((n, i) => (
+      <a href={n.href} class={`menu-tile menu-tile--${n.fill}`} style={`--i: ${i}`} aria-current={current === n.id ? 'page' : undefined}>
+        <span class="menu-tile__title">{n.label}</span>
+        <span class="menu-tile__line">{n.line}</span>
+      </a>
+    ))}
+  </div>
+  <div class="menu-foot">
+    <a href={WA} class="pill pill--fill" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="tel:+442381112819" class="pill">Call</a>
+    <!--email_off--><a href="mailto:design@kombu.uk" class="pill">Email</a><!--email_on-->
+  </div>
+</div>

@@ -257,7 +257,7 @@ Sequence, and why each section exists:
 7. **Tell me what you're trying to do** (ochre card, ink text): the heading matches the first words of the copy beneath it; the three contact routes as outline pills in one row, labelled WhatsApp, Call and Email so they hold one line on a phone.
 8. **Footer**: the lid. Full width, ink, with the card radius on its top corners so the page closes the way its compartments open; the wordmark again, inverted; one row of links; copyright and email.
 
-Mobile: everything stacks in the same order, the nav is visible from the first paint (there is no pinned intro to wait for), the nav pill keeps the mark, a Menu pill and the WhatsApp pill, and Menu opens the five links as a stacked sheet inside the same outlined pill, the wordmark drops to 29.8vw so it stays inside the gutter, the tray becomes one column with each compartment's pair of tiles still overlapping and tilted under the copy.
+Mobile: everything stacks in the same order, the nav is visible from the first paint (there is no pinned intro to wait for), the nav pill keeps the mark, a Menu pill and the WhatsApp pill, and Menu opens a tray of its own: a full-screen ink sheet with the five sections as filled compartments (terracotta, ochre, kelp, mist, linen) that pop in one after another, the current page outlined in linen, and WhatsApp, Call and Email along the bottom, the wordmark drops to 29.8vw so it stays inside the gutter, the tray becomes one column with each compartment's pair of tiles still overlapping and tilted under the copy.
 
 ## 6. Motion
 
@@ -275,7 +275,7 @@ First person singular, British English, no em or en dashes anywhere including ar
 - **Compartment**: 2px ink outline, 28px, a fill from the four, title 800, one sentence, a fact chip over a small outline pill at the bottom-left, and two 16px image tiles stacked at the bottom-right.
 - **Chip**: a fact in a linen pill with a 2px ink outline, Supermassive 700 at 0.9rem uppercase. Only ever carries a checkable figure.
 - **Work card**: outline frame around a 1024:1366 viewport, poster beneath a live iframe, title and line and Visit pill in a row beneath.
-- **Floating nav**: white, 2px ink, 999px, 1120px max, mark left, links centre, terracotta pill right. Under 820px the links collapse behind a Menu pill (aria-expanded, no JS dependency for the rest of the page) and open as a sheet under the top row.
+- **Floating nav**: white, 2px ink, 999px, 1120px max, mark left, links centre, terracotta pill right. Under 820px the links collapse behind a Menu pill that opens the full-screen tray menu (five filled compartments on ink, the contact routes beneath); Close, Escape or a link shuts it and the page scroll is held while it is open. Nav links are Switzer 500 in full ink.
 - **Focus**: 3px ink ring on light surfaces; on ink and kelp the ring switches to linen so it is never invisible.
 
 ## 9. Do and don't

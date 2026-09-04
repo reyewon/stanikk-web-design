@@ -378,19 +378,32 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
       })();
     </script>
     <script is:inline>
-      // Mobile menu: the pill nav opens its links as a stacked sheet.
+      // Phone menu: the Menu pill opens the tray sheet, Close, Escape or a
+      // link closes it. Page scroll (and Lenis) is held while it is open.
       (function () {
-        var nav = document.querySelector('.nav'), btn = document.querySelector('.nav-toggle');
-        if (!nav || !btn) return;
-        btn.addEventListener('click', function () {
-          var open = nav.classList.toggle('is-open');
-          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-          btn.textContent = open ? 'Close' : 'Menu';
-        });
-        function close() { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Menu'; }
-        nav.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', close); });
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('is-open')) { close(); btn.focus(); } });
-        document.addEventListener('click', function (e) { if (nav.classList.contains('is-open') && !nav.contains(e.target)) close(); });
+        var btn = document.querySelector('.nav-toggle'), menu = document.getElementById('menu');
+        if (!btn || !menu) return;
+        var closeBtn = menu.querySelector('.menu-close');
+        function open() {
+          menu.hidden = false;
+          requestAnimationFrame(function () { menu.classList.add('is-open'); });
+          btn.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+          if (window.__lenis) window.__lenis.stop();
+          if (closeBtn) closeBtn.focus();
+        }
+        function close() {
+          menu.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+          if (window.__lenis) window.__lenis.start();
+          setTimeout(function () { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 230);
+          btn.focus();
+        }
+        btn.addEventListener('click', function () { menu.hidden ? open() : close(); });
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        menu.querySelectorAll('.menu-tile').forEach(function (a) { a.addEventListener('click', function () { document.body.style.overflow = ''; }); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) close(); });
       })();
     </script>
     <script is:inline>

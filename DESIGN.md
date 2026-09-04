@@ -228,7 +228,7 @@ Terracotta stays the brand's existing voice; kelp is the plant the studio is nam
 
 ## 3. Type
 
-**Supermassive RS** is the only display face, in three jobs: 900 for the wordmark and the page-head titles, 800 for section headings and card titles. Ryan's ruling: the heavier the better, so nothing displays below 800. Line heights are per level (0.78 / 0.87 / 0.88), never shared. Uppercase everywhere it appears. No fallback face is needed; it covers the full character set.
+**Supermassive RS** is the only display face, in two jobs: 900 for the wordmark alone, 800 for page-head titles, section headings and card titles. Ryan's ruling: the heavier the better, so nothing displays below 800. Line heights are per level (0.78 / 0.87 / 0.88), never shared. Uppercase everywhere it appears. No fallback face is needed; it covers the full character set.
 
 **Switzer 300** for all reading copy, 400 for nav links, 500 for control labels. The identity is the weight contrast: very heavy display against light body. Never bring the body up to regular to match.
 
@@ -288,7 +288,7 @@ Don't add a shadow, a gradient, a glass effect, an eyebrow, a section number, or
 
 Every interior page is the tray applied to one discipline. Same nav, same footer lid, same contact card; only the opening fill and the middle change.
 
-**Opening card (PageHead).** A full-width card in the discipline's own fill, directly under the nav: h1 at the wordmark weight (900, `clamp(3rem, 8.5vw, 9rem)`), the page's existing lede at `clamp(1.05rem, 1.25vw, 1.3rem)` capped at 44ch, then one row of a fact chip and two pills; a real piece of work in a 4/3 outlined tile at 2° on the right. Websites terracotta (title and lede white, the lede at 24px minimum so white on terracotta clears AA as large text), Photography kelp, Graphic design ochre, Marketing mist (a three-tile collage instead of the single tile). Web design puts Selected work straight under the head, then the four services as a 2x2 of white cards with their list items as tags; Marketing puts the Health Check card second and folds How I help into a mist strip. About opens on the terracotta portrait card instead (h1 "An engineering mind, a designer's eye", the bio, three fact chips).
+**Opening card (PageHead).** A full-width card in the discipline's own fill, directly under the nav: h1 at the heading weight (800, `clamp(3rem, 8.5vw, 9rem)`), the page's existing lede at `clamp(1.05rem, 1.25vw, 1.3rem)` capped at 44ch, then one row of a fact chip and two pills; a real piece of work in a 4/3 outlined tile at 2° on the right. Websites terracotta (title and lede white, the lede at 24px minimum so white on terracotta clears AA as large text, and two of Ryan's cropped screenshots stacked like a compartment's tiles in place of the single tile), Photography kelp, Graphic design ochre, Marketing mist (a three-tile collage instead of the single tile). Web design puts Selected work straight under the head, then the four services as a 2x2 of white cards with their list items as tags; Marketing puts the Health Check card second and folds How I help into a mist strip. About opens on the terracotta portrait card instead (h1 "An engineering mind, a designer's eye", the bio, three fact chips).
 
 **Ledger.** Plain-label lists (What I build, What I design, How I help, One trusted route) are rows ruled with 2px ink, title 4/12 and copy 8/12, never a grid of cards. Copy at `clamp(1rem, 1.15vw, 1.15rem)`, 58ch.
 

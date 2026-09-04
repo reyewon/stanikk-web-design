@@ -17,8 +17,10 @@ interface Props {
   // (a portrait tile spanning the column, two stacked beside it). Used on
   // marketing only; every other page keeps the single tile.
   images?: { src: string; alt: string }[];
+  // Optional: two images stacked like the home compartments' tiles (front first, back second).
+  pair?: { src: string; alt: string }[];
 }
-const { fill, title, body, fact, img, alt, primary, secondary, images } = Astro.props as Props;
+const { fill, title, body, fact, img, alt, primary, secondary, images, pair } = Astro.props as Props;
 
 // Primary pill: white fill on terracotta (inherited from .card--terracotta
 // .pill), terracotta fill on kelp (.card--kelp .pill--fill), ink fill on
@@ -57,7 +59,12 @@ const longestWord = title.split(/\s+/).reduce((max, w) => Math.max(max, w.replac
       </div>
     </div>
     <div class="pagehead-media">
-      {images && images.length ? (
+      {pair && pair.length === 2 ? (
+        <div class="pagehead-pair">
+          <div class="ph-tile ph-tile--back"><img src={pair[1].src} alt={pair[1].alt} loading="eager" /></div>
+          <div class="ph-tile ph-tile--front"><img src={pair[0].src} alt={pair[0].alt} loading="eager" fetchpriority="high" /></div>
+        </div>
+      ) : images && images.length ? (
         <div class="pagehead-collage">
           <div class="pagehead-collage__tile pagehead-collage__tile--main"><img src={images[0].src} alt={images[0].alt} loading="eager" /></div>
           <div class="pagehead-collage__side">

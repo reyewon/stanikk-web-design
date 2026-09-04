@@ -141,7 +141,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--c-ink); }
 .nav-toggle { display: none; }
 @media (max-width: 820px) {
-  .nav { padding-left: 18px; flex-wrap: wrap; }
+  /* phones get the nav from the first paint; there is no pinned intro to wait for */
+  .nav { padding-left: 18px; flex-wrap: wrap; opacity: 1; transform: translate(-50%, 0); }
   .nav-toggle { display: inline-flex; margin-left: auto; }
   .nav-links { order: 3; display: none; flex-basis: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0.25rem 0.25rem; border-top: var(--line) solid var(--c-ink); margin-top: 8px; }
   .nav-links a { display: block; padding: 0.7rem 0.75rem; font-size: 1.05rem; }
@@ -334,15 +335,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   .cell-head p { font-size: 1rem; margin-top: 0.75rem; max-width: none; }
   .cell-foot { flex-direction: row; flex-wrap: wrap; gap: 0.6rem; }
   .cell-foot .pill, .cell-foot .chip { font-size: 0.85rem; padding: 0.65em 1.1em; }
-  /* One row of two tiles side by side, no overlap, no rotation. */
+  /* The same stacked pair as desktop, in flow under the copy: two tilted
+     tiles overlapping like a couple of photos dropped on the table. */
   .cell-imgs {
-    position: static; display: flex; gap: var(--s-2);
-    width: 100%; max-width: none; height: auto; aspect-ratio: auto;
+    position: relative; right: auto; bottom: auto;
+    width: 100%; max-width: none; height: auto; aspect-ratio: 1.5 / 1.1;
     margin-top: var(--s-3); grid-row: 2;
-  }
-  .cell-tile {
-    position: static; width: 100%; height: auto; flex: 1 1 0;
-    transform: none !important;
   }
   .cell-foot { grid-row: 3; }
 }
@@ -424,11 +422,11 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .browser-stack { position: absolute; top: 0; left: 0; width: 1024px; transform-origin: top left; }
 .browser-stack.panning { will-change: transform; }
 .browser-poster { width: 1024px; height: auto; display: block; position: relative; z-index: 1; }
-.wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
+.wcard-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
 .wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
 .wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 34ch; }
 @media (max-width: 900px) {
-  .work-grid { grid-template-columns: 1fr; }
+  .work-grid { grid-template-columns: 1fr; row-gap: clamp(2rem, 7vw, 3rem); }
 }
 
 /* ---------- About ---------- */
@@ -500,6 +498,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .contact p { max-width: 46ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
 .contact-actions { display: flex; gap: var(--s-1); flex-wrap: wrap; }
 @media (max-width: 900px) { .contact { grid-template-columns: 1fr; } }
+/* the three routes stay on one line on a 390px phone */
+@media (max-width: 640px) { .contact-actions .pill { padding: 0.8rem 1.05rem; font-size: 0.9rem; } .contact-actions { gap: 0.45rem; } }
 
 /* ---------- Footer: the wordmark again, inverted ---------- */
 /* The footer is the lid: full width, ink, with the card radius on its top

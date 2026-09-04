@@ -254,10 +254,10 @@ Sequence, and why each section exists:
 4. **Selected work**: three live site frames in outlined cards, name and one line beneath, a Visit pill. Hover pans the full-page capture; the live iframe mounts on approach.
 5. **Ryan Stanikk** (terracotta card): the portrait is a cutout sitting on the card itself, no frame. Its bottom slice is tucked under the card's bottom outline and its head rises past the card's top edge; when the text column is taller, as on the about page, the head sits inside the card instead. The cutout drifts a few pixels against the card as it crosses the viewport. No hover state. Bio with the two facts folded into the prose, More about me.
 6. **Clients**: ink logos on linen in a marquee, ruled top and bottom, with no visible label; the logos say it.
-7. **Tell me what you're trying to do** (ochre card, ink text): the heading matches the first words of the copy beneath it; the three contact routes as outline pills in one row.
+7. **Tell me what you're trying to do** (ochre card, ink text): the heading matches the first words of the copy beneath it; the three contact routes as outline pills in one row, labelled WhatsApp, Call and Email so they hold one line on a phone.
 8. **Footer**: the lid. Full width, ink, with the card radius on its top corners so the page closes the way its compartments open; the wordmark again, inverted; one row of links; copyright and email.
 
-Mobile: everything stacks in the same order, the nav pill keeps the mark, a Menu pill and the WhatsApp pill, and Menu opens the five links as a stacked sheet inside the same outlined pill, the wordmark drops to 29.8vw so it stays inside the gutter, the tray becomes one column.
+Mobile: everything stacks in the same order, the nav is visible from the first paint (there is no pinned intro to wait for), the nav pill keeps the mark, a Menu pill and the WhatsApp pill, and Menu opens the five links as a stacked sheet inside the same outlined pill, the wordmark drops to 29.8vw so it stays inside the gutter, the tray becomes one column with each compartment's pair of tiles still overlapping and tilted under the copy.
 
 ## 6. Motion
 

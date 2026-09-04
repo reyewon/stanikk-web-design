@@ -299,7 +299,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
    the title goes white but the pill is white FILL with ink label rather
    than white text, and the body copy stays ink at 5.7:1. */
 .cell--web h2 { color: var(--c-white); }
-.cell--web .pill { background: var(--c-white); color: var(--c-ink); }
+.cell--web .pill { border-color: var(--c-white); color: var(--c-white); }   /* outline only, like the other compartments */
 .cell--photo .pill { border-color: var(--c-linen); color: var(--c-linen); }
 .cell--photo .cell-tile { border-color: var(--c-linen); }
 

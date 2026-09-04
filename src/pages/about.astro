@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import ContactCard from '../components/ContactCard.astro';
 import Ledger from '../components/Ledger.astro';
 import Marquee from '../components/Marquee.astro';
+import Reviews from '../components/Reviews.astro';
 
 const title = "About Kombu | Ryan Stanikk, Southampton Creative Studio";
 const description = "Kombu is Ryan Stanikk: a Southampton designer, photographer and web developer running a one-person studio. An engineering mind paired with a designer's eye, across the whole brand.";
@@ -75,6 +76,8 @@ const extraSchema = [
       {routes.map((r) => <a href={r.href} class="pill pill--sm">{r.label}</a>)}
     </div>
   </section>
+
+  <Reviews />
 
   <Marquee />
 

@@ -306,7 +306,16 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         if (scrollY > 24) showNav();
         if (pinned) {
           tray.classList.add('is-armed');
-          var y0 = 0, s0 = 1, range = 1, ticking = false, risen = false, done = 0;
+          var y0 = 0, s0 = 1, range = 1, ticking = false, risen = false, done = 0, finished = false;
+          function finish() {
+            finished = true;
+            removeEventListener('scroll', onScroll);
+            intro.classList.add('is-done');
+            // The stage now sits statically at the top of the document, one
+            // viewport tall, exactly where it was pinned, so the scroll
+            // lands on 0 with nothing visibly moving.
+            if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true, force: true }); else scrollTo(0, 0);
+          }
           function measure() {
             wm.style.setProperty('--wm-y', '0px'); wm.style.setProperty('--wm-s', '1');
             wm.classList.add('measuring');           /* letters at rest, not mid-land */
@@ -328,6 +337,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
               if (p >= 0.2) { risen = true; wm.style.setProperty('--wm-y', '0px'); wm.style.setProperty('--wm-s', '1'); }
             }
             while (done < cells.length && p >= 0.24 + done * 0.16) { cells[done].classList.add('is-in'); done++; }
+            if (!finished && done === cells.length) finish();
           }
           function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
           measure(); frame();
@@ -437,66 +447,6 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         });
       })();
     </script>
-    <script is:inline>
-      // Live site frames inside the work cards: mount the real site on
-      // approach, pan the full-page poster on hover. Ported from the main
-      // runtime with the GSAP / Lenis dependencies removed, since this page
-      // has no need for either.
-      (function () {
-        var noMo = document.documentElement.classList.contains('no-motion');
-        var isMob = matchMedia('(max-width: 768px)').matches;
-        var SITE_W = 1024, HERO_H = 1366, PAN_MS = 7000;
-        document.querySelectorAll('.browser-viewport').forEach(function (vp) {
-          var url = vp.dataset.site, stack = vp.querySelector('.browser-stack'), poster = vp.querySelector('.browser-poster');
-          if (!stack || !poster) return;
-          var iframe = null, scale = vp.clientWidth / SITE_W, anim = null, top = 0, panning = false, mobDone = false;
-          var apply = function (t) { stack.style.transform = 'translateY(' + t + 'px) scale(' + scale + ')'; };
-          var maxPan = function () { var w = poster.naturalWidth || SITE_W; return Math.max(0, poster.naturalHeight * (SITE_W / w) * scale - vp.offsetHeight); };
-          function mount() {
-            if (iframe || !url) return;
-            iframe = document.createElement('iframe');
-            iframe.src = url; iframe.loading = 'lazy'; iframe.title = poster.alt || 'Site preview';
-            iframe.tabIndex = -1; iframe.setAttribute('aria-hidden', 'true');
-            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-            iframe.style.cssText = 'position:absolute;top:0;left:0;width:' + SITE_W + 'px;height:' + HERO_H + 'px;border:0;pointer-events:none;opacity:0;transition:opacity .5s ease-out;z-index:2';
-            iframe.addEventListener('load', function () { if (iframe && !panning) iframe.style.opacity = '1'; });
-            stack.appendChild(iframe);
-          }
-          apply(0);
-          function start() {
-            if (noMo || anim || (isMob && mobDone)) return;
-            panning = true;
-            if (iframe) { iframe.style.transition = 'opacity .25s ease-out'; iframe.style.opacity = '0'; }
-            var target = -maxPan();
-            if (target === 0) { if (!(poster.complete && poster.naturalHeight > 0)) poster.addEventListener('load', start, { once: true }); return; }
-            var t0 = performance.now(), from = top, dist = target - from;
-            stack.classList.add('panning'); stack.style.transition = '';
-            (function step(now) {
-              var t = Math.min((now - t0) / PAN_MS, 1), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-              top = from + dist * e; apply(top);
-              if (t < 1) anim = requestAnimationFrame(step);
-              else { anim = null; stack.classList.remove('panning'); if (isMob) { mobDone = true; setTimeout(reset, 700); } }
-            })(t0);
-          }
-          function reset() {
-            if (anim) { cancelAnimationFrame(anim); anim = null; }
-            panning = false;
-            stack.style.transition = 'transform .6s ease-out'; top = 0; apply(0);
-            if (iframe) setTimeout(function () { if (iframe && !panning) iframe.style.opacity = '1'; }, 620);
-            setTimeout(function () { stack.classList.remove('panning'); stack.style.transition = ''; }, 700);
-          }
-          addEventListener('resize', function () { scale = vp.clientWidth / SITE_W; apply(top); });
-          if (!isMob) {
-            new IntersectionObserver(function (es, ob) { es.forEach(function (en) { if (en.isIntersecting) { poster.complete && poster.naturalWidth ? mount() : poster.addEventListener('load', mount, { once: true }); ob.unobserve(vp); } }); }, { rootMargin: '200px' }).observe(vp);
-            var card = vp.closest('.project-browser');
-            if (card) { card.addEventListener('mouseenter', start); card.addEventListener('mouseleave', reset); }
-          } else if (!noMo) {
-            new IntersectionObserver(function (es) { es.forEach(function (en) { en.isIntersecting ? start() : reset(); }); }, { threshold: 0.4 }).observe(vp);
-          }
-        });
-      })();
-    </script>
-
     <!-- Register the service worker so Android Chrome marks the site installable. -->
     <script is:inline>
       if ('serviceWorker' in navigator) {

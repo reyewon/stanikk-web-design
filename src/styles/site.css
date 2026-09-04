@@ -165,6 +165,11 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   padding: 96px var(--gutter) var(--gutter);
   overflow: hidden;
 }
+/* Once all four cells have committed the pin releases for good: the section
+   drops its extra scroll budget and the stage stops being sticky, so
+   scrolling back up never wades through a dead stretch where nothing moves. */
+.intro.is-done { height: 100vh; }
+.intro.is-done .intro-stage { position: static; }
 .wm {
   display: block;
   font-family: var(--f-display);
@@ -241,8 +246,11 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   line-height: 0.85;
   letter-spacing: -0.025em;
 }
-.cell-head p { margin-top: clamp(0.75rem, 2.4cqh, 1.5rem); max-width: min(30ch, 64%); font-size: clamp(0.95rem, max(1.05vw, 3.6cqh), 1.6rem); line-height: 1.5; }
-.cell-foot { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: clamp(0.75rem, 1.8cqh, 1.25rem); align-items: center; align-self: end; margin-top: var(--s-3); }
+.cell-head p { margin-top: clamp(0.75rem, 2.4cqh, 1.5rem); max-width: min(26ch, 52%); font-size: clamp(0.95rem, max(1.05vw, 3.6cqh), 1.6rem); line-height: 1.5; }
+/* Above phone width the chip and fact stack vertically so the wider tile
+   pair gets the horizontal room it needs; phones keep them in a row
+   (reset in the 640px block below). */
+.cell-foot { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; align-self: end; margin-top: var(--s-3); }
 .cell-foot .pill, .cell-foot .chip { font-size: clamp(0.85rem, 2.3cqh, 1.2rem); padding: 0.65em 1.1em; }
 .chip {
   display: inline-flex; align-items: center;
@@ -251,19 +259,35 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   border: var(--line) solid var(--c-ink); border-radius: var(--r-pill);
   font-family: var(--f-display); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1;
 }
-/* the tile is sized by the cell's HEIGHT so it always bleeds out of the
-   corner rather than spanning top to bottom, whatever the viewport */
-.cell-img {
+/* Two stacked tiles, sized by the cell's HEIGHT so the pair always bleeds
+   out of the corner rather than spanning top to bottom. The back tile sits
+   up/right, the front sits down/left, overlapping by half its own width:
+   each tile is 2/3 of the wrapper's width (1.5 : 1.1 aspect ratio on the
+   wrapper, 1 : 1.1 on each tile), so back's left edge (1/3 in) meets
+   front's right edge (2/3 in) exactly. */
+/* The pair is a box 1.5 tiles wide: each tile is two thirds of it, so the
+   back tile always shows a good third beside the front one. The box is
+   height-driven with a width cap, and the tiles size from the box's WIDTH,
+   so when the cap bites (the narrow cells) the tiles shrink and the top /
+   bottom anchoring adds a vertical step to the stack as well. */
+.cell-imgs {
   position: absolute; z-index: 1;
   right: -3%; bottom: -8%;
-  height: 80%; width: auto; max-width: 42%; aspect-ratio: 1 / 1.1;
+  height: 80%; aspect-ratio: 1.5 / 1.1; max-width: 62%;
+}
+.cell-tile {
+  position: absolute;
+  width: 66%; height: auto; aspect-ratio: 1 / 1.1;
   border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden;
   background: var(--c-white);
-  transform: rotate(3deg);
-  transition: transform 220ms ease-out;
+  transition: transform 160ms ease-out;
 }
-.cell:hover .cell-img { transform: rotate(2deg) translateY(-4px); }
-.cell-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.cell-tile--back { right: 0; top: 0; transform: rotate(3deg); z-index: 1; }
+.cell-tile--front { left: 0; bottom: 0; transform: rotate(-2deg); z-index: 2; }
+.cell-tile:hover { z-index: 3; }
+.cell-tile--back:hover { transform: rotate(3deg) translateY(-4px); }
+.cell-tile--front:hover { transform: rotate(-2deg) translateY(-4px); }
+.cell-tile img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 
 .cell--web   { grid-column: 1 / 8;  background: var(--c-terracotta); }
 .cell--photo { grid-column: 8 / 13; background: var(--c-kelp); color: var(--c-linen); }
@@ -276,9 +300,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .cell--web h2 { color: var(--c-white); }
 .cell--web .pill { background: var(--c-white); color: var(--c-ink); }
 .cell--photo .pill { border-color: var(--c-linen); color: var(--c-linen); }
-.cell--photo .cell-img { border-color: var(--c-linen); }
-.cell--photo .cell-img, .cell--design .cell-img { height: 66%; max-width: 50%; aspect-ratio: 4 / 3; right: -6%; bottom: -10%; }
-.cell--photo .cell-head p, .cell--design .cell-head p { max-width: min(24ch, 60%); }
+.cell--photo .cell-tile { border-color: var(--c-linen); }
 
 /* Static path (reduced motion, ?nomotion, or JS unavailable): no pin, no
    hidden cells, the tray at a comfortable fixed height. */
@@ -290,8 +312,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 
 @media (max-width: 1024px) {
   .cell--web, .cell--photo, .cell--design, .cell--mktg { grid-column: span 6; }
-  .cell-head p { max-width: min(30ch, 70%); }
-  .cell-img, .cell--photo .cell-img, .cell--design .cell-img { height: 72%; max-width: 50%; aspect-ratio: 4 / 5; }
+  .cell-head p { max-width: min(28ch, 60%); }
+  .cell-imgs { height: 72%; max-width: 70%; }
 }
 /* Phones: no pin (there is no height for it). The wordmark sits at the top
    and the compartments pop in as they arrive, driven by IntersectionObserver
@@ -310,10 +332,17 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   .cell { min-height: 0; grid-template-rows: auto auto auto; padding: 1.4rem; }
   .cell-head h2 { font-size: clamp(2.2rem, 11vw, 3rem); white-space: normal; }
   .cell-head p { font-size: 1rem; margin-top: 0.75rem; max-width: none; }
-  .cell-foot { gap: 0.6rem; }
+  .cell-foot { flex-direction: row; flex-wrap: wrap; gap: 0.6rem; }
   .cell-foot .pill, .cell-foot .chip { font-size: 0.85rem; padding: 0.65em 1.1em; }
-  .cell-img, .cell--photo .cell-img, .cell--design .cell-img {
-    position: static; width: 100%; max-width: none; height: auto; aspect-ratio: 16 / 10; transform: none; margin-top: var(--s-3); grid-row: 2;
+  /* One row of two tiles side by side, no overlap, no rotation. */
+  .cell-imgs {
+    position: static; display: flex; gap: var(--s-2);
+    width: 100%; max-width: none; height: auto; aspect-ratio: auto;
+    margin-top: var(--s-3); grid-row: 2;
+  }
+  .cell-tile {
+    position: static; width: 100%; height: auto; flex: 1 1 0;
+    transform: none !important;
   }
   .cell-foot { grid-row: 3; }
 }
@@ -384,20 +413,23 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .work-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--sec-head); }
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
 .wcard { display: flex; flex-direction: column; gap: var(--s-2); }
-.project-browser {
-  border: var(--line) solid var(--c-ink); border-radius: var(--r-card); overflow: hidden;
-  background: var(--c-ink);
+/* Ryan's own cropped screenshot in a plain outlined tile: no live iframe,
+   no panning poster, just a 2px-ink frame that dips 2px on hover like every
+   other pill and tile in the system. */
+.wtile {
+  display: block;
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-card);
+  aspect-ratio: 1 / 1.1; overflow: hidden;
+  background: var(--c-white);
+  transition: transform 140ms ease-out;
 }
-.browser-viewport { aspect-ratio: 1024 / 1180; position: relative; overflow: hidden; background: var(--c-ink); contain: layout paint; }
-.browser-stack { position: absolute; top: 0; left: 0; width: 1024px; transform-origin: top left; }
-.browser-stack.panning { will-change: transform; }
-.browser-poster { width: 1024px; height: auto; display: block; position: relative; z-index: 1; }
+.wtile:hover, .wtile:focus-visible { transform: translateY(2px); }
+.wtile img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
 .wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
 .wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 34ch; }
 @media (max-width: 900px) {
   .work-grid { grid-template-columns: 1fr; }
-  .browser-viewport { aspect-ratio: 1024 / 900; }
 }
 
 /* ---------- About ---------- */
@@ -459,7 +491,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .marquee-set li[data-logo="the-grand"] img { height: 40px; }
 .marquee-set li[data-logo="kesarum"] img { height: 24px; }
 .marquee-set li[data-logo="ryan-stanikk-photography"] img { height: 28px; max-width: 220px; }
-.marquee-set li[data-logo="ark-angels"] img { height: 32px; }
+.marquee-set li[data-logo="ark-angels"] img { height: 40px; }
 .marquee-set li[data-logo="ennios"] img { height: 44px; }
 .marquee-set li[data-logo="grumpy-monkey"] img { height: 40px; }
 .marquee-set li[data-logo="mustang-group"] img { height: 34px; }
@@ -715,7 +747,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
   border: var(--line) solid var(--c-ink);
   border-radius: var(--r-pill);
   font-family: var(--f-body); font-weight: 500; font-size: 0.8rem;
-  color: var(--c-ink); background: transparent;
+  color: var(--c-ink); background: var(--c-mist);
 }
 
 /* ---------- How I help (marketing, mist card): 4-col strip ----------

@@ -16,9 +16,9 @@ Strategic and visual design are documented for agent reference: `PRODUCT.md` (re
 ## Pages
 | Route | Purpose |
 |---|---|
-| `/` | Studio hub: pinned wordmark intro with the four-compartment tray (Websites/Photography/Graphic design/Marketing), the "missing piece" kelp card, Selected Work (three live site cards), about teaser (terracotta card: a cutout portrait tucked under the card's bottom edge and rising past its top, with a scroll parallax), clients marquee, contact card |
-| `/web-design` | SEO anchor ("web design southampton"): terracotta PageHead, services, Selected Work (six sites), pricing tiers with monthly/upfront segmented toggle, process strip, FAQ (7 items via `Faq.astro`, mirrored in FAQPage schema) |
-| `/design` | Graphic design: ochre PageHead, disciplines ledger, from-prices, case studies |
+| `/` | Studio hub: pinned wordmark intro with the four-compartment tray (Websites/Photography/Graphic design/Marketing), each cell showing two stacked example tiles, the "missing piece" kelp card, Selected Work (three cards, cropped screenshot tiles), about teaser (terracotta card: a cutout portrait tucked under the card's bottom edge and rising past its top, with a scroll parallax), clients marquee, contact card |
+| `/web-design` | SEO anchor ("web design southampton"): terracotta PageHead, services, Selected Work (six sites, cropped screenshot tiles), pricing tiers with monthly/upfront segmented toggle, process strip, FAQ (7 items via `Faq.astro`, mirrored in FAQPage schema) |
+| `/design` | Graphic design: ochre PageHead, disciplines ledger, case studies (Kwackers, Ideal Produce, Padharo, Build Budget Expert, Remedi Health), no published prices (quoted per project) |
 | `/photography` | Kelp PageHead, category-filterable masonry gallery, instant quote calculator inline in the page (Google Places + postcodes.io), FAQ |
 | `/marketing` | Mist PageHead (three-image collage), services, Hospitality Health Check (8 categories, from £295), infrastructure ask-cards, studio partnership from £950/mo, FAQ |
 | `/about` | Terracotta portrait card (cutout tucked under the card edge), one-trusted-route ledger, onward pills to the four disciplines, clients marquee, contact card |
@@ -28,7 +28,7 @@ Strategic and visual design are documented for agent reference: `PRODUCT.md` (re
 - No separate runtime component: `SiteRuntime.astro`, `Rail.astro`, `BottomNav.astro` and `Loader.astro` are retired. Navigation is `Nav.astro`, a single floating pill nav shared by every page (desktop and mobile alike): white, 2px ink outline, the wordmark left, links centre, a WhatsApp pill right; under 820px the links collapse behind a Menu pill that opens as a stacked sheet. `Footer.astro` is the shared ink lid at the bottom of every page.
 - The quote calculator lives inline in `photography.astro` (no separate `QuoteCalculator.astro` component): same pricing logic as before (RACK 2h £275 / 4h £415 / 8h £690, takeaway x1.25, multi-day x0.9, local independent x0.8 only when a verified distance <=30mi and not London, travel bands £0/£40/£90/£150, London £80, round to £5). London text-detection only applies to postcode-shaped input; coordinates use the bounds check. Maps key is referrer-restricted to kombu.uk + localhost.
 - Shared interior-page components: `PageHead.astro` (the opening full-width fill card under the nav, h1 + lede + fact chip + two pills + an image or collage), `Ledger.astro` (ruled plain-label rows, not cards), `Faq.astro` (native `details`/`summary` accordion, no JS), `ContactCard.astro` (the ochre contact card, WhatsApp/call/email pills), `Marquee.astro` (clients marquee).
-- Portfolio/work cards: home shows three (Padharo, Grumpy Monkey, Ryan Stanikk Photography); `/web-design` shows all six (Grumpy Monkey, Padharo, Ryan Stanikk, Banana Wharf, Ark Angels, Soleto). Live iframes mount on approach and pan the poster on hover, same behaviour as before, now implemented directly in `Layout.astro`'s inline script with the GSAP/Lenis-specific parts removed (plain `requestAnimationFrame`).
+- Portfolio/work cards: home shows three (Padharo, Grumpy Monkey, Ryan Stanikk Photography); `/web-design` shows all six (Grumpy Monkey, Padharo, Ryan Stanikk, Banana Wharf, Ark Angels, Soleto). Each card is a plain outlined tile (`.wtile`, 2px ink, 28px radius, 1:1.1) showing Ryan's own cropped screenshot from `public/images/work/<slug>.webp` (with a `-sm.webp` 800w source), object-fit cover from the top, linking straight to the live site; no live iframe and no panning poster (removed, Ryan did not like them).
 - `?nomotion` query param renders any page statically (used by screenshot tooling), same as before.
 
 ### Colour tokens (linen theme)
@@ -55,7 +55,7 @@ node capture-screenshots.mjs   # recapture portfolio browser screenshots (Playwr
 
 ## Pricing (canonical, keep visible copy + JSON-LD + llms.txt in sync)
 - Web: Starter £49/mo or £199 build (then £29/mo), Business £79/mo or £299 (then £49/mo), Professional £149/mo or £499 (then £99/mo)
-- Design: logo & identity from £450, menu from £250, print from £150, guidelines from £600
+- Design: quoted per project, no published starting prices (removed, they were invented rather than set by Ryan)
 - Photography: calculator (see above)
 - Marketing: Health Check from £295; studio partnership from £950/mo
 

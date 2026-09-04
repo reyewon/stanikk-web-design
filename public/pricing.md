@@ -30,12 +30,7 @@ a 12-month monthly rate, or a one-off build fee then a lower ongoing rate.
 
 ## Graphic design
 
-Priced per project, from these starting points.
-
-- Logo and brand identity: from £450
-- Menu design: from £250
-- Print and collateral: from £150
-- Brand guidelines: from £600
+Priced per project. Get in touch with what you need and I will quote it properly.
 
 ## Commercial photography
 

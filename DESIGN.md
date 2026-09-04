@@ -97,6 +97,7 @@ typography:
     lineHeight: 1
     letterSpacing: "0.02em"
   tag:
+    backgroundColor: "{colors.mist}"
     fontFamily: "'Switzer', 'Switzer FB', sans-serif"
     fontSize: "0.8rem"
     fontWeight: 500
@@ -204,7 +205,7 @@ components:
 
 **Where it comes from.** Two references pinned by Ryan, fused rather than averaged. From EVOKE: the brand name set to the full page width as architecture, flat colour fields, no depth of any kind. From Bento: a warm linen canvas, full-bleed colour bands stacked like a lunch tray, sticker-like cards ringed in a thick ink outline, pill controls, big tightly-set type. The product supplies every fact; the references supply form.
 
-**Signature moment.** The intro. KOMBU alone in the middle of the screen, each letter landing separately on load (a hard scale-in with a short settle, 95ms apart), then a one-way scroll sequence: the name slides to the top and locks, the nav arrives on the first scroll, and the four compartments pop in one by one under it, each committing the moment its threshold is crossed and never un-popping, before the page lets go. The page opens and closes on the wordmark: ink on linen at the top, linen on ink at the bottom.
+**Signature moment.** The intro. KOMBU alone in the middle of the screen, each letter landing separately on load (a hard scale-in with a short settle, 95ms apart), then a one-way scroll sequence: the name slides to the top and locks, the nav arrives on the first scroll, and the four compartments pop in one by one under it, each committing the moment its threshold is crossed and never un-popping. Once the fourth has landed the pinned stage becomes a plain first screen and its spare scroll budget is dropped, so scrolling back up simply returns to the top rather than replaying an empty stretch. The page opens and closes on the wordmark: ink on linen at the top, linen on ink at the bottom.
 
 **Rhythm.** One spacing scale (0.5 / 1 / 1.5 / 2 / 3rem). Inside any text block, heading to body is 1.5rem and body to action is 2rem, everywhere, via `.stack`. A section heading block to its grid or list is `--sec-head` (clamp(1.5rem, 3vw, 3rem), 48px on desktop) via `.sec-head`. Between sections: plain linen sections open with `--band` above; consecutive cards sit `--gap` apart.
 
@@ -248,9 +249,9 @@ Reloads always open at the top; the intro is the first thing the page says. Ther
 Sequence, and why each section exists:
 
 1. **The intro**: on load, the wordmark alone, centred, grown to the gutters. Scrolling slides it to the top (and on a short screen shrinks it so the tray fits beneath) over the first fifth of a pinned stage; the four compartments then pop in one after another with a slight overshoot; when all four are in the stage releases and the page scrolls normally. No strapline, no button: the tray is the pitch. Phones skip the pin and reveal each compartment as it arrives.
-2. **The tray**: four compartments on a 12-column grid, sized 7/5 then 5/7 so no two rows match. Each cell is a size container above phone width, so title, copy, chips and tile are set in cqh and scale with the cell, filling a 750px compartment on a 4K half as fully as a 300px one on a laptop. Every one the same skeleton: a title at up to 6.2rem with its one line of copy, a fact chip (a real price from pricing.md) and the action pinned to the bottom, and the work as a tilted tile bleeding out of the bottom-right corner behind the text. Each is one link to its discipline page.
+2. **The tray**: four compartments on a 12-column grid, sized 7/5 then 5/7 so no two rows match. Each cell is a size container above phone width, so title, copy, chips and tile are set in cqh and scale with the cell, filling a 750px compartment on a 4K half as fully as a 300px one on a laptop. Every one the same skeleton: a title at up to 6.2rem with its one line of copy, a fact chip (a real figure from the site) and the action stacked at the bottom-left, and the work as two tilted tiles, one stacked slightly behind and to the side of the other, bleeding out of the bottom-right corner; on desktop hovering a tile brings it to the front. Each is one link to its discipline page.
 3. **The missing piece** (kelp card): the page's single crafted line, the paragraph that explains the differentiator, one filled pill. A card, not a band: the compartment shape at page width, separated from the tray by the tray gap.
-4. **Selected work**: three live site frames in outlined cards, name and one line beneath, a Visit pill. Hover pans the full-page capture; the live iframe mounts on approach.
+4. **Selected work**: three outlined tiles showing Ryan's own cropped screenshots of the sites (no live frames, no panning), name and one line beneath, a Visit pill.
 5. **Ryan Stanikk** (terracotta card): the portrait is a cutout sitting on the card itself, no frame. Its bottom slice is tucked under the card's bottom outline and its head rises past the card's top edge; when the text column is taller, as on the about page, the head sits inside the card instead. The cutout drifts a few pixels against the card as it crosses the viewport. No hover state. Bio with the two facts folded into the prose, More about me.
 6. **Clients**: ink logos on linen in a marquee, ruled top and bottom, with no visible label; the logos say it.
 7. **Tell me what you're trying to do** (ochre card, ink text): the heading matches the first words of the copy beneath it; the three contact routes as outline pills in one row.
@@ -271,9 +272,9 @@ First person singular, British English, no em or en dashes anywhere including ar
 ## 8. Components
 
 - **Pill**: 2px ink outline, 999px, Switzer 500, padding 0.85rem 1.35rem (0.6rem 1rem small). Variants: filled terracotta (the primary action, ink text), filled ink (on terracotta only), outline (everything else). On kelp the outline and label go linen.
-- **Compartment**: 2px ink outline, 28px, padding clamp(1.4rem, 2.2vw, 2rem), a fill from the four, title 700, one sentence, a small outline pill pinned to the bottom, an image frame at 16px.
+- **Compartment**: 2px ink outline, 28px, a fill from the four, title 800, one sentence, a fact chip over a small outline pill at the bottom-left, and two 16px image tiles stacked at the bottom-right.
 - **Chip**: a fact in a linen pill with a 2px ink outline, Supermassive 700 at 0.9rem uppercase. Only ever carries a checkable figure.
-- **Work card**: outline frame around a 1024:1366 viewport, poster beneath a live iframe, title and line and Visit pill in a row beneath.
+- **Work card**: an outlined 1 : 1.1 tile carrying a cropped screenshot of the site's top, title and line and Visit pill in a row beneath.
 - **Floating nav**: white, 2px ink, 999px, 1120px max, mark left, links centre, terracotta pill right. Under 820px the links collapse behind a Menu pill (aria-expanded, no JS dependency for the rest of the page) and open as a sheet under the top row.
 - **Focus**: 3px ink ring on light surfaces; on ink and kelp the ring switches to linen so it is never invisible.
 

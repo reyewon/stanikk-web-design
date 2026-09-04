@@ -404,9 +404,10 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
    and a smaller corner pair. Cells taller than they are wide (a third of a
    4K screen) take the pair in flow beneath the copy, filling whatever height
    is left, with the chip and pill in a row under it. */
-/* cells with real height to spare (a 4K half) let the corner pair use more of it */
+/* Cells with real height to spare (a 4K half): the pair shows whole rather
+   than bleeding out of the corner, and fills the band beneath the copy. */
 @container (min-height: 600px) and (min-aspect-ratio: 1.15 / 1) {
-  .cell-imgs { width: min(70%, calc(72cqh * 1.364)); }
+  .cell-imgs { right: 2%; bottom: 2%; width: min(72%, calc(66cqh * 1.364)); }   /* the tilt needs a little inset to stay uncropped */
 }
 @container (max-height: 400px) {
   .cell-foot { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem; }

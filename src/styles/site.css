@@ -313,7 +313,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   position: absolute; z-index: 1;
   right: -3%; bottom: -8%;
   /* at its aspect, as wide as 62% of the cell or as tall as 58% of it, whichever bites; the top of the cell stays clear for the title and copy */
-  width: min(62%, calc(58cqh * 1.364)); height: auto; aspect-ratio: 1.5 / 1.1;
+  width: min(70%, calc(62cqh * 1.364)); height: auto; aspect-ratio: 1.5 / 1.1;
   container-type: size;   /* the tiles size themselves from this box */
 }
 .cell-tile {
@@ -404,6 +404,10 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
    and a smaller corner pair. Cells taller than they are wide (a third of a
    4K screen) take the pair in flow beneath the copy, filling whatever height
    is left, with the chip and pill in a row under it. */
+/* cells with real height to spare (a 4K half) let the corner pair use more of it */
+@container (min-height: 600px) and (min-aspect-ratio: 1.15 / 1) {
+  .cell-imgs { width: min(70%, calc(72cqh * 1.364)); }
+}
 @container (max-height: 400px) {
   .cell-foot { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
 }
@@ -887,7 +891,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 /* 580px clears every absolutely-positioned piece at its tallest (the
    portrait flyer bottoms out around 555px), so nothing bleeds past the
    card's own rounded edge. */
-.cs-collage { position: relative; min-height: 580px; }
+.cs-collage { position: relative; aspect-ratio: 1 / 0.95; }   /* the pieces are placed in % of the stage, so the stage scales with its column */
 .cs-collage__piece { position: absolute; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; cursor: zoom-in; background: var(--c-white); }
 .cs-collage__piece img, .cs-collage__piece picture { display: block; width: 100%; height: 100%; }
 .cs-collage__piece img { object-fit: cover; }
@@ -898,7 +902,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .cs-collage__piece--card-f { width: 26%; aspect-ratio: 1200 / 778; left: 42%; bottom: 8%; transform: rotate(1deg); z-index: 5; }
 @media (max-width: 900px) {
   .cs-ideal-media { grid-template-columns: 1fr; }
-  .cs-collage { position: static; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .cs-collage { position: static; min-height: 0; aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
   .cs-collage__piece { position: static; width: auto; transform: none !important; aspect-ratio: auto; }
   .cs-collage__piece--stand { grid-column: 1 / 3; aspect-ratio: 900 / 1200; }
 }
@@ -1009,6 +1013,13 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
    page's one true h1, which has no size of its own in the base rules
    (only h2/h3 do), so it needs the same card-title scale explicitly. */
 .about h1 { font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 5.4rem); line-height: 0.87; }
+
+/* ---------- About: the bio below the opener ---------- */
+.about-story { padding-top: var(--band); }
+.about-story__text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-3) clamp(2rem, 5vw, 6rem); }
+.about-story__text p { font-size: clamp(1.02rem, 1.2vw, 1.15rem); max-width: 58ch; }
+.about-story__text p:first-child { grid-column: 1 / -1; font-size: clamp(1.15rem, 1.5vw, 1.45rem); max-width: 52ch; }
+@media (max-width: 900px) { .about-story__text { grid-template-columns: 1fr; } }
 
 /* ---------- About stat chips and route pills ---------- */
 .about-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }

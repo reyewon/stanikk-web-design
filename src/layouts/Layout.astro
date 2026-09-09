@@ -19,6 +19,7 @@ interface Props {
   ogType?: string;
   extraSchema?: any[];
   hasReviews?: boolean;
+  noindex?: boolean;
 }
 
 const siteUrl = "https://kombu.uk";
@@ -34,6 +35,7 @@ const {
   ogType = "website",
   extraSchema = [],
   hasReviews = false,
+  noindex = false,
 } = Astro.props;
 
 // Shared entity graph, present on every page so the business/person stays
@@ -184,7 +186,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="Ryan Stanikk" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
     <link rel="canonical" href={canonical} />
 
     <!-- Geo Meta Tags -->

@@ -1111,3 +1111,33 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .lightbox img { max-width: 92vw; max-height: 92vh; border: var(--line) solid var(--c-linen); border-radius: var(--r-tile); object-fit: contain; background: var(--c-ink); }
 .lightbox-close { position: absolute; top: var(--gutter); right: var(--gutter); border-color: var(--c-linen); color: var(--c-linen); background: transparent; }
 .lightbox :focus-visible { outline-color: var(--c-linen); }
+
+/* ---------- Not found ---------- */
+/* A compartment with nothing in it. A plain outlined card on linen holding
+   the heading, two lines, and the tray's four fills as the way out. */
+.notfound { display: grid; gap: var(--s-4); }
+.notfound h1 { font-weight: 800; font-size: clamp(2.8rem, 6.5vw, 6.5rem); line-height: 0.85; letter-spacing: -0.025em; max-width: 12ch; }
+.notfound-copy p { max-width: 48ch; font-size: clamp(1.05rem, 1.3vw, 1.25rem); line-height: 1.5; }
+.notfound-copy p:first-of-type { margin-top: var(--s-3); }
+.notfound-copy p + p { margin-top: var(--s-2); }
+.notfound-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); list-style: none; margin: 0; padding: 0; }
+.notfound-cell {
+  display: flex; align-items: flex-end; min-height: clamp(120px, 13vw, 200px);
+  padding: clamp(1rem, 1.6vw, 1.5rem);
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-tile);
+  font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.3rem, 1.9vw, 2rem); line-height: 0.9; letter-spacing: -0.02em;
+  color: var(--c-ink); text-decoration: none; transition: transform 160ms ease-out;
+}
+.notfound-cell:hover { transform: translateY(2px); }
+.notfound-cell--terracotta { background: var(--c-terracotta); color: var(--c-white); }
+.notfound-cell--kelp { background: var(--c-kelp); color: var(--c-linen); }
+.notfound-cell--kelp:focus-visible { outline-color: var(--c-linen); }
+.notfound-cell--ochre { background: var(--c-ochre); }
+.notfound-cell--mist { background: var(--c-mist); }
+.notfound-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+@media (max-width: 767px) {
+  .notfound-tray { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .notfound-cell { min-height: 110px; }
+  .notfound-actions .pill { flex: 1 1 100%; justify-content: center; text-align: center; }
+}

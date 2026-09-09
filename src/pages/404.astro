@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// Astro writes this to dist/404.html, which Cloudflare Pages serves with a
+// real 404 status for any path that does not exist. Without it Pages falls
+// back to the home page with a 200 for every wrong URL, a soft 404 across
+// the whole site.
+const title = "Page not found | Kombu";
+const description = "There is nothing at this address. Everything I do is one of four things, and each is one tap away.";
+
+const tray = [
+  { href: '/web-design', label: 'Websites', fill: 'terracotta' },
+  { href: '/photography', label: 'Photography', fill: 'kelp' },
+  { href: '/design', label: 'Graphic design', fill: 'ochre' },
+  { href: '/marketing', label: 'Marketing', fill: 'mist' },
+];
+
+const WA = 'https://wa.me/442381112819';
+---
+<Layout noindex title={title} description={description}>
+
+<Nav />
+
+<main id="main">
+
+  <section class="card-section bleed" aria-labelledby="nf-h">
+    <div class="card notfound">
+      <div class="notfound-copy">
+        <h1 id="nf-h">Page not found</h1>
+        <p>There is nothing at this address. The link may be out of date, or I may have moved the page when the site changed.</p>
+        <p>Everything I do is one of the four things below. If you were after something specific, message me and I will point you the right way.</p>
+      </div>
+      <ul class="notfound-tray">
+        {tray.map((t) => (
+          <li><a href={t.href} class={`notfound-cell notfound-cell--${t.fill}`}>{t.label}</a></li>
+        ))}
+      </ul>
+      <div class="notfound-actions">
+        <a href="/" class="pill pill--fill">Back to the start</a>
+        <a href={WA} class="pill" target="_blank" rel="noopener">WhatsApp me</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<Footer />
+
+</Layout>

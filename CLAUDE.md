@@ -21,6 +21,7 @@ Strategic and visual design are documented for agent reference: `PRODUCT.md` (re
 | `/design` | Graphic design: ochre PageHead, disciplines ledger, case studies (Kwackers, Ideal Produce, Padharo, Build Budget Expert, Remedi Health), no published prices (quoted per project) |
 | `/photography` | Kelp PageHead, category-filterable masonry gallery, instant quote calculator inline in the page (Google Places + postcodes.io), FAQ |
 | `/marketing` | Mist PageHead (three-image collage), services, Hospitality Health Check (8 categories, from £295), infrastructure ask-cards, studio partnership from £950/mo, FAQ |
+| `/404` | Not-found page (`dist/404.html`, which Cloudflare Pages serves with a real 404 status): plain outlined card, heading, two lines, the four compartments as filled tiles, Back to the start and WhatsApp pills; `noindex` via the Layout prop. Without it Pages served the home page with a 200 for every unknown URL |
 | `/about` | Terracotta portrait card (cutout tucked under the card edge, h1 + lede + fact chips), the bio in its own section, one-trusted-route ledger, onward pills to the four disciplines, clients marquee, contact card |
 
 ## Architecture notes

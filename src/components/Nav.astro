@@ -1,7 +1,7 @@
 ---
 // Shared floating pill nav for every page. `current` marks the active
 // link with aria-current="page"; the home link always points at /.
-interface Props { current: 'home' | 'web-design' | 'design' | 'photography' | 'marketing' | 'about'; }
+interface Props { current?: 'home' | 'web-design' | 'design' | 'photography' | 'marketing' | 'about'; }
 const { current } = Astro.props as Props;
 
 const nav = [

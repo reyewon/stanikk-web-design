@@ -10,5 +10,6 @@
         "reason": "Skip-link false positive: styled with palette vars (terracotta bg, cream text), detector samples off-screen link before linked CSS resolves"
       }
     ]
-  }
+  },
+  "buildPath": "code"
 }

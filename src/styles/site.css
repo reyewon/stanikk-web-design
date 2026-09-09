@@ -466,6 +466,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .card--kelp { background: var(--c-kelp); color: var(--c-linen); }
 .card--ochre { background: var(--c-ochre); }
 .card--terracotta { background: var(--c-terracotta); }
+.card--mist { background: var(--c-mist); }
 .card--kelp .pill { border-color: var(--c-linen); color: var(--c-linen); }
 .card--kelp .pill--fill { background: var(--c-terracotta); color: var(--c-ink); border-color: var(--c-ink); }
 .card--kelp :focus-visible { outline-color: var(--c-linen); }
@@ -504,6 +505,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 /* Plain section: top-only padding, same rhythm as .band and .card-section. */
 .work { padding-block: var(--band) 0; display: flow-root; }
 .work-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--sec-head); }
+.work-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--s-1); }
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
 .wcard { display: flex; flex-direction: column; gap: var(--s-2); }
 /* Ryan's own cropped screenshot in a plain outlined tile: no live iframe,
@@ -517,11 +519,19 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .browser-stack { position: absolute; top: 0; left: 0; width: 1024px; transform-origin: top left; }
 .browser-stack.panning { will-change: transform; }
 .browser-poster { width: 1024px; height: auto; display: block; position: relative; z-index: 1; }
-.wcard-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
+.wcard-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-2); }
+.wcard-meta > div { flex: 1 1 auto; min-width: 0; }
+.wcard-meta > .pill { flex: 0 0 auto; }
 .wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
-.wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 34ch; }
+.wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); }
 @media (max-width: 900px) {
-  .work-grid { grid-template-columns: 1fr; row-gap: clamp(2rem, 7vw, 3rem); }
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(2rem, 7vw, 3rem); }
+  .home-page .work-grid .wcard:last-child { grid-column: 1 / -1; width: calc((100% - var(--gap)) / 2); justify-self: center; }
+}
+@media (max-width: 640px) {
+  .work-actions { justify-content: flex-start; }
+  .work-grid { grid-template-columns: 1fr; }
+  .home-page .work-grid .wcard:last-child { grid-column: auto; width: auto; justify-self: stretch; }
 }
 
 /* ---------- About ---------- */
@@ -560,6 +570,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 /* One column: the text first, then the cutout rising from the card's bottom
    edge under it, sized so its visible part exactly fills the stage. */
 @media (max-width: 900px) {
+  .home-page .about { grid-template-columns: 1fr; }
+  .home-page .about .stack { order: 1; }
+  .home-page .about .portrait { order: 2; --rise: 0px; min-height: 0; height: calc(0.791 * (100cqw + 2 * var(--card-pad)) - var(--card-pad)); }
+  .home-page .portrait-clip { top: 0; border-radius: 0 0 calc(var(--r-card) - var(--line)) calc(var(--r-card) - var(--line)); }
+}
+@media (max-width: 767px) {
   .about { grid-template-columns: 1fr; }
   .about .stack { order: 1; }
   .about .portrait { order: 2; --rise: 0px; min-height: 0; height: calc(0.791 * (100cqw + 2 * var(--card-pad)) - var(--card-pad)); }
@@ -567,14 +583,15 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 }
 
 /* ---------- Reviews ----------
-   Three real Google reviews as white sticker cards on the linen ground, the
+   Google reviews as readable cards on the linen ground, the
    same 2px ink outline as everything else. They sit directly above the
    clients marquee so the words and the marks read as one proof block. */
 .reviews { padding-block: var(--band) 0; }
-.review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); list-style: none; margin: 0; padding: 0; }
+.review-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); list-style: none; margin: 0; padding: 0; }
 .review {
   display: flex; flex-direction: column; gap: var(--s-3);
   background: var(--c-white);
+  color: var(--c-ink);
   border: var(--line) solid var(--c-ink); border-radius: var(--r-card);
   padding: clamp(1.5rem, 2.4vw, 2.25rem);
 }
@@ -582,12 +599,18 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 /* terracotta reads at 3.4:1 on white, above the 3:1 floor for a graphic */
 .stars svg { width: 17px; height: 17px; fill: var(--c-terracotta); flex: 0 0 auto; }
 .review blockquote { margin: 0; }
-.review blockquote p { font-size: clamp(1rem, 1.1vw, 1.1rem); line-height: 1.55; max-width: 42ch; }
-/* the quote mark is Supermassive's own, set large, hanging above the name */
+.review blockquote p { font-size: clamp(1rem, 1.1vw, 1.1rem); line-height: 1.55; max-width: 58ch; }
+.review-featured { background: var(--c-mist); }
+.review-featured .stars svg { fill: var(--c-ink); }
+.review-featured blockquote p { font-size: clamp(1.3rem, 1.8vw, 1.8rem); line-height: 1.4; max-width: 40ch; }
+.review-source { font-size: 0.9rem; text-decoration: underline; text-underline-offset: 0.2em; align-self: flex-start; }
+.review-featured .review-org { color: var(--c-ink-soft); }
 .review-by { margin-top: auto; padding-top: var(--s-2); border-top: var(--line) solid var(--c-ink); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; }
 .review-name { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; font-size: 1.05rem; }
 .review-org { font-size: 0.9rem; color: var(--c-ink-mute); }
-@media (max-width: 900px) { .review-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .review-grid { grid-template-columns: 1fr; }
+}
 
 /* ---------- Clients marquee ---------- */
 .clients { padding-block: var(--band); }
@@ -700,8 +723,9 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .pagehead h1 { font-weight: 800; font-size: min(clamp(3rem, 8.5vw, 9rem), 13cqw); line-height: 0.8; overflow-wrap: normal; }
 .pagehead .stack { margin-top: var(--s-3); }
 .pagehead .stack p { font-size: clamp(1.05rem, 1.25vw, 1.3rem); max-width: 44ch; }
-/* Fact chip and both pills share one wrapping row, chip first. */
-.pagehead-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); }
+/* The fact stands on its own line; the two actions wrap as one group below it. */
+.pagehead-row { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+.pagehead-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); }
 .stack > .pagehead-row { margin-top: var(--s-4); }
 .pagehead-media { min-width: 0; }
 .pagehead-img { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; aspect-ratio: 4 / 3; transform: rotate(2deg); background: var(--c-white); }
@@ -784,6 +808,8 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
   .pagehead-collage { aspect-ratio: auto; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
   .pagehead-collage__side { display: contents; }
   .pagehead-collage__tile { aspect-ratio: 1; transform: none; height: auto; }
+  .pagehead-actions { width: 100%; }
+  .pagehead-actions .pill { flex: 1 1 100%; justify-content: center; text-align: center; }
 }
 
 /* ---------- Ledger ---------- */
@@ -840,7 +866,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .tier-card .pill { margin-top: auto; align-self: flex-start; }
 .pricing-enterprise, .pricing-note { max-width: 64ch; margin-top: var(--s-4); font-size: 0.95rem; }
 .pricing-note { color: var(--c-ink-mute); margin-top: var(--s-2); }
-@media (max-width: 900px) { .tier-grid { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .tier-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Process strip (web-design, ochre card) ---------- */
 /* Heading spacing comes from the .sec-head wrapper around the h2, not
@@ -889,8 +915,14 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .help-col h3 { font-size: clamp(1.2rem, 1.6vw, 1.5rem); margin-bottom: 0.6rem; }
 .help-col p { font-size: 0.9rem; }
 @media (max-width: 900px) {
-  .help-cols { grid-template-columns: 1fr; gap: var(--s-4); }
+  .help-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--gap); }
   .help-col { padding-left: 0; border-left: 0; padding-top: var(--s-3); border-top: var(--line) solid var(--c-ink); }
+  .help-col:nth-child(-n + 2) { padding-top: 0; border-top: 0; }
+  .help-col:nth-child(even) { padding-left: var(--gap); border-left: var(--line) solid var(--c-ink); }
+}
+@media (max-width: 640px) {
+  .help-cols { grid-template-columns: 1fr; }
+  .help-col:nth-child(n) { padding-left: 0; border-left: 0; padding-top: var(--s-3); border-top: var(--line) solid var(--c-ink); }
   .help-col:first-child { padding-top: 0; border-top: 0; }
 }
 

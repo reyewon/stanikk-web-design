@@ -6,6 +6,7 @@
 // entity graph, so search engines and AI answer engines see one consistent
 // site across the swap.
 import '../styles/site.css';
+import { googleReviewsUrl, reviews } from '../data/reviews';
 
 interface Props {
   title: string;
@@ -17,6 +18,7 @@ interface Props {
   ogImageAlt?: string;
   ogType?: string;
   extraSchema?: any[];
+  hasReviews?: boolean;
 }
 
 const siteUrl = "https://kombu.uk";
@@ -31,6 +33,7 @@ const {
   ogImageAlt = "Kombu: websites, photography, graphic design and marketing, a creative studio in Southampton",
   ogType = "website",
   extraSchema = [],
+  hasReviews = false,
 } = Astro.props;
 
 // Shared entity graph, present on every page so the business/person stays
@@ -103,24 +106,24 @@ const baseGraph = [
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing & Hospitality Health Check", "url": "https://kombu.uk/marketing" } }
       ]
     },
-    "hasMap": "https://www.google.com/maps?cid=16407402703526049661",
-    // Real Google reviews on the Kombu Business Profile, quoted as they are
-    // shown on the page. Google does not render stars for a business's own
-    // reviews, so this is here for accuracy and answer engines, not rich results.
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "reviewCount": "3",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "review": [
-      { "@type": "Review", "author": { "@type": "Person", "name": "Kirsty McCulloch" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Since working with Kombu our websites have been performing brilliantly, as well as looking the part. Everything with Ryan is so honest, straight forward and easy. I would recommend Ryan and Kombu to anyone who will listen." },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Simone Jiojioras" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Really pleased with the website Ryan created for us. It looks professional, reflects our business well, and has helped us come across much better to customers. Great service from start to finish and I would definitely recommend him." },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Mahesh Sharma" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Ryan utilises what I would call an integrated systems approach to his work. He is highly grounded in data and ever-changing trends, so you can rest assured his output will be consistent with the needs of your business and the drivers that win you more leads and clients." }
-    ],
+    "hasMap": googleReviewsUrl,
+    ...(hasReviews ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 5,
+        "reviewCount": reviews.length,
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": reviews.map((review) => ({
+        "@type": "Review",
+        "author": { "@type": "Person", "name": review.name },
+        "reviewRating": { "@type": "Rating", "ratingValue": review.rating, "bestRating": "5" },
+        "reviewBody": review.quote
+      }))
+    } : {}),
     "sameAs": [
-      "https://www.google.com/maps?cid=16407402703526049661",
+      googleReviewsUrl,
       "https://uk.linkedin.com/in/ryanstanikk",
       "https://www.instagram.com/ryanstanikkphotography/",
       "https://medium.com/@ryanstanikkphotography",
@@ -265,7 +268,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
       function isHome() { return location.pathname.replace(/\/$/, '') === ''; }
       function toTop() { if (isHome() && !location.hash) scrollTo(0, 0); }
       toTop();
-      addEventListener('pageshow', toTop);
+      addEventListener('pageshow', function (event) { if (event.persisted) toTop(); });
       if (location.search.indexOf('nomotion') !== -1 || matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('no-motion');
         // Static test renders want every image present, same as the main site.
@@ -401,7 +404,7 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         var closeBtn = menu.querySelector('.menu-close');
         function open() {
           menu.hidden = false;
-          requestAnimationFrame(function () { menu.classList.add('is-open'); });
+          requestAnimationFrame(function () { if (btn.getAttribute('aria-expanded') === 'true') menu.classList.add('is-open'); });
           btn.setAttribute('aria-expanded', 'true');
           document.body.style.overflow = 'hidden';
           if (window.__lenis) window.__lenis.stop();
@@ -419,65 +422,6 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         if (closeBtn) closeBtn.addEventListener('click', close);
         menu.querySelectorAll('.menu-tile').forEach(function (a) { a.addEventListener('click', function () { document.body.style.overflow = ''; }); });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) close(); });
-      })();
-    </script>
-    <script is:inline>
-      // Live site frames inside the work cards: mount the real site on
-      // approach, pan the full-page poster on hover. Ported from the main
-      // runtime with the GSAP / Lenis dependencies removed, since this page
-      // has no need for either.
-      (function () {
-        var noMo = document.documentElement.classList.contains('no-motion');
-        var isMob = matchMedia('(max-width: 768px)').matches;
-        var SITE_W = 1024, HERO_H = 1366, PAN_MS = 7000;
-        document.querySelectorAll('.browser-viewport').forEach(function (vp) {
-          var url = vp.dataset.site, stack = vp.querySelector('.browser-stack'), poster = vp.querySelector('.browser-poster');
-          if (!stack || !poster) return;
-          var iframe = null, scale = vp.clientWidth / SITE_W, anim = null, top = 0, panning = false, mobDone = false;
-          var apply = function (t) { stack.style.transform = 'translateY(' + t + 'px) scale(' + scale + ')'; };
-          var maxPan = function () { var w = poster.naturalWidth || SITE_W; return Math.max(0, poster.naturalHeight * (SITE_W / w) * scale - vp.offsetHeight); };
-          function mount() {
-            if (iframe || !url) return;
-            iframe = document.createElement('iframe');
-            iframe.src = url; iframe.loading = 'lazy'; iframe.title = poster.alt || 'Site preview';
-            iframe.tabIndex = -1; iframe.setAttribute('aria-hidden', 'true');
-            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-            iframe.style.cssText = 'position:absolute;top:0;left:0;width:' + SITE_W + 'px;height:' + HERO_H + 'px;border:0;pointer-events:none;opacity:0;transition:opacity .5s ease-out;z-index:2';
-            iframe.addEventListener('load', function () { if (iframe && !panning) iframe.style.opacity = '1'; });
-            stack.appendChild(iframe);
-          }
-          apply(0);
-          function start() {
-            if (noMo || anim || (isMob && mobDone)) return;
-            panning = true;
-            if (iframe) { iframe.style.transition = 'opacity .25s ease-out'; iframe.style.opacity = '0'; }
-            var target = -maxPan();
-            if (target === 0) { if (!(poster.complete && poster.naturalHeight > 0)) poster.addEventListener('load', start, { once: true }); return; }
-            var t0 = performance.now(), from = top, dist = target - from;
-            stack.classList.add('panning'); stack.style.transition = '';
-            (function step(now) {
-              var t = Math.min((now - t0) / PAN_MS, 1), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-              top = from + dist * e; apply(top);
-              if (t < 1) anim = requestAnimationFrame(step);
-              else { anim = null; stack.classList.remove('panning'); if (isMob) { mobDone = true; setTimeout(reset, 700); } }
-            })(t0);
-          }
-          function reset() {
-            if (anim) { cancelAnimationFrame(anim); anim = null; }
-            panning = false;
-            stack.style.transition = 'transform .6s ease-out'; top = 0; apply(0);
-            if (iframe) setTimeout(function () { if (iframe && !panning) iframe.style.opacity = '1'; }, 620);
-            setTimeout(function () { stack.classList.remove('panning'); stack.style.transition = ''; }, 700);
-          }
-          addEventListener('resize', function () { scale = vp.clientWidth / SITE_W; apply(top); });
-          if (!isMob) {
-            new IntersectionObserver(function (es, ob) { es.forEach(function (en) { if (en.isIntersecting) { poster.complete && poster.naturalWidth ? mount() : poster.addEventListener('load', mount, { once: true }); ob.unobserve(vp); } }); }, { rootMargin: '200px' }).observe(vp);
-            var card = vp.closest('.project-browser');
-            if (card) { card.addEventListener('mouseenter', start); card.addEventListener('mouseleave', reset); }
-          } else if (!noMo) {
-            new IntersectionObserver(function (es) { es.forEach(function (en) { en.isIntersecting ? start() : reset(); }); }, { threshold: 0.4 }).observe(vp);
-          }
-        });
       })();
     </script>
     <script is:inline>

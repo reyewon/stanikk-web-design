@@ -43,18 +43,20 @@ const longestWord = title.split(/\s+/).reduce((max, w) => Math.max(max, w.replac
         <p>{body}</p>
         <div class="pagehead-row">
           <span class="chip">{fact}</span>
-          <a
-            href={primary.href}
-            class={primaryClass}
-            target={isExternal(primary.href) ? '_blank' : undefined}
-            rel={isExternal(primary.href) ? 'noopener' : undefined}
-          >{primary.label}</a>
-          <a
-            href={secondary.href}
-            class="pill pill--secondary"
-            target={isExternal(secondary.href) ? '_blank' : undefined}
-            rel={isExternal(secondary.href) ? 'noopener' : undefined}
-          >{secondary.label}</a>
+          <div class="pagehead-actions">
+            <a
+              href={primary.href}
+              class={primaryClass}
+              target={isExternal(primary.href) ? '_blank' : undefined}
+              rel={isExternal(primary.href) ? 'noopener' : undefined}
+            >{primary.label}</a>
+            <a
+              href={secondary.href}
+              class="pill pill--secondary"
+              target={isExternal(secondary.href) ? '_blank' : undefined}
+              rel={isExternal(secondary.href) ? 'noopener' : undefined}
+            >{secondary.label}</a>
+          </div>
         </div>
       </div>
     </div>

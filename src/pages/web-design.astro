@@ -6,6 +6,7 @@ import ContactCard from '../components/ContactCard.astro';
 import Reviews from '../components/Reviews.astro';
 import PageHead from '../components/PageHead.astro';
 import Faq from '../components/Faq.astro';
+import WorkPreview from '../components/WorkPreview.astro';
 
 const title = "Web Design Southampton | Bespoke Websites | Kombu";
 const description = "Bespoke web design in Southampton and across the UK. Design-led websites without the agency headaches, from a designer with two decades of experience.";
@@ -18,12 +19,12 @@ const services = [
 ];
 
 const work = [
-  { name: 'Grumpy Monkey', url: 'https://www.grumpy-monkey.co.uk', poster: '/images/portfolio/grumpy-monkey.jpg', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
-  { name: 'Padharo', url: 'https://www.padharo.co.uk', poster: '/images/portfolio/padharo.jpg', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
-  { name: 'Ryan Stanikk Photography', url: 'https://www.ryanstanikk.co.uk', poster: '/images/portfolio/ryanstanikk.jpg', alt: 'Ryan Stanikk photography portfolio website, dark and image-led', line: 'My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch.' },
-  { name: 'Banana Wharf', url: 'https://www.bananawharf.co.uk', poster: '/images/portfolio/banana-wharf.jpg', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
-  { name: 'Ark Angels', url: 'https://arkangelsband.com', poster: '/images/work/ark-angels.webp', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
-  { name: 'Soleto', url: 'https://soleto-website.pages.dev', poster: '/images/portfolio/soleto.jpg', alt: 'Soleto Italian restaurant website, dark theme with gallery and private dining', line: 'An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
+  { name: 'Padharo', slug: 'padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
+  { name: 'Ryan Stanikk Photography', slug: 'ryanstanikk', url: 'https://www.ryanstanikk.co.uk', alt: 'Ryan Stanikk photography portfolio website, dark and image-led', line: 'My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch.' },
+  { name: 'Banana Wharf', slug: 'banana-wharf', url: 'https://www.bananawharf.co.uk', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
+  { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
+  { name: 'Soleto', slug: 'soleto', url: 'https://soleto-website.pages.dev', alt: 'Soleto Italian restaurant website, dark theme with gallery and private dining', line: 'An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service.' },
 ];
 
 const tiers = [
@@ -100,7 +101,7 @@ const extraSchema = [
   }
 ];
 ---
-<Layout title={title} description={description} extraSchema={extraSchema}>
+<Layout hasReviews title={title} description={description} extraSchema={extraSchema}>
 
 <Nav current="web-design" />
 
@@ -124,14 +125,13 @@ const extraSchema = [
   <section class="work bleed" id="work" aria-labelledby="work-h">
     <div class="sec-head work-head">
       <h2 id="work-h">Selected work</h2>
+      <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
     </div>
     <div class="work-grid work-grid--six">
       {work.map((w) => (
         <article class="wcard">
           <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
-            <div class="browser-viewport" data-site={w.url}>
-              <div class="browser-stack"><img src={w.poster} alt={w.alt} loading="lazy" class="browser-poster" /></div>
-            </div>
+            <WorkPreview slug={w.slug} alt={w.alt} />
           </a>
           <div class="wcard-meta">
             <div>
@@ -228,12 +228,12 @@ const extraSchema = [
           </div>
           <p class="audit-hint">Opens WhatsApp with your URL ready to send. No email required, no strings attached.</p>
         </form>
-        <p class="audit-success-v2" id="auditSuccessV2" hidden>Almost there. Hit send in WhatsApp and I will take a look and come back with honest
-
-  <Reviews /> feedback.</p>
+        <p class="audit-success-v2" id="auditSuccessV2" hidden>Almost there. Hit send in WhatsApp and I will take a look and come back with honest feedback.</p>
       </div>
     </div>
   </section>
+
+  <Reviews />
 
   <ContactCard text="A coffee in Southampton if you are local, a video call if you are not. Either way, a proper chat about what your website needs, not a sales pitch." />
 
@@ -283,5 +283,7 @@ const extraSchema = [
     }
   })();
 </script>
+
+<script is:inline src="/work-previews.js"></script>
 
 </Layout>

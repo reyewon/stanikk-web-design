@@ -1,45 +1,26 @@
 ---
-// Real Google reviews from the Kombu Business Profile, quoted rather than
-// paraphrased. Mahesh's is trimmed with an ellipsis where it ran on; nothing
-// here is invented, and the ratings match the profile exactly.
+import { reviews, googleReviewsUrl } from '../data/reviews';
 interface Props { heading?: string }
 const { heading = 'What clients say' } = Astro.props as Props;
-
-const reviews = [
-  {
-    quote: 'Since working with Kombu our websites have been performing brilliantly, as well as looking the part. Everything with Ryan is so honest, straight forward and easy. I would recommend Ryan and Kombu to anyone who will listen.',
-    name: 'Kirsty McCulloch',
-    org: 'Mustang Group',
-  },
-  {
-    quote: 'Really pleased with the website Ryan created for us. It looks professional, reflects our business well, and has helped us come across much better to customers. Great service from start to finish and I would definitely recommend him.',
-    name: 'Simone Jiojioras',
-    org: 'Soleto',
-  },
-  {
-    quote: 'Ryan utilises what I would call an integrated systems approach to his work. He is highly grounded in data and ever-changing trends, so you can rest assured his output will be consistent with the needs of your business and the drivers that win you more leads and clients.',
-    name: 'Mahesh Sharma',
-    org: 'Kesarum',
-  },
-];
 ---
 <section class="reviews bleed" aria-labelledby="reviews-h">
   <div class="sec-head">
     <div class="sec-head-text">
       <h2 id="reviews-h">{heading}</h2>
     </div>
-    <span class="chip">5.0 on Google</span>
+    <a class="pill pill--sm" href={googleReviewsUrl}>5.0 from {reviews.length} Google reviews</a>
   </div>
   <ul class="review-grid">
     {reviews.map((r) => (
-      <li class="review">
+      <li class:list={['review', { 'review-featured': r.org === 'Padharo' }]}>
         <span class="stars" role="img" aria-label="Rated 5 out of 5">
           {[0, 1, 2, 3, 4].map(() => (
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg>
           ))}
         </span>
-        <blockquote><p>{r.quote}</p></blockquote>
-        <p class="review-by"><span class="review-name">{r.name}</span><span class="review-org">{r.org}</span></p>
+        <blockquote cite={r.url || googleReviewsUrl}><p>{r.quote}</p></blockquote>
+        {r.org === 'Padharo' && <a class="review-source" href={r.url || googleReviewsUrl}>Read Ankit’s full review</a>}
+        <p class="review-by"><span class="review-name">{r.name}</span><span class="review-org">{r.org}{r.org === 'Padharo' && ' · Website and ongoing marketing'}</span></p>
       </li>
     ))}
   </ul>

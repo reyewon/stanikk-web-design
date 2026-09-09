@@ -1,0 +1,24 @@
+---
+interface Props {
+  slug: string;
+  alt: string;
+}
+
+const { slug, alt } = Astro.props;
+const base = `/videos/work/${slug}`;
+---
+
+<div class="work-preview" data-work-preview>
+  <img class="work-preview-poster" src={`${base}.webp?v=60fps-2`} alt={alt} loading="lazy" decoding="async" />
+  <video class="work-preview-video" muted playsinline preload="none" data-src={`${base}.mp4?v=60fps-2`} aria-hidden="true"></video>
+</div>
+
+<style>
+  .work-preview { position: relative; aspect-ratio: 36 / 25; overflow: hidden; background: var(--c-ink); contain: layout paint; }
+  .work-preview-poster, .work-preview-video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+  .work-preview-video { opacity: 0; pointer-events: none; transition: opacity 180ms ease; }
+  .work-preview.is-playing .work-preview-video { opacity: 1; }
+  .work-preview.is-restarting .work-preview-video { opacity: 0; }
+  :global([data-work-previews-toggle][hidden]) { display: none; }
+  @media (prefers-reduced-motion: reduce) { .work-preview-video { display: none; } }
+</style>

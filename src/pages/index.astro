@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import '../styles/home-preview.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Marquee from '../components/Marquee.astro';
 import Reviews from '../components/Reviews.astro';
 import ContactCard from '../components/ContactCard.astro';
+import WorkPreview from '../components/WorkPreview.astro';
 
 const title = "Kombu | Creative, Design & Marketing Studio in Southampton";
 const description = "A one-person creative studio in Southampton: web design, graphic design, commercial photography and marketing that finally pull in the same direction.";
@@ -13,23 +15,23 @@ const description = "A one-person creative studio in Southampton: web design, gr
 // Each cell shows two stacked examples of the work: front and back.
 const cells = [
   { id: 'web', href: '/web-design', title: 'Websites', fact: 'From £49 a month', body: 'Bespoke, fast, design-led websites and web apps. No templates, no agency runaround.',
-    front: { img: '/images/work/msnry-sm.webp', alt: 'The msnry app website, built by Kombu' },
-    back: { img: '/images/work/the-grand-sm.webp', alt: 'The Grand Southampton website, designed by Kombu' } },
+    front: { img: '/images/preview/msnry.webp', alt: 'The msnry app website, built by Kombu' },
+    back: { img: '/images/preview/the-grand.webp', alt: 'The Grand Southampton website, designed by Kombu' } },
   { id: 'photo', href: '/photography', title: 'Photography', fact: '2 hours from £275', body: 'Food, interiors, product and brand photography that earns the booking.',
     front: { img: '/images/tray/photo-a.webp', alt: 'A bowl of golden battered bites with chilli and coriander, restaurant food photography by Kombu' },
     back: { img: '/images/tray/photo-b.webp', alt: 'A smiling woman in a striped cardigan holding a mug, outdoor portrait photography by Kombu' } },
   { id: 'design', href: '/design', title: 'Graphic design', fact: '20 years of design', body: 'Brand identities, menus, print and editorial, with two decades behind the pen.',
-    front: { img: '/images/tray/design-a.webp', alt: 'The Kwackers burger menu, designed by Kombu' },
-    back: { img: '/images/tray/design-b.webp', alt: 'The Ideal Produce catalogue cover, designed by Kombu' } },
+    front: { img: '/images/design/kwackers-burgers.jpg', alt: 'The Kwackers burger menu, designed by Kombu' },
+    back: { img: '/images/design/ideal-produce-spread-1.jpg', alt: 'An Ideal Produce catalogue spread, designed by Kombu' } },
   { id: 'mktg', href: '/marketing', title: 'Marketing & infrastructure', fact: 'Health Check from £295', body: 'Strategy, ads, social and local SEO, plus the systems, sourcing and tools that tie a business together.',
-    front: { img: '/images/tray/mktg-a.webp', alt: 'Padharo Veganuary offer graphic, designed by Kombu' },
-    back: { img: '/images/tray/mktg-b.webp', alt: 'Padharo free starter promotion, designed by Kombu' } },
+    front: { img: '/images/design/padharo-veganuary.jpg', alt: 'Padharo Veganuary offer graphic, designed by Kombu' },
+    back: { img: '/images/design/padharo-free-starter.jpg', alt: 'Padharo free starter promotion, designed by Kombu' } },
 ];
 
 const work = [
-  { name: 'Padharo', url: 'https://www.padharo.co.uk', poster: '/images/portfolio/padharo.jpg', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
-  { name: 'Grumpy Monkey', url: 'https://www.grumpy-monkey.co.uk', poster: '/images/portfolio/grumpy-monkey.jpg', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
-  { name: 'Ryan Stanikk Photography', url: 'https://ryanstanikk.co.uk', poster: '/images/portfolio/ryanstanikk.jpg', alt: 'Ryan Stanikk Photography portfolio website', line: 'My own photography portfolio. Food, interiors and portraits, with the galleries doing the talking.' },
+  { name: 'Padharo', slug: 'padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
+  { name: 'Ryan Stanikk Photography', slug: 'ryanstanikk', url: 'https://www.ryanstanikk.co.uk', alt: 'Ryan Stanikk Photography portfolio website', line: 'My own photography portfolio. Food, interiors and portraits, with the galleries doing the talking.' },
 ];
 
 const WA = 'https://wa.me/442381112819';
@@ -47,62 +49,84 @@ const extraSchema = [
   }
 ];
 ---
-<Layout title={title} description={description} extraSchema={extraSchema}>
+<Layout hasReviews title={title} description={description} extraSchema={extraSchema}>
 
 <Nav current="home" />
 
-<main id="main">
+<main id="main" class="home-page">
 
-  <!-- The intro: the name alone, then the tray pops in under it. -->
-  <section class="intro" id="intro" aria-label="Kombu">
-    <div class="intro-stage">
-      <h1 class="wm" id="wm" aria-label="Kombu">
-        <span style="--i:0">K</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">B</span><span style="--i:4">U</span>
-      </h1>
-      <div class="tray-grid" id="tray">
-        {cells.map((c, i) => (
-          <a href={c.href} class={`cell cell--${c.id}`} style={`--wl: ${c.title.split(/\s+/).reduce((m, w) => Math.max(m, w.replace(/[^\p{L}\p{N}]/gu, '').length), 1)}; --tl: ${c.title.length}`}>
-            <div class="cell-head">
-              <h2>{c.title}</h2>
-              <p>{c.body}</p>
-            </div>
-            <div class="cell-imgs">
-              <div class="cell-tile cell-tile--back"><img src={c.back.img} alt={c.back.alt} width="800" height="880" loading="lazy" decoding="async" /></div>
-              <div class="cell-tile cell-tile--front"><img src={c.front.img} alt={c.front.alt} width="800" height="880" loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : "auto"} decoding="async" /></div>
-            </div>
-            <div class="cell-foot">
-              <span class="chip">{c.fact}</span>
-              <span class="pill pill--sm">See the work</span>
-            </div>
-          </a>
-        ))}
-      </div>
+
+  <section class="home-opening" aria-label="Kombu creative studio">
+    <h1 class="wm home-wordmark" aria-label="Kombu">
+      <span style="--i:0">K</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">B</span><span style="--i:4">U</span>
+    </h1>
+    <div class="home-introduction">
+      <p>Websites, photography, design and marketing. One person who sees how it all fits.</p>
+      <span>Independent creative studio<br />Southampton &amp; beyond</span>
+    </div>
+    <div class="home-tray">
+      {cells.map((c, i) => (
+        <article class={`discipline discipline--${c.id}`}>
+          <div class="discipline-copy">
+            <h2>{c.id === 'mktg' ? <>Marketing<small>&amp; infrastructure</small></> : c.title}</h2>
+            <p>{c.body}</p>
+          </div>
+          <div class="discipline-art">
+            <div class="example example--back"><img src={c.back.img} alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
+            <div class="example example--front"><img src={c.front.img} alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
+          </div>
+          <div class="discipline-footer">
+            <span class="discipline-fact">{c.fact}</span>
+            <a href={c.href} class="pill" aria-label={`Explore ${c.title.toLowerCase()}`}>See the work</a>
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 
-  <!-- The one crafted line on the page. -->
-  <section class="card-section bleed" aria-labelledby="piece-h">
-    <div class="card card--kelp two">
-      <h2 id="piece-h">Whatever the missing piece is, I build it</h2>
-      <div class="stack">
-        <p>I am a designer and photographer by trade, but the thing clients keep me around for is broader than that: an engineering mind paired with a designer's eye. When something in your setup is broken, slow or simply does not exist yet, I work out how to fix it and then go and do it, rather than handing you off to a specialist who charges a fortune and does not know your brand.</p>
-        <a href={WA} class="pill pill--fill" target="_blank" rel="noopener">Tell me what's broken</a>
+  <section class="connected bleed" aria-labelledby="connected-h">
+    <div class="connected-grid">
+      <div class="connected-copy">
+        <h2 id="connected-h">One brand,<br />kept together</h2>
+        <p>For Padharo, I handle the photography, menus, website, social and strategy. Every piece comes from the same person, so it all belongs together.</p>
+        <p>From the first impression online to the menu on the table, the same care runs through it. One conversation, with the person doing the work.</p>
+        <a href="/design#cs-padharo" class="pill">Explore Padharo</a>
       </div>
+      <div class="connected-proof">
+        <figure class="proof-web">
+          <a class="proof-surface" href="https://padharo.co.uk" target="_blank" rel="noopener"><img src="/images/preview/padharo-hero.webp" alt="Padharo restaurant website" loading="lazy" width="1600" height="956" /></a>
+          <figcaption>The website</figcaption>
+        </figure>
+        <figure class="proof-print">
+          <a class="proof-surface" href="/design#cs-padharo"><img src="/images/design/padharo-menu-back.jpg" alt="The complete Padharo menu, with cream, navy and terracotta sections" loading="lazy" width="1059" height="1500" /></a>
+          <figcaption>The menu</figcaption>
+        </figure>
+        <figure class="proof-print">
+          <a class="proof-surface" href="/design#cs-padharo"><img src="/images/design/padharo-veganuary.jpg" alt="The complete Padharo Veganuary campaign, combining food photography and typography" loading="lazy" width="1200" height="1600" /></a>
+          <figcaption>The campaign</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="connected-note">
+      <h3>Whatever the missing piece is, I build it</h3>
+      <p>A menu, a website, or the practical thing nobody else has picked up. I work out what is needed, then make it happen.</p>
+      <a href={WA} class="pill" target="_blank" rel="noopener">Tell me what you need</a>
     </div>
   </section>
 
   <section class="work bleed" aria-labelledby="work-h">
     <div class="sec-head work-head">
       <h2 id="work-h">Selected work</h2>
-      <a href="/web-design#work" class="pill">More websites</a>
+      <div class="work-actions">
+        <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
+        <a href="/web-design#work" class="pill">More websites</a>
+      </div>
     </div>
     <div class="work-grid">
       {work.map((w) => (
         <article class="wcard">
           <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
-            <div class="browser-viewport" data-site={w.url}>
-              <div class="browser-stack"><img src={w.poster} alt={w.alt} loading="lazy" class="browser-poster" /></div>
-            </div>
+            <WorkPreview slug={w.slug} alt={w.alt} />
           </a>
           <div class="wcard-meta">
             <div>
@@ -141,4 +165,5 @@ const extraSchema = [
 
 <Footer />
 
+<script is:inline src="/work-previews.js"></script>
 </Layout>

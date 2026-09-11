@@ -2,7 +2,7 @@ export const googleReviewsUrl = 'https://www.google.com/maps?cid=164074027035260
 
 export const reviews = [
   {
-    quote: '…recommend Ryan to anyone looking for someone who will understand their business, care about the details and put genuine thought into their website and marketing.',
+    quote: 'I recommend Ryan to anyone looking for someone who will understand their business, care about the details and put genuine thought into their website and marketing.',
     name: 'Ankit Vaghela',
     org: 'Padharo',
     rating: 5,

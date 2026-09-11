@@ -1078,6 +1078,15 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .partnership-from { font: 500 0.9rem/1 var(--f-body); text-transform: uppercase; letter-spacing: 0.04em; }
 .partnership-amount { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.6rem, 4.5vw, 4rem); text-transform: uppercase; line-height: 0.85; }
 .partnership-per { font-size: 1rem; font-family: var(--f-body); font-weight: 400; margin-left: 0.2rem; }
+/* The card takes a photo of Ryan at a table: an outlined tile at a sticker tilt
+   on the left, the copy in the middle, the price on the right. */
+.partnership-v2 { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr) minmax(0, 4fr); gap: clamp(1.5rem, 3.5vw, 4rem); align-items: center; }
+.partnership-photo { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; background: var(--c-white); aspect-ratio: 4 / 3; transform: rotate(-2deg); }
+.partnership-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 45%; display: block; }
+@media (max-width: 900px) {
+  .partnership-v2 { grid-template-columns: 1fr; }
+  .partnership-photo { aspect-ratio: 16 / 10; max-width: 560px; }
+}
 
 /* ---------- About opener ---------- */
 /* The home page's about card sizes its heading via the global h2 rule

@@ -64,7 +64,12 @@
  .discipline-footer .pill { font-size: 14px; padding-inline: 14px; }
  .connected-copy { padding: 32px; }
  .connected-copy h2 { font-size: 56px; }
- .connected-note { flex-wrap: wrap; }
+ /* Between tablet and wide desktop the note is two columns: heading and pill
+    stacked on the left, the body centred against their full height on the right. */
+ .connected-note { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+ .connected-note h3 { font-size: clamp(34px, 3.6vw, 46px); }
+ .connected-note p { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+ .connected-note .pill { grid-column: 1; grid-row: 2; justify-self: start; margin-top: 16px; }
 }
 @media (max-width:760px) {
  .home-opening { padding-top: 108px; }

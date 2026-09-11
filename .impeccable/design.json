@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-09T20:17:29Z",
+  "generatedAt": "2026-09-11T02:02:52Z",
   "title": "Design System: Kombu",
   "extensions": {
     "colorMeta": {
@@ -427,6 +427,11 @@
         "name": "Decoration In Its Own Box",
         "body": "Overlapping example tiles live in a square in-flow art box sized by its grid column and are positioned inside it by percentage, so they scale with the card and never collide with the heading.",
         "section": "layout"
+      },
+      {
+        "name": "The Mark Stays In The Icon",
+        "body": "The four strand knot is the brand symbol and appears only as the favicon and app icons, on a linen ground. On the page itself the identity is the KOMBU wordmark. Never place the knot in the nav, the footer or a section.",
+        "section": "shape and depth"
       }
     ],
     "dos": [
@@ -439,7 +444,8 @@
       "Don't add a shadow, a gradient, a glass effect, an eyebrow, a section number, or a fifth fill. Don't size a section to fit the fold; content sets the height.",
       "Don't set terracotta as small text on linen.",
       "Don't animate sections on scroll.",
-      "Don't let a compartment become an icon-heading-text card."
+      "Don't let a compartment become an icon-heading-text card.",
+      "Don't place the knot mark on the page; it is the icon, the wordmark is the page identity."
     ]
   }
 }

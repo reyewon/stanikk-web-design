@@ -3,7 +3,7 @@
    "Add to Home Screen" without a SW). Uses a network-first strategy
    with a tiny cache so offline reloads still surface the home page. */
 
-const CACHE_NAME = 'kombu-v2';
+const CACHE_NAME = 'kombu-v3';
 const OFFLINE_URLS = ['/', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

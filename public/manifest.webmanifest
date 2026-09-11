@@ -6,31 +6,42 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FAF7F4",
-  "theme_color": "#1A1412",
+  "background_color": "#F1EEE6",
+  "theme_color": "#141210",
   "lang": "en-GB",
   "dir": "ltr",
-  "categories": ["business", "design", "photography", "productivity"],
+  "categories": [
+    "business",
+    "design",
+    "photography",
+    "productivity"
+  ],
   "icons": [
     {
-      "src": "/favicon-32.png",
+      "src": "/favicon.svg?v=2",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32.png?v=2",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/favicon-192.png",
+      "src": "/favicon-192.png?v=2",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/favicon-512.png",
+      "src": "/favicon-512.png?v=2",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/favicon-512.png",
+      "src": "/favicon-maskable-512.png?v=2",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

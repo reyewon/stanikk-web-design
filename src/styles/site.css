@@ -523,7 +523,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .wcard-meta > div { flex: 1 1 auto; min-width: 0; }
 .wcard-meta > .pill { flex: 0 0 auto; }
 .wcard-meta h3 { font-size: clamp(1.5rem, 1.8vw, 2rem); }
-.wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); }
+.wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 60ch; }
 @media (max-width: 900px) {
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(2rem, 7vw, 3rem); }
   .home-page .work-grid .wcard:last-child { grid-column: 1 / -1; width: calc((100% - var(--gap)) / 2); justify-self: center; }
@@ -651,7 +651,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .footer .wm { color: var(--c-linen); }
 .footer .wm span { animation: none; }
 .footer-row { display: flex; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; align-items: center; margin-top: 0; padding-top: 1.25rem; border-top: var(--line) solid rgba(241, 238, 230, 0.25); font-size: 0.85rem; color: var(--c-linen-mute); }
-.footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; list-style: none; margin: 0; padding: 0; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0 1.2rem; list-style: none; margin: 0; padding: 0; }
+.footer-links a { display: inline-block; padding-block: 0.4rem; }
 .footer-links a:hover { color: var(--c-linen); }
 .footer a { color: var(--c-linen-soft); }
 .footer-row p a { text-decoration: underline; text-underline-offset: 2px; }
@@ -771,13 +772,18 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .ph-tile--back:hover { transform: rotate(3deg) translateY(-4px); }
 .ph-tile--front:hover { transform: rotate(-2deg) translateY(-4px); }
 .pagehead-collage { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); aspect-ratio: 4 / 3; }
-.pagehead-collage__tile { border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; background: var(--c-white); height: 100%; }
-.pagehead-collage__tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The images are laid out absolutely inside their tiles so their natural
+   height never feeds back into the grid: without that, three portrait menus
+   pushed the rows open and the header ran to twice the height of every other
+   page's, with the main tile cut to a sliver. */
+.pagehead-collage__tile { position: relative; min-height: 0; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; background: var(--c-white); height: 100%; }
+.pagehead-collage__tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .pagehead-collage__tile--main { transform: rotate(-1.5deg); }
-.pagehead-collage__side { display: grid; grid-template-rows: 1fr 1fr; gap: var(--gap); height: 100%; }
+.pagehead-collage__side { display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); height: 100%; min-height: 0; }
 .pagehead-collage__side .pagehead-collage__tile:nth-child(1) { transform: rotate(1.5deg); }
-/* the first side tile is the free-starter graphic, whose headline sits at its left edge */
-.pagehead-collage__side .pagehead-collage__tile:nth-child(1) img { object-position: 0 50%; }
+/* the first side tile is the Diwali set menu, whose title sits across the top */
+.pagehead-collage__side .pagehead-collage__tile:nth-child(1) img { object-position: 50% 0; }
+.pagehead-collage__tile--main img { object-position: 50% 20%; }
 .pagehead-collage__side .pagehead-collage__tile:nth-child(2) { transform: rotate(-1deg); }
 
 @media (max-width: 640px) {
@@ -807,7 +813,8 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
      tiles become direct grid items of a 3-column row. */
   .pagehead-collage { aspect-ratio: auto; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
   .pagehead-collage__side { display: contents; }
-  .pagehead-collage__tile { aspect-ratio: 1; transform: none; height: auto; }
+  .pagehead-collage__tile { aspect-ratio: 3 / 4; transform: none; height: auto; }   /* portrait, like the menus themselves */
+  .pagehead-collage__tile--main img { object-position: 50% 0; }
   .pagehead-actions { width: 100%; }
   .pagehead-actions .pill { flex: 1 1 100%; justify-content: center; text-align: center; }
 }
@@ -828,10 +835,10 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 /* ---------- FAQ accordion ---------- */
 /* Heading spacing comes from .sec-head now (wrapped in Faq.astro). */
 .faq-list-v2 { border-bottom: var(--line) solid var(--c-ink); }
-.faq-row { border-top: var(--line) solid var(--c-ink); padding-block: clamp(1.25rem, 2.5vw, 1.75rem); }
+.faq-row { border-top: var(--line) solid var(--c-ink); }
 .faq-row summary {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
-  cursor: pointer; list-style: none;
+  cursor: pointer; list-style: none; padding-block: clamp(1.25rem, 2.5vw, 1.75rem);
   font-family: var(--f-body); font-weight: 500; font-size: 1.15rem;
 }
 .faq-row summary::-webkit-details-marker { display: none; }
@@ -841,7 +848,8 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .faq-plus::before { left: 0; top: 50%; width: 100%; height: 2px; transform: translateY(-50%); }
 .faq-plus::after { top: 0; left: 50%; width: 2px; height: 100%; transform: translateX(-50%); }
 .faq-row[open] .faq-plus { transform: rotate(45deg); }
-.faq-row p { margin-top: var(--s-3); max-width: 64ch; font-size: 1rem; }
+.faq-row p { margin-top: 0; max-width: 64ch; font-size: 1rem; }
+.faq-row > :last-child:not(summary) { padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem); }
 
 /* ---------- Pricing (web-design) ---------- */
 .pricing-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); }
@@ -851,6 +859,16 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); align-items: stretch; }
 .tier-card { position: relative; display: flex; flex-direction: column; gap: var(--s-2); padding: clamp(1.75rem, 2.5vw, 2.5rem); }
 .tier-card .chip { align-self: flex-start; }
+/* From two columns up the tiers sit side by side, so every row (name, description,
+   price, commitment, renewal, features, button) lines up across them: each card
+   spans seven rows of the shared grid and adopts them as a subgrid. The chip comes
+   out of the flow and sits on the card's top edge, or it would push one card's
+   rows down on its own. */
+@media (min-width: 768px) {
+  .tier-card { display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: var(--s-2); align-content: start; }
+  .tier-card .pill { margin-top: 0; align-self: end; justify-self: start; }
+  .tier-card .chip { position: absolute; top: 0; left: clamp(1.75rem, 2.5vw, 2.5rem); transform: translateY(-50%); z-index: 1; }
+}
 .tier-card h3 { font-size: clamp(1.5rem, 1.8vw, 1.9rem); }
 .tier-desc { font-size: 0.95rem; max-width: 32ch; }
 .tier-amount { display: flex; align-items: baseline; gap: 0.15rem; margin-top: var(--s-1); font-family: var(--f-display); }
@@ -887,7 +905,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 /* ---------- What I build (web-design): 2x2 white cards ---------- */
 .service-grid-v2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
 .service-card-v2 { display: flex; flex-direction: column; gap: var(--s-2); }
-.service-card-v2 p { font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.service-card-v2 p { font-size: clamp(1rem, 1.15vw, 1.15rem); max-width: 60ch; }
 .service-card-v2 .pill { margin-top: auto; align-self: flex-start; }
 @media (max-width: 767px) { .service-grid-v2 { grid-template-columns: 1fr; } }
 
@@ -1035,7 +1053,8 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141210' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
   background-repeat: no-repeat; background-position: right 1.1rem center; background-size: 16px;
 }
-.quote-input-wrap input { padding-right: 3rem; }
+.quote-field .quote-input-wrap input[type="text"] { padding-right: 2.75rem; }
+.quote-input-wrap input::placeholder { font-size: 0.85rem; }   /* the typed value stays at 1rem, so iOS does not zoom on focus */   /* must outrank the padding shorthand above, or the text runs under the locate button */
 .quote-locbtn {
   position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
   width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
@@ -1105,6 +1124,8 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 
 /* ---------- About: the bio below the opener ---------- */
 .about-story { padding-top: var(--band); }
+/* the cutout rises above the card by --rise, which would put the cap right under the nav pill */
+@media (min-width: 768px) { .about-head { padding-top: calc(96px + var(--gap) + clamp(44px, 4.8vw, 100px)); } }
 .about-story__text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-3) clamp(2rem, 5vw, 6rem); }
 .about-story__text p { font-size: clamp(1.02rem, 1.2vw, 1.15rem); max-width: 58ch; }
 .about-story__text p:first-child { grid-column: 1 / -1; font-size: clamp(1.15rem, 1.5vw, 1.45rem); max-width: 52ch; }
@@ -1125,6 +1146,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
   transition: opacity 200ms ease-out;
 }
 .lightbox.is-open { opacity: 1; pointer-events: auto; }
+.no-motion .lightbox { transition: none; }
 .lightbox img { max-width: 92vw; max-height: 92vh; border: var(--line) solid var(--c-linen); border-radius: var(--r-tile); object-fit: contain; background: var(--c-ink); }
 .lightbox-close { position: absolute; top: var(--gutter); right: var(--gutter); border-color: var(--c-linen); color: var(--c-linen); background: transparent; }
 .lightbox :focus-visible { outline-color: var(--c-linen); }
@@ -1138,16 +1160,17 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .notfound-copy p:first-of-type { margin-top: var(--s-3); }
 .notfound-copy p + p { margin-top: var(--s-2); }
 .notfound-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); list-style: none; margin: 0; padding: 0; }
+.notfound-tray li { container-type: inline-size; }
 .notfound-cell {
   display: flex; align-items: flex-end; min-height: clamp(120px, 13vw, 200px);
   padding: clamp(1rem, 1.6vw, 1.5rem);
   border: var(--line) solid var(--c-ink); border-radius: var(--r-tile);
   font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
-  font-size: clamp(1.3rem, 1.9vw, 2rem); line-height: 0.9; letter-spacing: -0.02em;
+  font-size: clamp(0.875rem, 12cqi, 2rem); line-height: 0.9; letter-spacing: -0.02em;   /* 12cqi keeps the longest label, PHOTOGRAPHY, inside the smallest tile */
   color: var(--c-ink); text-decoration: none; transition: transform 160ms ease-out;
 }
 .notfound-cell:hover { transform: translateY(2px); }
-.notfound-cell--terracotta { background: var(--c-terracotta); color: var(--c-white); }
+.notfound-cell--terracotta { background: var(--c-terracotta); color: var(--c-ink); }
 .notfound-cell--kelp { background: var(--c-kelp); color: var(--c-linen); }
 .notfound-cell--kelp:focus-visible { outline-color: var(--c-linen); }
 .notfound-cell--ochre { background: var(--c-ochre); }

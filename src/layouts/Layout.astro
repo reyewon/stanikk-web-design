@@ -433,12 +433,11 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
       })();
     </script>
     <script is:inline>
-      // Lightbox: any [data-lightbox] wrapper opens its <img> full size in a
-      // fixed ink overlay. Used on /design and /photography. Disabled
-      // under .no-motion, where the images stay plain.
+      // Lightbox: any [data-lightbox] wrapper opens its image full size in a
+      // fixed ink overlay. Used on /design and /photography. It stays on under
+      // .no-motion: reduced motion means no fade, not no enlarging, and the
+      // tiles still show a zoom-in cursor there. site.css drops the fade.
       (function () {
-        var noMo = document.documentElement.classList.contains('no-motion');
-        if (noMo) return;
         var opener = null, overlay = null;
         function build() {
           overlay = document.createElement('div');

@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ContactCard from '../../components/ContactCard.astro';
+import '../../styles/work.css';
+
+const title = "Work | Case Studies from a Southampton Studio | Kombu";
+const description = "Case studies from Kombu in Southampton: Padharo, where I do the website, photography, menus, social and email, and Mustang Group's venue websites and photography.";
+const url = "https://kombu.uk/work";
+
+const cases = [
+  { href: "/work/padharo", name: "Padharo", fill: "ochre", fit: 3.92,
+    line: "A vegetarian Indian restaurant in Southampton. The website, the photographs, the film, every menu, the social feeds and the emails, all from me.",
+    tags: ["Website", "Photography", "Menus", "Social and email"],
+    pair: [
+      { src: "/images/work/padharo/drinks-page-1.webp", w: 1400, h: 1400, alt: "Padharo drinks menu cover" },
+      { src: "/images/design/padharo-diwali-back.jpg", w: 1200, h: 1697, alt: "Padharo Diwali set menu cover" },
+    ] },
+  { href: "/work/mustang-group", name: "Mustang Group", fill: "kelp", fit: 4.07,
+    line: "Six Southampton venues. Three venue sites rebuilt, a new group site made for phones first, photography across the venues and a report every Monday.",
+    tags: ["Websites", "Photography", "Website care"],
+    phone: { src: "/videos/work/mustang-phone.webp", alt: "The new Mustang Group site on a phone" } },
+];
+
+const extraSchema = [
+  { "@type": "CollectionPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB",
+    "hasPart": [ { "@id": "https://kombu.uk/work/padharo#work" }, { "@id": "https://kombu.uk/work/mustang-group#work" } ] },
+  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": url } ] }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema}>
+
+<Nav />
+
+<main id="main" class="case">
+
+  <section class="card-section pagehead-section bleed" aria-labelledby="work-h">
+    <div class="card card--white work-intro">
+      <h1 id="work-h">Work</h1>
+      <p>Two clients I look after from end to end, so you can see what having one person for the whole thing looks like in practice. The rest of the websites I've built are on the web design page.</p>
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-label="Case studies">
+    <ul class="case-list">
+      {cases.map((c) => (
+        <li>
+          <a class={`card card--${c.fill} case-card`} href={c.href}>
+            <div class="case-card__text">
+              <h2 class="case-card__name" style={`--name-fit: ${c.fit}`}>{c.name.split(' ').map((w) => <span>{w}</span>)}</h2>
+              <p>{c.line}</p>
+              <ul class="case-card__tags">{c.tags.map((t) => <li>{t}</li>)}</ul>
+              <span class={`pill ${c.fill === 'kelp' ? 'pill--fill' : 'pill--ink'}`}>Read the case study</span>
+            </div>
+            <div class="case-card__art" aria-hidden="true">
+              {c.pair ? (
+                <div class="menu-set__art">
+                  {c.pair.map((pg, j) => (
+                    <span class={`menu-set__tile ${j === 0 ? 'is-front' : 'is-back'} ${pg.w >= pg.h ? 'is-square' : 'is-port'}`} style={`--ar: ${pg.w / pg.h}`}><img src={pg.src} alt="" width={pg.w} height={pg.h} loading="lazy" decoding="async" /></span>
+                  ))}
+                </div>
+              ) : c.phone && (
+                <div class="case-phone case-phone--still"><img src={c.phone.src} alt="" width="720" height="1558" loading="lazy" decoding="async" /></div>
+              )}
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="band bleed case-more" aria-labelledby="more-h">
+    <div class="sec-head">
+      <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
+    </div>
+    <div class="pagehead-actions">
+      <a class="pill" href="/web-design#work">Websites I've built</a>
+      <a class="pill" href="/design">Graphic design</a>
+      <a class="pill" href="/photography">Photography</a>
+    </div>
+  </section>
+
+  <ContactCard text="Tell me what you've got, the website, the menus, the photographs, and I'll tell you where I'd start." />
+
+</main>
+
+<Footer />
+</Layout>

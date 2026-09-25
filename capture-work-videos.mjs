@@ -13,7 +13,7 @@ import sharp from 'sharp';
 const dir=await fs.mkdtemp(join(tmpdir(),'kombu-recordings-'));
 const out=fileURLToPath(new URL('./public/videos/work/',import.meta.url));
 console.log('Review frames:',dir);
-const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://soleto-website.pages.dev/?embed=1']];
+const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://soleto-website.pages.dev/?embed=1'],['msnry','https://msnry.app/'],['ennios','https://www.ennios.co.uk/']];
 async function prepare(page,url){
  await page.addInitScript(()=>{localStorage.setItem('bw:location','ocean-village');localStorage.setItem('bw:consent','denied');localStorage.setItem('bw:modal-seen','1');});
  const r=await page.goto(url,{waitUntil:'load',timeout:60000});if(!r.ok())throw Error(r.status()+' '+url);
@@ -22,7 +22,7 @@ async function prepare(page,url){
  await page.evaluate(()=>{document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';document.querySelectorAll('video').forEach(v=>{v.muted=true;v.play().catch(()=>{});});});
  await page.evaluate(()=>document.fonts.ready);
 }
-const stops={'padharo':[1000,2600,4200],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140]};
+const stops={'padharo':[1000,2600,4200],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140],msnry:[1300,2800,4300],ennios:[1200,2500,3900]};
 const selected=sites.filter(([slug])=>!process.argv[2]||process.argv.slice(2).includes(slug));
 if(!selected.length)throw new Error('No matching website slug. Nothing recorded.');
 await fs.mkdir(out,{recursive:true});

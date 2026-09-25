@@ -30,6 +30,11 @@ Ryan Stanikk: a Southampton designer, photographer and web developer with two de
 ## Selected clients
 Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark Angels, Ennios, Grumpy Monkey, Mustang Group, Kwackers, Ideal Produce, Build Budget Expert, Remedi Health
 
+## Case studies
+- Padharo (vegetarian Indian restaurant, 100-102 East Street, Southampton): Ryan designed and built the website, photographs the restaurant, shot the film on its home page, designs every menu (main, drinks, Diwali, Christmas, kids) and runs its Instagram, Facebook and emails. (https://kombu.uk/work/padharo)
+- Mustang Group (family-run Southampton hospitality group, six venues, established 1987): since May 2026 Ryan has looked after the group's websites, rebuilt the Banana Wharf, Grumpy Monkey and Ennio's sites, built a new phone-first group site (in preview) and photographs the venues; the group gets a weekly report on every site. Banana Wharf's mobile load time went from about 17 seconds to about 4.3 after the rebuild. (https://kombu.uk/work/mustang-group)
+- All case studies: https://kombu.uk/work
+
 ## Why choose Kombu
 - One trusted route: photography, design, web and marketing from one person, with no handoffs and no specialist markup
 - Everything matches: the brand, the photos, the site and the marketing pull in the same direction
@@ -48,5 +53,6 @@ Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark
 - Photography & quote calculator: https://kombu.uk/photography
 - Marketing & Hospitality Health Check: https://kombu.uk/marketing
 - About: https://kombu.uk/about
+- Case studies: https://kombu.uk/work
 - Machine-readable pricing: https://kombu.uk/pricing.md
 - Sitemap: https://kombu.uk/sitemap-index.xml

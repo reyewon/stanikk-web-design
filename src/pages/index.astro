@@ -29,8 +29,8 @@ const cells = [
 ];
 
 const work = [
-  { name: 'Padharo', slug: 'padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
-  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
+  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
   { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
 ];
 
@@ -119,6 +119,7 @@ const extraSchema = [
       <h2 id="work-h">Selected work</h2>
       <div class="work-actions">
         <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
+        <a href="/work" class="pill">Case studies</a>
         <a href="/web-design#work" class="pill">More websites</a>
       </div>
     </div>
@@ -132,6 +133,7 @@ const extraSchema = [
             <div>
               <h3>{w.name}</h3>
               <p>{w.line}</p>
+              {w.cs && <a href={w.cs} class="wcard-case">Read the case study</a>}
             </div>
             <a href={w.url} target="_blank" rel="noopener" class="pill pill--sm" aria-label={`Visit the ${w.name} website`}>Visit</a>
           </div>

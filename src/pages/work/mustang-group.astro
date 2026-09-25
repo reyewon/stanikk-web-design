@@ -1,0 +1,201 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ContactCard from '../../components/ContactCard.astro';
+import WorkPreview from '../../components/WorkPreview.astro';
+import Ledger from '../../components/Ledger.astro';
+import { reviews } from '../../data/reviews';
+import '../../styles/work.css';
+
+const title = "Mustang Group Case Study | Websites, Photography & Care | Kombu";
+const description = "Looking after Mustang Group's Southampton venues: three venue sites rebuilt, a new phone-first group site, photography across the venues and a report every Monday.";
+const url = "https://kombu.uk/work/mustang-group";
+const review = reviews.find((r) => r.org === 'Mustang Group');
+
+const M = '/images/work/mustang';
+// Each venue: what I did there, in one or two plain sentences, and the proof.
+const venues = [
+  { name: "Banana Wharf", slug: "banana-wharf", url: "https://www.bananawharf.co.uk", alt: "A recorded tour of the Banana Wharf website on a desktop screen",
+    text: "Rebuilt from WordPress as one site for both marinas, Ocean Village and Port Hamble, with a switch between them. On a phone the home page used to take about 17 seconds to show its main picture. After the rebuild it takes about 4.3." },
+  { name: "Grumpy Monkey", slug: "grumpy-monkey", url: "https://www.grumpy-monkey.co.uk", alt: "A recorded tour of the Grumpy Monkey website on a desktop screen",
+    text: "Rebuilt and live since July 2026, in a look taken from nightlife posters. Tables book through Dojo, and the events page carries the nights they run." },
+  { name: "Ennio's", slug: "ennios", url: "https://www.ennios.co.uk", alt: "A recorded tour of the Ennio's website on a desktop screen",
+    text: "Rebuilt this year for an Italian restaurant with ten bedrooms above it, in a Victorian warehouse on Town Quay. Tables book through SevenRooms and rooms book online from the site." },
+  { name: "The Grand", url: "https://www.thegrandsouthampton.co.uk", img: `${M}/grand-tables.webp`, imgSm: `${M}/grand-tables-sm.webp`, imgAlt: "The Grand's ballroom laid with round tables for a Christmas party under the chandeliers",
+    text: "I look after the current site, add the events as they're announced, and its rebuild is under way." },
+];
+
+const photos = [
+  { src: `${M}/grumpy-stairs.webp`, sm: `${M}/grumpy-stairs-sm.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-a', venue: 'Grumpy Monkey', alt: "Grumpy Monkey's staircase lit orange under a blue neon sign, flags along the wall" },
+  { src: `${M}/grumpy-martini.webp`, sm: `${M}/grumpy-martini-sm.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-b', venue: 'Grumpy Monkey', alt: "A passion fruit martini on a concrete table" },
+  { src: `${M}/bw-roast.webp`, sm: `${M}/bw-roast-sm.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-c', venue: 'Banana Wharf', alt: "A Sunday roast with Yorkshire puddings and gravy by a yellow booth" },
+  { src: `${M}/bw-sharing-roast.webp`, sm: `${M}/bw-sharing-roast-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-d', venue: 'Banana Wharf', alt: "Close on a sharing roast: pigs in blankets, green beans and sliced beef" },
+  { src: `${M}/bw-cocktail.webp`, sm: `${M}/bw-cocktail-sm.webp`, w: 1600, h: 1280, shape: 'port', cls: 'pg-e', venue: 'Banana Wharf', alt: "Two cocktails on a bronze table in the sun" },
+  { src: `${M}/ennios-sign.webp`, sm: `${M}/ennios-sign-sm.webp`, w: 1600, h: 1067, shape: 'port', cls: 'pg-f', venue: "Ennio's", alt: "Ennio's chalkboard by the door: open for lunch and dinner" },
+  { src: `${M}/ennios-bedroom.webp`, sm: `${M}/ennios-bedroom-sm.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-g', venue: "Ennio's", alt: "One of the bedrooms at Ennio's: a navy wall, a blue throw and a window over the water" },
+  { src: `${M}/grand-dining-room.webp`, sm: `${M}/grand-dining-room-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-h', venue: 'The Grand', alt: "The Grand's dining room laid for Christmas, pink light across the ceiling" },
+  { src: `${M}/grand-service.webp`, sm: `${M}/grand-service-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-i', venue: 'The Grand', alt: "Plates of food carried through a full room at The Grand's Christmas party" },
+];
+
+const care = [
+  { t: "Hosting and changes", d: "The sites run on Cloudflare, and when a venue needs something changed, it comes to me: new events on The Grand's site, say, or the events and gallery pages Grumpy Monkey added in September." },
+  { t: "A report every Monday", d: "Every Monday the group gets a written report on how each venue site did the week before." },
+  { t: "A private dashboard", d: "The marketing team has its own dashboard for the venue sites, refreshed twice a day, so nobody has to wait for Monday." },
+  { t: "Google listings", d: "I look after Banana Wharf's two Google Business Profile listings, the hours and details people see when they search for it." },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
+  { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Mustang Group: venue websites, group site, photography and care", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Organization", "name": "Mustang Group", "foundingDate": "1987", "address": { "@type": "PostalAddress", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Website care"], "inLanguage": "en-GB" },
+  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work" }, { "@type": "ListItem", "position": 3, "name": "Mustang Group", "item": url } ] }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/mustang-group-og.jpg" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Mustang Group, a Kombu case study: venue websites, a new group site, photography and care" ogType="article">
+
+<Nav />
+
+<main id="main" class="case">
+
+  <!-- The opening: the group's name across the card, and the new group
+       site as a phone sees it, because the phone version was designed on
+       its own, not shrunk from the desktop. -->
+  <section class="card-section pagehead-section bleed" aria-labelledby="case-h">
+    <div class="card card--white case-head case-head--phone">
+      <h1 id="case-h" class="case-name case-name--two" style="--name-fit: 4.07"><span>Mustang</span> <span>Group</span></h1>
+      <div class="case-head__film">
+        <div class="case-phone" data-film data-wide="/videos/work/mustang-phone.mp4" data-tall="/videos/work/mustang-phone.mp4">
+          <img class="case-film__poster" src="/videos/work/mustang-phone.webp" alt="The new Mustang Group site on a phone: the Banana Wharf tuk-tuk under the Mustang name, then the venue deck swiped through The Grand, Ennio's, both Banana Wharfs, Rubys and Grumpy Monkey" width="720" height="1558" fetchpriority="high" />
+          <video muted playsinline loop preload="none" aria-hidden="true"></video>
+        </div>
+        <div class="case-film__foot">
+          <button type="button" class="pill pill--sm" data-film-toggle hidden aria-pressed="false">Pause film</button>
+        </div>
+      </div>
+      <div class="case-head__text stack">
+        <p class="case-lede">Mustang Group is a family-run group of six venues in and around Southampton, established in 1987. Since May 2026 I've looked after their websites: I've rebuilt three of the venue sites, built a new site for the group and photographed the venues, and every Monday the group gets a report on how each site is doing.</p>
+        <div class="case-facts">
+          <span class="chip">Looking after the group since May 2026</span>
+          <span class="chip">Banana Wharf on a phone: 17 seconds to 4.3</span>
+        </div>
+        <div class="pagehead-actions">
+          <a class="pill pill--fill" href="https://wa.me/442381112819" target="_blank" rel="noopener">Talk to me on WhatsApp</a>
+          <a class="pill" href="#venues">See the venue sites</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The group site: mist -->
+  <section class="card-section bleed" id="group-site" aria-labelledby="group-h">
+    <div class="card card--mist case-part case-part--web">
+      <div class="case-part__text stack">
+        <h2 id="group-h">Group site</h2>
+        <p>The new group site puts all six venues in one place. On a phone they become a deck you swipe through, each with Book, Call and Directions under your thumb, and every booking button goes straight to that venue's own booking page.</p>
+        <p>It isn't live yet, so the link below goes to the preview.</p>
+        <a class="pill" href="https://mustang-group-rebuild.pages.dev" target="_blank" rel="noopener">See the preview</a>
+      </div>
+      <div class="case-part__media">
+        <div class="project-browser case-browser">
+          <WorkPreview slug="mustang-group" alt="A recorded tour of the new Mustang Group site on a desktop screen, from the Banana Wharf tuk-tuk down through the venues" />
+        </div>
+        <button type="button" class="pill pill--sm case-part__toggle" data-work-previews-toggle aria-pressed="false">Pause previews</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- The venue sites: terracotta, the Websites compartment's fill -->
+  <section class="card-section bleed" id="venues" aria-labelledby="venues-h">
+    <div class="card card--terracotta case-part">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="venues-h">Venue sites</h2>
+          <p>Most of the group's websites came to me in May 2026 from the agency that built them. I've rebuilt Banana Wharf, Grumpy Monkey and Ennio's so far, and I look after The Grand's while its new site is made.</p>
+        </div>
+      </div>
+      <ul class="venue-grid">
+        {venues.map((v) => (
+          <li class="venue">
+            {v.slug ? (
+              <div class="project-browser case-browser"><WorkPreview slug={v.slug} alt={v.alt} /></div>
+            ) : (
+              <div class="venue-photo"><img src={v.imgSm} srcset={`${v.imgSm} 900w, ${v.img} 1600w`} sizes="(max-width: 900px) 100vw, 45vw" alt={v.imgAlt} width="1600" height="1067" loading="lazy" decoding="async" /></div>
+            )}
+            <div class="venue-meta">
+              <h3>{v.name}</h3>
+              <p>{v.text}</p>
+              <a class="pill pill--sm" href={v.url} target="_blank" rel="noopener">Visit {v.name}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Photography: kelp -->
+  <section class="card-section bleed" id="photography" aria-labelledby="photography-h">
+    <div class="card card--kelp case-part">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="photography-h">Photography</h2>
+          <p>I photograph the venues too: Sunday roasts at Banana Wharf, the rooms and the restaurant at Ennio's, Grumpy Monkey's food and interiors, and The Grand's Christmas party.</p>
+        </div>
+      </div>
+      <ul class="photo-grid">
+        {photos.map((p) => (
+          <li class={`pg-tile pg-tile--${p.shape} ${p.cls}`}>
+            <button type="button" class="pg-open" data-view="photos" data-full={p.src} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}, ${p.venue}`}>
+              <img src={p.sm} srcset={`${p.sm} 900w, ${p.src} 1600w`} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+              <span class="pg-venue">{p.venue}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Looking after it: ochre -->
+  <section class="card-section bleed" id="care" aria-labelledby="care-h">
+    <div class="card card--ochre case-part">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="care-h">Looking after it</h2>
+          <p>Once a site is live, this is how I look after it.</p>
+        </div>
+      </div>
+      <Ledger items={care} />
+    </div>
+  </section>
+
+  {review && (
+    <section class="card-section bleed" aria-label="Kirsty McCulloch's review">
+      <figure class="card card--white case-quote">
+        <blockquote><p>{review.quote}</p></blockquote>
+        <figcaption>
+          <span class="review-name">{review.name}</span>
+          <span class="review-org">Mustang Group</span>
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  <section class="band bleed case-more" aria-labelledby="more-h">
+    <div class="sec-head">
+      <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
+    </div>
+    <div class="pagehead-actions">
+      <a class="pill" href="/work/padharo">Padharo</a>
+      <a class="pill" href="/work">All work</a>
+      <a class="pill" href="/web-design#work">Websites I've built</a>
+    </div>
+  </section>
+
+  <ContactCard text="If you run more than one venue and the websites have drifted apart, I can bring them back together and keep them that way. Tell me what you've got." />
+
+</main>
+
+<Footer />
+
+<script is:inline src="/work-previews.js"></script>
+<script is:inline src="/case-study.js"></script>
+</Layout>

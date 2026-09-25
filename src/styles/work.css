@@ -1,0 +1,318 @@
+/* ============================================================
+   Case studies (/work/*)
+   One client's work laid out as the tray: a white opening card with the
+   client's name set across it like the home wordmark, then one card per
+   discipline in that discipline's own fill (websites terracotta, menus
+   ochre, photography kelp, social and email mist). Phones are planned on
+   their own: the film goes portrait, menus and posts become swipe strips
+   that open a full-screen viewer, and the photo bands re-pair.
+   Imported by the case-study pages only, like home-preview.css.
+   ============================================================ */
+
+/* ---------- Opening card ---------- */
+.case-head {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas: "name name" "text film";
+  --colgap: clamp(2rem, 4vw, 5rem);
+  column-gap: var(--colgap);
+  row-gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  container-type: inline-size;
+}
+/* The client's name at the card's full width, 900 like the wordmark.
+   --name-fit is the name's own width at 1em (measured against Supermassive
+   RS 900), so each case study sizes its name to the card, not the viewport. */
+.case-name {
+  grid-area: name;
+  font-weight: 900;
+  font-size: calc(100cqi / var(--name-fit, 4.6));
+  line-height: 0.78;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  text-wrap: nowrap;
+}
+.case-head__text { grid-area: text; }
+.case-head__film { grid-area: film; min-width: 0; }
+.case-lede { font-size: clamp(1.05rem, 1.25vw, 1.3rem); max-width: 46ch; }
+.case-facts { display: flex; flex-wrap: wrap; gap: var(--s-1); }
+a.chip { transition: transform 140ms ease-out; }
+a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
+.case-head__text > .pagehead-actions { margin-top: var(--s-4); }
+
+.case-film {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: var(--line) solid var(--c-ink);
+  border-radius: var(--r-tile);
+  overflow: hidden;
+  background: var(--c-ink);
+  transform: rotate(1.5deg);
+}
+.case-film picture, .case-film img, .case-film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-film video { opacity: 0; transition: opacity 300ms ease-out; }
+.case-film.is-playing video { opacity: 1; }
+.case-film__foot { display: flex; justify-content: flex-end; margin-top: var(--s-3); }
+.case-film__foot:has(> [hidden]:only-child) { display: none; }
+
+@media (max-width: 900px) {
+  .case-head { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; align-items: start; }
+}
+/* Phones get the portrait cut of the film, the one Padharo's own site
+   plays on a phone, held to 4:5 so it leads without filling the screen. */
+@media (max-width: 767px) {
+  .case-film { aspect-ratio: 4 / 5; transform: rotate(1deg); }
+}
+
+/* ---------- Discipline cards ---------- */
+.case-part__head { margin-bottom: var(--sec-head); }
+.case-part__head p, .case-part__text p { font-size: clamp(1.02rem, 1.2vw, 1.15rem); max-width: 60ch; }
+
+/* Website: copy beside the recorded tour, the tour taking the wider side. */
+.case-part--web { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 4vw, 5rem); align-items: center; }
+.case-browser { border-radius: var(--r-tile); }
+.case-part__media { min-width: 0; display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-2); }
+.case-part__media .project-browser { align-self: stretch; }
+/* One column, re-ordered for a phone: heading and the first paragraph,
+   then the tour while the reader is still on the subject, then the detail
+   and the link. The text column unwraps so its children can be ordered. */
+@media (max-width: 900px) {
+  .case-part--web { display: flex; flex-direction: column; align-items: stretch; gap: var(--s-3); }
+  .case-part--web .case-part__text { display: contents; }
+  .case-part--web .case-part__text > * { margin-top: 0; }
+  .case-part--web h2 { order: 1; }
+  .case-part--web p:first-of-type { order: 2; }
+  .case-part--web .case-part__media { order: 3; margin-block: var(--s-2); }
+  .case-part--web p + p { order: 4; }
+  .case-part--web .case-part__text > .pill { order: 5; align-self: flex-start; margin-top: var(--s-1); }
+}
+
+/* ---------- Menu sets ----------
+   Each set is a pair in a square box, exactly like a tray compartment's
+   examples: the cover in front at the bottom left tilted -3deg, the other
+   side behind at the top right at 3deg. Hovering opens the pair a degree
+   further. All four sets stay in view, four across or two by two. */
+.menu-sets { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap) clamp(1rem, 2.5vw, 2.5rem); }
+.menu-set { min-width: 0; }
+.menu-set__art { position: relative; aspect-ratio: 1 / 1; }
+.menu-set__tile {
+  position: absolute; padding: 0; aspect-ratio: var(--ar);
+  border: var(--line) solid var(--c-ink); border-radius: 12px; overflow: hidden;
+  background: var(--c-white); cursor: zoom-in;
+  transition: transform 180ms ease-out;
+}
+.menu-set__tile img { width: 100%; height: 100%; object-fit: cover; }
+.menu-set__tile.is-port { height: 80%; }
+.menu-set__tile.is-land { width: 78%; }
+.menu-set__tile.is-front { left: 3%; bottom: 2%; z-index: 2; transform: rotate(-3deg); }
+.menu-set__tile.is-back { right: 3%; top: 2%; z-index: 1; transform: rotate(3deg); }
+.menu-set:hover .is-front, .menu-set__tile.is-front:focus-visible { transform: rotate(-4deg) translate(-2px, 2px); }
+.menu-set:hover .is-back, .menu-set__tile.is-back:focus-visible { transform: rotate(4deg) translate(2px, -2px); }
+.menu-set__tile:focus-visible { z-index: 3; }
+.menu-set__name { margin-top: var(--s-2); font-weight: 500; font-size: 0.95rem; }
+.menu-drinks { margin-top: clamp(2.5rem, 5vw, 4.5rem); }
+.menu-drinks__head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-1) var(--s-2); margin-bottom: var(--s-3); }
+.menu-drinks__head h3 { font-size: clamp(1.5rem, 2vw, 2rem); }
+@media (max-width: 900px) {
+  .menu-sets { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--s-4); }
+}
+
+/* ---------- Swipe strips (menus, posts) ----------
+   A native horizontal scroller, so a phone swipes it with no script at
+   all. It bleeds to the card's edges so a swipe can use the full width,
+   and each piece keeps its own shape: a spread is never cropped, only
+   scaled, and on a phone it is capped to the strip's width. */
+.rail { margin-inline: calc(-1 * var(--card-pad)); }
+.rail-track {
+  position: relative;
+  display: flex; align-items: center; gap: var(--gap);
+  margin: 0; padding: 4px var(--card-pad) 8px;
+  list-style: none;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: var(--card-pad);
+  scrollbar-width: none;
+}
+.rail-track::-webkit-scrollbar { display: none; }
+.rail-track:focus-visible { outline-offset: -3px; }
+.rail-item {
+  --rail-h: clamp(300px, 32vw, 560px);
+  position: relative;
+  flex: 0 0 auto;
+  width: min(calc(var(--rail-h) * var(--ar)), calc(100vw - 2 * var(--gutter) - 2 * var(--card-pad) - 28px));
+  aspect-ratio: var(--ar);
+  scroll-snap-align: start;
+}
+.rail-open, .pg-open {
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile);
+  overflow: hidden; background: var(--c-white); cursor: zoom-in;
+  transition: transform 140ms ease-out;
+}
+.rail-open:hover, .rail-open:focus-visible, .pg-open:hover, .pg-open:focus-visible { transform: translateY(2px); }
+.rail-open img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+.rail-tag { position: absolute; top: 12px; left: 12px; transform: rotate(-2deg); pointer-events: none; }
+.rail-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-2) var(--s-3); margin-top: var(--s-3); padding-inline: var(--card-pad); }
+.rail-hint { font-size: 0.9rem; }
+.rail-ctrl { display: flex; align-items: center; gap: var(--s-1); }
+.rail-ctrl .pill[disabled] { opacity: 0.4; cursor: default; transform: none; }
+.rail-count { min-width: 5.5em; text-align: center; font-size: 0.9rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+/* posts and emails sit shorter than the menus: they are phone-shaped */
+.rail--social .rail-item { --rail-h: clamp(340px, 30vw, 520px); }
+
+@media (max-width: 767px) {
+  .rail-item { --rail-h: 220px; }
+  .rail--social .rail-item { --rail-h: 360px; }
+}
+
+/* ---------- Photo bands ----------
+   Twelve columns; in each band one 3:2 photograph sets the height and its
+   neighbours fill it, so the bands finish level without a masonry script.
+   Images are absolutely placed, so only the anchor gives a row its size. */
+.photo-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+.pg-tile { position: relative; min-width: 0; }
+.pg-open { position: absolute; inset: 0; background: var(--c-ink); }
+.pg-open img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pg-a { grid-column: span 8; aspect-ratio: 3 / 2; }
+.pg-b { grid-column: span 4; }
+.pg-c { grid-column: span 3; }
+.pg-d { grid-column: span 6; aspect-ratio: 3 / 2; }
+.pg-e { grid-column: span 3; }
+.pg-f { grid-column: span 4; }
+.pg-g { grid-column: span 8; aspect-ratio: 3 / 2; }
+.pg-h, .pg-i { grid-column: span 6; aspect-ratio: 3 / 2; }
+.card--kelp .pg-open, .card--kelp .rail-open { border-color: var(--c-linen); }
+/* Tablets and phones: two columns, the landscapes full width and the
+   portraits paired beneath them; the last two landscapes pair as squares. */
+@media (max-width: 900px) {
+  .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-tile { grid-column: auto; aspect-ratio: 3 / 4; }
+  .pg-tile--land { grid-column: 1 / -1; aspect-ratio: 3 / 2; }
+  .pg-h, .pg-i { grid-column: auto; aspect-ratio: 1 / 1; }
+}
+
+/* ---------- The client's words ---------- */
+.case-quote { margin: 0; display: grid; gap: var(--s-4); }
+.case-quote blockquote { margin: 0; }
+.case-quote blockquote p { font-size: clamp(1.3rem, 2vw, 2rem); line-height: 1.4; max-width: 40ch; }
+.case-quote figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.8rem; padding-top: var(--s-2); border-top: var(--line) solid var(--c-ink); }
+
+/* ---------- Full-screen viewer ----------
+   Ink ground, the piece outlined in linen, every control along the bottom
+   where a thumb can reach it. Tall pieces (the emails) scroll inside it. */
+.viewer { position: fixed; inset: 0; z-index: 200; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: var(--c-ink); color: var(--c-linen); }
+.viewer[hidden] { display: none; }
+.viewer-stage { min-height: 0; overflow: auto; overscroll-behavior: contain; display: grid; place-items: center; padding: var(--gutter); touch-action: pan-y pinch-zoom; }
+.viewer-stage img { max-width: 100%; max-height: calc(100dvh - 2 * var(--gutter) - 76px); width: auto; height: auto; border: var(--line) solid var(--c-linen); border-radius: var(--r-tile); background: var(--c-white); }
+.viewer.is-tall .viewer-stage { place-items: start center; }
+.viewer.is-tall .viewer-stage img { max-height: none; width: min(100%, 640px); }
+.viewer-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); padding: 12px var(--gutter) max(12px, env(safe-area-inset-bottom)); border-top: var(--line) solid var(--c-ink-soft); }
+.viewer-nav { display: flex; align-items: center; gap: var(--s-1); }
+.viewer .pill { color: var(--c-linen); border-color: var(--c-linen); }
+.viewer .pill[disabled] { opacity: 0.35; cursor: default; transform: none; }
+.viewer :focus-visible { outline-color: var(--c-linen); }
+.viewer-count { min-width: 5.5em; text-align: center; font-size: 0.9rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.viewer-stage { grid-template-rows: auto; align-content: center; }
+.viewer-hint { margin-top: var(--s-2); font-size: 0.9rem; text-align: center; color: var(--c-linen-soft); }
+.viewer-hint[hidden] { display: none; }
+
+/* ---------- Two-word names (Mustang Group) ----------
+   Each word on its own line, the longer one sized to the card. */
+.case-name--two span { display: block; }
+
+/* ---------- Opening with a phone ----------
+   For a client whose phone site is the point: the opening holds a phone-
+   shaped frame instead of a landscape film. The text takes the wider side. */
+.case-head--phone { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: "name film" "text film"; align-items: end; }
+.case-head--phone .case-head__text { align-self: start; }
+.case-head--phone .case-head__film { align-self: center; }
+/* the name shares the row with the phone, so it fits its own 7/12 column */
+.case-head--phone .case-name { font-size: calc((100cqi - var(--colgap)) * 7 / 12 / var(--name-fit, 4.6)); }
+.case-phone {
+  position: relative;
+  width: min(100%, 340px);
+  margin-inline: auto;
+  aspect-ratio: 720 / 1558;
+  border: var(--line) solid var(--c-ink);
+  border-radius: 34px;
+  overflow: hidden;
+  background: var(--c-ink);
+  transform: rotate(2deg);
+}
+.case-phone img, .case-phone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-phone video { opacity: 0; transition: opacity 300ms ease-out; }
+.case-phone.is-playing video { opacity: 1; }
+.case-head--phone .case-film__foot { justify-content: center; }
+@media (max-width: 900px) {
+  .case-head--phone { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; }
+  .case-head--phone .case-name { font-size: calc(100cqi / var(--name-fit, 4.6)); }
+  .case-phone { width: min(78%, 320px); }
+}
+
+/* ---------- Venue sites ----------
+   Two by two: each venue's recorded tour (or a photograph where the new
+   site is not live yet) with its name, what I did and a Visit pill. */
+.venue-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 4vw, 3.5rem) var(--gap); }
+.venue { min-width: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+.venue-photo { aspect-ratio: 36 / 25; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); overflow: hidden; background: var(--c-ink); }
+.venue-photo img { width: 100%; height: 100%; object-fit: cover; }
+.venue-meta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+.venue-meta h3 { font-size: clamp(1.5rem, 2vw, 2rem); color: var(--c-white); }
+.venue-meta p { max-width: 52ch; font-size: clamp(1rem, 1.1vw, 1.1rem); }
+.venue-meta .pill { margin-top: var(--s-1); }
+@media (max-width: 767px) { .venue-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Venue label on a photograph ---------- */
+.pg-venue {
+  position: absolute; left: 10px; bottom: 10px; z-index: 1;
+  padding: 0.45rem 0.7rem; border: var(--line) solid var(--c-ink); border-radius: var(--r-pill);
+  background: var(--c-linen); color: var(--c-ink);
+  font-family: var(--f-body); font-weight: 500; font-size: 0.8rem; line-height: 1;
+}
+.card--ochre .ledger-row h3 { font-size: clamp(1.4rem, 1.9vw, 1.9rem); }
+
+/* ---------- /work index ---------- */
+.work-intro h1 { font-weight: 800; font-size: clamp(3rem, 8.5vw, 9rem); line-height: 0.8; }
+.work-intro p { margin-top: var(--s-3); max-width: 52ch; font-size: clamp(1.05rem, 1.25vw, 1.3rem); }
+.case-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.case-list > li { display: flex; min-width: 0; }
+/* Each case is one card and one link: the name set to the card, a line,
+   what it covers, and a small piece of the work tilted on the right. */
+.case-card { flex: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: center; transition: transform 140ms ease-out; }
+.case-card:hover, .case-card:focus-visible { transform: translateY(2px); }
+.case-card__text { min-width: 0; container-type: inline-size; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); }
+.case-card__name { font-weight: 900; font-size: calc(100cqi / var(--name-fit, 4.6)); line-height: 0.8; letter-spacing: -0.025em; }
+.case-card__name span { display: block; white-space: nowrap; }
+.case-card__text p { font-size: clamp(1rem, 1.1vw, 1.1rem); max-width: 46ch; }
+.case-card__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.case-card__tags li { padding: 0.45rem 0.8rem; border: var(--line) solid currentColor; border-radius: var(--r-pill); font-weight: 500; font-size: 0.8rem; line-height: 1; }
+.case-card .pill { margin-top: var(--s-1); }
+.case-card__art { min-width: 0; }
+.case-card__art .menu-set__art { pointer-events: none; }
+.menu-set__tile.is-square { height: 70%; }
+.case-phone--still { width: min(100%, 220px); transform: rotate(2deg); }
+.card--kelp.case-card .case-phone { border-color: var(--c-linen); }
+@media (max-width: 1100px) { .case-list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  .case-card { grid-template-columns: minmax(0, 1fr); }
+  .case-card__art { order: -1; max-width: 300px; }
+  .case-phone--still { width: min(60%, 200px); }
+}
+/* balance the two index cards: the menu pair a little taller, the phone a little smaller */
+.case-card__art .menu-set__art { aspect-ratio: 1 / 1.08; }
+.case-card__art .menu-set__tile.is-port { height: 84%; }
+.case-card__art .menu-set__tile.is-square { height: 66%; }
+.case-phone--still { width: min(100%, 200px); }
+
+/* animated stories: the still underneath, the loop fading in over it while it plays */
+.rail-open { position: relative; }
+.rail-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 300ms ease-out; }
+.rail-video.is-playing { opacity: 1; }
+.viewer-stage video { max-width: 100%; max-height: calc(100dvh - 2 * var(--gutter) - 76px); border: var(--line) solid var(--c-linen); border-radius: var(--r-tile); background: var(--c-ink); }
+.viewer-stage video[hidden], .viewer-stage img[hidden] { display: none; }
+
+/* thumb-sized controls on touch screens: the strip and viewer buttons are
+   the page's main controls on a phone, so they get the full 44px */
+@media (pointer: coarse) {
+  .rail-ctrl .pill, .viewer .pill, .case-film__foot .pill, .case-part__toggle { min-height: 44px; }
+}
+.case-quote .review-source { display: inline-block; padding-block: 0.6rem; }

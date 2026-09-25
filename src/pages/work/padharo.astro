@@ -1,0 +1,278 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ContactCard from '../../components/ContactCard.astro';
+import WorkPreview from '../../components/WorkPreview.astro';
+import { reviews } from '../../data/reviews';
+import '../../styles/work.css';
+
+const title = "Padharo Case Study | Website, Menus & Photography | Kombu";
+const description = "One person behind the whole look of Padharo, a Southampton Indian restaurant: the website, the photography and film, the menus, the social feeds and the emails.";
+const url = "https://kombu.uk/work/padharo";
+
+const google = "https://www.google.com/maps/place/Padharo+Indian+Restaurant/@50.9017367,-1.4010082,17z/data=!3m1!4b1!4m6!3m5!1s0x48747763ada37fc1:0x24e3c42fc3d7f675!8m2!3d50.9017367!4d-1.4010082!16s%2Fg%2F11ks4g5vy1";
+const tripadvisor = "https://www.tripadvisor.co.uk/Restaurant_Review-g186299-d26585667-Reviews-PADHARO_Indian_Restaurant-Southampton_Hampshire_England.html";
+const review = reviews.find((r) => r.org === 'Padharo');
+
+const P = '/images/work/padharo';
+// The food menus, each set shown as a pair of tilted tiles like a tray
+// compartment's examples (cover in front, the other side behind), all four
+// in view at once. The drinks booklet follows as a strip of its own.
+const D = '/images/design';
+const foodSets = [
+  { name: "Winter menu 2026", pages: [
+    { src: `${D}/padharo-menu-2026-front.jpg`, w: 1200, h: 1697, alt: "Padharo winter menu 2026, front: nibbles, chaats, street food, tandoor grilled and Indo-Chinese, with the name running down the side" },
+    { src: `${D}/padharo-menu-2026-back.jpg`, w: 1200, h: 1697, alt: "Padharo winter menu 2026, reverse: the winter collection, mains, naan, rice, dosa, sides, desserts and hot drinks" },
+  ] },
+  { name: "Diwali set menu", pages: [
+    { src: `${D}/padharo-diwali-back.jpg`, w: 1200, h: 1697, alt: "Padharo Diwali set menu 2026 cover: rust and gold, an arched frame and a painted elephant under the palms" },
+    { src: `${D}/padharo-diwali-front.jpg`, w: 1200, h: 1697, alt: "Padharo Diwali set menu 2026: nibbles, street food, mains, naan and rice, desserts and side dishes on cream" },
+  ] },
+  { name: "Christmas set menu", pages: [
+    { src: `${D}/padharo-christmas-back.jpg`, w: 1200, h: 1697, alt: "Padharo Christmas set menu cover: gold Christmas script over a festive table of curries and candles" },
+    { src: `${D}/padharo-christmas-front.jpg`, w: 1200, h: 1697, alt: "Padharo Christmas set menu in deep green with gold script and the full set menu listing" },
+  ] },
+  { name: "Kids menu", pages: [
+    { src: `${P}/kids-2.webp`, w: 1600, h: 1132, alt: "Padharo kids menu: main courses to choose from and a word search, all for one price" },
+    { src: `${P}/kids-1.webp`, w: 1600, h: 1132, alt: "Padharo kids menu colouring side: two children at Diwali with a peacock, lanterns and diyas to colour in" },
+  ] },
+];
+
+const drinks = [
+  { src: `${P}/drinks-page-1.webp`, w: 1400, h: 1400, alt: "Padharo drinks menu cover: an old fashioned with an orange twist on a wooden bar top" },
+  { src: `${P}/drinks-spread-1.webp`, sm: `${P}/drinks-spread-1-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: a beer being poured opposite the beers, ciders, whiskey, vodka, rum, gin and aperitifs" },
+  { src: `${P}/drinks-spread-2.webp`, sm: `${P}/drinks-spread-2-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: cocktails and mocktails opposite a strawberry cooler held up against the sky" },
+  { src: `${P}/drinks-spread-3.webp`, sm: `${P}/drinks-spread-3-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: white wine being poured opposite the white, rose, red and sparkling wine lists" },
+  { src: `${P}/drinks-page-5.webp`, w: 1400, h: 1400, alt: "Drinks menu back page: lassis, soft drinks and juices beside three lassis on a carved wooden tray" },
+];
+
+// Hand-composed: each band has one 3:2 anchor that sets the row height and
+// the others fill it. Phones re-plan it as full-width landscapes with the
+// portraits paired underneath (see work.css).
+const photos = [
+  { src: `${P}/photo-spread.webp`, sm: `${P}/photo-spread-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-a', alt: "Overhead of a full Padharo table: curries, dosa, rice, breads and chutneys" },
+  { src: `${P}/photo-dosa.webp`, sm: `${P}/photo-dosa-sm.webp`, w: 1440, h: 1800, shape: 'port', cls: 'pg-b', alt: "Chilli paneer dosa on a white plate with sambar and chutney" },
+  { src: `${P}/photo-front-door.webp`, sm: `${P}/photo-front-door-sm.webp`, w: 1013, h: 1800, shape: 'port', cls: 'pg-c', alt: "Padharo's name running down the brick pillar by the front door on East Street" },
+  { src: `${P}/photo-anniversary-table.webp`, sm: `${P}/photo-anniversary-table-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-d', alt: "Four friends over drinks at a window table" },
+  { src: `${P}/photo-lassi.webp`, sm: `${P}/photo-lassi-sm.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-e', alt: "A mango lassi and a berry lassi beside a white drink with mint, against a brick wall" },
+  { src: `${P}/photo-naan.webp`, sm: `${P}/photo-naan-sm.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-f', alt: "Garlic naan stacked beside a bowl of dal and green chutney" },
+  { src: `${P}/photo-dining-room.webp`, sm: `${P}/photo-dining-room-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-g', alt: "The dining room at Padharo in the evening, tables laid and the bar lit behind" },
+  { src: `${P}/photo-terrace.webp`, sm: `${P}/photo-terrace-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-h', alt: "The bright side room with bench seating, cushions and hanging plants" },
+  { src: `${P}/photo-curry.webp`, sm: `${P}/photo-curry-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-i', alt: "A curry with cream swirled through it, rice and onion bhajis from above" },
+];
+
+const social = [
+  { src: `${P}/social-ganesh.webp`, video: "/videos/work/padharo-story-ganesh.mp4", w: 720, h: 1280, kind: 'story', alt: "Animated Instagram story for Ganesh Chaturthi: Ganesh in red and gold as the greeting writes itself in gold script" },
+  { src: `${P}/social-rakhi-table.webp`, w: 900, h: 1200, kind: 'post', alt: "Raksha Bandhan post: bring your brother, bring your sister, above a marble table with sweets, a lotus candle and three rakhis" },
+  { src: `${P}/social-kids.webp`, w: 720, h: 1280, kind: 'story', alt: "Kids menu story: a small hand tearing naan over a curry on the colouring menu, with the kids eat for one pound card" },
+  { src: `${P}/social-pretty-green.webp`, w: 720, h: 1280, kind: 'story', alt: "Cocktail story: Pretty Green Eyes, two green mojitos raised against a blue sky" },
+  { src: `${P}/social-janmashtami.webp`, video: "/videos/work/padharo-story-janmashtami.mp4", w: 720, h: 1280, kind: 'story', alt: "Animated Instagram story for Janmashtami: a moonlit night, a flute, a pot of butter and the greeting in gold script" },
+  { src: `${P}/social-lunch-deal.webp`, w: 720, h: 1280, kind: 'story', alt: "Lunch deal story: aachari aloo and naan with the curry and rice or naan for ten pounds card" },
+  { src: `${P}/social-rakhi-hands.webp`, w: 720, h: 1280, kind: 'story', alt: "Raksha Bandhan story: a rakhi being tied on a wrist under the line some bonds never change" },
+  { src: `${P}/social-anniversary.webp`, w: 900, h: 1200, kind: 'post', alt: "Third anniversary post: a balloon arch round a giant number three, 25 per cent off all food on Tuesday 18 August" },
+  { src: `${P}/email-birthday.webp`, w: 900, h: 1800, kind: 'email', alt: "Padharo birthday email: happy birthday from all of us, with a free dessert or cocktail that week" },
+  { src: `${P}/email-birthday-capture.webp`, w: 900, h: 2145, kind: 'email', alt: "Padharo email asking subscribers for their birthday so they can be sent a free treat" },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
+  { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Padharo: website, photography, menus, social and email", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Restaurant", "name": "Padharo", "url": "https://www.padharo.co.uk", "servesCuisine": "Indian", "address": { "@type": "PostalAddress", "streetAddress": "100-102 East Street", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Graphic design", "Social media"], "inLanguage": "en-GB" },
+  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work" }, { "@type": "ListItem", "position": 3, "name": "Padharo", "item": url } ] }
+];
+---
+<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/padharo-og.jpg" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Padharo, a Kombu case study: website, menus, photography, social and email" ogType="article">
+
+<Nav />
+
+<main id="main" class="case">
+
+  <!-- The opening: the client's name set across the card like the home
+       wordmark, then the lede beside Ryan's own film (portrait on phones,
+       exactly as it plays on Padharo's own home page). -->
+  <section class="card-section pagehead-section bleed" aria-labelledby="case-h">
+    <div class="card card--white case-head">
+      <h1 id="case-h" class="case-name" style="--name-fit: 3.92">Padharo</h1>
+      <div class="case-head__film">
+        <div class="case-film" data-film
+          data-wide="/videos/work/padharo-film-wide.mp4" data-wide-poster="/videos/work/padharo-film-wide.webp"
+          data-tall="/videos/work/padharo-film-tall.mp4" data-tall-poster="/videos/work/padharo-film-tall.webp">
+          <picture>
+            <source media="(max-width: 767px)" srcset="/videos/work/padharo-film-tall.webp" width="720" height="1280" />
+            <img class="case-film__poster" src="/videos/work/padharo-film-wide.webp" alt="Stills from the Padharo film: the dining room, a flaming wok, the chef, a pomegranate cooler and a mojito being made" width="1280" height="720" fetchpriority="high" />
+          </picture>
+          <video muted playsinline loop preload="none" aria-hidden="true"></video>
+        </div>
+        <div class="case-film__foot">
+          <button type="button" class="pill pill--sm" data-film-toggle hidden aria-pressed="false">Pause film</button>
+        </div>
+      </div>
+      <div class="case-head__text stack">
+        <p class="case-lede">Padharo is a vegetarian Indian restaurant on East Street in Southampton. I built its website, took its photographs, shot the film on its home page and designed its menus, and I look after its social feeds and emails. It all comes from one person, so the menu on the table and the post on Instagram look like the same restaurant.</p>
+        <div class="case-facts">
+          <a class="chip" href={google} target="_blank" rel="noopener">4.7 from 1,500+ Google reviews</a>
+          <a class="chip" href={tripadvisor} target="_blank" rel="noopener">Tripadvisor Travellers' Choice 2026</a>
+        </div>
+        <div class="pagehead-actions">
+          <a class="pill pill--fill" href="https://wa.me/442381112819" target="_blank" rel="noopener">Talk to me on WhatsApp</a>
+          <a class="pill" href="https://www.padharo.co.uk" target="_blank" rel="noopener">padharo.co.uk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Website: terracotta, the Websites compartment's fill -->
+  <section class="card-section bleed" id="website" aria-labelledby="website-h">
+    <div class="card card--terracotta case-part case-part--web">
+      <div class="case-part__text stack">
+        <h2 id="website-h">Website</h2>
+        <p>I designed and built padharo.co.uk from scratch. Every dish on the menu page can be filtered by diet and allergen, Diwali and Christmas get their own pages each year, tables book through OpenTable and gift vouchers sell through Toast.</p>
+        <p>Seasonal menus go up and come down on their own dates, so the site never shows last month's specials.</p>
+        <a class="pill" href="https://www.padharo.co.uk" target="_blank" rel="noopener">Visit padharo.co.uk</a>
+      </div>
+      <div class="case-part__media">
+        <div class="project-browser case-browser">
+          <WorkPreview slug="padharo" alt="A recorded tour of the Padharo website on a desktop screen, from the home page film down through the menu and bookings" />
+        </div>
+        <button type="button" class="pill pill--sm case-part__toggle" data-work-previews-toggle aria-pressed="false">Pause previews</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menus: ochre, the Graphic design compartment's fill -->
+  <section class="card-section bleed" id="menus" aria-labelledby="menus-h">
+    <div class="card card--ochre case-part">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="menus-h">Menus</h2>
+          <p>I design all of Padharo's menus. The main menu gets rebuilt once or twice a year as dishes come and go, with set menus for Diwali and Christmas and a kids' menu that turns over into a colouring sheet. New this year is the drinks menu, a square booklet with one of my photographs opposite every list.</p>
+        </div>
+      </div>
+      <ul class="menu-sets">
+        {foodSets.map((set) => (
+          <li class="menu-set">
+            <div class="menu-set__art">
+              {set.pages.map((pg, j) => (
+                <button type="button" class={`menu-set__tile ${j === 0 ? 'is-front' : 'is-back'} ${pg.w > pg.h ? 'is-land' : 'is-port'}`} style={`--ar: ${pg.w / pg.h}`} data-view="food" data-full={pg.src} data-w={pg.w} data-h={pg.h} aria-label={`Open full screen: ${pg.alt}`}>
+                  <img src={pg.src} alt={pg.alt} width={pg.w} height={pg.h} loading="lazy" decoding="async" />
+                </button>
+              ))}
+            </div>
+            <p class="menu-set__name">{set.name}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="menu-drinks">
+        <div class="menu-drinks__head">
+          <h3>Drinks menu</h3>
+          <span class="chip">New for 2026</span>
+        </div>
+        <div class="rail" data-rail>
+          <ul class="rail-track" tabindex="0" aria-label="Padharo drinks menu, scroll sideways">
+            {drinks.map((m, i) => (
+              <li class="rail-item" style={`--ar: ${m.w / m.h}`}>
+                <button type="button" class="rail-open" data-view="drinks" data-full={m.src} data-w={m.w} data-h={m.h} aria-label={`Open full screen: ${m.alt}`}>
+                  <img src={m.sm ?? m.src} alt={m.alt} width={m.w} height={m.h} loading="lazy" decoding="async" />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div class="rail-foot">
+            <p class="rail-hint">Swipe along, or tap a page to open it full screen.</p>
+            <div class="rail-ctrl">
+              <button type="button" class="pill pill--sm" data-rail-prev aria-label="Previous page of the drinks menu">Back</button>
+              <span class="rail-count" aria-live="polite"><span data-rail-now>1</span> of {drinks.length}</span>
+              <button type="button" class="pill pill--sm" data-rail-next aria-label="Next page of the drinks menu">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photography: kelp, the Photography compartment's fill -->
+  <section class="card-section bleed" id="photography" aria-labelledby="photography-h">
+    <div class="card card--kelp case-part">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="photography-h">Photography</h2>
+          <p>I've photographed Padharo since 2023: new dishes whenever the menu changes, the dining room, the kitchen and the people who eat there. They're the photographs on the website. The film at the top of this page is mine too, and it plays on Padharo's home page.</p>
+        </div>
+      </div>
+      <ul class="photo-grid">
+        {photos.map((p) => (
+          <li class={`pg-tile pg-tile--${p.shape} ${p.cls}`}>
+            <button type="button" class="pg-open" data-view="photos" data-full={p.src} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}`}>
+              <img src={p.sm} srcset={`${p.sm} 900w, ${p.src} 1800w`} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Social and email: mist, the Marketing compartment's fill -->
+  <section class="card-section bleed" id="social" aria-labelledby="social-h">
+    <div class="card card--mist case-part case-part--rail">
+      <div class="case-part__head">
+        <div class="stack">
+          <h2 id="social-h">Social and email</h2>
+          <p>I run Padharo's Instagram and Facebook: festivals, match days, offers and anniversaries, some of them animated. I also design and send the emails, from the newsletter to the birthday emails that bring people back for a free dessert.</p>
+        </div>
+      </div>
+      <div class="rail rail--social" data-rail>
+        <ul class="rail-track" tabindex="0" aria-label="Padharo emails and social posts, scroll sideways">
+          {social.map((s) => (
+            <li class={`rail-item rail-item--${s.kind}`} style={`--ar: ${s.kind === 'email' ? 0.6 : s.w / s.h}`}>
+              <button type="button" class="rail-open" data-view="social" data-full={s.src} data-video={s.video} data-w={s.w} data-h={s.h} aria-label={`Open full screen: ${s.alt}`}>
+                <img src={s.src} alt={s.alt} width={s.w} height={s.h} loading="lazy" decoding="async" />
+                {s.video && <video class="rail-video" muted playsinline loop preload="none" data-src={s.video} aria-hidden="true"></video>}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="rail-foot">
+          <p class="rail-hint">Tap any post to see it full size, or an email to read it in full.</p>
+          <div class="rail-ctrl">
+            <button type="button" class="pill pill--sm" data-rail-prev aria-label="Previous item">Back</button>
+            <span class="rail-count" aria-live="polite"><span data-rail-now>1</span> of {social.length}</span>
+            <button type="button" class="pill pill--sm" data-rail-next aria-label="Next item">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {review && (
+    <section class="card-section bleed" aria-label="Ankit Vaghela's review">
+      <figure class="card card--white case-quote">
+        <blockquote><p>{review.quote}</p></blockquote>
+        <figcaption>
+          <span class="review-name">{review.name}</span>
+          <span class="review-org">Padharo</span>
+          {review.url && <a class="review-source" href={review.url} target="_blank" rel="noopener">Read the full review on Google</a>}
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  <section class="band bleed case-more" aria-labelledby="more-h">
+    <div class="sec-head">
+      <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
+    </div>
+    <div class="pagehead-actions">
+      <a class="pill" href="/web-design#work">Websites I've built</a>
+      <a class="pill" href="/design">Graphic design</a>
+      <a class="pill" href="/photography">Photography</a>
+    </div>
+  </section>
+
+  <ContactCard text="If your menus, photos, website and socials were made by different people, I can bring them into one look. Tell me what you've got and I'll tell you where I'd start." />
+
+</main>
+
+<Footer />
+
+<script is:inline src="/work-previews.js"></script>
+<script is:inline src="/case-study.js"></script>
+</Layout>

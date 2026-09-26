@@ -4,13 +4,14 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import ContactCard from '../../components/ContactCard.astro';
 import WorkPreview from '../../components/WorkPreview.astro';
+import CasePromo from '../../components/CasePromo.astro';
 import Ledger from '../../components/Ledger.astro';
 import { reviews } from '../../data/reviews';
 import '../../styles/work.css';
 
 const title = "Mustang Group Case Study | Websites, Photography & Care | Kombu";
-const description = "Looking after Mustang Group's Southampton venues: three venue sites rebuilt, a new phone-first group site, photography across the venues and a report every Monday.";
-const url = "https://kombu.uk/work/mustang-group";
+const description = "Looking after Mustang Group's Southampton venues: three venue sites rebuilt, a new phone-first group site, venue photography and a report every Monday.";
+const url = "https://kombu.uk/work/mustang-group/";
 const review = reviews.find((r) => r.org === 'Mustang Group');
 
 const M = '/images/work/mustang';
@@ -40,40 +41,43 @@ const photos = [
 
 const care = [
   { t: "Hosting and changes", d: "The sites run on Cloudflare, and when a venue needs something changed, it comes to me: new events on The Grand's site, say, or the events and gallery pages Grumpy Monkey added in September." },
-  { t: "A report every Monday", d: "Every Monday the group gets a written report on how each venue site did the week before." },
-  { t: "A private dashboard", d: "The marketing team has its own dashboard for the venue sites, refreshed twice a day, so nobody has to wait for Monday." },
+  { t: "A report every Monday", d: "Every Monday the group gets a report on how the Banana Wharf and Ennio's sites did the week before." },
+  { t: "A private dashboard", d: "The marketing team has its own dashboard for the Banana Wharf, Ennio's and Grumpy Monkey sites, refreshed twice a day, so nobody has to wait for Monday." },
   { t: "Google listings", d: "I look after Banana Wharf's two Google Business Profile listings, the hours and details people see when they search for it." },
 ];
 
 const extraSchema = [
   { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
   { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Mustang Group: venue websites, group site, photography and care", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Organization", "name": "Mustang Group", "foundingDate": "1987", "address": { "@type": "PostalAddress", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Website care"], "inLanguage": "en-GB" },
-  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work" }, { "@type": "ListItem", "position": 3, "name": "Mustang Group", "item": url } ] }
+  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work/" }, { "@type": "ListItem", "position": 3, "name": "Mustang Group", "item": url } ] },
+  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Mustang Group: six venues, their websites and photography", "description": "A 32 second film cut to music: the four venues Kombu has photographed, three rebuilt venue sites, Banana Wharf loading on a phone in 4.3 seconds instead of 17, the new group site and the weekly care behind them.", "thumbnailUrl": ["https://kombu.uk/videos/work/mustang-promo-wide.webp", "https://kombu.uk/videos/work/mustang-promo-tall.webp"], "uploadDate": "2026-09-26", "duration": "PT32S", "contentUrl": "https://kombu.uk/videos/work/mustang-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/mustang-group-og.jpg" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Mustang Group, a Kombu case study: venue websites, a new group site, photography and care" ogType="article">
+  <Fragment slot="head">
+    <meta property="og:video" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4" />
+    <meta property="og:video:secure_url" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1600" />
+    <meta property="og:video:height" content="900" />
+  </Fragment>
 
-<Nav />
+<Nav current="work" />
 
 <main id="main" class="case">
 
-  <!-- The opening: the group's name across the card, and the new group
-       site as a phone sees it, because the phone version was designed on
-       its own, not shrunk from the desktop. -->
+  <!-- The opening: the group's name across the card, then the film of the
+       whole job at the card's full width (4:5 on phones), with the lede and
+       links beneath it. The phone recording of the new group site now sits
+       with the group site below. -->
   <section class="card-section pagehead-section bleed" aria-labelledby="case-h">
-    <div class="card card--white case-head case-head--phone">
-      <h1 id="case-h" class="case-name case-name--two" style="--name-fit: 4.07"><span>Mustang</span> <span>Group</span></h1>
+    <div class="card card--white case-head case-head--promo">
+      <h1 id="case-h" class="case-name" style="--name-fit: 7.02">Mustang Group</h1>
       <div class="case-head__film">
-        <div class="case-phone" data-film data-wide="/videos/work/mustang-phone.mp4" data-tall="/videos/work/mustang-phone.mp4">
-          <img class="case-film__poster" src="/videos/work/mustang-phone.webp" alt="The new Mustang Group site on a phone: the Banana Wharf tuk-tuk under the Mustang name, then the venue deck swiped through The Grand, Ennio's, both Banana Wharfs, Rubys and Grumpy Monkey" width="720" height="1558" fetchpriority="high" />
-          <video muted playsinline loop preload="none" aria-hidden="true"></video>
-        </div>
-        <div class="case-film__foot">
-          <button type="button" class="pill pill--sm" data-film-toggle hidden aria-pressed="false">Pause film</button>
-        </div>
+        <CasePromo name="Mustang Group" slug="mustang" alt="The Mustang Group film: The Grand, Ennio's, Banana Wharf and Grumpy Monkey tagged website and photography, three rebuilt venue sites, Banana Wharf loading on a phone in 4.3 seconds instead of 17, the new group site, rows of venue photographs and the weekly care, ending on Kombu" />
       </div>
       <div class="case-head__text stack">
-        <p class="case-lede">Mustang Group is a family-run group of six venues in and around Southampton, established in 1987. Since May 2026 I've looked after their websites: I've rebuilt three of the venue sites, built a new site for the group and photographed the venues, and every Monday the group gets a report on how each site is doing.</p>
+        <p class="case-lede">Mustang Group is a family-run group of six venues in and around Southampton, established in 1987. Since May 2026 I've looked after their websites: I've rebuilt three of the venue sites, built a new site for the group and photographed the venues, and every Monday the group gets a report on how the Banana Wharf and Ennio's sites are doing.</p>
         <div class="case-facts">
           <span class="chip">Looking after the group since May 2026</span>
           <span class="chip">Banana Wharf on a phone: 17 seconds to 4.3</span>
@@ -93,11 +97,19 @@ const extraSchema = [
         <h2 id="group-h">Group site</h2>
         <p>The new group site puts all six venues in one place. On a phone they become a deck you swipe through, each with Book, Call and Directions under your thumb, and every booking button goes straight to that venue's own booking page.</p>
         <p>It isn't live yet, so the link below goes to the preview.</p>
-        <a class="pill" href="https://mustang-group-rebuild.pages.dev" target="_blank" rel="noopener">See the preview</a>
+        <div class="pagehead-actions case-links">
+          <a class="pill" href="https://mustang-group-rebuild.pages.dev" target="_blank" rel="noopener">See the preview</a>
+          <a class="pill" href="/web-design/">Web design</a>
+        </div>
       </div>
       <div class="case-part__media">
-        <div class="project-browser case-browser">
-          <WorkPreview slug="mustang-group" alt="A recorded tour of the new Mustang Group site on a desktop screen, from the Banana Wharf tuk-tuk down through the venues" />
+        <div class="case-duo">
+          <div class="project-browser case-browser">
+            <WorkPreview slug="mustang-group" alt="A recorded tour of the new Mustang Group site on a desktop screen, from the Banana Wharf tuk-tuk down through the venues" />
+          </div>
+          <div class="case-duo__phone">
+            <WorkPreview slug="mustang-phone" alt="The new Mustang Group site on a phone: the Banana Wharf tuk-tuk under the Mustang name, then the venue deck swiped through The Grand, Ennio's, both Banana Wharfs, Rubys and Grumpy Monkey" />
+          </div>
         </div>
         <button type="button" class="pill pill--sm case-part__toggle" data-work-previews-toggle aria-pressed="false">Pause previews</button>
       </div>
@@ -139,6 +151,7 @@ const extraSchema = [
         <div class="stack">
           <h2 id="photography-h">Photography</h2>
           <p>I photograph the venues too: Sunday roasts at Banana Wharf, the rooms and the restaurant at Ennio's, Grumpy Monkey's food and interiors, and The Grand's Christmas party.</p>
+          <div class="pagehead-actions case-links"><a class="pill" href="/photography/">Venue and food photography</a></div>
         </div>
       </div>
       <ul class="photo-grid">
@@ -161,6 +174,7 @@ const extraSchema = [
         <div class="stack">
           <h2 id="care-h">Looking after it</h2>
           <p>Once a site is live, this is how I look after it.</p>
+          <div class="pagehead-actions case-links"><a class="pill" href="/marketing/">Marketing and infrastructure</a></div>
         </div>
       </div>
       <Ledger items={care} />
@@ -184,9 +198,11 @@ const extraSchema = [
       <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
     </div>
     <div class="pagehead-actions">
-      <a class="pill" href="/work/padharo">Padharo</a>
-      <a class="pill" href="/work">All work</a>
-      <a class="pill" href="/web-design#work">Websites I've built</a>
+      <a class="pill" href="/work/padharo/">The Padharo case study</a>
+      <a class="pill" href="/work/">All case studies</a>
+      <a class="pill" href="/web-design/#work">Websites I've built</a>
+      <a class="pill" href="/photography/">Photography</a>
+      <a class="pill" href="/marketing/">Marketing</a>
     </div>
   </section>
 

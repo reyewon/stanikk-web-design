@@ -90,7 +90,10 @@ const extraSchema = [
   <section class="band bleed" id="gallery" aria-labelledby="gallery-h">
     <div class="sec-head work-head">
       <h2 id="gallery-h">Recent work</h2>
-      <a href="https://ryanstanikk.co.uk" class="pill" target="_blank" rel="noopener">See it all</a>
+      <div class="work-actions">
+        <a href="https://ryanstanikk.co.uk" class="pill" target="_blank" rel="noopener">See it all</a>
+        <a href="/work/" class="pill">Case studies</a>
+      </div>
     </div>
     <div class="photo-masonry" data-lightbox>
       {gallery.map((img) => (

@@ -1,15 +1,16 @@
 ---
 // Shared floating pill nav for every page. `current` marks the active
 // link with aria-current="page"; the home link always points at /.
-interface Props { current?: 'home' | 'web-design' | 'design' | 'photography' | 'marketing' | 'about'; }
+interface Props { current?: 'home' | 'web-design' | 'design' | 'photography' | 'marketing' | 'work' | 'about'; }
 const { current } = Astro.props as Props;
 
 const nav = [
-  { id: 'web-design', href: '/web-design', label: 'Websites', line: 'Bespoke sites and web apps', fill: 'terracotta' },
-  { id: 'design', href: '/design', label: 'Design', line: 'Logos, menus and print', fill: 'ochre' },
-  { id: 'photography', href: '/photography', label: 'Photography', line: 'Food, interiors, product and brand', fill: 'kelp' },
-  { id: 'marketing', href: '/marketing', label: 'Marketing', line: 'Strategy, ads, social and the systems behind them', fill: 'mist' },
-  { id: 'about', href: '/about', label: 'About', line: 'Ryan Stanikk, a one-person studio', fill: 'linen' },
+  { id: 'web-design', href: '/web-design/', label: 'Websites', line: 'Bespoke sites and web apps', fill: 'terracotta' },
+  { id: 'design', href: '/design/', label: 'Design', line: 'Logos, menus and print', fill: 'ochre' },
+  { id: 'photography', href: '/photography/', label: 'Photography', line: 'Food, interiors, product and brand', fill: 'kelp' },
+  { id: 'marketing', href: '/marketing/', label: 'Marketing', line: 'Strategy, ads, social and the systems behind them', fill: 'mist' },
+  { id: 'work', href: '/work/', label: 'Work', line: 'Case studies from real clients', fill: 'ink' },
+  { id: 'about', href: '/about/', label: 'About', line: 'Ryan Stanikk, a one-person studio', fill: 'linen' },
 ];
 const WA = 'https://wa.me/442381112819';
 ---
@@ -21,7 +22,7 @@ const WA = 'https://wa.me/442381112819';
   </ul>
   <a href={WA} class="pill pill--fill pill--sm" target="_blank" rel="noopener">WhatsApp me</a>
 </nav>
-<!-- Phones: the menu is a tray of its own. The five sections as filled
+<!-- Phones: the menu is a tray of its own. The six sections as filled
      compartments on the ink lid, popping in one after another. -->
 <div class="menu" id="menu" hidden>
   <div class="menu-top">

@@ -13,16 +13,21 @@ import sharp from 'sharp';
 const dir=await fs.mkdtemp(join(tmpdir(),'kombu-recordings-'));
 const out=fileURLToPath(new URL('./public/videos/work/',import.meta.url));
 console.log('Review frames:',dir);
-const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://soleto-website.pages.dev/?embed=1'],['msnry','https://msnry.app/'],['ennios','https://www.ennios.co.uk/']];
+const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://soleto-website.pages.dev/?embed=1'],['msnry','https://msnry.app/'],['ennios','https://www.ennios.co.uk/'],['kesarum','https://www.kesarum.co.uk/']];
 async function prepare(page,url){
  await page.addInitScript(()=>{localStorage.setItem('bw:location','ocean-village');localStorage.setItem('bw:consent','denied');localStorage.setItem('bw:modal-seen','1');});
  const r=await page.goto(url,{waitUntil:'load',timeout:60000});if(!r.ok())throw Error(r.status()+' '+url);
  await page.waitForTimeout(4000);
  await page.addStyleTag({content:`[aria-label="Cookie consent"],[aria-labelledby="marina-modal-title"],.loader,#loader,.popup-backdrop,.popup-modal,[id*="cookie" i],[class*="cookie-banner" i],[class*="cookie-consent" i],.cky-consent-container,.cky-overlay,.cky-modal,.cky-btn-revisit-wrapper,[aria-label="Cookies"],[aria-label="Refurbishment notice"]{display:none!important} html,body{overflow-x:clip!important} html{scrollbar-width:none!important}`});
- await page.evaluate(()=>{document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';document.querySelectorAll('video').forEach(v=>{v.muted=true;v.play().catch(()=>{});});});
+ await page.evaluate(()=>{if(getComputedStyle(document.documentElement).overflowY==='hidden')document.documentElement.style.overflowY='auto';if(getComputedStyle(document.body).overflowY==='hidden')document.body.style.overflowY='visible';document.querySelectorAll('video').forEach(v=>{v.muted=true;v.play().catch(()=>{});});});
  await page.evaluate(()=>document.fonts.ready);
 }
-const stops={'padharo':[1000,2600,4200],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140],msnry:[1300,2800,4300],ennios:[1200,2500,3900]};
+const stops={'padharo':[1000,2600,4200],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140],msnry:[1300,2800,4300],ennios:[1200,2500,3900],kesarum:[1200,2500,3900]};
+const msnryStops=[900,1800,2800,4300,5600,7600,9500];
+stops.msnry=msnryStops;
+// milliseconds: the opening hold, each scroll and each hold (default 4000 / 3600 / 3000)
+const pace={msnry:{open:2500,scroll:1700,hold:1100}};
+const paceOf=slug=>Object.assign({open:4000,scroll:3600,hold:3000},pace[slug]||{});
 const selected=sites.filter(([slug])=>!process.argv[2]||process.argv.slice(2).includes(slug));
 if(!selected.length)throw new Error('No matching website slug. Nothing recorded.');
 await fs.mkdir(out,{recursive:true});
@@ -50,7 +55,7 @@ for(const [slug,url] of selected){
   const window=windows.find(w=>w.title==='Kombu recording '+slug);
   if(!window)throw Error('Recording window not found');
   const raw=dir+'/'+slug+'-native.mp4';
-  const seconds=4+6.6*stops[slug].length+2;
+  const P=paceOf(slug);const seconds=P.open/1000+(P.scroll+P.hold)/1000*stops[slug].length+2;
   const capture=spawn(recorder,[String(window.windowID),raw,'1','87','1440','1000',String(seconds)]);
   let log='',ready;
   const started=new Promise(resolve=>ready=resolve);
@@ -58,15 +63,15 @@ for(const [slug,url] of selected){
   const finished=new Promise((resolve,reject)=>{capture.on('error',reject);capture.on('close',code=>code===0?resolve():reject(Error(log)));});
   await Promise.race([started,finished.then(()=>{throw Error('Recorder ended before starting');})]);
   const begin=Date.now();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(P.open);
   const actual=[];
   for(const [i,target] of stops[slug].entries()){
-   await page.evaluate(target=>new Promise(resolve=>{
+   await page.evaluate(([target,dur])=>new Promise(resolve=>{
     const start=performance.now(),from=scrollY;
     const set=y=>window.__lenis?window.__lenis.scrollTo(y,{immediate:true,force:true}):window.scrollTo({top:y,behavior:'instant'});
-    function step(now){const t=Math.min(1,(now-start)/3600);const eased=(1-Math.cos(Math.PI*t))/2;set(from+(target-from)*eased);if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);
-   }),target);
-   await page.waitForTimeout(3000);
+    function step(now){const t=Math.min(1,(now-start)/dur);const eased=(1-Math.cos(Math.PI*t))/2;set(from+(target-from)*eased);if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);
+   }),[target,P.scroll]);
+   await page.waitForTimeout(P.hold);
    actual.push(await page.evaluate(()=>Math.round(scrollY)));
    // Screenshots during native capture can resize Chromium's recorded surface.
   }

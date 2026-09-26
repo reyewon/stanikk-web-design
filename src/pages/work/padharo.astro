@@ -4,12 +4,13 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import ContactCard from '../../components/ContactCard.astro';
 import WorkPreview from '../../components/WorkPreview.astro';
+import CasePromo from '../../components/CasePromo.astro';
 import { reviews } from '../../data/reviews';
 import '../../styles/work.css';
 
 const title = "Padharo Case Study | Website, Menus & Photography | Kombu";
-const description = "One person behind the whole look of Padharo, a Southampton Indian restaurant: the website, the photography and film, the menus, the social feeds and the emails.";
-const url = "https://kombu.uk/work/padharo";
+const description = "One person behind the whole look of Padharo, a Southampton Indian restaurant: the website, photography and film, menus, social feeds and emails.";
+const url = "https://kombu.uk/work/padharo/";
 
 const google = "https://www.google.com/maps/place/Padharo+Indian+Restaurant/@50.9017367,-1.4010082,17z/data=!3m1!4b1!4m6!3m5!1s0x48747763ada37fc1:0x24e3c42fc3d7f675!8m2!3d50.9017367!4d-1.4010082!16s%2Fg%2F11ks4g5vy1";
 const tripadvisor = "https://www.tripadvisor.co.uk/Restaurant_Review-g186299-d26585667-Reviews-PADHARO_Indian_Restaurant-Southampton_Hampshire_England.html";
@@ -78,34 +79,31 @@ const social = [
 const extraSchema = [
   { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
   { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Padharo: website, photography, menus, social and email", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Restaurant", "name": "Padharo", "url": "https://www.padharo.co.uk", "servesCuisine": "Indian", "address": { "@type": "PostalAddress", "streetAddress": "100-102 East Street", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Graphic design", "Social media"], "inLanguage": "en-GB" },
-  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work" }, { "@type": "ListItem", "position": 3, "name": "Padharo", "item": url } ] }
+  { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work/" }, { "@type": "ListItem", "position": 3, "name": "Padharo", "item": url } ] },
+  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Padharo: the whole look, from one person", "description": "A 38 second film cut to music: the kitchen, the food photography, the menus, the drinks list, the website, the social posts and an email Kombu made for Padharo.", "thumbnailUrl": ["https://kombu.uk/videos/work/padharo-promo-wide.webp", "https://kombu.uk/videos/work/padharo-promo-tall.webp"], "uploadDate": "2026-09-26", "duration": "PT38S", "contentUrl": "https://kombu.uk/videos/work/padharo-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/padharo-og.jpg" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Padharo, a Kombu case study: website, menus, photography, social and email" ogType="article">
+  <Fragment slot="head">
+    <meta property="og:video" content="https://kombu.uk/videos/work/padharo-promo-wide.mp4" />
+    <meta property="og:video:secure_url" content="https://kombu.uk/videos/work/padharo-promo-wide.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1600" />
+    <meta property="og:video:height" content="900" />
+  </Fragment>
 
-<Nav />
+<Nav current="work" />
 
 <main id="main" class="case">
 
   <!-- The opening: the client's name set across the card like the home
-       wordmark, then the lede beside Ryan's own film (portrait on phones,
-       exactly as it plays on Padharo's own home page). -->
+       wordmark, then the film of the whole job at the card's full width
+       (4:5 on phones), with the lede and links beneath it. -->
   <section class="card-section pagehead-section bleed" aria-labelledby="case-h">
-    <div class="card card--white case-head">
+    <div class="card card--white case-head case-head--promo">
       <h1 id="case-h" class="case-name" style="--name-fit: 3.92">Padharo</h1>
       <div class="case-head__film">
-        <div class="case-film" data-film
-          data-wide="/videos/work/padharo-film-wide.mp4" data-wide-poster="/videos/work/padharo-film-wide.webp"
-          data-tall="/videos/work/padharo-film-tall.mp4" data-tall-poster="/videos/work/padharo-film-tall.webp">
-          <picture>
-            <source media="(max-width: 767px)" srcset="/videos/work/padharo-film-tall.webp" width="720" height="1280" />
-            <img class="case-film__poster" src="/videos/work/padharo-film-wide.webp" alt="Stills from the Padharo film: the dining room, a flaming wok, the chef, a pomegranate cooler and a mojito being made" width="1280" height="720" fetchpriority="high" />
-          </picture>
-          <video muted playsinline loop preload="none" aria-hidden="true"></video>
-        </div>
-        <div class="case-film__foot">
-          <button type="button" class="pill pill--sm" data-film-toggle hidden aria-pressed="false">Pause film</button>
-        </div>
+        <CasePromo name="Padharo" slug="padharo" alt="The Padharo film: flames and the kitchen, the food photographs, the winter, Diwali, Christmas and kids menus, the drinks list, the website, social posts and an email, ending on Kombu" />
       </div>
       <div class="case-head__text stack">
         <p class="case-lede">Padharo is a vegetarian Indian restaurant on East Street in Southampton. I built its website, took its photographs, shot the film on its home page and designed its menus, and I look after its social feeds and emails. It all comes from one person, so the menu on the table and the post on Instagram look like the same restaurant.</p>
@@ -128,7 +126,10 @@ const extraSchema = [
         <h2 id="website-h">Website</h2>
         <p>I designed and built padharo.co.uk from scratch. Every dish on the menu page can be filtered by diet and allergen, Diwali and Christmas get their own pages each year, tables book through OpenTable and gift vouchers sell through Toast.</p>
         <p>Seasonal menus go up and come down on their own dates, so the site never shows last month's specials.</p>
-        <a class="pill" href="https://www.padharo.co.uk" target="_blank" rel="noopener">Visit padharo.co.uk</a>
+        <div class="pagehead-actions case-links">
+          <a class="pill" href="https://www.padharo.co.uk" target="_blank" rel="noopener">Visit padharo.co.uk</a>
+          <a class="pill" href="/web-design/">Web design</a>
+        </div>
       </div>
       <div class="case-part__media">
         <div class="project-browser case-browser">
@@ -146,6 +147,7 @@ const extraSchema = [
         <div class="stack">
           <h2 id="menus-h">Menus</h2>
           <p>I design all of Padharo's menus. The main menu gets rebuilt once or twice a year as dishes come and go, with set menus for Diwali and Christmas and a kids' menu that turns over into a colouring sheet. New this year is the drinks menu, a square booklet with one of my photographs opposite every list.</p>
+          <div class="pagehead-actions case-links"><a class="pill" href="/design/">Menu and print design</a></div>
         </div>
       </div>
       <ul class="menu-sets">
@@ -196,7 +198,8 @@ const extraSchema = [
       <div class="case-part__head">
         <div class="stack">
           <h2 id="photography-h">Photography</h2>
-          <p>I've photographed Padharo since 2023: new dishes whenever the menu changes, the dining room, the kitchen and the people who eat there. They're the photographs on the website. The film at the top of this page is mine too, and it plays on Padharo's home page.</p>
+          <p>I've photographed Padharo since 2023: new dishes whenever the menu changes, the dining room, the kitchen and the people who eat there. They're the photographs on the website. The film on Padharo's home page is mine too, and its shots open the film at the top of this page.</p>
+          <div class="pagehead-actions case-links"><a class="pill" href="/photography/">Food and restaurant photography</a></div>
         </div>
       </div>
       <ul class="photo-grid">
@@ -218,6 +221,7 @@ const extraSchema = [
         <div class="stack">
           <h2 id="social-h">Social and email</h2>
           <p>I run Padharo's Instagram and Facebook: festivals, match days, offers and anniversaries, some of them animated. I also design and send the emails, from the newsletter to the birthday emails that bring people back for a free dessert.</p>
+          <div class="pagehead-actions case-links"><a class="pill" href="/marketing/">Social and email marketing</a></div>
         </div>
       </div>
       <div class="rail rail--social" data-rail>
@@ -261,9 +265,12 @@ const extraSchema = [
       <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
     </div>
     <div class="pagehead-actions">
-      <a class="pill" href="/web-design#work">Websites I've built</a>
-      <a class="pill" href="/design">Graphic design</a>
-      <a class="pill" href="/photography">Photography</a>
+      <a class="pill" href="/work/mustang-group/">The Mustang Group case study</a>
+      <a class="pill" href="/work/">All case studies</a>
+      <a class="pill" href="/web-design/#work">Websites I've built</a>
+      <a class="pill" href="/design/">Graphic design</a>
+      <a class="pill" href="/photography/">Photography</a>
+      <a class="pill" href="/marketing/">Marketing</a>
     </div>
   </section>
 

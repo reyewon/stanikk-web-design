@@ -14,23 +14,23 @@ const description = "A one-person creative studio in Southampton: web design, gr
 // Every fact below is lifted from the live site. Nothing new is claimed.
 // Each cell shows two stacked examples of the work: front and back.
 const cells = [
-  { id: 'web', href: '/web-design', title: 'Websites', fact: 'From £49 a month', body: 'Bespoke, fast, design-led websites and web apps. No templates, no agency runaround.',
+  { id: 'web', href: '/web-design/', title: 'Websites', fact: 'From £49 a month', body: 'Bespoke, fast, design-led websites and web apps. No templates, no agency runaround.',
     front: { img: '/images/preview/msnry.webp', alt: 'The msnry app website, built by Kombu' },
     back: { img: '/images/preview/the-grand.webp', alt: 'The Grand Southampton website, designed by Kombu' } },
-  { id: 'photo', href: '/photography', title: 'Photography', fact: '2 hours from £275', body: 'Food, interiors, product and brand photography that earns the booking.',
+  { id: 'photo', href: '/photography/', title: 'Photography', fact: '2 hours from £275', body: 'Food, interiors, product and brand photography that earns the booking.',
     front: { img: '/images/tray/photo-a.webp', alt: 'A bowl of golden battered bites with chilli and coriander, restaurant food photography by Kombu' },
     back: { img: '/images/tray/photo-b.webp', alt: 'A smiling woman in a striped cardigan holding a mug, outdoor portrait photography by Kombu' } },
-  { id: 'design', href: '/design', title: 'Graphic design', fact: '20 years of design', body: 'Brand identities, menus, print and editorial, with two decades behind the pen.',
+  { id: 'design', href: '/design/', title: 'Graphic design', fact: '20 years of design', body: 'Brand identities, menus, print and editorial, with two decades behind the pen.',
     front: { img: '/images/design/kwackers-burgers.jpg', alt: 'The Kwackers burger menu, designed by Kombu' },
     back: { img: '/images/design/ideal-produce-spread-1.jpg', alt: 'An Ideal Produce catalogue spread, designed by Kombu' } },
-  { id: 'mktg', href: '/marketing', title: 'Marketing & infrastructure', fact: 'Health Check from £295', body: 'Strategy, ads, social and local SEO, plus the systems, sourcing and tools that tie a business together.',
+  { id: 'mktg', href: '/marketing/', title: 'Marketing & infrastructure', fact: 'Health Check from £295', body: 'Strategy, ads, social and local SEO, plus the systems, sourcing and tools that tie a business together.',
     front: { img: '/images/design/padharo-menu-2026-front.jpg', alt: 'The front of the 2026 Padharo menu, designed by Kombu' },
     back: { img: '/images/tray/mktg-meeting.webp', alt: 'Ryan Stanikk at a cafe table, listening across two coffees' } },
 ];
 
 const work = [
-  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
-  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
+  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group/#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
   { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
 ];
 
@@ -90,7 +90,7 @@ const extraSchema = [
         <h2 id="connected-h">One brand,<br />kept together</h2>
         <p>For Padharo, I handle the photography, menus, website, social and strategy. Every piece comes from the same person, so it all belongs together.</p>
         <p>From the first impression online to the menu on the table, the same care runs through it. One conversation, with the person doing the work.</p>
-        <a href="/design#cs-padharo" class="pill">Explore Padharo</a>
+        <a href="/design/#cs-padharo" class="pill">Explore Padharo</a>
       </div>
       <div class="connected-proof">
         <figure class="proof-web">
@@ -98,11 +98,11 @@ const extraSchema = [
           <figcaption>The website</figcaption>
         </figure>
         <figure class="proof-print">
-          <a class="proof-surface" href="/design#cs-padharo"><img src="/images/design/padharo-menu-2026-front.jpg" alt="The 2026 Padharo menu, with cream, navy and terracotta sections" loading="lazy" width="1200" height="1697" /></a>
+          <a class="proof-surface" href="/design/#cs-padharo"><img src="/images/design/padharo-menu-2026-front.jpg" alt="The 2026 Padharo menu, with cream, navy and terracotta sections" loading="lazy" width="1200" height="1697" /></a>
           <figcaption>The menu</figcaption>
         </figure>
         <figure class="proof-print">
-          <a class="proof-surface" href="/design#cs-padharo"><img src="/images/design/padharo-christmas-back.jpg" alt="The Padharo Christmas campaign, a full feast photographed under gold script" loading="lazy" width="1200" height="1697" /></a>
+          <a class="proof-surface" href="/design/#cs-padharo"><img src="/images/design/padharo-christmas-back.jpg" alt="The Padharo Christmas campaign, a full feast photographed under gold script" loading="lazy" width="1200" height="1697" /></a>
           <figcaption>The campaign</figcaption>
         </figure>
       </div>
@@ -119,8 +119,8 @@ const extraSchema = [
       <h2 id="work-h">Selected work</h2>
       <div class="work-actions">
         <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
-        <a href="/work" class="pill">Case studies</a>
-        <a href="/web-design#work" class="pill">More websites</a>
+        <a href="/work/" class="pill">Case studies</a>
+        <a href="/web-design/#work" class="pill">More websites</a>
       </div>
     </div>
     <div class="work-grid">
@@ -152,7 +152,7 @@ const extraSchema = [
       <div class="stack">
         <h2 id="about-h">Ryan Stanikk</h2>
         <p>I'm a Southampton designer, photographer and web developer running Kombu as a one-person studio. In Japanese cooking, kombu is the ingredient you never see, the quiet foundation that makes everything around it better. That is roughly the idea here: the base layer a business is built on, kept in one place instead of farmed out across a chain of agencies. Twenty years of graphic design, fifteen behind the camera, and a habit of building the thing rather than charging you to wait for it.</p>
-        <a href="/about" class="pill">More about me</a>
+        <a href="/about/" class="pill">More about me</a>
       </div>
     </div>
   </section>

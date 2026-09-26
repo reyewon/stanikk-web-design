@@ -172,13 +172,18 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
     <!-- After the first visit of a session, skip the loader before paint (no flash) -->
     <script is:inline>try{if(sessionStorage.getItem('kombu-seen'))document.documentElement.classList.add('kombu-seen');}catch(e){}</script>
 
-    <!-- Google tag (gtag.js) - GA4 -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0"></script>
+    <!-- Google tag (gtag.js) - GA4. Only the live site reports: localhost, previews and
+         pages.dev copies stay out of the numbers, but gtag() exists everywhere so event calls never fail. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-5H2CJESBZ0');
+      if (/^(www\.)?kombu\.uk$/.test(location.hostname)) {
+        var g = document.createElement('script'); g.async = true;
+        g.src = 'https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0';
+        document.head.appendChild(g);
+        gtag('js', new Date());
+        gtag('config', 'G-5H2CJESBZ0');
+      }
     </script>
 
     <!-- Primary Meta Tags -->

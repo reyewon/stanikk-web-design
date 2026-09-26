@@ -19,12 +19,14 @@ const services = [
 ];
 
 const work = [
-  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
-  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
+  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group/#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
+  { name: 'Banana Wharf', slug: 'banana-wharf', cs: '/work/mustang-group/#venues', url: 'https://www.bananawharf.co.uk', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
+  { name: "Ennio's", slug: 'ennios', cs: '/work/mustang-group/#venues', url: 'https://www.ennios.co.uk', alt: "Ennio's Italian restaurant and boutique rooms website on Southampton's Town Quay", line: 'An Italian restaurant with ten boutique rooms in a Victorian warehouse on Town Quay. The restaurant, the rooms and table bookings, all in one place.' },
+  { name: 'Mustang Group', slug: 'mustang-group', cs: '/work/mustang-group/', url: 'https://mustang-group-rebuild.pages.dev', alt: 'The new Mustang Group website for a family-run group of six Southampton venues', line: 'A new site for a family-run group of six venues, built phone first: every venue is a card you swipe through, with Book, Call and Directions under your thumb. In preview.' },
+  { name: 'msnry', slug: 'msnry', url: 'https://msnry.app', alt: 'The msnry website: photographs laid out as one seamless Instagram carousel', line: 'My own web app. Drop in a handful of photos and it lays them out as one seamless Instagram carousel, in the browser, with no account and nothing uploaded.' },
   { name: 'Ryan Stanikk Photography', slug: 'ryanstanikk', url: 'https://www.ryanstanikk.co.uk', alt: 'Ryan Stanikk photography portfolio website, dark and image-led', line: 'My own photography portfolio. Image-first, fast and quiet about everything else, because the pictures are the pitch.' },
-  { name: 'Banana Wharf', slug: 'banana-wharf', cs: '/work/mustang-group#venues', url: 'https://www.bananawharf.co.uk', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
   { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
-  { name: 'Soleto', slug: 'soleto', url: 'https://soleto-website.pages.dev', alt: 'Soleto Italian restaurant website, dark theme with gallery and private dining', line: 'An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service.' },
 ];
 
 const tiers = [
@@ -127,10 +129,10 @@ const extraSchema = [
       <h2 id="work-h">Selected work</h2>
       <div class="work-actions">
         <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
-        <a href="/work" class="pill">Case studies</a>
+        <a href="/work/" class="pill">Case studies</a>
       </div>
     </div>
-    <div class="work-grid work-grid--six">
+    <div class="work-grid work-grid--eight">
       {work.map((w) => (
         <article class="wcard">
           <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>

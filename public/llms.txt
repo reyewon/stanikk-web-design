@@ -1,20 +1,20 @@
 # Kombu
 
-Last updated: 2026-08-30
+Last updated: 2026-09-26
 
 > Kombu is a one-person creative studio in Southampton run by Ryan Stanikk: web design, graphic design, commercial photography and marketing, plus the practical infrastructure that ties a business together. The defining trait is an engineering mind paired with a designer's eye. Clients get a single trusted route instead of three or four separate specialists.
 
 Kombu (https://kombu.uk) is named after kombu kelp, a metaphor for being the quiet foundation beneath a great brand. It is a creative and marketing studio - not a food, seaweed or sushi product. Slogan: "One mind, the whole stack."
 
 ## What Kombu does
-- Web design & development: bespoke, mobile-first, SEO-ready websites and web apps (https://kombu.uk/web-design)
-- Graphic design & branding: logos, brand identity, menus, packaging, print and editorial (https://kombu.uk/design)
-- Commercial photography: food and drink, interiors, product and brand imagery, with an instant quote calculator (https://kombu.uk/photography)
-- Marketing: strategy, paid ads, social, local SEO, and the Hospitality Health Check diagnostic (https://kombu.uk/marketing)
+- Web design & development: bespoke, mobile-first, SEO-ready websites and web apps (https://kombu.uk/web-design/)
+- Graphic design & branding: logos, brand identity, menus, packaging, print and editorial (https://kombu.uk/design/)
+- Commercial photography: food and drink, interiors, product and brand imagery, with an instant quote calculator (https://kombu.uk/photography/)
+- Marketing: strategy, paid ads, social, local SEO, and the Hospitality Health Check diagnostic (https://kombu.uk/marketing/)
 - Infrastructure & problem-solving: sourcing suppliers, connecting software systems, and building bespoke tools that don't exist yet
 
 ## Who runs it
-Ryan Stanikk: a Southampton designer, photographer and web developer with two decades of graphic design experience (since age 17) and fifteen years behind the camera. Operates as a one-person cross-disciplinary studio, holding the photography, design, website, brand and marketing for a client in one head so everything stays consistent. (https://kombu.uk/about)
+Ryan Stanikk: a Southampton designer, photographer and web developer with two decades of graphic design experience (since age 17) and fifteen years behind the camera. Operates as a one-person cross-disciplinary studio, holding the photography, design, website, brand and marketing for a client in one head so everything stays consistent. (https://kombu.uk/about/)
 
 ## Location and area served
 - Based in Southampton, Hampshire, England
@@ -30,10 +30,14 @@ Ryan Stanikk: a Southampton designer, photographer and web developer with two de
 ## Selected clients
 Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark Angels, Ennios, Grumpy Monkey, Mustang Group, Kwackers, Ideal Produce, Build Budget Expert, Remedi Health
 
+## Own products
+- msnry (https://msnry.app): Ryan's own browser app that lays a handful of photos out as one seamless Instagram carousel, with no account and nothing uploaded.
+
 ## Case studies
-- Padharo (vegetarian Indian restaurant, 100-102 East Street, Southampton): Ryan designed and built the website, photographs the restaurant, shot the film on its home page, designs every menu (main, drinks, Diwali, Christmas, kids) and runs its Instagram, Facebook and emails. (https://kombu.uk/work/padharo)
-- Mustang Group (family-run Southampton hospitality group, six venues, established 1987): since May 2026 Ryan has looked after the group's websites, rebuilt the Banana Wharf, Grumpy Monkey and Ennio's sites, built a new phone-first group site (in preview) and photographs the venues; the group gets a weekly report on every site. Banana Wharf's mobile load time went from about 17 seconds to about 4.3 after the rebuild. (https://kombu.uk/work/mustang-group)
-- All case studies: https://kombu.uk/work
+- Padharo (vegetarian Indian restaurant, 100-102 East Street, Southampton): Ryan designed and built the website, photographs the restaurant, shot the film on its home page, designs every menu (main, drinks, Diwali, Christmas, kids) and runs its Instagram, Facebook and emails. (https://kombu.uk/work/padharo/)
+- Mustang Group (family-run Southampton hospitality group, six venues, established 1987): since May 2026 Ryan has looked after the group's websites, rebuilt the Banana Wharf, Grumpy Monkey and Ennio's sites, built a new phone-first group site (in preview) and has photographed four of the venues (The Grand, Ennio's, Banana Wharf and Grumpy Monkey); every Monday the group gets a report on the Banana Wharf and Ennio's sites. Banana Wharf's mobile load time went from about 17 seconds to about 4.3. (https://kombu.uk/work/mustang-group/)3 after the rebuild. (https://kombu.uk/work/mustang-group)
+- Each case study opens with a short film of the work, cut to music.
+- All case studies: https://kombu.uk/work/
 
 ## Why choose Kombu
 - One trusted route: photography, design, web and marketing from one person, with no handoffs and no specialist markup
@@ -48,11 +52,11 @@ Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark
 
 ## Key resources
 - Home: https://kombu.uk
-- Web design: https://kombu.uk/web-design
-- Graphic design: https://kombu.uk/design
-- Photography & quote calculator: https://kombu.uk/photography
-- Marketing & Hospitality Health Check: https://kombu.uk/marketing
-- About: https://kombu.uk/about
-- Case studies: https://kombu.uk/work
+- Web design: https://kombu.uk/web-design/
+- Graphic design: https://kombu.uk/design/
+- Photography & quote calculator: https://kombu.uk/photography/
+- Marketing & Hospitality Health Check: https://kombu.uk/marketing/
+- About: https://kombu.uk/about/
+- Case studies: https://kombu.uk/work/
 - Machine-readable pricing: https://kombu.uk/pricing.md
 - Sitemap: https://kombu.uk/sitemap-index.xml

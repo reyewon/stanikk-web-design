@@ -40,28 +40,55 @@ a.chip { transition: transform 140ms ease-out; }
 a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
 .case-head__text > .pagehead-actions { margin-top: var(--s-4); }
 
-.case-film {
+@media (max-width: 900px) {
+  .case-head { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; align-items: start; }
+}
+
+/* ---------- The film at the top ----------
+   The whole job cut to music, at the card's full width under the name: the
+   16:9 cut from tablets up, the 4:5 cut on phones. case-study.js plays it muted
+   while it is on screen; the pills in its top right corner turn the music on
+   from the top and pause it. The lede sits beneath, the facts and links beside it. */
+.case-head--promo { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; align-items: start; }
+.case-head--promo .case-head__text {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--colgap);
+  row-gap: var(--s-4);
+}
+.case-head--promo .case-head__text > * { margin-top: 0; }
+.case-head--promo .case-lede { grid-column: 1; grid-row: 1 / span 2; max-width: 52ch; }
+.case-head--promo .case-facts { grid-column: 2; grid-row: 1; }
+.case-head--promo .pagehead-actions { grid-column: 2; grid-row: 2; align-self: start; }
+.case-promo {
   position: relative;
+  margin: 0;
   aspect-ratio: 16 / 9;
   border: var(--line) solid var(--c-ink);
   border-radius: var(--r-tile);
   overflow: hidden;
   background: var(--c-ink);
-  transform: rotate(1.5deg);
 }
-.case-film picture, .case-film img, .case-film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.case-film video { opacity: 0; transition: opacity 300ms ease-out; }
-.case-film.is-playing video { opacity: 1; }
-.case-film__foot { display: flex; justify-content: flex-end; margin-top: var(--s-3); }
-.case-film__foot:has(> [hidden]:only-child) { display: none; }
-
+.case-promo picture, .case-promo img, .case-promo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-promo video { opacity: 0; transition: opacity 300ms ease-out; }
+.case-promo.is-playing video { opacity: 1; }
+.case-promo__controls {
+  position: absolute; z-index: 1;
+  /* top right: on screen from the first paint, and the corner both films leave clear */
+  right: clamp(0.75rem, 1.6vw, 1.5rem); top: clamp(0.75rem, 1.6vw, 1.5rem);
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s-1);
+}
+/* solid pills over the footage: terracotta for the sound (ink text keeps it above 4.5:1), linen for pause */
+.case-promo__controls .pill { border-color: var(--c-ink); }
+.case-promo__controls .pill--fill { color: var(--c-ink); }
 @media (max-width: 900px) {
-  .case-head { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; align-items: start; }
+  .case-head--promo .case-head__text { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: var(--s-3); }
+  .case-head--promo .case-lede, .case-head--promo .case-facts, .case-head--promo .pagehead-actions { grid-column: 1; grid-row: auto; }
+  .case-head--promo .pagehead-actions { margin-top: var(--s-2); }
 }
-/* Phones get the portrait cut of the film, the one Padharo's own site
-   plays on a phone, held to 4:5 so it leads without filling the screen. */
 @media (max-width: 767px) {
-  .case-film { aspect-ratio: 4 / 5; transform: rotate(1deg); }
+  .case-promo { aspect-ratio: 4 / 5; }
 }
 
 /* ---------- Discipline cards ---------- */
@@ -84,7 +111,7 @@ a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
   .case-part--web p:first-of-type { order: 2; }
   .case-part--web .case-part__media { order: 3; margin-block: var(--s-2); }
   .case-part--web p + p { order: 4; }
-  .case-part--web .case-part__text > .pill { order: 5; align-self: flex-start; margin-top: var(--s-1); }
+  .case-part--web .case-part__text > .pill, .case-part--web .case-part__text > .case-links { order: 5; align-self: flex-start; margin-top: var(--s-1); }
 }
 
 /* ---------- Menu sets ----------
@@ -215,18 +242,7 @@ a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
 .viewer-hint { margin-top: var(--s-2); font-size: 0.9rem; text-align: center; color: var(--c-linen-soft); }
 .viewer-hint[hidden] { display: none; }
 
-/* ---------- Two-word names (Mustang Group) ----------
-   Each word on its own line, the longer one sized to the card. */
-.case-name--two span { display: block; }
-
-/* ---------- Opening with a phone ----------
-   For a client whose phone site is the point: the opening holds a phone-
-   shaped frame instead of a landscape film. The text takes the wider side. */
-.case-head--phone { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: "name film" "text film"; align-items: end; }
-.case-head--phone .case-head__text { align-self: start; }
-.case-head--phone .case-head__film { align-self: center; }
-/* the name shares the row with the phone, so it fits its own 7/12 column */
-.case-head--phone .case-name { font-size: calc((100cqi - var(--colgap)) * 7 / 12 / var(--name-fit, 4.6)); }
+/* ---------- A phone frame (the /work index card) ---------- */
 .case-phone {
   position: relative;
   width: min(100%, 340px);
@@ -241,11 +257,24 @@ a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
 .case-phone img, .case-phone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .case-phone video { opacity: 0; transition: opacity 300ms ease-out; }
 .case-phone.is-playing video { opacity: 1; }
-.case-head--phone .case-film__foot { justify-content: center; }
 @media (max-width: 900px) {
-  .case-head--phone { grid-template-columns: minmax(0, 1fr); grid-template-areas: "name" "film" "text"; }
-  .case-head--phone .case-name { font-size: calc(100cqi / var(--name-fit, 4.6)); }
   .case-phone { width: min(78%, 320px); }
+}
+
+/* ---------- The group site: the desktop tour with the phone in front ----------
+   The phone version was designed on its own, so it stands in front of the
+   browser's lower right corner rather than being left out. */
+.case-duo { position: relative; align-self: stretch; margin-bottom: clamp(3.5rem, 8vw, 6.5rem); }
+.case-duo__phone {
+  position: absolute; right: -1%; bottom: calc(-1 * clamp(3.5rem, 8vw, 6.5rem));
+  width: 25%;
+  border: var(--line) solid var(--c-ink); border-radius: clamp(14px, 2.2vw, 28px);
+  overflow: hidden; background: var(--c-ink);
+  transform: rotate(3deg);
+}
+.case-duo .case-duo__phone .work-preview { aspect-ratio: 720 / 1558; }
+@media (max-width: 640px) {
+  .case-duo__phone { width: 30%; }
 }
 
 /* ---------- Venue sites ----------
@@ -313,6 +342,9 @@ a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
 /* thumb-sized controls on touch screens: the strip and viewer buttons are
    the page's main controls on a phone, so they get the full 44px */
 @media (pointer: coarse) {
-  .rail-ctrl .pill, .viewer .pill, .case-film__foot .pill, .case-part__toggle { min-height: 44px; }
+  .rail-ctrl .pill, .viewer .pill, .case-promo__controls .pill, .case-part__toggle { min-height: 44px; }
 }
 .case-quote .review-source { display: inline-block; padding-block: 0.6rem; }
+
+/* a row of onward links under a case study section's copy */
+.case-links { margin-top: var(--s-4); }

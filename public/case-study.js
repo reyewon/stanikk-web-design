@@ -1,45 +1,65 @@
-/* Case studies: the opening film, the swipe strips and the full-screen viewer.
-   Everything works without it except the film and the viewer: the strips are
-   plain horizontal scrollers and every piece is still on the page. */
+/* Case studies: the film at the top, the swipe strips and the full-screen viewer.
+   Everything works without it except the film and the viewer: the film stays a
+   still, the strips are plain horizontal scrollers and every piece is still on
+   the page. */
 (function () {
   var html = document.documentElement;
   var still = html.classList.contains('no-motion') || matchMedia('(prefers-reduced-motion: reduce)').matches;
   var phone = matchMedia('(max-width: 767px)');
 
-  /* ---------- Film: portrait on phones, landscape above; plays only on screen ---------- */
-  document.querySelectorAll('[data-film]').forEach(function (box) {
+  /* ---------- The film at the top: 4:5 on phones, 16:9 above ----------
+     Plays muted and looped while at least a quarter of it is on screen, and
+     pauses when it scrolls away. "Play with sound" starts it from the top with
+     the music on; "Pause" holds it until pressed again. Reduced motion,
+     ?nomotion and Save-Data keep it a still until someone presses Play. */
+  document.querySelectorAll('[data-promo]').forEach(function (box) {
     var video = box.querySelector('video');
-    var toggle = box.parentElement.querySelector('[data-film-toggle]');
-    var paused = false, inView = false;
-    if (still || !video) return;
+    var soundB = box.querySelector('[data-promo-sound]');
+    var pauseB = box.querySelector('[data-promo-pause]');
+    if (!video || !soundB || !pauseB) return;
+    var saveData = navigator.connection && navigator.connection.saveData;
+    var held = still || !!saveData, inView = false;
+    function wanted() { return phone.matches ? box.dataset.tall : box.dataset.wide; }
+    function load() {
+      var src = wanted();
+      if (video.dataset.current === src) return;
+      var at = video.dataset.current ? video.currentTime : 0;
+      video.dataset.current = src;
+      box.classList.remove('is-playing');
+      video.src = src; video.load();
+      if (at) video.addEventListener('loadedmetadata', function once() { video.removeEventListener('loadedmetadata', once); video.currentTime = at; });
+    }
+    function render() {
+      soundB.textContent = video.muted ? 'Play with sound' : 'Mute';
+      soundB.setAttribute('aria-pressed', String(!video.muted));
+      pauseB.textContent = held ? 'Play' : 'Pause';
+      pauseB.setAttribute('aria-pressed', String(held));
+    }
     function sync() {
-      if (inView && !paused) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
-      else video.pause();
-    }
-    function pick() {
-      var src = phone.matches ? box.dataset.tall : box.dataset.wide;
-      if (video.dataset.current !== src) {
-        video.dataset.current = src;
-        box.classList.remove('is-playing');
-        video.src = src; video.load();
+      if (inView && !held) {
+        load();
+        var p = video.play();
+        // a browser that refuses sound here falls back to the silent loop rather than sticking
+        if (p && p.catch) p.catch(function () { if (!video.muted) { video.muted = true; render(); video.play().catch(function () {}); } });
       }
+      else if (!video.paused) video.pause();
+      render();
+    }
+    function track(name) { if (window.gtag) window.gtag('event', name, { film: box.dataset.name || '', film_cut: phone.matches ? 'tall' : 'wide' }); }
+    soundB.addEventListener('click', function () {
+      if (video.muted) { load(); video.muted = false; video.currentTime = 0; held = false; track('film_sound_on'); }
+      else { video.muted = true; track('film_mute'); }
       sync();
-    }
+    });
+    pauseB.addEventListener('click', function () { held = !held; track(held ? 'film_pause' : 'film_play'); sync(); });
     video.addEventListener('playing', function () { box.classList.add('is-playing'); });
-    if (toggle) {
-      toggle.hidden = false;
-      toggle.addEventListener('click', function () {
-        paused = !paused;
-        toggle.setAttribute('aria-pressed', String(paused));
-        toggle.textContent = paused ? 'Play film' : 'Pause film';
-        sync();
-      });
-    }
+    soundB.hidden = false; pauseB.hidden = false;
+    render();
     new IntersectionObserver(function (entries) {
-      inView = entries[0].isIntersecting;
-      if (inView && !video.dataset.current) pick(); else sync();
-    }, { rootMargin: '120px 0px' }).observe(box);
-    phone.addEventListener('change', function () { if (video.dataset.current) pick(); });
+      inView = entries[0].intersectionRatio >= 0.25;
+      sync();
+    }, { threshold: [0, 0.25] }).observe(box);
+    phone.addEventListener('change', function () { if (video.dataset.current) { load(); sync(); } });
   });
 
   /* ---------- Strips: Back / Next and a count ---------- */

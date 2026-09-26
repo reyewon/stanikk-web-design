@@ -6,18 +6,18 @@ import ContactCard from '../../components/ContactCard.astro';
 import '../../styles/work.css';
 
 const title = "Work | Case Studies from a Southampton Studio | Kombu";
-const description = "Case studies from Kombu in Southampton: Padharo, where I do the website, photography, menus, social and email, and Mustang Group's venue websites and photography.";
-const url = "https://kombu.uk/work";
+const description = "Case studies from Kombu in Southampton: Padharo's website, photography, menus, social and email, and Mustang Group's venue websites and photography.";
+const url = "https://kombu.uk/work/";
 
 const cases = [
-  { href: "/work/padharo", name: "Padharo", fill: "ochre", fit: 3.92,
+  { href: "/work/padharo/", name: "Padharo", fill: "ochre", fit: 3.92,
     line: "A vegetarian Indian restaurant in Southampton. The website, the photographs, the film, every menu, the social feeds and the emails, all from me.",
     tags: ["Website", "Photography", "Menus", "Social and email"],
     pair: [
       { src: "/images/work/padharo/drinks-page-1.webp", w: 1400, h: 1400, alt: "Padharo drinks menu cover" },
       { src: "/images/design/padharo-diwali-back.jpg", w: 1200, h: 1697, alt: "Padharo Diwali set menu cover" },
     ] },
-  { href: "/work/mustang-group", name: "Mustang Group", fill: "kelp", fit: 4.07,
+  { href: "/work/mustang-group/", name: "Mustang Group", fill: "kelp", fit: 4.07,
     line: "Six Southampton venues. Three venue sites rebuilt, a new group site made for phones first, photography across the venues and a report every Monday.",
     tags: ["Websites", "Photography", "Website care"],
     phone: { src: "/videos/work/mustang-phone.webp", alt: "The new Mustang Group site on a phone" } },
@@ -31,7 +31,7 @@ const extraSchema = [
 ---
 <Layout title={title} description={description} extraSchema={extraSchema}>
 
-<Nav />
+<Nav current="work" />
 
 <main id="main" class="case">
 
@@ -75,9 +75,10 @@ const extraSchema = [
       <div class="sec-head-text"><h2 id="more-h">More work</h2></div>
     </div>
     <div class="pagehead-actions">
-      <a class="pill" href="/web-design#work">Websites I've built</a>
-      <a class="pill" href="/design">Graphic design</a>
-      <a class="pill" href="/photography">Photography</a>
+      <a class="pill" href="/web-design/#work">Websites I've built</a>
+      <a class="pill" href="/design/">Graphic design</a>
+      <a class="pill" href="/photography/">Photography</a>
+      <a class="pill" href="/marketing/">Marketing</a>
     </div>
   </section>
 

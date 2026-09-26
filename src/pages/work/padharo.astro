@@ -64,11 +64,9 @@ const photos = [
 ];
 
 const social = [
-  { src: `${P}/social-ganesh.webp`, video: "/videos/work/padharo-story-ganesh.mp4", w: 720, h: 1280, kind: 'story', alt: "Animated Instagram story for Ganesh Chaturthi: Ganesh in red and gold as the greeting writes itself in gold script" },
   { src: `${P}/social-rakhi-table.webp`, w: 900, h: 1200, kind: 'post', alt: "Raksha Bandhan post: bring your brother, bring your sister, above a marble table with sweets, a lotus candle and three rakhis" },
   { src: `${P}/social-kids.webp`, w: 720, h: 1280, kind: 'story', alt: "Kids menu story: a small hand tearing naan over a curry on the colouring menu, with the kids eat for one pound card" },
   { src: `${P}/social-pretty-green.webp`, w: 720, h: 1280, kind: 'story', alt: "Cocktail story: Pretty Green Eyes, two green mojitos raised against a blue sky" },
-  { src: `${P}/social-janmashtami.webp`, video: "/videos/work/padharo-story-janmashtami.mp4", w: 720, h: 1280, kind: 'story', alt: "Animated Instagram story for Janmashtami: a moonlit night, a flute, a pot of butter and the greeting in gold script" },
   { src: `${P}/social-lunch-deal.webp`, w: 720, h: 1280, kind: 'story', alt: "Lunch deal story: aachari aloo and naan with the curry and rice or naan for ten pounds card" },
   { src: `${P}/social-rakhi-hands.webp`, w: 720, h: 1280, kind: 'story', alt: "Raksha Bandhan story: a rakhi being tied on a wrist under the line some bonds never change" },
   { src: `${P}/social-anniversary.webp`, w: 900, h: 1200, kind: 'post', alt: "Third anniversary post: a balloon arch round a giant number three, 25 per cent off all food on Tuesday 18 August" },
@@ -83,7 +81,7 @@ const extraSchema = [
   { "@type": "VideoObject", "@id": `${url}#film`, "name": "Padharo: the whole look, from one person", "description": "A 38 second film cut to music: the kitchen, the food photography, the menus, the drinks list, the website, the social posts and an email Kombu made for Padharo.", "thumbnailUrl": ["https://kombu.uk/videos/work/padharo-promo-wide.webp", "https://kombu.uk/videos/work/padharo-promo-tall.webp"], "uploadDate": "2026-09-26", "duration": "PT38S", "contentUrl": "https://kombu.uk/videos/work/padharo-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
 ];
 ---
-<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/padharo-og.jpg" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Padharo, a Kombu case study: website, menus, photography, social and email" ogType="article">
+<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/padharo-og.jpg?v=2" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Padharo, a Kombu case study: website, menus, photography, social and email" ogType="article">
   <Fragment slot="head">
     <meta property="og:video" content="https://kombu.uk/videos/work/padharo-promo-wide.mp4" />
     <meta property="og:video:secure_url" content="https://kombu.uk/videos/work/padharo-promo-wide.mp4" />
@@ -220,7 +218,7 @@ const extraSchema = [
       <div class="case-part__head">
         <div class="stack">
           <h2 id="social-h">Social and email</h2>
-          <p>I run Padharo's Instagram and Facebook: festivals, match days, offers and anniversaries, some of them animated. I also design and send the emails, from the newsletter to the birthday emails that bring people back for a free dessert.</p>
+          <p>I run Padharo's Instagram and Facebook: festivals, match days, offers and anniversaries. I also design and send the emails, from the newsletter to the birthday emails that bring people back for a free dessert.</p>
           <div class="pagehead-actions case-links"><a class="pill" href="/marketing/">Social and email marketing</a></div>
         </div>
       </div>

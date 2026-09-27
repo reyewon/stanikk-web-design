@@ -516,6 +516,10 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .work-grid--eight .wcard { grid-column: span 2; }
 .work-grid--eight .wcard:nth-last-child(2) { grid-column: 2 / span 2; }
 .wcard { display: flex; flex-direction: column; gap: var(--s-2); }
+/* The home page shows three sites, plus a fourth (Ennio's) on tablets only, where two columns
+   of three left the last card on its own (Ryan, 27 Sep 2026). */
+.wcard--tablet { display: none; }
+@media (min-width: 641px) and (max-width: 900px) { .wcard--tablet { display: flex; } }
 /* Ryan's own cropped screenshot in a plain outlined tile: no live iframe,
    no panning poster, just a 2px-ink frame that dips 2px on hover like every
    other pill and tile in the system. */
@@ -534,14 +538,12 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .wcard-meta p { margin-top: var(--s-1); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 60ch; }
 @media (max-width: 900px) {
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(2rem, 7vw, 3rem); }
-  .home-page .work-grid .wcard:last-child { grid-column: 1 / -1; width: calc((100% - var(--gap)) / 2); justify-self: center; }
   .work-grid--eight { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-grid--eight .wcard, .work-grid--eight .wcard:nth-last-child(2) { grid-column: auto; }
 }
 @media (max-width: 640px) {
   .work-actions { justify-content: flex-start; }
   .work-grid { grid-template-columns: 1fr; }
-  .home-page .work-grid .wcard:last-child { grid-column: auto; width: auto; justify-self: stretch; }
   .work-grid--eight { grid-template-columns: 1fr; }
 }
 
@@ -585,6 +587,16 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
   .home-page .about .stack { order: 1; }
   .home-page .about .portrait { order: 2; --rise: 0px; min-height: 0; height: calc(0.791 * (100cqw + 2 * var(--card-pad)) - var(--card-pad)); }
   .home-page .portrait-clip { top: 0; border-radius: 0 0 calc(var(--r-card) - var(--line)) calc(var(--r-card) - var(--line)); }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .home-page .about .stack { position: relative; z-index: 1; }
+  .home-page .about .portrait { margin-top: calc(-1 * (clamp(2rem, 5vw, 6rem) + 3.5rem)); }
+}
+@media (min-width: 768px) and (max-width: 900px) {
+  .about-head .portrait { --tuck: 21%; }   /* sunk a little further so the bigger head still clears the card's top edge */
+  .about-head .portrait-cut { width: 120%; }
+  .about-head .portrait-clip { right: calc(-1 * var(--card-pad) - 2.5rem); }
+  .about-head .about .stack { position: relative; z-index: 1; }
 }
 @media (max-width: 767px) {
   .about { grid-template-columns: 1fr; }
@@ -651,6 +663,7 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .contact p { max-width: 46ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
 .contact-actions { display: flex; gap: var(--s-1); flex-wrap: wrap; }
 @media (max-width: 900px) { .contact { grid-template-columns: 1fr; } }
+@media (min-width: 641px) and (max-width: 900px) { .contact p { max-width: none; } }
 /* the three routes stay on one line on a 390px phone */
 @media (max-width: 640px) { .contact-actions .pill { padding: 0.8rem 1.05rem; font-size: 0.9rem; } .contact-actions { gap: 0.45rem; } }
 
@@ -782,6 +795,13 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .ph-tile:hover { z-index: 3; }
 .ph-tile--back:hover { transform: rotate(3deg) translateY(-4px); }
 .ph-tile--front:hover { transform: rotate(-2deg) translateY(-4px); }
+@media (min-width: 901px) { .ph-tile--front { left: calc(-1 * clamp(0px, 15.625vw - 131px, 170px)); } }
+@media (min-width: 641px) and (max-width: 900px) {
+  .pagehead-pair { aspect-ratio: 1 / 1.4; }
+  .ph-tile { width: 74%; }
+  .ph-tile--front { left: 0; top: 0; bottom: auto; }
+  .ph-tile--back { right: 0; bottom: 0; top: auto; }
+}
 .pagehead-collage { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); aspect-ratio: 4 / 3; }
 /* The images are laid out absolutely inside their tiles so their natural
    height never feeds back into the grid: without that, three portrait menus
@@ -888,12 +908,12 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .tier-period { font-size: 0.95rem; font-family: var(--f-body); font-weight: 400; margin-left: 0.15rem; text-transform: none; }
 .tier-commitment { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--c-ink-mute); }
 .tier-card--featured .tier-commitment { color: var(--c-linen-soft); }
-.tier-renewal { font-size: 0.85rem; }
+.tier-renewal { font-size: 0.85rem; margin-top: calc(-1 * var(--s-2)); }
 .tier-features { list-style: none; margin: var(--s-2) 0 0; padding: 0; display: grid; gap: 0.5rem; }
 .tier-features li { position: relative; padding-left: 1.2em; font-size: 0.9rem; }
 .tier-features li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .tier-card .pill { margin-top: auto; align-self: flex-start; }
-.pricing-enterprise, .pricing-note { max-width: 64ch; margin-top: var(--s-4); font-size: 0.95rem; }
+.pricing-enterprise, .pricing-note { max-width: 78rem; margin-top: var(--s-4); font-size: 0.95rem; }
 .pricing-note { color: var(--c-ink-mute); margin-top: var(--s-2); }
 @media (max-width: 767px) { .tier-grid { grid-template-columns: 1fr; } }
 
@@ -917,7 +937,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .service-grid-v2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
 .service-card-v2 { display: flex; flex-direction: column; gap: var(--s-2); }
 .service-card-v2 p { font-size: clamp(1rem, 1.15vw, 1.15rem); max-width: 60ch; }
-.service-card-v2 .pill { margin-top: auto; align-self: flex-start; }
+.service-card-v2 .tag-row { margin-top: auto; align-items: center; }
 @media (max-width: 767px) { .service-grid-v2 { grid-template-columns: 1fr; } }
 
 /* A small, non-interactive label: same pill shape as .pill--sm, but a
@@ -969,10 +989,20 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .audit-field input::placeholder { color: var(--c-linen-soft); }
 .audit-hint { margin-top: var(--s-2); font-size: 0.85rem; color: var(--c-linen-soft); }
 .audit-success-v2 { margin-top: var(--s-2); font-size: 0.95rem; color: var(--c-linen); }
+@media (min-width: 901px) {
+  .audit-form-wrap { justify-self: end; width: min(100%, 30rem); }
+  .audit-form-v2 { display: flex; flex-direction: column; }
+  .audit-field { display: contents; }
+  .audit-field input { flex: none; width: 100%; }
+  .audit-hint { order: 2; }
+  .audit-field .pill { order: 3; align-self: flex-end; margin-top: var(--s-3); }
+}
 
 /* ---------- Case studies (design) ---------- */
 .cs-lead { margin-top: var(--s-3); max-width: 62ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
 .cs-chips { margin-top: var(--s-3); display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cs-chips-row { margin-top: var(--s-3); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.cs-chips-row .cs-chips { margin-top: 0; }
 /* The text block (h2 + lead + chips) reads as one heading zone; the media
    grid after it is content, so the gap is --sec-head like every other
    heading-to-grid transition. */
@@ -1125,6 +1155,10 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
   .partnership-v2 { grid-template-columns: 1fr; }
   .partnership-photo { aspect-ratio: 16 / 10; max-width: 560px; }
 }
+@media (min-width: 641px) and (max-width: 900px) {
+  .partnership-photo { max-width: none; }
+  .partnership-v2 .stack p { max-width: none; }
+}
 
 /* ---------- About opener ---------- */
 /* The home page's about card sizes its heading via the global h2 rule
@@ -1199,3 +1233,96 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 
 /* an onward link row under a section's content */
 .section-more { margin-top: var(--s-4); }
+
+/* ---------- Clay props (27 Sep 2026) ---------- */
+/* Kombu's clay illustrations, at most one per page, and only where two things are both
+   true: the object says something about that card, and the card already has empty space
+   for it at that width. Four placements: the stethoscope beside /marketing's Health Check
+   intro, the magnifying glass under /web-design's free review form, the speech bubble over
+   the home contact card's pills, and the dusty floppy disk beside the 404's copy. Each is
+   sized to fill its space, never parked small in a corner, and where a layout has no spare
+   room (phones) it drops out rather than pushing text down to make room. Decorative
+   (alt="", aria-hidden), never in a hero, never over text, no shadow or filter (the soft
+   shading is in the image). Files: public/images/clay/*.webp at twice the largest display
+   width; masters in ~/Design/brand/kombu/clay/props/. */
+.clay { display: block; height: auto; pointer-events: none; user-select: none;
+  rotate: calc(var(--clay-rot, 0deg) + var(--clay-dr, 0deg)); translate: 0 var(--clay-dy, 0px); }
+/* Motion, armed by the clay script in Layout.astro only when motion is allowed (so never
+   under .no-motion, reduced motion or ?nomotion): each prop settles in the first time it
+   comes on screen, then drifts a few pixels and a degree or two as the page scrolls. */
+.clay-armed .clay { transition: opacity 420ms cubic-bezier(0.23, 1, 0.32, 1), scale 620ms cubic-bezier(0.22, 1, 0.36, 1); }
+.clay-armed .clay:not(.is-in) { opacity: 0; scale: 0.9; }
+
+/* Card corners (Health Check stethoscope, 404 floppy), placed by Ryan with the dev arranger on
+   27 Sep 2026. From 901px the prop sits in the card's top-right corner, poking over the top
+   edge, and the heading and copy keep the full width. The stethoscope keeps that corner on
+   tablets too (round 2), with the heading and lede stopping short of it; the 404 floppy becomes
+   a second column there instead. On phones both drop out. */
+.hhc-card, .notfound { position: relative; }
+.hhc-card .clay-intro + * { margin-top: var(--sec-head); }
+.clay--hhc { --clay-rot: 9.5deg; }
+.clay--404 { --clay-rot: 9deg; }
+@media (min-width: 901px) {
+  .clay-intro > .clay { position: absolute; z-index: 1; }
+  .clay--hhc { top: -2px; right: calc(var(--card-pad) + 1px); width: clamp(150px, 15vw, 241px); }
+  .clay--404 { top: calc(var(--card-pad) - 25px); right: calc(var(--card-pad) - 8px); width: clamp(150px, 16.5vw, 267px); }
+}
+@media (max-width: 900px) {
+  .clay-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+  .clay-intro > .clay { justify-self: end; }
+  .clay--404 { width: clamp(150px, 9vw + 100px, 190px); }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .hhc-card .clay-intro { display: block; }
+  .clay-intro > .clay--hhc { position: absolute; z-index: 1; top: -2px; right: 2px; width: 20vw; }
+  .hhc-card .clay-intro h2, .hhc-card .clay-intro .section-lede { max-width: calc(100% - 20vw + var(--card-pad) - 1rem); }
+}
+
+/* Heading anchors (the speech bubble on every contact card, the magnifier on /web-design's free
+   review): these belong to a word, not the card, so each sits in an empty span right after that
+   word and is placed in ems from the letter. That keeps it on the word at every width and
+   heading size. The bubble follows "Tell me what" like someone typing, and the magnifier's lens
+   looks back over "website" from the end of "back?", so both headings break after those words
+   at every width. Round 2 (Ryan's arranger, 27 Sep 2026) moves them per width: on tablets both
+   go to their card's top-right corner (the anchor span stops being the containing block, so the
+   card is), on phones the bubble grows and the magnifier sits at the right end of the heading's
+   last line, and on wide screens the magnifier leaves the heading for a column of its own beside
+   the stacked review form. */
+/* the glue keeps the last word and its anchor on one line; text-wrap: balance otherwise
+   pushes the empty anchor onto a line of its own at some widths */
+.clay-glue { white-space: nowrap; }
+.clay-at { position: relative; }
+.clay-at > .clay { position: absolute; z-index: 1; left: var(--at-x); top: var(--at-y); width: var(--at-w); max-width: none; }
+.clay--contact { --clay-rot: 10.5deg; --at-x: 0.18em; --at-y: 0.05em; --at-w: 1.24em; }
+.clay--audit { --clay-rot: -87.5deg; --at-x: -0.94em; --at-y: -0.9em; --at-w: 1.875em; }
+.clay--audit-side { --clay-rot: -87.5deg; display: none; }
+/* phone-only line breaks, so the anchored props have the end of a short line beside them */
+.br-phone { display: none; }
+/* the review form sits level with the heading block, not pinned to its top */
+@media (min-width: 901px) { .audit-card { align-items: center; } }
+@media (min-width: 901px) and (max-width: 1599px) { .audit-form-wrap { width: min(100%, 24rem); } }
+/* wide: heading block, the stacked form, then the magnifier as a third column */
+@media (min-width: 1600px) {
+  .audit-card { grid-template-columns: max-content minmax(20rem, 1fr) auto; column-gap: clamp(2rem, 3vw, 3.5rem); }
+  .audit-form-wrap { width: min(100%, 35rem); }
+  .clay--audit { display: none; }
+  .clay--audit-side { display: block; width: clamp(200px, 13.6vw, 280px); }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .contact, .audit-card { position: relative; }
+  .contact .clay-at, .audit-card .clay-at { position: static; }
+  .clay-at > .clay--contact { left: auto; right: calc(var(--card-pad) + 6px); top: calc(var(--card-pad) - 6px); width: clamp(96px, 14vw, 124px); }
+  .audit-card { --mag-w: clamp(140px, 22.8vw, 200px); }
+  .clay-at > .clay--audit { left: auto; right: calc(var(--card-pad) + 10px); top: calc(var(--card-pad) - 3px); width: var(--mag-w); }
+  .audit-card .stack p { max-width: min(56ch, calc(100% - 0.925 * var(--mag-w) + var(--card-pad) - 10px - 1.5rem)); }
+}
+
+@media (max-width: 640px) {
+  .br-phone { display: inline; }
+  .clay-intro { grid-template-columns: minmax(0, 1fr); }
+  .clay-intro > .clay { display: none; }
+  .clay--contact { --at-x: 0.2em; --at-y: -0.33em; --at-w: clamp(40px, 100vw - 325px, 78px); }
+  .audit-card h2 { position: relative; align-self: stretch; }
+  .audit-card .clay-at { position: static; }
+  .clay-at > .clay--audit { left: auto; right: 0; top: auto; bottom: -0.4em; width: clamp(56px, 100vw - 308px, 90px); }
+}

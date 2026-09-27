@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clay arranger</title>
+<!-- Dev-only harness for dev-tools/clay-arranger.js. Served by the dev server at /@fs/...; never
+     built or deployed. Shows a kombu.uk page in a device frame, with the arranging controls
+     beside it, so every width band can be arranged from one desktop window. -->
+<style>
+  :root { --ink: #141210; --linen: #F1EEE6; --terra: #D4714E; --kelp: #1F4A3C; --mist: #DCD6EA; --stage: #2b2926; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--stage); color: var(--ink); font: 13px/1.45 -apple-system, system-ui, sans-serif; }
+  .app { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: 100vh; }
+  .stage { display: flex; flex-direction: column; min-width: 0; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 14px; background: #1c1a18; color: #eee; }
+  .bar .group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .bar button, .bar select { font: inherit; border: 2px solid #eee; background: transparent; color: #eee; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .bar select { border-radius: 10px; }
+  .bar select option { color: var(--ink); }
+  .bar button.on { background: #eee; color: var(--ink); }
+  .bar .meta { margin-left: auto; color: #bbb; }
+  .view { flex: 1; overflow: auto; padding: 18px; display: flex; justify-content: center; align-items: flex-start; }
+  .device { position: relative; flex: 0 0 auto; }
+  .device iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: var(--linen); border-radius: 6px; }
+  .panel { background: #fff; border-left: 2px solid var(--ink); padding: 16px; overflow-y: auto; overflow-x: hidden; }
+  .panel h1 { font-size: 15px; margin: 0 0 2px; }
+  .band { color: #555; margin-bottom: 12px; }
+  .panel h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #555; margin: 16px 0 6px; }
+  .chips, .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .row + .row { margin-top: 6px; }
+  .panel button { font: inherit; border: 2px solid var(--ink); background: #fff; color: var(--ink); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+  .panel button.on { background: var(--ink); color: #fff; }
+  .panel button.fill { background: var(--terra); }
+  .panel button:disabled { opacity: .35; cursor: default; }
+  .sel { font: 12px/1.45 ui-monospace, Menlo, monospace; background: var(--linen); border-radius: 10px; padding: 8px 10px; min-height: 38px; word-break: break-word; }
+  input, select.lib, textarea { font: inherit; width: 100%; border: 2px solid var(--ink); border-radius: 10px; padding: 6px 8px; margin-top: 8px; background: #fff; color: var(--ink); }
+  textarea { height: 160px; font: 11px ui-monospace, Menlo, monospace; }
+  .help { color: #555; font-size: 12px; margin-top: 14px; }
+  .help p { margin: 0 0 6px; }
+  .status { color: var(--kelp); font-size: 12px; min-height: 17px; margin-top: 8px; }
+  .hint { color: #777; font-size: 12px; margin-top: 4px; }
+  .undo button { padding: 6px 16px; font-weight: 600; }
+  .moved { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .moved .item { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .moved .item span { flex: 1; min-width: 0; font-size: 12px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .moved .item span:hover { text-decoration: underline; }
+  .moved .empty { color: #777; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage">
+    <div class="bar">
+      <select id="page" aria-label="Page"></select>
+      <div class="group" id="devices"></div>
+      <button id="zoom" title="Show the frame at 100% and scroll around it">100%</button>
+      <span class="meta" id="meta"></span>
+    </div>
+    <div class="view" id="view"><div class="device" id="device"><iframe id="frame" title="Page being arranged"></iframe></div></div>
+  </div>
+  <aside class="panel">
+    <h1>Clay arranger</h1>
+    <div class="band" id="band">Loading the page...</div>
+    <div class="row undo"><button data-u="undo" id="undo">Undo</button><button data-u="redo" id="redo">Redo</button></div>
+
+    <h2>Selected</h2>
+    <div class="sel" id="sel">Click a clay prop or any part of the page.</div>
+    <div class="row" style="margin-top:8px">
+      <button data-a="smaller">Smaller</button><button data-a="bigger">Bigger</button>
+      <button data-a="rl" data-prop>Rotate left</button><button data-a="rr" data-prop>Rotate right</button>
+    </div>
+    <div class="row">
+      <button data-a="parent" data-block>Select the part around it</button>
+      <button data-a="hide" data-prop>Not at this size</button>
+      <button data-a="reset">Reset</button>
+      <button data-a="remove" data-prop>Remove</button>
+    </div>
+    <input id="note" placeholder="Note for Claude about this (optional)">
+
+    <h2>Clay props on this page</h2>
+    <div class="chips" id="chips"></div>
+    <select class="lib" id="lib"><option value="">Add a prop from the library...</option></select>
+    <div class="hint" id="moved"></div>
+
+    <h2>Moved at this size</h2>
+    <div class="moved" id="movedList"></div>
+    <div class="row" style="margin-top:8px"><button data-a="resetall" id="resetall">Reset everything at this size</button></div>
+
+    <h2>Hand over</h2>
+    <div class="row"><button class="fill" data-a="copy">Copy all</button></div>
+    <div class="status" id="status"></div>
+
+    <div class="help">
+      <p>Pick a device size above, then click anything on the page: a clay prop, a heading, a paragraph, a form, a button. Drag it to move it, and drag the corner square to resize. Props also rotate with the dot above them.</p>
+      <p>"Select the part around it" steps out to the block that holds what you clicked, for example from a heading to the whole text column.</p>
+      <p>Undo steps back one change at a time, back to exactly where it was; Cmd+Z does the same and Shift+Cmd+Z redoes. Each page and size keeps its own undo history until you close the tab.</p>
+      <p>"Moved at this size" lists everything you've changed here. Click a name to find it, press its Reset to put it back where the site has it, or reset the lot at once. Resets can be undone too.</p>
+      <p>Keys: arrows nudge (Shift for 10px), [ and ] rotate, - and = resize, Esc deselects.</p>
+      <p>Each size saves on its own: phone (up to 640), tablet (641 to 900), laptop (901 to 1440) and wide. The two phone sizes share one set.</p>
+    </div>
+  </aside>
+</div>
+<script>
+(function () {
+  var KEY = 'kombu-clay-arrange-v3';
+  var PAGES = [['/', 'Home'], ['/web-design/', 'Web design'], ['/design/', 'Design'], ['/photography/', 'Photography'], ['/marketing/', 'Marketing'],
+    ['/about/', 'About'], ['/work/', 'Work'], ['/work/padharo/', 'Padharo case study'], ['/work/mustang-group/', 'Mustang case study'], ['/404/', '404']];
+  var DEVICES = [
+    { id: 'phone-390', band: 'phone', label: 'Phone 390', w: 390, h: 844 },
+    { id: 'phone', band: 'phone', label: 'Phone 412', w: 412, h: 915 },
+    { id: 'tablet', band: 'tablet', label: 'Tablet 820', w: 820, h: 1180 },
+    { id: 'laptop', band: 'laptop', label: 'Laptop 1280', w: 1280, h: 900 },
+    { id: 'wide', band: 'wide', label: 'Desktop 1920', w: 1920, h: 1080 }
+  ];
+  var q = new URLSearchParams(location.search);
+  var state = { page: q.get('page') || '/', device: q.get('device') || 'wide', actual: false };
+  if (!DEVICES.some(function (d) { return d.id === state.device; })) state.device = 'wide';
+  var origin = 'http://' + location.host;
+  var $ = function (id) { return document.getElementById(id); };
+  var frame = $('frame'), device = $('device'), view = $('view');
+
+  PAGES.forEach(function (p) { var o = document.createElement('option'); o.value = p[0]; o.textContent = p[1]; $('page').appendChild(o); });
+  $('page').value = state.page;
+  $('page').addEventListener('change', function (e) { state.page = e.target.value; loadFrame(); });
+  DEVICES.forEach(function (d) {
+    var b = document.createElement('button'); b.textContent = d.label; b.setAttribute('data-d', d.id);
+    b.addEventListener('click', function () { state.device = d.id; loadFrame(); });
+    $('devices').appendChild(b);
+  });
+
+  function dev() { return DEVICES.filter(function (d) { return d.id === state.device; })[0]; }
+  function fit() {
+    var d = dev(), aw = view.clientWidth - 36, ah = view.clientHeight - 36;
+    var s = state.actual ? 1 : Math.min(1, aw / d.w, ah / d.h);
+    frame.style.width = d.w + 'px'; frame.style.height = d.h + 'px'; frame.style.transform = 'scale(' + s + ')';
+    device.style.width = Math.round(d.w * s) + 'px'; device.style.height = Math.round(d.h * s) + 'px';
+    $('meta').textContent = d.w + ' x ' + d.h + (s < 1 ? ' shown at ' + Math.round(s * 100) + '%' : '');
+  }
+  function loadFrame() {
+    history.replaceState(null, '', '?page=' + encodeURIComponent(state.page) + '&device=' + state.device);
+    [].forEach.call($('devices').children, function (b) { b.classList.toggle('on', b.getAttribute('data-d') === state.device); });
+    fit();
+    $('band').textContent = 'Loading the page...';
+    frame.src = origin + state.page + (state.page.indexOf('?') > -1 ? '&' : '?') + 'arrange=inner';
+  }
+  addEventListener('resize', fit);
+  $('zoom').addEventListener('click', function () { state.actual = !state.actual; this.classList.toggle('on', state.actual); fit(); });
+
+  function api() { try { return frame.contentWindow.__arrange; } catch (e) { return null; } }
+  frame.addEventListener('load', function () {
+    var tries = 0;
+    (function wait() {
+      var A = api();
+      if (A) { A.onChange(render); fillLibrary(A); render(); return; }
+      if (++tries < 100) setTimeout(wait, 100);
+    })();
+  });
+  function fillLibrary(A) {
+    var lib = $('lib');
+    if (lib.options.length > 1) return;
+    (A.library || []).forEach(function (n) { var o = document.createElement('option'); o.value = n; o.textContent = n.replace(/-/g, ' '); lib.appendChild(o); });
+  }
+  $('lib').addEventListener('change', function (e) { var A = api(); if (A && e.target.value) A.add(e.target.value); e.target.value = ''; });
+  $('note').addEventListener('input', function (e) { var A = api(); if (A) A.note(e.target.value); });
+
+  function render() {
+    var A = api(); if (!A) return;
+    var d = dev();
+    $('band').textContent = PAGES.filter(function (p) { return p[0] === state.page; }).map(function (p) { return p[1]; })[0] + ' · ' + A.tier + ' size · ' + d.w + 'px wide';
+    var cur = A.current();
+    var selEl = $('sel');
+    if (!cur) selEl.textContent = 'Click a clay prop or any part of the page.';
+    else if (cur.kind === 'prop') selEl.textContent = cur.name + '  x ' + cur.x + '  y ' + cur.y + '  w ' + cur.w + '  rot ' + cur.rot + '°' + (cur.hidden ? '  (off at this size: drag it to use it here)' : cur.wasHidden ? '  (new at this size)' : '');
+    else selEl.textContent = cur.name + (cur.dx || cur.dy ? '  moved ' + cur.dx + ', ' + cur.dy : '') + (cur.w ? '  width ' + cur.w : '');
+    document.querySelectorAll('.panel [data-a]').forEach(function (b) {
+      var a = b.getAttribute('data-a');
+      if (a === 'copy' || a === 'resetall') return;
+      b.disabled = !cur || (b.hasAttribute('data-prop') && cur.kind !== 'prop') || (b.hasAttribute('data-block') && cur.kind !== 'block');
+    });
+    var hide = document.querySelector('[data-a="hide"]'); hide.textContent = cur && cur.kind === 'prop' && cur.hidden ? 'Show at this size' : 'Not at this size';
+    var note = $('note'); if (document.activeElement !== note) note.value = cur ? cur.note : '';
+    var chips = $('chips'); chips.innerHTML = '';
+    A.props().forEach(function (p) {
+      var b = document.createElement('button');
+      b.textContent = p.name.replace(/-/g, ' ') + (p.hidden ? ' (off)' : '');
+      if (cur && cur.kind === 'prop' && cur.name === p.name) b.className = 'on';
+      b.addEventListener('click', function () { A.selectProp(p.name); });
+      chips.appendChild(b);
+    });
+    if (!chips.children.length) chips.textContent = 'None yet. Add one from the library.';
+    var u = A.canUndo(), r = A.canRedo();
+    $('undo').disabled = !u; $('undo').textContent = 'Undo' + (u ? ' (' + u + ')' : '');
+    $('redo').disabled = !r; $('redo').textContent = 'Redo' + (r ? ' (' + r + ')' : '');
+    var list = A.moved(), box = $('movedList'); box.innerHTML = '';
+    list.forEach(function (m) {
+      var row = document.createElement('div'); row.className = 'item';
+      var label = document.createElement('span'); label.textContent = m.label; label.title = 'Show it: ' + m.label;
+      label.addEventListener('click', function () { A.selectById(m.id); });
+      var rb = document.createElement('button'); rb.textContent = 'Reset';
+      rb.addEventListener('click', function () { A.resetOne(m.id); frame.focus(); });
+      row.appendChild(label); row.appendChild(rb); box.appendChild(row);
+    });
+    if (!list.length) box.innerHTML = '<div class="empty">Nothing moved at this size. Everything is where the site puts it.</div>';
+    $('resetall').disabled = !list.length;
+    $('moved').textContent = '';
+  }
+
+  document.querySelector('.panel').addEventListener('click', function (e) {
+    var ub = e.target.closest('button[data-u]');
+    if (ub) { var AU = api(); if (AU) AU[ub.getAttribute('data-u')](); frame.focus(); return; }
+    var b = e.target.closest('button[data-a]'); if (!b) return;
+    var a = b.getAttribute('data-a'), A = api();
+    if (a === 'copy') return copyAll();
+    if (!A) return;
+    if (a === 'resetall') { A.resetAll(); frame.focus(); return; }
+    A.act(a);
+    frame.focus();
+  });
+
+  function copyAll() {
+    var raw = null; try { raw = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    var out = JSON.stringify({ tool: 'kombu clay arranger v2', bands: 'phone <=640, tablet 641-900, laptop 901-1440, wide >1440', positions: raw || {} }, null, 2);
+    var ok = function () { $('status').textContent = 'Copied. Paste it into the chat.'; };
+    var fallback = function () {
+      var ta = document.querySelector('textarea') || $('status').parentNode.insertBefore(document.createElement('textarea'), $('status').nextSibling);
+      ta.value = out; ta.select(); $('status').textContent = 'Select all in the box and copy it.';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(out).then(ok, fallback); else fallback();
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName)) return;
+    var A = api(); if (!A) return;
+    var z = (e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z'), y = e.ctrlKey && (e.key === 'y' || e.key === 'Y');
+    if (z || y) { e.preventDefault(); if (y || e.shiftKey) A.redo(); else A.undo(); }
+  });
+
+  loadFrame();
+})();
+</script>
+</body>
+</html>

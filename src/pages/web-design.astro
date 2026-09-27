@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Clay from '../components/Clay.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ContactCard from '../components/ContactCard.astro';
@@ -162,8 +163,8 @@ const extraSchema = [
           <p>{s.d}</p>
           <div class="tag-row">
             {s.list.map((l) => <span class="tag">{l}</span>)}
+            <a href={s.cta.href} class="pill pill--sm pill--fill">{s.cta.label}</a>
           </div>
-          <a href={s.cta.href} class="pill pill--sm pill--fill">{s.cta.label}</a>
         </div>
       ))}
     </div>
@@ -222,7 +223,7 @@ const extraSchema = [
   <section class="card-section bleed" id="audit" aria-labelledby="audit-h">
     <div class="card card--kelp two audit-card">
       <div class="stack">
-        <h2 id="audit-h">Is your website holding you back?</h2>
+        <h2 id="audit-h">Is your website<br /> holding you <br class="br-phone" /><span class="clay-glue">back?<span class="clay-at"><Clay name="magnifier" width={260} height={240} class="clay--audit" /></span></span></h2>
         <p>Drop your URL below and I will personally review your site. You will get honest, no-nonsense feedback on what is working, what is not, and what could be better. No automated reports, just real insights from a designer.</p>
       </div>
       <div class="audit-form-wrap">
@@ -236,6 +237,7 @@ const extraSchema = [
         </form>
         <p class="audit-success-v2" id="auditSuccessV2" hidden>Almost there. Hit send in WhatsApp and I will take a look and come back with honest feedback.</p>
       </div>
+      <Clay name="magnifier" width={260} height={240} class="clay--audit-side" />
     </div>
   </section>
 

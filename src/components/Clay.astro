@@ -1,0 +1,18 @@
+---
+// A Kombu clay prop: one of the chunky clay objects from ~/Design/brand/kombu/clay/props/,
+// exported to public/images/clay/<name>.webp at twice its largest display size.
+// Decorative seasoning only: alt="" and hidden from screen readers, never in the hero,
+// never standing in for real work, never over body text. Placed with the dev arranger
+// (?arrange under `npm run dev`); the wrapper (`clay-intro` for card corners, `clay-at` for
+// a prop anchored to a word in a heading) and the modifier class (`clay--hhc`, `clay--audit`,
+// `clay--contact`, `clay--404`) size and place it. See "Clay props" in site.css.
+interface Props {
+  name: string;
+  width: number;
+  height: number;
+  class?: string;
+  eager?: boolean;
+}
+const { name, width, height, class: cls = '', eager = false } = Astro.props;
+---
+<img class={`clay ${cls}`} src={`/images/clay/${name}.webp`} alt="" aria-hidden="true" width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding="async" />

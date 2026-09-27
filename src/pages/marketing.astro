@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Clay from '../components/Clay.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ContactCard from '../components/ContactCard.astro';
@@ -80,8 +81,13 @@ const extraSchema = [
 
   <section class="card-section bleed" id="health-check" aria-labelledby="hhc-h">
     <div class="card card--kelp hhc-card">
-      <h2 id="hhc-h">The Hospitality Health Check</h2>
-      <p class="section-lede">I come to your venue, sit in it like a guest, and look at everything that quietly decides whether people come back, not just the marketing, but the lighting, the menu, the systems and the feel. You get a clear, honest report with the fixes that will move your covers most, ranked by impact.</p>
+      <div class="clay-intro">
+        <div>
+          <h2 id="hhc-h">The Hospitality Health Check</h2>
+          <p class="section-lede">I come to your venue, sit in it like a guest, and look at everything that quietly decides whether people come back, not just the marketing, but the lighting, the menu, the systems and the feel. You get a clear, honest report with the fixes that will move your covers most, ranked by impact.</p>
+        </div>
+        <Clay name="stethoscope" width={220} height={268} class="clay--hhc" />
+      </div>
       <div class="hhc-grid">
         {hhc.map((c) => (
           <div class="hhc-item">

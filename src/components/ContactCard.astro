@@ -1,15 +1,21 @@
 ---
 // The terracotta contact card, identical to the one on the home page.
-// Every page passes its own `text` verbatim from the old ContactCTA; the
-// heading stays the shared default.
+// Every page passes its own `text` verbatim from the old ContactCTA and keeps the
+// shared default heading.
+// The speech bubble follows "Tell me what" on every page (see "Clay props" in site.css), so the
+// default heading is set in two parts with a break between them; a custom heading gets the
+// bubble at its end.
 interface Props { text: string; heading?: string; }
-const { text, heading = "Tell me what you're trying to do" } = Astro.props as Props;
+const { text, heading } = Astro.props as Props;
+import Clay from './Clay.astro';
 const WA = 'https://wa.me/442381112819';
 ---
 <section class="card-section bleed" id="contact" aria-labelledby="contact-h">
   <div class="card card--ochre contact">
     <div class="stack">
-      <h2 id="contact-h">{heading}</h2>
+      {heading
+        ? <h2 id="contact-h">{heading}<span class="clay-glue"><span class="clay-at"><Clay name="speech-bubble" width={124} height={100} class="clay--contact" /></span></span></h2>
+        : <h2 id="contact-h">Tell me <span class="clay-glue">what<span class="clay-at"><Clay name="speech-bubble" width={124} height={100} class="clay--contact" /></span></span><br /> you're trying <br class="br-phone" /><span class="clay-glue">to do</span></h2>}
       <p>{text}</p>
     </div>
     <div class="contact-actions">

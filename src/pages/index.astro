@@ -32,6 +32,8 @@ const work = [
   { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
   { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group/#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
   { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
+  // tablets only: two columns of three left Ark Angels on its own, so a fourth site squares the grid there
+  { name: "Ennio's", slug: 'ennios', cs: '/work/mustang-group/#venues', url: 'https://www.ennios.co.uk', alt: "Ennio's Italian restaurant and boutique rooms website on Southampton's Town Quay", line: 'An Italian restaurant with ten boutique rooms in a Victorian warehouse on Town Quay. The restaurant, the rooms and table bookings, all in one place.', tabletOnly: true },
 ];
 
 const WA = 'https://wa.me/442381112819';
@@ -125,7 +127,7 @@ const extraSchema = [
     </div>
     <div class="work-grid">
       {work.map((w) => (
-        <article class="wcard">
+        <article class={w.tabletOnly ? 'wcard wcard--tablet' : 'wcard'}>
           <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
             <WorkPreview slug={w.slug} alt={w.alt} />
           </a>

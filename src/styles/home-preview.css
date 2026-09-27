@@ -29,6 +29,8 @@
 .discipline--design .discipline-art { aspect-ratio: 1.12; }
 .discipline--mktg .example--front { width: 59%; }
 .discipline--mktg .example--back { width: 83%; }
+/* wide screens: the marketing pair spreads so more of the back photo shows (Ryan's arranger, round 2) */
+@media (min-width: 1441px) { .discipline--mktg .example--front { left: calc(2% - clamp(0px, 15.6vw - 225px, 75px)); } }
 .discipline-footer { grid-column: 1/-1; display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: var(--line) solid currentColor; padding-top: 20px; }
 .discipline-fact { font-size: 16px; font-weight: 500; max-width: 55%; }
 .discipline-footer .pill { font-size: 15px; min-height: 44px; padding: 12px 18px; border-color: currentColor; color: inherit; white-space: nowrap; }
@@ -54,11 +56,14 @@
 .connected-note .pill { flex-shrink: 0; }
 .home-page .work { padding-top: var(--band); }
 .home-page .about .stack p { max-width: 52ch; }
+@media (min-width: 641px) and (max-width: 900px) { .home-page .about .stack p { max-width: none; } }
 @media (max-width:1199px) {
  .discipline { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; }
  .discipline h2 { font-size: 46px; }
  .discipline-copy p { max-width: 38ch; }
  .discipline-art { max-width: 400px; justify-self: center; align-self: end; }
+ /* one column: the design pair stands taller so the back menu is not buried behind the front */
+ .discipline--design .discipline-art { aspect-ratio: 0.9; }
  .discipline-footer { gap: 12px; }
  .discipline-fact { font-size: 14px; }
  .discipline-footer .pill { font-size: 14px; padding-inline: 14px; }
@@ -66,10 +71,12 @@
  .connected-copy h2 { font-size: 56px; }
  /* Between tablet and wide desktop the note is two columns: heading and pill
     stacked on the left, the body centred against their full height on the right. */
- .connected-note { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: center; }
- .connected-note h3 { font-size: clamp(34px, 3.6vw, 46px); }
+ /* Round 2 (Ryan's arranger): the heading and pill stay together as one group, centred against
+    the body, instead of the pill sinking to the bottom when the body is the taller side. */
+ .connected-note { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 5rem); row-gap: 0; align-items: center; }
+ .connected-note h3 { font-size: clamp(34px, 3.6vw, 46px); grid-column: 1; grid-row: 1; align-self: end; }
  .connected-note p { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
- .connected-note .pill { grid-column: 1; grid-row: 2; justify-self: start; margin-top: 16px; }
+ .connected-note .pill { grid-column: 1; grid-row: 2; justify-self: start; align-self: start; margin-top: 16px; }
 }
 @media (max-width:760px) {
  .home-opening { padding-top: 108px; }

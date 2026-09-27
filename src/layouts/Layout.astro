@@ -162,6 +162,16 @@ const datedSchema = extraSchema.map((node) =>
 );
 
 const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...datedSchema] };
+// Dev only: the clay arranger (dev-tools/clay-arranger.js plus its harness, dev-tools/arrange.html),
+// opened by adding ?arrange to any page under `npm run dev`. import.meta.env.DEV is false in a build, so none of this ships.
+let clayArranger = '';
+if (import.meta.env.DEV) {
+  const fs = await import('node:fs');
+  const dir = process.cwd() + '/dev-tools';
+  const names = fs.readdirSync(dir + '/clay-library').filter((f) => f.endsWith('.webp')).map((f) => f.slice(0, -5));
+  const lib = JSON.stringify({ base: '/@fs' + dir + '/clay-library/', harness: '/@fs' + dir + '/arrange.html', names: names });
+  clayArranger = 'window.__clayLib=' + lib + ';\n' + fs.readFileSync(dir + '/clay-arranger.js', 'utf8');
+}
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -409,6 +419,48 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
       })();
     </script>
     <script is:inline>
+      // Clay props (Clay.astro): each one settles in (fade and a small scale up)
+      // the first time it comes on screen, then drifts a few pixels and a degree
+      // or two against the page while it is on screen, like the portrait. Never
+      // under .no-motion: the props then simply sit still, as they do without JS.
+      (function () {
+        var props = [].slice.call(document.querySelectorAll('.clay'));
+        if (!props.length || document.documentElement.classList.contains('no-motion')) return;
+        document.documentElement.classList.add('clay-armed');
+        var live = [], queued = false;
+        function drift() {
+          queued = false;
+          live.forEach(function (el) {
+            var r = el.getBoundingClientRect();
+            var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+            p = p < -1 ? -1 : p > 1 ? 1 : p;
+            el.style.setProperty('--clay-dy', (p * -20).toFixed(1) + 'px');
+            el.style.setProperty('--clay-dr', (p * 6).toFixed(2) + 'deg');
+          });
+        }
+        function onScroll() { if (live.length && !queued) { queued = true; requestAnimationFrame(drift); } }
+        var watch = new IntersectionObserver(function (es) {
+          es.forEach(function (en) {
+            var i = live.indexOf(en.target);
+            if (en.isIntersecting && i < 0) live.push(en.target);
+            if (!en.isIntersecting && i > -1) live.splice(i, 1);
+          });
+          onScroll();
+        }, { rootMargin: '80px 0px' });
+        var enter = new IntersectionObserver(function (es) {
+          es.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            enter.unobserve(en.target);
+            // a frame after arming, so a prop already on screen at load still plays its entrance
+            requestAnimationFrame(function () { en.target.classList.add('is-in'); });
+          });
+        }, { threshold: 0.35 });
+        props.forEach(function (el) { watch.observe(el); enter.observe(el); });
+        addEventListener('scroll', onScroll, { passive: true });
+        addEventListener('resize', onScroll);
+      })();
+    </script>
+    <script is:inline>
       // Phone menu: the Menu pill opens the tray sheet, Close, Escape or a
       // link closes it. Page scroll (and Lenis) is held while it is open.
       (function () {
@@ -498,5 +550,6 @@ const jsonLd = { "@context": "https://schema.org", "@graph": [...baseGraph, ...d
         });
       }
     </script>
+    {clayArranger && <script is:inline set:html={clayArranger} />}
   </body>
 </html>

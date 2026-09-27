@@ -15,10 +15,15 @@ const url = "https://kombu.uk/work/mustang-group/";
 const review = reviews.find((r) => r.org === 'Mustang Group');
 
 const M = '/images/work/mustang';
+// Banana Wharf's speed, from Google's data on real visitors (Chrome UX Report, phones, 75th
+// percentile), not the Lighthouse lab score: about 3.7 s on the old WordPress site, about 1 s now.
+const speedNew = "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fwww.bananawharf.co.uk%2F&form_factor=mobile";
+const speedOld = "https://cruxvis.withgoogle.com/#/?view=loadingperf&url=https%3A%2F%2Fbananawharf.co.uk%2F&identifier=origin&device=PHONE&periodStart=0&periodEnd=-1&display=p75s";
 // Each venue: what I did there, in one or two plain sentences, and the proof.
 const venues = [
   { name: "Banana Wharf", slug: "banana-wharf", url: "https://www.bananawharf.co.uk", alt: "A recorded tour of the Banana Wharf website on a desktop screen",
-    text: "Rebuilt from WordPress as one site for both marinas, Ocean Village and Port Hamble, with a switch between them. On a phone the home page used to take about 17 seconds to show its main picture. After the rebuild it takes about 4.3." },
+    text: "Rebuilt from WordPress as one site for both marinas, Ocean Village and Port Hamble, with a switch between them. On real phones its pages now show their main content in about a second, down from about 3.7 seconds on the old site.",
+    sources: [{ label: "the new site", href: speedNew }, { label: "the old one", href: speedOld }] },
   { name: "Grumpy Monkey", slug: "grumpy-monkey", url: "https://www.grumpy-monkey.co.uk", alt: "A recorded tour of the Grumpy Monkey website on a desktop screen",
     text: "Rebuilt and live since July 2026, in a look taken from nightlife posters. Tables book through Dojo, and the events page carries the nights they run." },
   { name: "Ennio's", slug: "ennios", url: "https://www.ennios.co.uk", alt: "A recorded tour of the Ennio's website on a desktop screen",
@@ -50,13 +55,13 @@ const extraSchema = [
   { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
   { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Mustang Group: venue websites, group site, photography and care", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Organization", "name": "Mustang Group", "foundingDate": "1987", "address": { "@type": "PostalAddress", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Website care"], "inLanguage": "en-GB" },
   { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work/" }, { "@type": "ListItem", "position": 3, "name": "Mustang Group", "item": url } ] },
-  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Mustang Group: six venues, their websites and photography", "description": "A 32 second film cut to music: the four venues Kombu has photographed, three rebuilt venue sites, Banana Wharf loading on a phone in 4.3 seconds instead of 17, the new group site and the weekly care behind them.", "thumbnailUrl": ["https://kombu.uk/videos/work/mustang-promo-wide.webp", "https://kombu.uk/videos/work/mustang-promo-tall.webp"], "uploadDate": "2026-09-26", "duration": "PT32S", "contentUrl": "https://kombu.uk/videos/work/mustang-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
+  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Mustang Group: six venues, their websites and photography", "description": "A 32 second film cut to music: the four venues Kombu has photographed, three rebuilt venue sites, Banana Wharf's load time on real phones falling from about 3.7 seconds to about 1, the new group site and the weekly care behind them.", "thumbnailUrl": ["https://kombu.uk/videos/work/mustang-promo-wide.webp?v=3", "https://kombu.uk/videos/work/mustang-promo-tall.webp?v=3"], "uploadDate": "2026-09-26", "duration": "PT32S", "contentUrl": "https://kombu.uk/videos/work/mustang-promo-wide.mp4?v=3", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/mustang-group-og.jpg?v=2" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Mustang Group, a Kombu case study: venue websites, a new group site, photography and care" ogType="article">
   <Fragment slot="head">
-    <meta property="og:video" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4" />
-    <meta property="og:video:secure_url" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4" />
+    <meta property="og:video" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4?v=3" />
+    <meta property="og:video:secure_url" content="https://kombu.uk/videos/work/mustang-promo-wide.mp4?v=3" />
     <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="1600" />
     <meta property="og:video:height" content="900" />
@@ -74,13 +79,13 @@ const extraSchema = [
     <div class="card card--white case-head case-head--promo">
       <h1 id="case-h" class="case-name" style="--name-fit: 7.02">Mustang Group</h1>
       <div class="case-head__film">
-        <CasePromo name="Mustang Group" slug="mustang" alt="The Mustang Group film: The Grand, Ennio's, Banana Wharf and Grumpy Monkey tagged website and photography, three rebuilt venue sites, Banana Wharf loading on a phone in 4.3 seconds instead of 17, the new group site, rows of venue photographs and the weekly care, ending on Kombu" />
+        <CasePromo name="Mustang Group" slug="mustang" version="3" alt="The Mustang Group film: The Grand, Ennio's, Banana Wharf and Grumpy Monkey tagged website and photography, three rebuilt venue sites, Banana Wharf's load time on real phones counting down from 3.7 seconds to 1, the new group site, rows of venue photographs and the weekly care, ending on Kombu" />
       </div>
       <div class="case-head__text stack">
         <p class="case-lede">Mustang Group is a family-run group of six venues in and around Southampton, established in 1987. Since May 2026 I've looked after their websites: I've rebuilt three of the venue sites, built a new site for the group and photographed the venues, and every Monday the group gets a report on how the Banana Wharf and Ennio's sites are doing.</p>
         <div class="case-facts">
           <span class="chip">Looking after the group since May 2026</span>
-          <span class="chip">Banana Wharf on a phone: 17 seconds to 4.3</span>
+          <a class="chip" href={speedNew} target="_blank" rel="noopener">Banana Wharf on real phones: 3.7 seconds to 1</a>
         </div>
         <div class="pagehead-actions">
           <a class="pill pill--fill" href="https://wa.me/442381112819" target="_blank" rel="noopener">Talk to me on WhatsApp</a>
@@ -135,7 +140,7 @@ const extraSchema = [
             )}
             <div class="venue-meta">
               <h3>{v.name}</h3>
-              <p>{v.text}</p>
+              <p>{v.text}{v.sources && <> Both figures are Google's data from real visitors: <a href={v.sources[0].href} target="_blank" rel="noopener">{v.sources[0].label}</a> and <a href={v.sources[1].href} target="_blank" rel="noopener">{v.sources[1].label}</a>.</>}</p>
               <a class="pill pill--sm" href={v.url} target="_blank" rel="noopener">Visit {v.name}</a>
             </div>
           </li>

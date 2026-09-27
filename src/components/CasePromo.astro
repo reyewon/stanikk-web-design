@@ -4,19 +4,24 @@
 // and the two pills on the film turn the music on (from the top) and pause it.
 // With reduced motion, ?nomotion, Save-Data or no JavaScript it stays a still
 // until someone presses Play.
+// `version` cache-busts a re-cut film: the file names stay the same, so bump it
+// whenever the files in public/videos/work change, or phones and Cloudflare keep
+// serving the old cut.
 interface Props {
   name: string;
   slug: string;
   alt: string;
+  version?: string;
 }
-const { name, slug, alt } = Astro.props;
+const { name, slug, alt, version } = Astro.props;
 const base = `/videos/work/${slug}-promo`;
+const v = version ? `?v=${version}` : '';
 ---
 
-<figure class="case-promo" data-promo data-name={slug} data-wide={`${base}-wide.mp4`} data-tall={`${base}-tall.mp4`}>
+<figure class="case-promo" data-promo data-name={slug} data-wide={`${base}-wide.mp4${v}`} data-tall={`${base}-tall.mp4${v}`}>
   <picture>
-    <source media="(max-width: 767px)" srcset={`${base}-tall.webp`} width="864" height="1080" />
-    <img class="case-promo__poster" src={`${base}-wide.webp`} alt={alt} width="1600" height="900" fetchpriority="high" />
+    <source media="(max-width: 767px)" srcset={`${base}-tall.webp${v}`} width="864" height="1080" />
+    <img class="case-promo__poster" src={`${base}-wide.webp${v}`} alt={alt} width="1600" height="900" fetchpriority="high" />
   </picture>
   <video muted playsinline loop preload="none" aria-label={`The ${name} film`}></video>
   <div class="case-promo__controls">

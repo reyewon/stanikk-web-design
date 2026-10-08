@@ -126,6 +126,7 @@ const baseGraph = [
     } : {}),
     "sameAs": [
       googleReviewsUrl,
+      "https://www.instagram.com/kombu.uk/",
       "https://uk.linkedin.com/in/ryanstanikk",
       "https://www.instagram.com/ryanstanikkphotography/",
       "https://medium.com/@ryanstanikkphotography",
@@ -194,6 +195,19 @@ if (import.meta.env.DEV) {
         gtag('js', new Date());
         gtag('config', 'G-5H2CJESBZ0');
       }
+      // Every WhatsApp, email and phone tap is sent as contact_click (a GA4 key
+      // event) with the route, where on the page it sat and the page itself.
+      // Only the route is sent, never the link itself, so a quote summary
+      // riding on a wa.me or mailto link never reaches GA4.
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        var h = a.getAttribute('href') || '';
+        var method = /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(h) ? 'whatsapp' : /^mailto:/i.test(h) ? 'email' : /^tel:/i.test(h) ? 'phone' : '';
+        if (!method) return;
+        var placement = a.closest('.quote-result') ? 'quote_calculator' : a.closest('nav, #menu') ? 'nav' : a.closest('footer') ? 'footer' : a.closest('#contact') ? 'contact_card' : 'page';
+        gtag('event', 'contact_click', { method: method, placement: placement, page_path: location.pathname });
+      }, true);
     </script>
 
     <!-- Primary Meta Tags -->
@@ -302,7 +316,7 @@ if (import.meta.env.DEV) {
   <body>
     <a href="#main" class="skip">Skip to content</a>
     <slot />
-    <script is:inline src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+    <script is:inline src="/vendor/lenis-1.3.26.min.js"></script>
     <script is:inline>
       // Lenis and the nav reveal run on EVERY page, intro or not: an interior
       // page has no #intro to pop the nav in via the pinned sequence, so it
@@ -538,7 +552,8 @@ if (import.meta.env.DEV) {
           var img = e.target.closest('[data-lightbox] img');
           if (!img) return;
           e.preventDefault();
-          show(img.currentSrc || img.src, img.alt, img);
+          // srcset thumbnails are small WebP copies; the src is the full-size original
+          show(img.srcset ? img.src : (img.currentSrc || img.src), img.alt, img);
         });
       })();
     </script>

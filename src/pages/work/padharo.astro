@@ -78,7 +78,7 @@ const extraSchema = [
   { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
   { "@type": "CreativeWork", "@id": `${url}#work`, "name": "Padharo: website, photography, menus, social and email", "creator": { "@id": "https://kombu.uk/#person" }, "publisher": { "@id": "https://kombu.uk/#business" }, "about": { "@type": "Restaurant", "name": "Padharo", "url": "https://www.padharo.co.uk", "servesCuisine": "Indian", "address": { "@type": "PostalAddress", "streetAddress": "100-102 East Street", "addressLocality": "Southampton", "addressCountry": "GB" } }, "genre": ["Web design", "Photography", "Graphic design", "Social media"], "inLanguage": "en-GB" },
   { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kombu.uk/work/" }, { "@type": "ListItem", "position": 3, "name": "Padharo", "item": url } ] },
-  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Padharo: the whole look, from one person", "description": "A 38 second film cut to music: the kitchen, the food photography, the menus, the drinks list, the website, the social posts and an email Kombu made for Padharo.", "thumbnailUrl": ["https://kombu.uk/videos/work/padharo-promo-wide.webp", "https://kombu.uk/videos/work/padharo-promo-tall.webp"], "uploadDate": "2026-09-26", "duration": "PT38S", "contentUrl": "https://kombu.uk/videos/work/padharo-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
+  { "@type": "VideoObject", "@id": `${url}#film`, "name": "Padharo: the whole look, from one person", "description": "A 38 second film cut to music: the kitchen, the food photography, the menus, the drinks list, the website, the social posts and an email Kombu made for Padharo.", "thumbnailUrl": ["https://kombu.uk/videos/work/padharo-promo-wide.webp", "https://kombu.uk/videos/work/padharo-promo-tall.webp"], "uploadDate": "2026-09-26T12:00:00+01:00", "duration": "PT38S", "contentUrl": "https://kombu.uk/videos/work/padharo-promo-wide.mp4", "creator": { "@id": "https://kombu.uk/#person" }, "inLanguage": "en-GB" }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/work/padharo-og.jpg?v=2" ogImageWidth="1200" ogImageHeight="630" ogImageAlt="Padharo, a Kombu case study: website, menus, photography, social and email" ogType="article">
@@ -180,7 +180,7 @@ const extraSchema = [
           <div class="rail-foot">
             <p class="rail-hint">Swipe along, or tap a page to open it full screen.</p>
             <div class="rail-ctrl">
-              <button type="button" class="pill pill--sm" data-rail-prev aria-label="Previous page of the drinks menu">Back</button>
+              <button type="button" class="pill pill--sm" data-rail-prev aria-label="Back a page in the drinks menu">Back</button>
               <span class="rail-count" aria-live="polite"><span data-rail-now>1</span> of {drinks.length}</span>
               <button type="button" class="pill pill--sm" data-rail-next aria-label="Next page of the drinks menu">Next</button>
             </div>
@@ -236,7 +236,7 @@ const extraSchema = [
         <div class="rail-foot">
           <p class="rail-hint">Tap any post to see it full size, or an email to read it in full.</p>
           <div class="rail-ctrl">
-            <button type="button" class="pill pill--sm" data-rail-prev aria-label="Previous item">Back</button>
+            <button type="button" class="pill pill--sm" data-rail-prev aria-label="Back one item">Back</button>
             <span class="rail-count" aria-live="polite"><span data-rail-now>1</span> of {social.length}</span>
             <button type="button" class="pill pill--sm" data-rail-next aria-label="Next item">Next</button>
           </div>

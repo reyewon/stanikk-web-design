@@ -1,0 +1,138 @@
+/* ============================================================
+   /site-check only. The opening card holds the form; progress,
+   a problem note and the results are built in place below it by
+   public/site-check.js. Same tray rules as everywhere: 2px ink
+   outlines, no shadows, white text on terracotta.
+   ============================================================ */
+
+/* the run's cards set their own display, so [hidden] has to win explicitly */
+.sc-run[hidden], .sc-run [hidden], .sc-error[hidden] { display: none !important; }
+
+/* ---------- Opening card ---------- */
+.sc-head {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 5vw, 6rem); align-items: end;
+  color: var(--c-white);
+}
+.sc-head h1 {
+  color: var(--c-white);
+  font-weight: 800; font-size: clamp(3rem, 8.5vw, 9rem); line-height: 0.8;
+}
+.sc-intro p { margin-top: var(--s-3); max-width: 40ch; font-size: clamp(1.05rem, 1.25vw, 1.3rem); font-weight: 400; line-height: 1.5; }
+.sc-intro h1 + p { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); }
+.sc-intro p + p { margin-top: var(--s-2); }
+
+.sc-form { min-width: 0; }
+.sc-label, .sc-email label { display: block; font-weight: 500; font-size: 1rem; margin-bottom: var(--s-1); }
+.sc-field { display: flex; gap: var(--s-1); }
+.sc-field input {
+  flex: 1 1 auto; min-width: 0;
+  background: var(--c-white); color: var(--c-ink);
+  border: var(--line) solid var(--c-ink); border-radius: var(--r-pill);
+  padding: 1rem 1.35rem;
+  font: 400 1.05rem/1.2 var(--f-body);
+  caret-color: var(--c-terracotta);
+}
+.sc-field input::placeholder { color: var(--c-ink-mute); }
+.sc-field input:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; }
+.sc-head :focus-visible { outline-color: var(--c-white); }
+.sc-field .pill { flex: 0 0 auto; font-size: 1rem; padding-inline: 1.5rem; }
+.sc-go[disabled] { opacity: 0.7; cursor: progress; transform: none; }
+.sc-hint { margin-top: var(--s-2); font-size: 0.95rem; font-weight: 400; }
+.sc-error { margin-top: var(--s-2); font-weight: 500; font-size: 1rem; background: var(--c-white); color: var(--c-ink); border: var(--line) solid var(--c-ink); border-radius: var(--r-chip); padding: 0.7rem 1rem; }
+.sc-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* the run's cards stack with the same gap as the tray; hidden ones take no space */
+.sc-run { display: flex; flex-direction: column; gap: var(--gap); }
+
+/* clears the floating nav when the page scrolls a card into view */
+.sc-run > .card { scroll-margin-top: calc(96px + var(--gap)); }
+
+/* ---------- Progress ---------- */
+.sc-progress-h { font-size: clamp(1.7rem, 2.6vw, 2.5rem); overflow-wrap: anywhere; }
+.sc-steps { list-style: none; margin: var(--sec-head) 0 0; padding: 0; display: grid; gap: 0; border-bottom: var(--line) solid var(--c-ink); }
+.sc-steps li {
+  display: flex; align-items: center; gap: 1rem;
+  padding-block: 1rem; border-top: var(--line) solid var(--c-ink);
+  font-size: clamp(1.02rem, 1.2vw, 1.15rem); color: var(--c-ink-mute);
+}
+.sc-steps li::before {
+  content: ''; flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%;
+  border: var(--line) solid var(--c-ink-mute); background: transparent;
+}
+.sc-steps li.is-active { color: var(--c-ink); font-weight: 500; }
+.sc-steps li.is-active::before { border-color: var(--c-ink); background: var(--c-ochre); animation: sc-pulse 1.1s ease-in-out infinite alternate; }
+.sc-steps li.is-done { color: var(--c-ink); }
+.sc-steps li.is-done::before { border-color: var(--c-ink); background: var(--c-kelp); }
+@keyframes sc-pulse { from { scale: 0.86; } to { scale: 1.08; } }
+.no-motion .sc-steps li.is-active::before { animation: none; }
+@media (prefers-reduced-motion: reduce) { .sc-steps li.is-active::before { animation: none; } }
+.sc-wait { margin-top: var(--s-3); color: var(--c-ink-soft); }
+
+/* ---------- Problem ---------- */
+.sc-problem h2 { font-size: clamp(1.7rem, 2.6vw, 2.5rem); }
+.sc-problem p { margin-top: var(--s-3); max-width: 60ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.sc-actions { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-4); }
+.sc-actions button.pill { cursor: pointer; }
+
+/* ---------- Results ---------- */
+.sc-summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+.sc-summary:not(:has(.sc-shot:not([hidden]))) { grid-template-columns: minmax(0, 1fr); }
+.sc-shot { margin: 0; width: clamp(150px, 15vw, 220px); }
+.sc-shot img { width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border: var(--line) solid var(--c-ink); border-radius: var(--r-tile); background: var(--c-linen); }
+.sc-shot figcaption { margin-top: 0.6rem; font-size: 0.85rem; color: var(--c-ink-soft); }
+.sc-summary-text h2 { font-size: clamp(2.4rem, 5.5vw, 5.4rem); overflow-wrap: anywhere; }
+.sc-meta { margin-top: var(--s-3); display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+.sc-meta a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+.sc-sub { margin-top: var(--s-4); font-size: clamp(1.7rem, 2.6vw, 2.5rem); }
+.sc-strength { margin-top: var(--s-2); max-width: 58ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+
+.sc-fixes { list-style: none; margin: var(--sec-head) 0 0; padding: 0; border-bottom: var(--line) solid var(--c-ink); counter-reset: fix; }
+.sc-fix {
+  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap);
+  border-top: var(--line) solid var(--c-ink); padding-block: clamp(1.5rem, 3vw, 2.5rem);
+}
+.sc-fix-head h3 { font-size: clamp(1.7rem, 2.6vw, 2.5rem); }
+.sc-fix-head .chip { margin-top: var(--s-2); }
+.chip--high { background: var(--c-terracotta); color: var(--c-white); }
+.chip--medium { background: var(--c-ochre); }
+.chip--low { background: var(--c-mist); }
+.sc-fix-body { display: grid; gap: var(--s-2); }
+.sc-fix-body p { max-width: 62ch; font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.sc-fix-body strong { font-weight: 600; }
+.sc-unable { margin-top: var(--s-3); font-size: 0.95rem; color: var(--c-ink-soft); max-width: 70ch; }
+
+/* ---------- What next ---------- */
+.sc-next { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 6rem); align-items: end; }
+.sc-next h2 { font-size: clamp(2.4rem, 5.5vw, 5.4rem); }
+.sc-next p { margin-top: var(--s-3); max-width: 46ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.sc-email-note { margin-top: var(--s-2); font-size: 0.95rem; }
+.sc-email-note.is-ok { font-weight: 600; }
+
+/* ---------- What it looks at ---------- */
+.sc-ledger { margin-top: var(--sec-head); }
+.sc-limits { margin-top: var(--s-4); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.sc-limits p { max-width: 64ch; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.sc-privacy { margin-top: var(--s-3); font-size: 0.9rem; color: var(--c-ink-soft); max-width: 70ch; }
+
+/* ---------- Narrower screens ---------- */
+@media (max-width: 900px) {
+  .sc-head, .sc-next { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .sc-intro p { max-width: 52ch; }
+}
+@media (max-width: 640px) {
+  .sc-field { flex-direction: column; }
+  .sc-field .pill { justify-content: center; padding-block: 1rem; }
+  /* heading first, then the phone shot beside "What's working" */
+  .sc-summary { grid-template-columns: 104px minmax(0, 1fr); grid-template-areas: "title title" "meta meta" "shot sub" "shot strength"; grid-template-rows: auto auto auto 1fr; column-gap: 1.1rem; row-gap: 0; }
+  .sc-summary:not(:has(.sc-shot:not([hidden]))) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "meta" "sub" "strength"; }
+  .sc-summary-text { display: contents; }
+  .sc-summary-text h2 { grid-area: title; }
+  .sc-meta { grid-area: meta; }
+  .sc-shot { grid-area: shot; width: 104px; margin-top: var(--s-4); }
+  .sc-shot figcaption { font-size: 0.85rem; line-height: 1.3; }
+  .sc-sub { grid-area: sub; }
+  .sc-strength { grid-area: strength; font-size: 1rem; }
+  .sc-fix { grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
+  .sc-limits { flex-direction: column; align-items: flex-start; }
+}

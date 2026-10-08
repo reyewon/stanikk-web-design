@@ -1,4 +1,5 @@
 ---
+import { srcsetFor } from '../lib/srcset';
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -70,10 +71,10 @@ const extraSchema = [
         </div>
       </div>
       <div class="cs-grid-2x2">
-        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-starters.jpg" width="1500" height="1060" alt="Kwackers menu spread: starters, with food photography shot to leave room for the text" loading="lazy" /></div>
-        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-rice.jpg" width="1500" height="1060" alt="Kwackers menu spread: rice bowls and new arrivals" loading="lazy" /></div>
-        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-burgers.jpg" width="1500" height="1060" alt="Kwackers menu spread: burgers and combos" loading="lazy" /></div>
-        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-sharers.jpg" width="1500" height="1058" alt="Kwackers menu spread: sharing platters and sides" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-starters.jpg" srcset={srcsetFor("/images/design/kwackers-starters.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1500" height="1060" alt="Kwackers menu spread: starters, with food photography shot to leave room for the text" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-rice.jpg" srcset={srcsetFor("/images/design/kwackers-rice.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1500" height="1060" alt="Kwackers menu spread: rice bowls and new arrivals" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-burgers.jpg" srcset={srcsetFor("/images/design/kwackers-burgers.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1500" height="1060" alt="Kwackers menu spread: burgers and combos" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/kwackers-sharers.jpg" srcset={srcsetFor("/images/design/kwackers-sharers.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1500" height="1058" alt="Kwackers menu spread: sharing platters and sides" loading="lazy" /></div>
       </div>
     </div>
   </section>
@@ -87,10 +88,10 @@ const extraSchema = [
         <span class="chip">Brochure design</span><span class="chip">Document layout</span><span class="chip">Image sourcing</span>
       </div>
       <div class="cs-ideal-media">
-        <div class="cs-tile cs-tile--cover" data-lightbox><img src="/images/design/ideal-produce-cover.jpg" width="1060" height="1500" alt="Ideal Produce catalogue cover: dramatic food photography with the Ideal Produce wordmark" loading="lazy" /></div>
+        <div class="cs-tile cs-tile--cover" data-lightbox><img src="/images/design/ideal-produce-cover.jpg" srcset={srcsetFor("/images/design/ideal-produce-cover.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1060" height="1500" alt="Ideal Produce catalogue cover: dramatic food photography with the Ideal Produce wordmark" loading="lazy" /></div>
         <div class="cs-ideal-side">
-          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-1.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: canned goods, crisps, oils and syrups in a clean navy layout" loading="lazy" /></div>
-          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-2.jpg" width="1700" height="1201" alt="Ideal Produce catalogue spread: condiments and sauces listings with product photography" loading="lazy" /></div>
+          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-1.jpg" srcset={srcsetFor("/images/design/ideal-produce-spread-1.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1700" height="1201" alt="Ideal Produce catalogue spread: canned goods, crisps, oils and syrups in a clean navy layout" loading="lazy" /></div>
+          <div class="cs-tile" data-lightbox><img src="/images/design/ideal-produce-spread-2.jpg" srcset={srcsetFor("/images/design/ideal-produce-spread-2.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1700" height="1201" alt="Ideal Produce catalogue spread: condiments and sauces listings with product photography" loading="lazy" /></div>
         </div>
       </div>
     </div>
@@ -109,13 +110,13 @@ const extraSchema = [
       </div>
       <div class="cs-media">
         <div class="cs-row cs-row--2">
-          <div class="cs-tile cs-tile--menu1" data-lightbox><img src="/images/design/padharo-menu-2026-front.jpg" width="1200" height="1697" alt="Padharo 2026 menu, front: nibbles, chaats, street food, tandoor grilled and Indo-Chinese in cream and terracotta columns" loading="lazy" /></div>
-          <div class="cs-tile cs-tile--menu2" data-lightbox><img src="/images/design/padharo-menu-2026-back.jpg" width="1200" height="1697" alt="Padharo 2026 menu, reverse: the winter collection, main dishes, companions, dosa, rice, naan, sides, desserts and hot drinks" loading="lazy" /></div>
+          <div class="cs-tile cs-tile--menu1" data-lightbox><img src="/images/design/padharo-menu-2026-front.jpg" srcset={srcsetFor("/images/design/padharo-menu-2026-front.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="1697" alt="Padharo 2026 menu, front: nibbles, chaats, street food, tandoor grilled and Indo-Chinese in cream and terracotta columns" loading="lazy" /></div>
+          <div class="cs-tile cs-tile--menu2" data-lightbox><img src="/images/design/padharo-menu-2026-back.jpg" srcset={srcsetFor("/images/design/padharo-menu-2026-back.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="1697" alt="Padharo 2026 menu, reverse: the winter collection, main dishes, companions, dosa, rice, naan, sides, desserts and hot drinks" loading="lazy" /></div>
         </div>
         <div class="cs-row cs-row--seasonal">
-          <div class="cs-tile" data-lightbox><img src="/images/design/padharo-diwali-back.jpg" width="1200" height="1697" alt="Padharo Diwali set menu cover, rust and gold with a mandala and the line good food, brighter together" loading="lazy" /></div>
-          <div class="cs-tile" data-lightbox><img src="/images/design/padharo-christmas-front.jpg" width="1200" height="1697" alt="Padharo Christmas set menu in deep green with gold script, baubles and the full three course listing" loading="lazy" /></div>
-          <div class="cs-tile cs-tile--card" data-lightbox><img src="/images/design/padharo-card-back.png" width="1000" height="647" alt="The back of Ankit Vaghela's Padharo business card, navy with a gold monogram" loading="lazy" /></div>
+          <div class="cs-tile" data-lightbox><img src="/images/design/padharo-diwali-back.jpg" srcset={srcsetFor("/images/design/padharo-diwali-back.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="1697" alt="Padharo Diwali set menu cover, rust and gold with a mandala and the line good food, brighter together" loading="lazy" /></div>
+          <div class="cs-tile" data-lightbox><img src="/images/design/padharo-christmas-front.jpg" srcset={srcsetFor("/images/design/padharo-christmas-front.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="1697" alt="Padharo Christmas set menu in deep green with gold script, baubles and the full three course listing" loading="lazy" /></div>
+          <div class="cs-tile cs-tile--card" data-lightbox><img src="/images/design/padharo-card-back.png" srcset={srcsetFor("/images/design/padharo-card-back.png")} sizes="(max-width: 767px) 75vw, 50vw" width="1000" height="647" alt="The back of Ankit Vaghela's Padharo business card, navy with a gold monogram" loading="lazy" /></div>
         </div>
       </div>
     </div>
@@ -138,10 +139,10 @@ const extraSchema = [
             <img src="/images/design/bbe-stand.jpg" width="900" height="1200" alt="The full Build Budget Expert exhibition stand assembled at a trade show: matching dark green and gold roller banners, pull-up displays and a branded podium" loading="lazy" />
           </picture>
         </div>
-        <div class="cs-collage__piece cs-collage__piece--banner" data-lightbox><img src="/images/design/bbe-banner.jpg" width="649" height="1600" alt="Build Budget Expert roller banner in dark green and gold" loading="lazy" /></div>
-        <div class="cs-collage__piece cs-collage__piece--flyer" data-lightbox><img src="/images/design/bbe-flyer-front.jpg" width="917" height="1300" alt="Build Budget Expert A5 flyer, front" loading="lazy" /></div>
-        <div class="cs-collage__piece cs-collage__piece--card-b" data-lightbox><img src="/images/design/bbe-card-back.jpg" width="1200" height="778" alt="Build Budget Expert business card, reverse" loading="lazy" /></div>
-        <div class="cs-collage__piece cs-collage__piece--card-f" data-lightbox><img src="/images/design/bbe-card-front.jpg" width="1200" height="778" alt="Build Budget Expert business card, front, for Owen Gartside" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--banner" data-lightbox><img src="/images/design/bbe-banner.jpg" srcset={srcsetFor("/images/design/bbe-banner.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="649" height="1600" alt="Build Budget Expert roller banner in dark green and gold" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--flyer" data-lightbox><img src="/images/design/bbe-flyer-front.jpg" srcset={srcsetFor("/images/design/bbe-flyer-front.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="917" height="1300" alt="Build Budget Expert A5 flyer, front" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--card-b" data-lightbox><img src="/images/design/bbe-card-back.jpg" srcset={srcsetFor("/images/design/bbe-card-back.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="778" alt="Build Budget Expert business card, reverse" loading="lazy" /></div>
+        <div class="cs-collage__piece cs-collage__piece--card-f" data-lightbox><img src="/images/design/bbe-card-front.jpg" srcset={srcsetFor("/images/design/bbe-card-front.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="1200" height="778" alt="Build Budget Expert business card, front, for Owen Gartside" loading="lazy" /></div>
       </div>
     </div>
   </section>
@@ -155,8 +156,8 @@ const extraSchema = [
         <span class="chip">Posters</span><span class="chip">Flyers</span><span class="chip">Web banners</span><span class="chip">Image sourcing</span><span class="chip">Messaging</span>
       </div>
       <div class="cs-row cs-row--2 cs-row--posters">
-        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-1.jpg" width="942" height="1400" alt="Remedi Health poster: a father with his children, with a private health services message" loading="lazy" /></div>
-        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-2.jpg" width="942" height="1400" alt="Remedi Health poster: a smiling woman with a warm message about staying healthy for family" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-1.jpg" srcset={srcsetFor("/images/design/remedi-poster-1.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="942" height="1400" alt="Remedi Health poster: a father with his children, with a private health services message" loading="lazy" /></div>
+        <div class="cs-tile" data-lightbox><img src="/images/design/remedi-poster-2.jpg" srcset={srcsetFor("/images/design/remedi-poster-2.jpg")} sizes="(max-width: 767px) 75vw, 50vw" width="942" height="1400" alt="Remedi Health poster: a smiling woman with a warm message about staying healthy for family" loading="lazy" /></div>
       </div>
     </div>
   </section>

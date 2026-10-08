@@ -3,30 +3,36 @@
 Kombu is a one-person creative studio in Southampton, England, run by Ryan Stanikk:
 web design, graphic design, commercial photography and marketing.
 
-Last updated: 2026-08-30
+Last updated: 2026-09-25
 Currency: GBP. No VAT is charged, so every figure below is the figure you pay.
 Contact: design@kombu.uk | +44 23 8111 2819 | https://kombu.uk
 
 ## Web design
 
 Every plan includes hosting, SSL, domain setup, ongoing support and everyday
-changes. You own everything and there is no lock-in. Each tier is sold two ways:
+changes. For a brand new site I register the domain and cover the cost, unless it
+is an unusually expensive one. Email forwarding is set up free; full mailboxes are
+quoted if needed. You own everything and there is no lock-in. Each tier is sold two ways:
 a 12-month monthly rate, or a one-off build fee then a lower ongoing rate.
 
 ### Starter
 - Price: £49/month for 12 months, then £29/month
-- Alternative: £199 build up front, then £29/month from day one
+- Alternative: £229 build up front, then £29/month from day one
 - Includes: custom single-page design, mobile-first and responsive, SEO foundations, hosting and SSL, ongoing support
 
 ### Business (most popular)
-- Price: £79/month for 12 months, then £49/month
-- Alternative: £299 build up front, then £49/month from day one
+- Price: £99/month for 12 months, then £49/month
+- Alternative: £499 build up front, then £49/month from day one
 - Includes: everything in Starter, up to 5 custom pages, contact forms, Google Business integration, priority support
 
 ### Professional
-- Price: £149/month for 12 months, then £99/month
-- Alternative: £499 build up front, then £99/month from day one
-- Includes: everything in Business, up to 15 pages, CMS integration, advanced integrations, dedicated support
+- Price: £175/month for 12 months, then £99/month
+- Alternative: £899 build up front, then £99/month from day one
+- Includes: everything in Business, up to 15 pages, CMS integration, booking and advanced integrations, dedicated support
+
+### Bespoke sites and web apps
+- Bespoke, design-led sites (motion, photography built in): quoted per project, from £1,500
+- Web apps and custom tools: quoted per project, from £1,200
 
 ## Graphic design
 
@@ -40,11 +46,13 @@ https://kombu.uk/photography via a quote calculator.
 - 2 hour session: £275
 - Half day: £415
 - Full day: £690
-- Takeaway and delivery menu shoots: 1.25x the session rate
-- Multi-day bookings: 0.9x
-- Local independent and charity discount: 20% off, within roughly 30 miles of Southampton, verified distance, excludes London
-- Travel: free within roughly 30 miles, then £40, £90 or £150 by distance band; London £80
-- National campaign usage licence: from £1,100/day
+- Local independents, charities and individuals within roughly 30 miles of Southampton: £220 / £330 / £550 (20% off; not available in London)
+- National rate, for businesses that trade UK-wide and UK-wide usage: £385 / £580 / £965
+- Worldwide or international usage: quoted individually
+- Multi-day bookings: 10% off the full-day rate per day
+- Distance: standard rates within roughly 25 miles; x1.15 from 25 to 80 miles (half day minimum beyond 30); x1.25 from 80 to 150 miles and x1.40 beyond 150 (full day only)
+- London: £581 half day / £966 full day, half day minimum
+- Travel and any overnight accommodation are added at cost
 
 ## Marketing
 

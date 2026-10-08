@@ -69,3 +69,10 @@ dist-v1/
 
 # Codex image_gen scratch output (generated images, not site content)
 /output/
+
+# wrangler local state for the site-check Worker
+.wrangler/
+
+# local-only: QC screenshots and file copies (237 MB), and the weekly analytics reports (confidential; the repo is public)
+/_backups/
+/analytics-reports/

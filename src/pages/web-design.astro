@@ -31,9 +31,9 @@ const work = [
 ];
 
 const tiers = [
-  { tier: 'starter', name: 'Starter', desc: 'A single-page site that makes you look as good online as you are in person.', monthly: 49, upfront: 199, renewal: 29, featured: false, features: ['Custom single-page design', 'Mobile-first & responsive', 'SEO foundations', 'Hosting & SSL included', 'Ongoing support'] },
-  { tier: 'business', name: 'Business', desc: 'A multi-page site with contact forms and your Google listing connected.', monthly: 79, upfront: 299, renewal: 49, featured: true, features: ['Up to 5 custom pages', 'Contact forms', 'Google Business integration', 'Everything in Starter', 'Priority support'] },
-  { tier: 'professional', name: 'Professional', desc: 'Larger sites with CMS, advanced integrations, and room to grow.', monthly: 149, upfront: 499, renewal: 99, featured: false, features: ['Up to 15 custom pages', 'CMS integration', 'Advanced integrations', 'Everything in Business', 'Dedicated support'] },
+  { tier: 'starter', name: 'Starter', desc: 'A single-page site that makes you look as good online as you are in person.', monthly: 49, upfront: 229, renewal: 29, featured: false, features: ['Custom single-page design', 'Mobile-first & responsive', 'SEO foundations', 'Hosting & SSL included', 'Ongoing support'] },
+  { tier: 'business', name: 'Business', desc: 'A multi-page site with contact forms and your Google listing connected.', monthly: 99, upfront: 499, renewal: 49, featured: true, features: ['Up to 5 custom pages', 'Contact forms', 'Google Business integration', 'Everything in Starter', 'Priority support'] },
+  { tier: 'professional', name: 'Professional', desc: 'Larger sites with CMS, advanced integrations, and room to grow.', monthly: 175, upfront: 899, renewal: 99, featured: false, features: ['Up to 15 custom pages', 'CMS integration', 'Booking and advanced integrations', 'Everything in Business', 'Dedicated support'] },
 ];
 
 const process = [
@@ -46,11 +46,11 @@ const process = [
 
 const faqs = [
   { q: "What is Kombu?", a: "Kombu is a one-person creative studio in Southampton run by Ryan Stanikk, covering web design, graphic design, commercial photography and marketing. The name comes from kombu kelp, the quiet ingredient that makes everything around it better: one person handling the whole stack so it all pulls in the same direction." },
-  { q: "How much does a website cost?", a: "Starter sites are £49 per month or £199 to build, Business sites £79 per month or £299, and Professional sites £149 per month or £499. Every plan includes hosting, SSL, domain setup and ongoing support, with no hidden fees. After the 12-month term, monthly plans drop to a lower retainer." },
+  { q: "How much does a website cost?", a: "Starter sites are £49 per month or £229 to build, Business sites £99 per month or £499, and Professional sites £175 per month or £899. Every plan includes hosting, SSL, domain setup and ongoing support, with no hidden fees. After the 12-month term, monthly plans drop to a lower retainer. Bespoke, more ambitious sites are quoted from £1,500, and web apps from £1,200." },
   { q: "How long does it take to build a website?", a: "Most projects are measured in days and weeks rather than weeks and months. A single-page site is often ready in one to two weeks, while larger multi-page or custom builds take longer. You will have a realistic timeline from the very first conversation." },
   { q: "Do you design websites for businesses outside Southampton?", a: "Yes. I am based in Southampton and work with businesses right across Hampshire, including Eastleigh, Winchester, Portsmouth, Fareham and Romsey, and remotely with clients anywhere in the UK. If you are local I will meet you in person; if you are further afield I work over video call." },
   { q: "Do I need to provide content and images?", a: "The more you can provide, the more I can get your website right from the start. That said, I do my own research and dig out any details that have been missed, and as a commercial photographer I can create imagery for your site too. Between what you give me and what I find, I will have everything I need." },
-  { q: "Do you handle hosting and domains?", a: "Yes. Domain registration, hosting, SSL and ongoing maintenance are all included in your plan. You own everything, there is no lock-in, and I handle every technical detail so you do not have to." },
+  { q: "Do you handle hosting and domains?", a: "Yes. Hosting, SSL and ongoing maintenance are all included in your plan. For a brand new site I register the domain and cover the cost myself, unless it is an unusually expensive one. Email forwarding addresses are set up free, and full mailboxes can be quoted if you need them. You own everything, there is no lock-in, and I handle every technical detail so you do not have to." },
   { q: "I'm currently with an agency. What's different about working with Kombu?", a: "You talk to me, not an account manager, a junior developer or a sales team. I am a designer first, so I care about how things look and how they work. Changes happen fast because there are no layers of approval, everyday updates are included rather than itemised on an invoice, and your site stays current instead of frozen the moment the build is signed off." },
 ];
 
@@ -81,11 +81,13 @@ const extraSchema = [
         // a 12-month monthly rate, or a one-off build then a lower renewal.
         // Publishing only the first rate understated the offer to consumers.
         { "@type": "Offer", "name": "Starter, monthly", "price": "49", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "Custom single-page design, mobile-first, SEO foundations, hosting and SSL included." } },
-        { "@type": "Offer", "name": "Starter, build up front", "price": "199", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "29", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "One-off build of £199, then £29 a month for hosting, SSL and upkeep." } },
-        { "@type": "Offer", "name": "Business, monthly", "price": "79", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "79", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "Up to 5 custom pages, contact forms, Google Business integration and priority support." } },
-        { "@type": "Offer", "name": "Business, build up front", "price": "299", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "One-off build of £299, then £49 a month for hosting, SSL and upkeep." } },
-        { "@type": "Offer", "name": "Professional, monthly", "price": "149", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "149", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "Up to 15 pages, CMS integration, advanced integrations and dedicated support." } },
-        { "@type": "Offer", "name": "Professional, build up front", "price": "499", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "One-off build of £499, then £99 a month for hosting, SSL and upkeep." } }
+        { "@type": "Offer", "name": "Starter, build up front", "price": "229", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "29", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Starter Website", "description": "One-off build of £229, then £29 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Business, monthly", "price": "99", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "Up to 5 custom pages, contact forms, Google Business integration and priority support." } },
+        { "@type": "Offer", "name": "Business, build up front", "price": "499", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Business Website", "description": "One-off build of £499, then £49 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Professional, monthly", "price": "175", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "175", "priceCurrency": "GBP", "unitText": "MONTH", "billingDuration": "P12M" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "Up to 15 pages, CMS integration, booking and advanced integrations, and dedicated support." } },
+        { "@type": "Offer", "name": "Professional, build up front", "price": "899", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Professional Website", "description": "One-off build of £899, then £99 a month for hosting, SSL and upkeep." } },
+        { "@type": "Offer", "name": "Bespoke website", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1500", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Bespoke Website", "description": "A bespoke, design-led site with motion and photography built in, quoted per project from £1,500." } },
+        { "@type": "Offer", "name": "Web app", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1200", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Web App", "description": "A custom web application, quoted per project from £1,200." } }
       ]
     }
   },
@@ -143,9 +145,9 @@ const extraSchema = [
             <div>
               <h3>{w.name}</h3>
               <p>{w.line}</p>
+              {w.cs && <a href={w.cs} class="wcard-case">Read the case study</a>}
             </div>
             <a href={w.url} target="_blank" rel="noopener" class="pill pill--sm" aria-label={`Visit the ${w.name} website`}>Visit</a>
-              {w.cs && <a href={w.cs} class="wcard-case">Read the case study</a>}
           </div>
         </article>
       ))}
@@ -198,8 +200,8 @@ const extraSchema = [
         </div>
       ))}
     </div>
-    <p class="pricing-enterprise">Got a larger project in mind? Need e-commerce, custom features, or something more ambitious? <a href="#contact">Get in touch for a custom quote</a>.</p>
-    <p class="pricing-note">All plans include hosting, SSL, domain setup, and ongoing support. Monthly pricing spreads your build cost over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may be quoted separately depending on complexity.</p>
+    <p class="pricing-enterprise">Want something more ambitious, like a bespoke site with motion and photography built in, e-commerce, or a web app? Bespoke sites are quoted from £1,500 and web apps from £1,200. <a href="#contact">Get in touch for a quote</a>.</p>
+    <p class="pricing-note">All plans include hosting, SSL, domain setup, and ongoing support. For a brand new site I register the domain and cover the cost, unless it is an unusually expensive one, and email forwarding is set up free. Monthly pricing spreads your build cost over 12 months. Pay upfront to start at the lower retainer rate immediately. Day-to-day updates like text changes, image swaps, and menu updates are always included. Larger changes may be quoted separately depending on complexity.</p>
   </section>
 
   <section class="card-section bleed" aria-labelledby="process-h">
@@ -236,6 +238,7 @@ const extraSchema = [
           <p class="audit-hint">Opens WhatsApp with your URL ready to send. No email required, no strings attached.</p>
         </form>
         <p class="audit-success-v2" id="auditSuccessV2" hidden>Almost there. Hit send in WhatsApp and I will take a look and come back with honest feedback.</p>
+        <p class="audit-instant">Want something right now? <a href="/site-check/">Get five instant fixes</a> from the free site check.</p>
       </div>
       <Clay name="magnifier" width={260} height={240} class="clay--audit-side" />
     </div>

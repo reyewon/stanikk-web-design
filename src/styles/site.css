@@ -626,6 +626,8 @@ h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.8
 .review-featured { background: var(--c-mist); }
 .review-featured .stars svg { fill: var(--c-ink); }
 .review-featured blockquote p { font-size: clamp(1.3rem, 1.8vw, 1.8rem); line-height: 1.4; max-width: 40ch; }
+/* An odd number of reviews: the featured card takes the full row so the rest pair up without an orphan. */
+.review-grid--odd .review-featured { grid-column: 1 / -1; }
 .review-source { font-size: 0.9rem; text-decoration: underline; text-underline-offset: 0.2em; align-self: flex-start; }
 .review-featured .review-org { color: var(--c-ink-soft); }
 .review-by { margin-top: auto; padding-top: var(--s-2); border-top: var(--line) solid var(--c-ink); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; }
@@ -989,6 +991,9 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .audit-field input::placeholder { color: var(--c-linen-soft); }
 .audit-hint { margin-top: var(--s-2); font-size: 0.85rem; color: var(--c-linen-soft); }
 .audit-success-v2 { margin-top: var(--s-2); font-size: 0.95rem; color: var(--c-linen); }
+/* the instant check sits beside the personal review, never instead of it */
+.audit-instant { margin-top: var(--s-3); font-size: 0.95rem; color: var(--c-linen); }
+.audit-instant a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; font-weight: 500; }
 @media (min-width: 901px) {
   .audit-form-wrap { justify-self: end; width: min(100%, 30rem); }
   .audit-form-v2 { display: flex; flex-direction: column; }

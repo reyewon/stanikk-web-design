@@ -15,6 +15,12 @@ export const reviews = [
     rating: 5,
   },
   {
+    quote: 'He built the website for our band and it looks amazing. It definitely helps us stand out with a premium style. You can tell he is passionate about delivering a quality product as well and will help with his own design ideas and incorporate yours at the same time.',
+    name: 'Scotty Wilson',
+    org: 'Ark Angels',
+    rating: 5,
+  },
+  {
     quote: 'Really pleased with the website Ryan created for us. It looks professional, reflects our business well, and has helped us come across much better to customers. Great service from start to finish and I would definitely recommend him.',
     name: 'Simone Jiojioras',
     org: 'Soleto',

@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/site-check.css';
+
+// The free site check. The page is static; public/site-check.js posts the
+// address to the kombu-site-check Worker (workers/site-check/, routed at
+// kombu.uk/api/site-check) and draws the progress and the five fixes from
+// its NDJSON stream.
+const title = "Free Website Check for Restaurants & Local Businesses | Kombu";
+const description = "Paste your website address and get five specific fixes in about 30 seconds: what is costing you customers on phones and laptops, and what to change. Free, no sign-up.";
+
+const looks = [
+  { t: "The first screen on a phone", d: "What a customer sees before they scroll: whether it's clear what you are, where you are and whether you're for them." },
+  { t: "The thing they came for", d: "Booking, ordering, calling or finding the menu. How far they have to dig, and whether the button works with a thumb." },
+  { t: "The essentials", d: "Opening hours, prices, location and the menu or services, and whether they're easy to find or buried." },
+  { t: "Trust and speed", d: "Photos, signs the business is current, and real-visitor speed from Google when your site gets enough traffic for Google to measure it." },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/site-check#webpage", "url": "https://kombu.uk/site-check/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/site-check#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Free site check", "item": "https://kombu.uk/site-check/" } ] }
+];
+---
+<Layout title={title} description={description} canonical="https://kombu.uk/site-check/" extraSchema={extraSchema}>
+
+<Nav />
+
+<main id="main">
+
+  <section class="card-section pagehead-section bleed" aria-labelledby="sc-h">
+    <div class="card card--terracotta sc-head">
+      <div class="sc-intro">
+        <h1 id="sc-h">Free site check</h1>
+        <p>Paste your website address. In about 30 seconds you'll see five specific things that are costing you customers, and how to fix each one.</p>
+        <p>It's built for restaurants, cafes, bars and other local businesses.</p>
+      </div>
+      <form class="sc-form" id="scForm" novalidate>
+        <label for="scUrl" class="sc-label">Your website</label>
+        <div class="sc-field">
+          <input type="text" id="scUrl" name="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourwebsite.co.uk" required />
+          <button type="submit" class="pill sc-go">Check my site</button>
+        </div>
+        <div class="sc-trap" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <p class="sc-hint" id="scHint">Free, no sign-up. It looks at your page as it loads on a phone and on a laptop.</p>
+        <p class="sc-error" id="scError" role="alert" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="card-section bleed sc-run" id="scRun" aria-live="polite" hidden>
+    <div class="card card--white sc-progress" id="scProgress" hidden>
+      <h2 class="sc-progress-h">Checking <span id="scHost"></span></h2>
+      <ol class="sc-steps">
+        <li data-step="fetch">Opening your site</li>
+        <li data-step="look">Looking at it on a phone and a laptop</li>
+        <li data-step="review">Reading it like a customer would</li>
+        <li data-step="write">Writing up your five fixes</li>
+      </ol>
+      <p class="sc-wait">This usually takes about 30 seconds. Keep this page open.</p>
+    </div>
+
+    <div class="card card--white sc-problem" id="scProblem" hidden>
+      <h2>Couldn't check that one</h2>
+      <p id="scProblemText"></p>
+      <div class="sc-actions">
+        <a class="pill pill--ink" id="scProblemWa" href="https://wa.me/442381112819" target="_blank" rel="noopener">WhatsApp me</a>
+        <button type="button" class="pill" data-again>Try another address</button>
+      </div>
+    </div>
+
+    <div class="card card--white sc-results" id="scResults" hidden>
+      <div class="sc-summary">
+        <figure class="sc-shot" id="scShot" hidden>
+          <figcaption>As it loaded on a phone</figcaption>
+        </figure>
+        <div class="sc-summary-text">
+          <h2 id="scTitle">Five fixes</h2>
+          <p class="sc-meta"><span class="chip" id="scType"></span> <a id="scLink" href="#" target="_blank" rel="noopener nofollow"></a></p>
+          <h3 class="sc-sub">What's working</h3>
+          <p id="scStrength" class="sc-strength"></p>
+        </div>
+      </div>
+      <ol class="sc-fixes" id="scFixes"></ol>
+      <p class="sc-unable" id="scUnable" hidden></p>
+    </div>
+
+    <div class="card card--ochre sc-next" id="scNext" hidden>
+      <div class="sc-next-text">
+        <h2>Want a hand with these?</h2>
+        <p>I build and fix websites for restaurants and local businesses. Message me and we'll book a quick call. I'll have your check open.</p>
+        <div class="sc-actions">
+          <a class="pill pill--ink" id="scBook" href="https://wa.me/442381112819" target="_blank" rel="noopener">Book a call on WhatsApp</a>
+          <button type="button" class="pill" data-again>Check another site</button>
+        </div>
+      </div>
+      <form class="sc-email" id="scEmail" novalidate>
+        <label for="scEmailInput">Email me these</label>
+        <div class="sc-field">
+          <input type="email" id="scEmailInput" name="email" autocomplete="email" placeholder="you@yourbusiness.co.uk" required />
+          <button type="submit" class="pill">Send</button>
+        </div>
+        <p class="sc-email-note" id="scEmailNote">I'll only use your address to send this.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="looks-h">
+    <div class="card card--white">
+      <h2 id="looks-h">What it looks at</h2>
+      <div class="ledger sc-ledger">
+        {looks.map((l) => (
+          <div class="ledger-row">
+            <h3>{l.t}</h3>
+            <div class="ledger-body"><p>{l.d}</p></div>
+          </div>
+        ))}
+      </div>
+      <div class="sc-limits">
+        <p>It's an instant first look, not a full audit. It can't log in, open your booking form or visit your other pages, so it tells you what it couldn't check. For the full picture, I'll look at your site myself.</p>
+        <a class="pill pill--ink" href="https://wa.me/442381112819" target="_blank" rel="noopener">WhatsApp me</a>
+      </div>
+      <p class="sc-privacy">I keep a note of which websites are checked. If you ask for an email copy I'll have your address too, and I'll only use it to send that.</p>
+    </div>
+  </section>
+
+</main>
+
+<Footer />
+
+<script is:inline src="/site-check.js" defer></script>
+
+</Layout>

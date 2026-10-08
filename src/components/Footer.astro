@@ -7,6 +7,7 @@ const nav = [
   { href: '/marketing/', label: 'Marketing' },
   { href: '/work/', label: 'Work' },
   { href: '/about/', label: 'About' },
+  { href: '/site-check/', label: 'Free site check' },
 ];
 const year = new Date().getFullYear();
 ---
@@ -15,7 +16,7 @@ const year = new Date().getFullYear();
   <div class="footer-row">
     <ul class="footer-links">
       {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
-      <li><a href="https://www.instagram.com/ryanstanikkphotography/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.instagram.com/kombu.uk/" target="_blank" rel="noopener">Instagram</a></li>
       <li><a href="https://uk.linkedin.com/in/ryanstanikk" target="_blank" rel="noopener">LinkedIn</a></li>
     </ul>
     <p>&copy; {year} Kombu, Southampton. <!--email_off--><a href="mailto:design@kombu.uk">design@kombu.uk</a><!--email_on--></p>

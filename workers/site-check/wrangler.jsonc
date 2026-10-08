@@ -1,0 +1,20 @@
+{
+  // The free site check behind kombu.uk/site-check/. Deploy from this folder with
+  // CLOUDFLARE_ACCOUNT_ID=eaa5033865a9eb8114b1c55577356657 npx wrangler deploy
+  "name": "kombu-site-check",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "eaa5033865a9eb8114b1c55577356657",
+  "routes": [{ "pattern": "kombu.uk/api/site-check*", "zone_name": "kombu.uk" }],
+  "browser": { "binding": "BROWSER" },
+  "images": { "binding": "IMAGES" },
+  "kv_namespaces": [{ "binding": "KV", "id": "e9fcfbe9130d4a1293beeb0f3455aa9a" }],
+  "vars": {
+    "DAILY_CAP": "50",
+    "PER_IP_HOURLY": "3",
+    "MODEL": "claude-sonnet-5-5"
+  },
+  "observability": { "enabled": true }
+  // Secrets (wrangler secret put): ANTHROPIC_API_KEY, RESEND_API_KEY, ADMIN_TOKEN
+}

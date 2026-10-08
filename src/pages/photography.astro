@@ -1,4 +1,5 @@
 ---
+import { srcsetFor } from '../lib/srcset';
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -43,8 +44,8 @@ const cats = [
 ];
 
 const faqs = [
-  { q: "How much does commercial photography cost in Southampton?", a: "Standard commercial sessions are £275 for two hours, £415 for a half day and £690 for a full day, including editing and high-resolution files. Independent businesses and charities within about 30 miles of Southampton get 20% off. The quote calculator on this page gives an instant ballpark." },
-  { q: "Do you travel outside Southampton for shoots?", a: "Yes. Travel is a simple flat fee by distance: free within about 30 miles, then £40, £90 or £150 by band, with London at £80. National campaign and worldwide usage are quoted per project, from £1,100 a day." },
+  { q: "How much does commercial photography cost in Southampton?", a: "Standard commercial sessions are £275 for two hours, £415 for a half day and £690 for a full day, including editing and high-resolution files. Local independents, charities and individuals within about 30 miles of Southampton get 20% off (£220, £330 or £550), and businesses that trade across the UK are on the national rate (£385, £580 or £965). The quote calculator on this page gives an instant ballpark." },
+  { q: "Do you travel outside Southampton for shoots?", a: "Yes. The standard rates apply within about 25 miles of Southampton. Further out a distance rate applies: 15% more up to 80 miles (half day minimum beyond 30 miles), 25% more from 80 to 150 miles and 40% more beyond that, both full day only. London shoots are £581 for a half day or £966 for a full day. Travel and any overnight accommodation are added at cost, and worldwide usage is quoted individually." },
   { q: "What do I get after the shoot?", a: "Edited, high-resolution files, sized and formatted for wherever they are going: the menu, the website, socials or print. Because I often build the website and design the menus too, the photography is shot with those layouts already in mind." },
 ];
 
@@ -54,7 +55,9 @@ const extraSchema = [
     "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Photography sessions", "itemListElement": [
       { "@type": "Offer", "price": "275", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Two-hour commercial photography session" } },
       { "@type": "Offer", "price": "415", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Half-day commercial photography session" } },
-      { "@type": "Offer", "price": "690", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day commercial photography session" } }
+      { "@type": "Offer", "price": "690", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day commercial photography session" } },
+      { "@type": "Offer", "price": "550", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day session, local independent, charity or individual rate" } },
+      { "@type": "Offer", "price": "965", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day session, national rate" } }
     ] } },
   { "@type": "FAQPage", "@id": "https://kombu.uk/photography#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
   { "@type": "BreadcrumbList", "@id": "https://kombu.uk/photography#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Photography", "item": "https://kombu.uk/photography" } ] }
@@ -62,7 +65,6 @@ const extraSchema = [
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/photography/food-roppongi.jpg" ogImageWidth="1500" ogImageHeight="1000" ogImageAlt="Commercial food photography by Ryan Stanikk for Kombu">
 
-<script slot="head" is:inline async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArZcPxNWn_0b4OFup2VSTTdiUAJ4vkI-g&libraries=places&loading=async&callback=rsInitPlaces"></script>
 
 <Nav current="photography" />
 
@@ -97,7 +99,7 @@ const extraSchema = [
     </div>
     <div class="photo-masonry" data-lightbox>
       {gallery.map((img) => (
-        <div class="photo-masonry__tile"><img src={img.src} alt={img.alt} width={img.w} height={img.h} loading="lazy" /></div>
+        <div class="photo-masonry__tile"><img src={img.src} srcset={srcsetFor(img.src)} sizes="(max-width: 767px) 92vw, (max-width: 1099px) 46vw, 32vw" alt={img.alt} width={img.w} height={img.h} loading="lazy" /></div>
       ))}
     </div>
   </section>
@@ -140,26 +142,7 @@ const extraSchema = [
             </button>
           </div>
           <p class="quote-error" id="rsPostcodeError" role="alert" style="display:none;">Please pick a location from the suggestions, or enter a valid UK postcode.</p>
-        </div>
-
-        <div class="quote-field" id="rsFoodTypeWrap" style="display:none;">
-          <label class="quote-label" for="rsFoodType">Type of shoot</label>
-          <select id="rsFoodType">
-            <option value="restaurant">Restaurant & plated dining</option>
-            <option value="cafe">Cafe, brunch & light bites</option>
-            <option value="drinks">Drinks, cocktails & bar</option>
-            <option value="takeaway">Takeaway & street food</option>
-          </select>
-        </div>
-
-        <div class="quote-field" id="rsSkuWrap" style="display:none;">
-          <label class="quote-label" for="rsSkuCount">How many products?</label>
-          <select id="rsSkuCount">
-            <option value="15">Up to 15 products</option>
-            <option value="40">16 - 40 products</option>
-            <option value="volume">More than 40 products</option>
-          </select>
-          <p class="quote-helper">A guide only, simple packshots go quicker than styled sets.</p>
+          <p class="quote-helper" id="rsLocHelp">Sets the distance rate and which session lengths are available. Locations within roughly 25 miles of Southampton get the standard rates and all session lengths.</p>
         </div>
 
         <div class="quote-field" id="rsDurationWrap">
@@ -186,12 +169,12 @@ const extraSchema = [
         <div class="quote-field">
           <label class="quote-label" for="rsUsageScope">Business type & usage</label>
           <select id="rsUsageScope">
-            <option value="standard" selected>Standard - regional & multi-site businesses</option>
-            <option value="local">Local independent or charity - 20% off</option>
-            <option value="national">National campaign usage</option>
-            <option value="worldwide">Worldwide / international usage</option>
+            <option value="local">Local independent, charity or individual, 20% off</option>
+            <option value="standard" selected>Standard, established &amp; multi-site</option>
+            <option value="national">National business or UK-wide usage</option>
+            <option value="worldwide">Worldwide or international usage</option>
           </select>
-          <p class="quote-helper" id="rsUsageHelper">The standard rate for regional and multi-site business use.</p>
+          <p class="quote-helper" id="rsUsageHelper">Established businesses with more than one site, retail groups and regional brands, and any booking that does not qualify for the local rate. The standard rate.</p>
         </div>
 
         <div class="quote-field">
@@ -246,14 +229,21 @@ const extraSchema = [
   var UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
   var LONDON_BOUNDS = { north: 51.6918, south: 51.2868, west: -0.5104, east: 0.3340 };
 
-  var RACK = { '2': 275, '4': 415, '8': 690 };
-  var LOCAL_DISCOUNT = 0.8, LOCAL_RADIUS_MILES = 30;
-  var QUOTED_USAGE = { national: { from: 1100, label: 'National campaign usage' }, worldwide: { from: 1500, label: 'Worldwide usage' } };
+  // Pricing mirrors ryanstanikk.co.uk/assets/calc.js exactly (its model, rewritten
+  // 16 Sep 2026, is the source of truth; change both together). Published rate
+  // tables, a distance multiplier from 25 miles, minimum session lengths from
+  // 30 miles, travel and accommodation added at cost as a note, never baked in
+  // and never promised free, worldwide usage quoted individually.
+  var RATES = { '2': 275, '4': 415, '8': 690 };
+  var RATES_LOCAL = { '2': 220, '4': 330, '8': 550 };      // published local/charity/individual rate, not derived
+  var RATES_NATIONAL = { '2': 385, '4': 580, '8': 965 };   // businesses that trade UK-wide, wherever based
+  var LOCAL_RADIUS_MILES = 30, NEAR_RADIUS_MILES = 25;
+  var TRAVEL_NOTE = 'Travel and any overnight accommodation are arranged separately and added at cost.';
   var USAGE_HELPERS = {
-    'standard': 'The standard rate for regional and multi-site business use.',
-    'local': 'Independent businesses and charities within ~30 miles of Southampton, single-venue usage. 20% off the standard rate.',
-    'national': 'UK-wide campaign, PR and editorial usage. Quoted per campaign, from £1,100 a day.',
-    'worldwide': 'International usage and global distribution. Quoted per campaign, from £1,500 a day.'
+    'local': 'Small and medium charities, single-venue independents serving their own area, and individuals, within about 30 miles of Southampton. 20% off the standard rate.',
+    'standard': 'Established businesses with more than one site, retail groups and regional brands, and any booking that does not qualify for the local rate. The standard rate.',
+    'national': 'Businesses that trade across the UK, wherever they are based, and UK-wide campaign, PR and editorial use. The national rate.',
+    'worldwide': 'International usage and global distribution. Quoted individually, so send me the brief.'
   };
   var SPECIALS = { other: { heading: 'Something else in mind?', text: "If your project doesn't fit the categories above, drop me a message and I'll put together a custom quote." } };
   var CATEGORY_NAMES = { 'food-drink': 'Food & Drink', 'styled-products': 'Styled Products', 'ecommerce': 'eCommerce', 'lifestyle': 'Lifestyle', 'portraits': 'Portraits', 'interiors': 'Interiors', 'architecture': 'Architecture', 'music': 'Events & Music', 'corporate': 'Corporate', 'other': 'Other' };
@@ -266,8 +256,6 @@ const extraSchema = [
     els.specialHeading = document.getElementById('rsSpecialHeading');
     els.specialText = document.getElementById('rsSpecialText');
     els.quoteForm = document.getElementById('rsQuoteForm');
-    els.foodTypeWrap = document.getElementById('rsFoodTypeWrap');
-    els.foodType = document.getElementById('rsFoodType');
     els.durationHelper = document.getElementById('rsDurationHelper');
     els.duration = document.getElementById('rsDuration');
     els.daysWrap = document.getElementById('rsDaysWrap');
@@ -283,9 +271,7 @@ const extraSchema = [
     els.resultLines = document.getElementById('rsResultLines');
     els.emailBtn = document.getElementById('rsEmailBtn');
     els.whatsappBtn = document.getElementById('rsWhatsAppBtn');
-    els.skuWrap = document.getElementById('rsSkuWrap');
-    els.skuCount = document.getElementById('rsSkuCount');
-    els.durationWrap = document.getElementById('rsDurationWrap');
+    els.locHelp = document.getElementById('rsLocHelp');
   }
 
   function toRad(d) { return d * (Math.PI / 180); }
@@ -299,43 +285,43 @@ const extraSchema = [
     var textLondon = postcode && LONDON_POSTCODE_START.test(postcode.trim()) && LONDON_REGEX.test(postcode.trim());
     var isLondon = state.isLondon || (!(lat && lng) && textLondon);
     if (!isLondon && lat && lng && lat >= LONDON_BOUNDS.south && lat <= LONDON_BOUNDS.north && lng >= LONDON_BOUNDS.west && lng <= LONDON_BOUNDS.east) isLondon = true;
-    if (isLondon) return { fee: 80, label: 'Includes £80 London travel (rail + transfers)', minDuration: '4', miles: null, london: true };
+    if (isLondon) return { mult: 1.40, adj: 'London rate', minDuration: '4', miles: null, london: true, farNote: true };
     if (lat && lng) {
       var miles = haversine(BASE_LAT, BASE_LON, lat, lng);
-      if (miles > 150) return { fee: 150, label: 'Includes £150 travel (rail + transfers)', minDuration: '8', miles: miles, london: false };
-      if (miles > 80) return { fee: 90, label: 'Includes £90 travel (rail + transfers)', minDuration: '8', miles: miles, london: false };
-      if (miles > 30) return { fee: 40, label: 'Includes £40 travel (rail + transfers)', minDuration: '4', miles: miles, london: false };
-      return { fee: 0, label: null, minDuration: '2', miles: miles, london: false };
+      if (miles > 150) return { mult: 1.40, adj: 'Distance rate (150+ miles)', minDuration: '8', miles: miles, london: false, farNote: true };
+      if (miles > 80) return { mult: 1.25, adj: 'Distance rate (80-150 miles)', minDuration: '8', miles: miles, london: false, farNote: true };
+      if (miles > 30) return { mult: 1.15, adj: 'Distance rate (30-80 miles)', minDuration: '4', miles: miles, london: false, farNote: true };
+      if (miles > NEAR_RADIUS_MILES) return { mult: 1.15, adj: 'Distance rate (25-30 miles)', minDuration: '2', miles: miles, london: false, farNote: true };
+      return { mult: 1, adj: null, minDuration: '2', miles: miles, london: false, farNote: false };
     }
-    return { fee: 0, label: null, minDuration: '2', miles: null, london: false };
+    return { mult: 1, adj: null, minDuration: '2', miles: null, london: false, farNote: false };
   }
 
   var DURATION_RANK = { '2': 1, '4': 2, '8': 3, 'multi': 4 };
-  function roundTo5(n) { return Math.round(n / 5) * 5; }
+  function roundGBP(n) { return Math.round(Math.round(n * 100) / 100); } // pence first: 330 x 1.15 is 379.4999 in floating point
 
   function calculatePrice() {
     var postcode = els.postcode.value.trim();
-    var travel = getTravel(state.lat, state.lng, postcode);
-    var durationVal = els.duration.value, skuCap = null;
-    if (state.category === 'ecommerce') { skuCap = parseInt(els.skuCount.value, 10); durationVal = skuCap <= 15 ? '4' : '8'; }
-    var bumped = false;
-    if (DURATION_RANK[durationVal] < DURATION_RANK[travel.minDuration]) {
-      durationVal = travel.minDuration; bumped = true;
-      if (state.category !== 'ecommerce') { els.duration.value = durationVal; updateDurationHelper(); }
+    var band = getTravel(state.lat, state.lng, postcode);
+    var durationVal = els.duration.value, bumped = false;
+    if (DURATION_RANK[durationVal] < DURATION_RANK[band.minDuration]) {
+      durationVal = band.minDuration; bumped = true;
+      els.duration.value = durationVal; updateDurationHelper();
     }
-    var base, multiDay = durationVal === 'multi';
-    if (multiDay) { base = parseInt(els.days.value, 10) * RACK['8'] * 0.9; } else { base = RACK[durationVal]; }
-    var foodTypeMultiplier = (state.category === 'food-drink' && els.foodType.value === 'takeaway') ? 1.25 : 1;
-    var rackRate = base * foodTypeMultiplier;
-    var usage = els.usageScope.value, discountApplied = false, discountUnavailable = false, rate = rackRate;
-    if (usage === 'local') {
-      var eligible = !travel.london && travel.miles !== null && travel.miles <= LOCAL_RADIUS_MILES;
-      if (eligible) { rate = rackRate * LOCAL_DISCOUNT; discountApplied = true; } else { discountUnavailable = true; }
-    }
+    var usage = els.usageScope.value;
+    var localEligible = !band.london && (band.miles === null || band.miles <= LOCAL_RADIUS_MILES);
+    var discountApplied = usage === 'local' && localEligible;
+    var discountUnavailable = usage === 'local' && !localEligible;
+    var table = discountApplied ? RATES_LOCAL : (usage === 'national' ? RATES_NATIONAL : RATES);
+    var multiDay = durationVal === 'multi', days = multiDay ? parseInt(els.days.value, 10) : 0;
+    var base = multiDay ? table['8'] * days * 0.9 : table[durationVal];
+    var standardBase = multiDay ? RATES['8'] * days * 0.9 : RATES[durationVal];
     return {
-      price: roundTo5(rate) + travel.fee, rackTotal: roundTo5(rackRate) + travel.fee,
-      discountApplied: discountApplied, discountUnavailable: discountUnavailable, travelLabel: travel.label, travelFee: travel.fee,
-      multiDay: multiDay, bumped: bumped, bumpedTo: durationVal, bumpedLondon: travel.london, skuCap: skuCap, usage: usage
+      price: roundGBP(base * band.mult), rackTotal: roundGBP(standardBase * band.mult),
+      discountApplied: discountApplied, discountUnavailable: discountUnavailable,
+      national: usage === 'national', adj: band.adj, farNote: band.farNote,
+      unrecognised: state.lat == null && !band.london && !!postcode,
+      multiDay: multiDay, bumped: bumped, bumpedTo: durationVal, bumpedLondon: band.london, usage: usage
     };
   }
 
@@ -347,15 +333,12 @@ const extraSchema = [
     var durationLabel = durationLabelFor(result.bumpedTo || els.duration.value);
     var location = els.postcode.value.trim() || 'Not specified';
     var usageLabel = els.usageScope.options[els.usageScope.selectedIndex].text;
-    var foodTypeLabel = state.category === 'food-drink' ? els.foodType.options[els.foodType.selectedIndex].text : '';
-    var intro;
-    if (result.quotedFrom) intro = "I used the quote calculator - my project needs " + result.quotedLabel.toLowerCase() + ", so I understand it's quoted individually (from " + formatGBP(result.quotedFrom) + " a day).";
-    else if (result.perImage) intro = "I used the quote calculator - I have more than 40 products to shoot, so I understand it's priced per image.";
-    else intro = "I used the quote calculator and got an estimate of " + formatGBP(result.price) + ".";
-    var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName + (foodTypeLabel ? ' (' + foodTypeLabel + ')' : ''), 'Duration: ' + (result.perImage ? 'To discuss (40+ products)' : durationLabel), 'Location: ' + location, 'Usage: ' + usageLabel];
-    if (result.skuCap && !result.perImage) lines.push('Products: up to ' + result.skuCap);
-    if (result.travelFee) lines.push('Travel: ' + formatGBP(result.travelFee) + ' included in the estimate');
-    if (result.discountApplied) lines.push('Rate: local independent / charity (20% off the standard rate)');
+    var intro = result.enquiry
+      ? "I used the quote calculator. My project needs worldwide usage, so I understand it's quoted individually."
+      : "I used the quote calculator and got an estimate of " + formatGBP(result.price) + ".";
+    var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName, 'Duration: ' + durationLabel, 'Location: ' + location, 'Usage: ' + usageLabel];
+    if (result.farNote) lines.push('Travel: added at cost');
+    if (result.discountApplied) lines.push('Rate: local independent, charity or individual (20% off the standard rate)');
     lines.push('', 'Could we discuss this further?', '', 'Thanks');
     return lines;
   }
@@ -374,24 +357,25 @@ const extraSchema = [
   function addResultLine(t) { var li = document.createElement('li'); li.textContent = t; els.resultLines.appendChild(li); }
 
   function showResult(result) {
-    if (result.quotedFrom) els.price.textContent = 'From ' + formatGBP(result.quotedFrom);
-    else if (result.perImage) els.price.textContent = 'Per-image pricing';
+    if (result.enquiry) els.price.textContent = 'Quoted individually';
     else { els.price.textContent = '£0'; setTimeout(function () { countUp(els.price, result.price, 1200); }, 350); }
-    if (result.discountApplied && result.rackTotal > result.price) { els.wasPrice.textContent = 'Standard rate ' + formatGBP(result.rackTotal); els.wasPrice.style.display = ''; } else els.wasPrice.style.display = 'none';
+    if (result.discountApplied && result.rackTotal > result.price) { els.wasPrice.textContent = formatGBP(result.rackTotal) + ' standard'; els.wasPrice.style.display = ''; } else els.wasPrice.style.display = 'none';
     els.resultLines.innerHTML = '';
-    if (result.discountApplied) addResultLine('Local independent / charity discount applied (20% off)');
-    if (result.discountUnavailable) addResultLine('The independent/charity discount covers ~30 miles around Southampton, so the standard rate applies here');
-    if (result.travelLabel) addResultLine(result.travelLabel);
-    if (result.multiDay) addResultLine('Includes 10% multi-day discount');
-    if (result.bumped && !result.perImage) addResultLine(result.bumpedLondon ? 'London shoots start at a half day, so the estimate is for ' + durationLabelFor(result.bumpedTo).toLowerCase() : 'At this distance shoots start at ' + durationLabelFor(result.bumpedTo).toLowerCase() + ', so the estimate reflects that');
-    if (result.skuCap && !result.perImage) addResultLine('Covers up to ' + result.skuCap + ' products (about ' + formatGBP(Math.ceil(result.price / result.skuCap)) + ' per product)');
-    if (result.perImage) addResultLine('Shoots over 40 products are priced per image with a half-day minimum - message me your product count for a per-image rate');
-    if (result.quotedFrom) addResultLine('Licensed per campaign - territories, duration and exclusivity are priced individually');
+    if (result.enquiry) addResultLine('Worldwide usage is licensed per campaign, so I quote it against the brief');
+    if (result.multiDay) addResultLine(els.days.value + ' days (10% multi-day discount)');
+    if (result.discountApplied) addResultLine('Local independent, charity or individual rate (20% off)');
+    if (result.discountUnavailable) addResultLine('The local rate needs a single venue within about 30 miles, so the standard rate applies');
+    if (result.national) addResultLine('National rate (UK-wide usage)');
+    if (result.adj) addResultLine(result.adj);
+    if (result.bumped) addResultLine(result.bumpedLondon ? 'London shoots start at a half day, so the estimate is for ' + durationLabelFor(result.bumpedTo).toLowerCase() : 'At this distance shoots start at ' + durationLabelFor(result.bumpedTo).toLowerCase() + ', so the estimate reflects that');
+    if (result.unrecognised) addResultLine('Location not recognised, so no distance adjustment is included; the final quote confirms travel.');
+    if (result.farNote) addResultLine(TRAVEL_NOTE);
     els.resultLines.style.display = els.resultLines.children.length ? '' : 'none';
     var summary = buildSummary(result);
     els.emailBtn.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Photography Quote - ' + (CATEGORY_NAMES[state.category] || state.category)) + '&body=' + encodeURIComponent(summary.join('\n'));
     els.whatsappBtn.href = WHATSAPP_URL + '?text=' + encodeURIComponent(summary.join('\n'));
     els.result.style.display = '';
+    if (window.gtag) window.gtag('event', 'quote_calculated', { shoot_type: state.category || '', estimate_gbp: result.enquiry ? 0 : result.price, quote_kind: result.enquiry ? 'worldwide' : result.usage });
     setTimeout(function () { els.result.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
   }
 
@@ -409,14 +393,7 @@ const extraSchema = [
     card.classList.add('selected'); card.setAttribute('aria-pressed', 'true');
     state.category = value;
     els.result.style.display = 'none';
-    var isFood = value === 'food-drink';
-    els.foodTypeWrap.style.display = isFood ? '' : 'none';
     updateDurationHelper();
-    if (!isFood) els.foodType.value = 'restaurant';
-    var isEcom = value === 'ecommerce';
-    els.skuWrap.style.display = isEcom ? '' : 'none';
-    els.durationWrap.style.display = isEcom ? 'none' : '';
-    if (isEcom) els.daysWrap.style.display = 'none';
     if (SPECIALS[value]) {
       els.specialHeading.textContent = SPECIALS[value].heading;
       els.specialText.textContent = SPECIALS[value].text;
@@ -446,17 +423,28 @@ const extraSchema = [
   function updateUsageOptions() {
     if (!localUsageOption || (!document.body.contains(localUsageOption) && els.usageScope.querySelector('option[value="local"]'))) localUsageOption = els.usageScope.querySelector('option[value="local"]');
     if (!localUsageOption) return;
-    var london = isLondonNow(), attached = localUsageOption.parentNode === els.usageScope;
-    if (london && attached) { if (els.usageScope.value === 'local') { els.usageScope.value = 'standard'; onUsageScopeChange(); } els.usageScope.removeChild(localUsageOption); }
-    else if (!london && !attached) els.usageScope.insertBefore(localUsageOption, els.usageScope.children[1] || null);
+    var band = getTravel(state.lat, state.lng, els.postcode.value.trim());
+    var ineligible = isLondonNow() || (band.miles !== null && band.miles > LOCAL_RADIUS_MILES);
+    var attached = localUsageOption.parentNode === els.usageScope;
+    if (ineligible && attached) { if (els.usageScope.value === 'local') { els.usageScope.value = 'standard'; onUsageScopeChange(); } els.usageScope.removeChild(localUsageOption); }
+    else if (!ineligible && !attached) els.usageScope.insertBefore(localUsageOption, els.usageScope.firstChild);
   }
-  function updateLocationDependentFields() { updateUsageOptions(); updateDurationOptions(); }
+  function updateLocHelp() {
+    if (!els.locHelp) return;
+    var band = getTravel(state.lat, state.lng, els.postcode.value.trim()), m = band.miles !== null ? Math.round(band.miles) : null, t;
+    if (band.london) t = 'London shoots carry a London rate and start at a half day. Travel and any accommodation are added at cost.';
+    else if (m !== null && band.miles > 80) t = 'About ' + m + ' miles out: a distance rate applies, full-day shoots only. Travel added at cost.';
+    else if (m !== null && band.miles > 30) t = 'About ' + m + ' miles out: a distance rate applies, half day minimum. Travel added at cost.';
+    else if (m !== null && band.miles > NEAR_RADIUS_MILES) t = 'About ' + m + ' miles out: a distance rate applies, all session lengths available. Travel added at cost.';
+    else if (m !== null) t = 'Within about 25 miles of Southampton, so the standard rates apply and all session lengths are available.';
+    else t = 'Sets the distance rate and which session lengths are available. Locations within roughly 25 miles of Southampton get the standard rates and all session lengths.';
+    els.locHelp.textContent = t;
+  }
+  function updateLocationDependentFields() { updateUsageOptions(); updateDurationOptions(); updateLocHelp(); }
 
   function onCalculateClick() {
     els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error');
-    if (state.category === 'ecommerce' && els.skuCount.value === 'volume') { showResult({ perImage: true, usage: els.usageScope.value }); return; }
-    var usageVal = els.usageScope.value;
-    if (QUOTED_USAGE[usageVal]) { showResult({ quotedFrom: QUOTED_USAGE[usageVal].from, quotedLabel: QUOTED_USAGE[usageVal].label, usage: usageVal }); return; }
+    if (els.usageScope.value === 'worldwide') { showResult({ enquiry: true, usage: 'worldwide' }); return; }
     var postcode = els.postcode.value.trim();
     if (state.placeSelected && state.lat && state.lng) { showResult(calculatePrice()); return; }
     if (!postcode) { state.lat = null; state.lng = null; state.isLondon = false; showResult(calculatePrice()); return; }
@@ -467,7 +455,7 @@ const extraSchema = [
         els.calculateBtn.textContent = 'Get My Estimate'; els.calculateBtn.disabled = false;
         if (els.postcode.value.trim() !== requestedFor) return;
         if (err) { els.postcodeError.style.display = ''; els.postcode.classList.add('has-error'); return; }
-        state.lat = data.lat; state.lng = data.lng; state.placeSelected = true; updateLocationDependentFields(); showResult(calculatePrice());
+        var wantedLocal = els.usageScope.value === 'local'; state.lat = data.lat; state.lng = data.lng; state.placeSelected = true; updateLocationDependentFields(); var r = calculatePrice(); if (wantedLocal && !r.discountApplied) r.discountUnavailable = true; showResult(r);
       });
       return;
     }
@@ -499,10 +487,8 @@ const extraSchema = [
     state.category = null; state.lat = null; state.lng = null;
     state.isLondon = false; state.placeSelected = false;
     els.categoryGrid.addEventListener('click', onCategoryClick);
-    els.foodType.addEventListener('change', function () { els.result.style.display = 'none'; });
     els.duration.addEventListener('change', onDurationChange);
     els.usageScope.addEventListener('change', onUsageScopeChange);
-    els.skuCount.addEventListener('change', function () { els.result.style.display = 'none'; });
     els.postcode.addEventListener('input', onPostcodeInput);
     durationOptionNodes = Array.from(els.duration.options);
     updateLocationDependentFields();
@@ -556,6 +542,25 @@ const extraSchema = [
         }, { enableHighAccuracy: false, timeout: 8000 });
       });
     } else if (locBtn) locBtn.style.display = 'none';
+
+    // Google Maps (Places autocomplete) is about 250 KB of script, so it loads only
+    // when the calculator is coming into view or the location box is focused,
+    // not on arrival. Until it arrives, lookups fall back to postcodes.io.
+    function loadMaps() {
+      if (window.__rsMapsRequested) return;
+      window.__rsMapsRequested = true;
+      var m = document.createElement('script'); m.async = true;
+      m.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyArZcPxNWn_0b4OFup2VSTTdiUAJ4vkI-g&libraries=places&loading=async&callback=rsInitPlaces';
+      document.head.appendChild(m);
+    }
+    var calcGrid = document.getElementById('rsCategoryGrid');
+    if ('IntersectionObserver' in window && calcGrid) {
+      var mapsIo = new IntersectionObserver(function (entries) {
+        if (entries.some(function (en) { return en.isIntersecting; })) { mapsIo.disconnect(); loadMaps(); }
+      }, { rootMargin: '800px 0px' });
+      mapsIo.observe(calcGrid);
+    } else loadMaps();
+    if (els.postcode) els.postcode.addEventListener('focus', loadMaps, { once: true });
 
     if (window.google && window.google.maps && window.google.maps.places) window.rsInitPlaces();
   }

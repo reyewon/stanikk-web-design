@@ -10,7 +10,7 @@ const { heading = 'What clients say' } = Astro.props as Props;
     </div>
     <a class="pill pill--sm" href={googleReviewsUrl}>5.0 from {reviews.length} Google reviews</a>
   </div>
-  <ul class="review-grid">
+  <ul class:list={['review-grid', { 'review-grid--odd': reviews.length % 2 === 1 }]}>
     {reviews.map((r) => (
       <li class:list={['review', { 'review-featured': r.org === 'Padharo' }]}>
         <span class="stars" role="img" aria-label="Rated 5 out of 5">

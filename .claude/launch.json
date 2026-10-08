@@ -4,8 +4,23 @@
     {
       "name": "dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 4321
+    },
+    {
+      "name": "oh-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "5077",
+        "--directory",
+        "/Volumes/External 2TB/Videography/Kombu/social/reels/opening-hours/v2"
+      ],
+      "port": 5077
     }
   ]
 }

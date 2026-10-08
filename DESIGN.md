@@ -174,12 +174,12 @@ components:
     padding: "clamp(2rem, 4vw, 4.5rem)"
   card-terracotta:
     backgroundColor: "{colors.terracotta}"
-    textColor: "{colors.ink}"
+    textColor: "{colors.white}"
     rounded: "{rounded.card}"
     padding: "clamp(2rem, 4vw, 4.5rem)"
   cell:
     backgroundColor: "{colors.terracotta}"
-    textColor: "{colors.ink}"
+    textColor: "{colors.white}"
     rounded: "{rounded.card}"
     padding: "clamp(1.25rem, 4.2cqh, 3.25rem)"
   tag:
@@ -226,7 +226,7 @@ Strategy: **full palette**, committed at page scale. Fills own whole regions; no
 
 Terracotta stays the brand's existing voice; kelp is the plant the studio is named after; ochre and mist balance the two warm hues with one warm and one cool neutral-ish fill.
 
-**Contrast, measured against the actual surfaces.** Ink on linen 15.9:1. Ink on terracotta 5.7:1 (body copy passes AA). Ink on ochre 9.1:1. Ink on mist 12.6:1. Linen on kelp 8.6:1. Terracotta is never used as small text on linen (2.7:1, fails); it is a fill only, always carrying ink text.
+**Contrast, measured against the actual surfaces.** Ink on linen 15.9:1. **Text on terracotta is always white, headings and body alike** (Ryan's rule, restated 26 and 29 September 2026: ink on terracotta is the look he dislikes, and white reads better to him). White on terracotta is 3.35:1, so it passes as large text: keep copy on terracotta big and at Switzer 400 or heavier, never 300 at body size. Ink on ochre 9.1:1. Ink on mist 12.6:1. Linen on kelp 8.6:1. Terracotta is never used as small text on linen (2.7:1, fails); it is a fill only, always carrying white text.
 
 ## 3. Type
 
@@ -275,7 +275,7 @@ First person singular, British English, no em or en dashes anywhere including ar
 
 - **Pill**: 2px ink outline, 999px, Switzer 500, padding 0.85rem 1.35rem (0.6rem 1rem small). Variants: filled terracotta (the primary action, white text, Ryan's call over the AA figure), filled ink (on terracotta only), outline (everything else). On kelp the outline and label go linen.
 - **Compartment**: 2px ink outline, 28px, a fill from the four; copy on the left (title 800, one sentence), a square art box on the right with two overlapping 13px-radius example tiles at 3 and minus 3 degrees, and a ruled footer with the fact on the left and a See the work outline pill on the right. The pill is the link.
-- **Chip**: a fact in a linen pill with a 2px ink outline, Supermassive 700 at 0.9rem uppercase. Only ever carries a checkable figure.
+- **Chip**: a fact in a linen pill with a 2px ink outline, Supermassive RS 700 at 0.9rem uppercase. Only ever carries a checkable figure.
 - **Work card**: outlined 36:25 frame containing a recorded desktop website tour and matching poster. Title, description and Visit pill below; captions use the available width. Three columns on wide screens, two on tablets and one on phones.
 - **Floating nav**: white, 2px ink, 999px, 1120px max, mark left, links centre, terracotta pill right. Under 768px the links collapse behind a Menu pill that opens the full-screen tray menu (five filled compartments on linen, the contact routes centred beneath); Close, Escape or a link shuts it and the page scroll is held while it is open. Nav links are Switzer 500 in full ink.
 - **Mark**: the four strand knot, transparent, its lobes reaching the corners of its own square, so there is no margin to preserve. `public/favicon.svg` is Ryan's export verbatim apart from an added `<title>`; the 32, 192 and 512 PNGs and the 48/32/16 `.ico` are rendered from it and keep the transparency. The 180px apple touch icon and the maskable 512 are his cream artwork (`New-2000px.jpg`, ground #F4F4E8, a 15.5% margin, art to 40.6% radius) rather than a transparent source, because iOS composites a transparent icon onto black and Android's maskable slot must be opaque. Nothing here is synthesised: every icon comes from one of his three source files. Hrefs carry `?v=3` to retire the STANIKK monogram they replaced.
@@ -284,7 +284,7 @@ First person singular, British English, no em or en dashes anywhere including ar
 
 ## 9. Do and don't
 
-Do keep every outline at 2px ink. Do keep terracotta as a fill that carries ink text. Do keep the wordmark edge to edge on every viewport. Do keep headers flat.
+Do keep every outline at 2px ink. Do keep terracotta as a fill that carries white text, never ink. Do keep the wordmark edge to edge on every viewport. Do keep headers flat.
 
 Don't add a shadow, a gradient, a glass effect, an eyebrow, a section number, or a fifth fill. Don't size a section to fit the fold; content sets the height. Don't set terracotta as small text on linen. Don't animate sections on scroll. Don't let a compartment become an icon-heading-text card.
 
@@ -300,7 +300,7 @@ Every interior page is the tray applied to one discipline. Same nav, same footer
 
 **Page-specific pieces.** Pricing: three outlined tiers, Business as a kelp fill with a "Most popular" chip, a segmented pill switch (Monthly / Pay upfront). From 768px the tiers share their rows through subgrid, so name, description, price, commitment, renewal, features and button line up across all three, and the chip sits on the Business card's top edge rather than pushing its rows down; on phones the cards stack and the chip stays in flow. How I work: five columns in an ochre card, ruled between, no numbers. Free review: kelp card with the URL field as a linen-outlined pill and a terracotta submit. Case studies: five cards alternating white, kelp, white, mist, white, each with its own image layout, tags as chips, every image opening the lightbox. Gallery: three-column masonry of outlined 16px tiles, ordered so the columns finish level. Instant quote: the calculator inside a mist card, categories as pills, fields as white pills capped at 640px, the result a white card. Health Check: kelp card, eight categories ruled in linen, offer row with the price chip. Infrastructure: four white outlined cards, the owner's line as the title. Studio partnership: ochre card, price in display type.
 
-**Case studies (/work).** A case study is the tray filled with one client's work. The opening is a white card with the client's name set across its full width in Supermassive 900, sized to the card by its own measured width (`--name-fit`), like the home wordmark; beside it sits a piece of the client's work that moves (Padharo: Ryan's home-page film, portrait on phones; Mustang Group: a phone recording of the group site in a phone-shaped frame, the name then fitting its own 7/12 column). Then one card per discipline in that discipline's fill: websites terracotta (a recorded tour beside the copy; on phones the tour sits between the first paragraph and the detail), menus ochre (each food menu set as a tilted pair in a square box, exactly like a compartment's examples; the drinks booklet as a swipe strip), photography kelp (12-column bands where one 3:2 photograph sets each row's height, re-paired on phones as full-width landscapes and paired portraits), social and email mist (a strip of posts, animated stories playing only while on screen). Strips are native horizontal scrollers that bleed to the card's edges; each piece keeps its own shape, a spread is scaled but never cropped, and the Back and Next pills and count sit under the strip. Everything opens a full-screen viewer: ink ground, the piece in a linen outline, Close, Back, count and Next along the bottom within thumb reach, swipe or arrow keys between pieces, emails scrolling at reading width, animated stories playing full size, and on a portrait phone a line suggesting it be turned for spreads. The client's own review closes the work in a white card. The /work index is a white intro card and one linked card per case study.
+**Case studies (/work).** A case study is the tray filled with one client's work. The opening is a white card with the client's name set across its full width in Supermassive RS 900, sized to the card by its own measured width (`--name-fit`), like the home wordmark; beside it sits a piece of the client's work that moves (Padharo: Ryan's home-page film, portrait on phones; Mustang Group: a phone recording of the group site in a phone-shaped frame, the name then fitting its own 7/12 column). Then one card per discipline in that discipline's fill: websites terracotta (a recorded tour beside the copy; on phones the tour sits between the first paragraph and the detail), menus ochre (each food menu set as a tilted pair in a square box, exactly like a compartment's examples; the drinks booklet as a swipe strip), photography kelp (12-column bands where one 3:2 photograph sets each row's height, re-paired on phones as full-width landscapes and paired portraits), social and email mist (a strip of posts, animated stories playing only while on screen). Strips are native horizontal scrollers that bleed to the card's edges; each piece keeps its own shape, a spread is scaled but never cropped, and the Back and Next pills and count sit under the strip. Everything opens a full-screen viewer: ink ground, the piece in a linen outline, Close, Back, count and Next along the bottom within thumb reach, swipe or arrow keys between pieces, emails scrolling at reading width, animated stories playing full size, and on a portrait phone a line suggesting it be turned for spreads. The client's own review closes the work in a white card. The /work index is a white intro card and one linked card per case study.
 
 **Lightbox.** Ink overlay, image in a linen 2px outline at 16px, a linen Close pill, Escape and outside-click close, Lenis paused while open. Under reduced motion it still opens, without the fade: reduced motion means no animation, not no enlarging, and the tiles show a zoom-in cursor either way.
 

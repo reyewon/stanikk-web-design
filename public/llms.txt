@@ -22,9 +22,9 @@ Ryan Stanikk: a Southampton designer, photographer and web developer with two de
 - Works remotely with clients anywhere in the United Kingdom
 
 ## Pricing
-- Web design: Starter GBP 49/month or GBP 199 to build; Business GBP 79/month or GBP 299; Professional GBP 149/month or GBP 499. Hosting, SSL, domain and support included. After the 12-month term, plans continue at GBP 29/49/99 per month respectively.
+- Web design: Starter GBP 49/month or GBP 229 to build; Business GBP 99/month or GBP 499; Professional GBP 175/month or GBP 899. Bespoke sites quoted from GBP 1,500, web apps from GBP 1,200. Hosting, SSL, domain and support included. After the 12-month term, plans continue at GBP 29/49/99 per month respectively.
 - Graphic design: quoted per project, get in touch with what you need.
-- Photography: priced live via the quote calculator; standard sessions GBP 275 (2h), GBP 415 (half day), GBP 690 (full day), with a 20% local independent/charity discount within ~30 miles of Southampton. Travel is a flat fee by distance (free within ~30 miles; GBP 40/90/150 by band; London GBP 80). National campaign usage from GBP 1,100/day.
+- Photography: priced live via the quote calculator; standard sessions GBP 275 (2h), GBP 415 (half day), GBP 690 (full day), Local independents, charities and individuals within ~30 miles of Southampton pay GBP 220/330/550 (20% off); national rate GBP 385/580/965; worldwide usage quoted individually. Standard rates within ~25 miles, then a distance rate (x1.15 to 80 miles, x1.25 to 150, x1.40 beyond); London GBP 581 half day / GBP 966 full day. Travel and accommodation are added at cost.
 - Marketing: Hospitality Health Check from GBP 295; ongoing studio partnership retainer from GBP 950/month.
 
 ## Selected clients
@@ -49,6 +49,7 @@ Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark
 - Website: https://kombu.uk
 - Email: design@kombu.uk
 - Phone and WhatsApp: +44 23 8111 2819
+- Instagram: https://www.instagram.com/kombu.uk/
 
 ## Key resources
 - Home: https://kombu.uk
@@ -58,5 +59,6 @@ Soleto, Padharo, Banana Wharf, The Grand, Kesarum, Ryan Stanikk Photography, Ark
 - Marketing & Hospitality Health Check: https://kombu.uk/marketing/
 - About: https://kombu.uk/about/
 - Case studies: https://kombu.uk/work/
+- Free site check (paste a website address, get five specific fixes in about 30 seconds; for restaurants, cafes, bars and local businesses): https://kombu.uk/site-check/
 - Machine-readable pricing: https://kombu.uk/pricing.md
 - Sitemap: https://kombu.uk/sitemap-index.xml

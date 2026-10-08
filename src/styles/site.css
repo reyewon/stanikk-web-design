@@ -1084,7 +1084,7 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .quote-form-v2 { margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 640px; display: grid; gap: var(--s-3); }
 .quote-field { display: flex; flex-direction: column; gap: 0.5rem; }
 .quote-input-wrap { position: relative; display: flex; align-items: center; }
-.quote-field input[type="text"], .quote-field input[type="url"], .quote-field select {
+.quote-field input[type="text"], .quote-field input[type="url"], .quote-field input[type="number"], .quote-field select {
   width: 100%;
   background: var(--c-white);
   border: var(--line) solid var(--c-ink);

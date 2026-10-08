@@ -40,6 +40,7 @@ const cats = [
   { v: 'architecture', label: 'Architecture', path: '<rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><rect x="8" y="6" width="8" height="12"/>' },
   { v: 'music', label: 'Events & Music', path: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
   { v: 'corporate', label: 'Corporate', path: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { v: 'video', label: 'Video', path: '<path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/>' },
   { v: 'other', label: 'Other', path: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
 ];
 
@@ -145,6 +146,12 @@ const extraSchema = [
           <p class="quote-helper" id="rsLocHelp">Sets the distance rate and which session lengths are available. Locations within roughly 25 miles of Southampton get the standard rates and all session lengths.</p>
         </div>
 
+        <div class="quote-field" id="rsProductsWrap" style="display:none;">
+          <label class="quote-label" for="rsProducts">How many products?</label>
+          <input type="number" id="rsProducts" min="1" max="999" step="1" inputmode="numeric" placeholder="e.g. 20" aria-describedby="rsProductsHelp" />
+          <p class="quote-helper" id="rsProductsHelp">Up to 15 products fits a half day and 16 to 40 a full day. Over 40 is priced per image.</p>
+        </div>
+
         <div class="quote-field" id="rsDurationWrap">
           <label class="quote-label" for="rsDuration">Session duration</label>
           <select id="rsDuration">
@@ -166,7 +173,9 @@ const extraSchema = [
           </select>
         </div>
 
-        <div class="quote-field">
+        <p class="quote-helper" id="rsVideoNote" style="display:none;">Video uses one rate card for every type of business, plus the distance rate. Video and photo shoots are booked separately.</p>
+
+        <div class="quote-field" id="rsUsageWrap">
           <label class="quote-label" for="rsUsageScope">Business type & usage</label>
           <select id="rsUsageScope">
             <option value="local">Local independent, charity or individual, 20% off</option>
@@ -237,6 +246,13 @@ const extraSchema = [
   var RATES = { '2': 275, '4': 415, '8': 690 };
   var RATES_LOCAL = { '2': 220, '4': 330, '8': 550 };      // published local/charity/individual rate, not derived
   var RATES_NATIONAL = { '2': 385, '4': 580, '8': 965 };   // businesses that trade UK-wide, wherever based
+  var RATES_VIDEO = { '2': 495, '4': 795, '8': 1295 };     // ryanstanikk.co.uk/video rate card: one rate for every business, distance bands still apply, no multi-day
+  var VIDEO_INCLUDES = {
+    '2': 'One edited film up to 60 seconds, landscape and vertical cuts',
+    '4': 'A film up to 90 seconds plus two vertical edits',
+    '8': 'A main film plus up to four vertical edits'
+  };
+  var ECOM_HALF_MAX = 15, ECOM_FULL_MAX = 40;              // eCommerce: up to 15 products a half day, 16 to 40 a full day, over 40 priced per image
   var LOCAL_RADIUS_MILES = 30, NEAR_RADIUS_MILES = 25;
   var TRAVEL_NOTE = 'Travel and any overnight accommodation are arranged separately and added at cost.';
   var USAGE_HELPERS = {
@@ -246,7 +262,7 @@ const extraSchema = [
     'worldwide': 'International usage and global distribution. Quoted individually, so send me the brief.'
   };
   var SPECIALS = { other: { heading: 'Something else in mind?', text: "If your project doesn't fit the categories above, drop me a message and I'll put together a custom quote." } };
-  var CATEGORY_NAMES = { 'food-drink': 'Food & Drink', 'styled-products': 'Styled Products', 'ecommerce': 'eCommerce', 'lifestyle': 'Lifestyle', 'portraits': 'Portraits', 'interiors': 'Interiors', 'architecture': 'Architecture', 'music': 'Events & Music', 'corporate': 'Corporate', 'other': 'Other' };
+  var CATEGORY_NAMES = { 'food-drink': 'Food & Drink', 'styled-products': 'Styled Products', 'ecommerce': 'eCommerce', 'lifestyle': 'Lifestyle', 'portraits': 'Portraits', 'interiors': 'Interiors', 'architecture': 'Architecture', 'music': 'Events & Music', 'corporate': 'Corporate', 'video': 'Video', 'other': 'Other' };
 
   var state = { category: null, lat: null, lng: null, isLondon: false, placeSelected: false, autocomplete: null };
   var els = {};
@@ -272,6 +288,10 @@ const extraSchema = [
     els.emailBtn = document.getElementById('rsEmailBtn');
     els.whatsappBtn = document.getElementById('rsWhatsAppBtn');
     els.locHelp = document.getElementById('rsLocHelp');
+    els.productsWrap = document.getElementById('rsProductsWrap');
+    els.products = document.getElementById('rsProducts');
+    els.usageWrap = document.getElementById('rsUsageWrap');
+    els.videoNote = document.getElementById('rsVideoNote');
   }
 
   function toRad(d) { return d * (Math.PI / 180); }
@@ -298,15 +318,33 @@ const extraSchema = [
   }
 
   var DURATION_RANK = { '2': 1, '4': 2, '8': 3, 'multi': 4 };
+  var RANK_KEY = { 1: '2', 2: '4', 3: '8' };
   function roundGBP(n) { return Math.round(Math.round(n * 100) / 100); } // pence first: 330 x 1.15 is 379.4999 in floating point
+
+  // eCommerce sets its own minimum from the product count (up to 15: half day,
+  // 16 to 40: full day); the larger of that and the distance minimum wins.
+  function productCount() { var n = parseInt(els.products.value, 10); return isNaN(n) || n < 1 ? 0 : n; }
+  function productMinRank() { if (state.category !== 'ecommerce') return 1; return productCount() > ECOM_HALF_MAX ? 3 : 2; }
 
   function calculatePrice() {
     var postcode = els.postcode.value.trim();
     var band = getTravel(state.lat, state.lng, postcode);
+    var isVideo = state.category === 'video';
+    var bandRank = DURATION_RANK[band.minDuration], prodRank = productMinRank();
     var durationVal = els.duration.value, bumped = false;
-    if (DURATION_RANK[durationVal] < DURATION_RANK[band.minDuration]) {
-      durationVal = band.minDuration; bumped = true;
+    if (isVideo && durationVal === 'multi') { durationVal = '8'; els.duration.value = durationVal; els.daysWrap.style.display = 'none'; }
+    if (DURATION_RANK[durationVal] < Math.max(bandRank, prodRank)) {
+      durationVal = RANK_KEY[Math.max(bandRank, prodRank)]; bumped = true;
       els.duration.value = durationVal; updateDurationHelper();
+    }
+    var unrecognised = state.lat == null && !band.london && !!postcode;
+    if (isVideo) {
+      // One rate card for every business, so no usage table and no local rate
+      return {
+        price: roundGBP(RATES_VIDEO[durationVal] * band.mult), video: true, usage: 'video',
+        adj: band.adj, farNote: band.farNote, unrecognised: unrecognised,
+        bumped: bumped, bumpedTo: durationVal, bumpedLondon: band.london
+      };
     }
     var usage = els.usageScope.value;
     var localEligible = !band.london && (band.miles === null || band.miles <= LOCAL_RADIUS_MILES);
@@ -320,8 +358,9 @@ const extraSchema = [
       price: roundGBP(base * band.mult), rackTotal: roundGBP(standardBase * band.mult),
       discountApplied: discountApplied, discountUnavailable: discountUnavailable,
       national: usage === 'national', adj: band.adj, farNote: band.farNote,
-      unrecognised: state.lat == null && !band.london && !!postcode,
-      multiDay: multiDay, bumped: bumped, bumpedTo: durationVal, bumpedLondon: band.london, usage: usage
+      unrecognised: unrecognised,
+      multiDay: multiDay, bumped: bumped, bumpedTo: durationVal, bumpedLondon: band.london, usage: usage,
+      bumpedProducts: bumped && prodRank > bandRank, products: state.category === 'ecommerce' ? productCount() : 0
     };
   }
 
@@ -334,9 +373,15 @@ const extraSchema = [
     var location = els.postcode.value.trim() || 'Not specified';
     var usageLabel = els.usageScope.options[els.usageScope.selectedIndex].text;
     var intro = result.enquiry
-      ? "I used the quote calculator. My project needs worldwide usage, so I understand it's quoted individually."
+      ? (result.products
+        ? "I used the quote calculator. I have " + result.products + " products, so I understand it's quoted per image."
+        : "I used the quote calculator. My project needs worldwide usage, so I understand it's quoted individually.")
       : "I used the quote calculator and got an estimate of " + formatGBP(result.price) + ".";
-    var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName, 'Duration: ' + durationLabel, 'Location: ' + location, 'Usage: ' + usageLabel];
+    var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName];
+    if (result.products) lines.push('Products: ' + result.products);
+    if (!(result.enquiry && result.products)) lines.push('Duration: ' + durationLabel);
+    lines.push('Location: ' + location);
+    if (!result.video) lines.push('Usage: ' + usageLabel);
     if (result.farNote) lines.push('Travel: added at cost');
     if (result.discountApplied) lines.push('Rate: local independent, charity or individual (20% off the standard rate)');
     lines.push('', 'Could we discuss this further?', '', 'Thanks');
@@ -361,21 +406,24 @@ const extraSchema = [
     else { els.price.textContent = '£0'; setTimeout(function () { countUp(els.price, result.price, 1200); }, 350); }
     if (result.discountApplied && result.rackTotal > result.price) { els.wasPrice.textContent = formatGBP(result.rackTotal) + ' standard'; els.wasPrice.style.display = ''; } else els.wasPrice.style.display = 'none';
     els.resultLines.innerHTML = '';
-    if (result.enquiry) addResultLine('Worldwide usage is licensed per campaign, so I quote it against the brief');
+    if (result.products) addResultLine(result.products + (result.products === 1 ? ' product' : ' products'));
+    if (result.enquiry) addResultLine(result.products ? 'Over 40 products is priced per image, so I quote it against the list' : 'Worldwide usage is licensed per campaign, so I quote it against the brief');
+    if (result.video) { addResultLine('Video shoot, ' + durationLabelFor(result.bumpedTo).toLowerCase()); addResultLine(VIDEO_INCLUDES[result.bumpedTo]); }
     if (result.multiDay) addResultLine(els.days.value + ' days (10% multi-day discount)');
     if (result.discountApplied) addResultLine('Local independent, charity or individual rate (20% off)');
     if (result.discountUnavailable) addResultLine('The local rate needs a single venue within about 30 miles, so the standard rate applies');
     if (result.national) addResultLine('National rate (UK-wide usage)');
     if (result.adj) addResultLine(result.adj);
-    if (result.bumped) addResultLine(result.bumpedLondon ? 'London shoots start at a half day, so the estimate is for ' + durationLabelFor(result.bumpedTo).toLowerCase() : 'At this distance shoots start at ' + durationLabelFor(result.bumpedTo).toLowerCase() + ', so the estimate reflects that');
+    if (result.bumpedProducts) addResultLine((result.products > ECOM_HALF_MAX ? result.products + ' products needs a full day' : 'eCommerce shoots start at a half day') + ', so the estimate reflects that');
+    else if (result.bumped) addResultLine(result.bumpedLondon ? 'London shoots start at a half day, so the estimate is for ' + durationLabelFor(result.bumpedTo).toLowerCase() : 'At this distance shoots start at ' + durationLabelFor(result.bumpedTo).toLowerCase() + ', so the estimate reflects that');
     if (result.unrecognised) addResultLine('Location not recognised, so no distance adjustment is included; the final quote confirms travel.');
     if (result.farNote) addResultLine(TRAVEL_NOTE);
     els.resultLines.style.display = els.resultLines.children.length ? '' : 'none';
     var summary = buildSummary(result);
-    els.emailBtn.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Photography Quote - ' + (CATEGORY_NAMES[state.category] || state.category)) + '&body=' + encodeURIComponent(summary.join('\n'));
+    els.emailBtn.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(result.video ? 'Video Quote' : 'Photography Quote - ' + (CATEGORY_NAMES[state.category] || state.category)) + '&body=' + encodeURIComponent(summary.join('\n'));
     els.whatsappBtn.href = WHATSAPP_URL + '?text=' + encodeURIComponent(summary.join('\n'));
     els.result.style.display = '';
-    if (window.gtag) window.gtag('event', 'quote_calculated', { shoot_type: state.category || '', estimate_gbp: result.enquiry ? 0 : result.price, quote_kind: result.enquiry ? 'worldwide' : result.usage });
+    if (window.gtag) window.gtag('event', 'quote_calculated', { shoot_type: state.category || '', estimate_gbp: result.enquiry ? 0 : result.price, quote_kind: result.enquiry ? (result.products ? 'products' : 'worldwide') : result.usage });
     setTimeout(function () { els.result.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
   }
 
@@ -393,6 +441,12 @@ const extraSchema = [
     card.classList.add('selected'); card.setAttribute('aria-pressed', 'true');
     state.category = value;
     els.result.style.display = 'none';
+    // eCommerce asks for a product count; video has its own rate card, so the
+    // business-type question does not apply to it
+    els.productsWrap.style.display = value === 'ecommerce' ? '' : 'none';
+    els.usageWrap.style.display = value === 'video' ? 'none' : '';
+    els.videoNote.style.display = value === 'video' ? '' : 'none';
+    updateDurationOptions();
     updateDurationHelper();
     if (SPECIALS[value]) {
       els.specialHeading.textContent = SPECIALS[value].heading;
@@ -415,10 +469,12 @@ const extraSchema = [
   var localUsageOption = null, durationOptionNodes = null;
   function updateDurationOptions() {
     if (!durationOptionNodes) return;
-    var travel = getTravel(state.lat, state.lng, els.postcode.value.trim()), minRank = DURATION_RANK[travel.minDuration], selected = els.duration.value;
+    var travel = getTravel(state.lat, state.lng, els.postcode.value.trim()), minRank = Math.max(DURATION_RANK[travel.minDuration], productMinRank()), selected = els.duration.value;
+    var isVideo = state.category === 'video'; // the video rate card has no multi-day rate
+    function offered(v) { return DURATION_RANK[v] >= minRank && !(isVideo && v === 'multi'); }
     durationOptionNodes.forEach(function (o) { if (o.parentNode === els.duration) els.duration.removeChild(o); });
-    durationOptionNodes.forEach(function (o) { if (DURATION_RANK[o.value] >= minRank) els.duration.appendChild(o); });
-    if (DURATION_RANK[selected] >= minRank) els.duration.value = selected; else { els.duration.value = travel.minDuration; onDurationChange(); }
+    durationOptionNodes.forEach(function (o) { if (offered(o.value)) els.duration.appendChild(o); });
+    if (offered(selected)) els.duration.value = selected; else { els.duration.value = selected === 'multi' ? '8' : RANK_KEY[minRank]; onDurationChange(); }
   }
   function updateUsageOptions() {
     if (!localUsageOption || (!document.body.contains(localUsageOption) && els.usageScope.querySelector('option[value="local"]'))) localUsageOption = els.usageScope.querySelector('option[value="local"]');
@@ -444,7 +500,8 @@ const extraSchema = [
 
   function onCalculateClick() {
     els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error');
-    if (els.usageScope.value === 'worldwide') { showResult({ enquiry: true, usage: 'worldwide' }); return; }
+    if (state.category === 'ecommerce' && productCount() > ECOM_FULL_MAX) { showResult({ enquiry: true, products: productCount(), usage: 'products' }); return; }
+    if (state.category !== 'video' && els.usageScope.value === 'worldwide') { showResult({ enquiry: true, usage: 'worldwide' }); return; }
     var postcode = els.postcode.value.trim();
     if (state.placeSelected && state.lat && state.lng) { showResult(calculatePrice()); return; }
     if (!postcode) { state.lat = null; state.lng = null; state.isLondon = false; showResult(calculatePrice()); return; }
@@ -490,6 +547,7 @@ const extraSchema = [
     els.duration.addEventListener('change', onDurationChange);
     els.usageScope.addEventListener('change', onUsageScopeChange);
     els.postcode.addEventListener('input', onPostcodeInput);
+    els.products.addEventListener('input', function () { els.result.style.display = 'none'; updateDurationOptions(); });
     durationOptionNodes = Array.from(els.duration.options);
     updateLocationDependentFields();
     els.calculateBtn.addEventListener('click', onCalculateClick);

@@ -50,6 +50,8 @@ https://kombu.uk/photography via a quote calculator.
 - National rate, for businesses that trade UK-wide and UK-wide usage: £385 / £580 / £965
 - Worldwide or international usage: quoted individually
 - Multi-day bookings: 10% off the full-day rate per day
+- eCommerce: up to 15 products fits a half day and 16 to 40 a full day; over 40 products is quoted per image
+- Video: £495 for two hours (one edited film up to 60 seconds, landscape and vertical cuts), £795 for a half day (a film up to 90 seconds plus two vertical edits), £1,295 for a full day (a main film plus up to four vertical edits). One rate for every type of business, plus the distance rate; no multi-day rate. Video and photo shoots are booked separately.
 - Distance: standard rates within roughly 25 miles; x1.15 from 25 to 80 miles (half day minimum beyond 30); x1.25 from 80 to 150 miles and x1.40 beyond 150 (full day only)
 - London: £581 half day / £966 full day, half day minimum
 - Travel and any overnight accommodation are added at cost

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Write 640w, 800w and 1100w WebP copies next to the design, photography, preview and tray originals,
+"""Write 640w, 800w and 1100w WebP copies next to the design, photography, preview, tray and work originals,
 and a manifest (src/data/image-variants.json) that src/lib/srcset.ts reads to build
 srcset attributes. Originals are untouched: the lightbox still opens them.
 Re-run after adding images: python3 scripts/make-image-variants.py"""
 import json, os
 from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DIRS = ["public/images/design", "public/images/photography", "public/images/preview", "public/images/tray"]
+DIRS = ["public/images/design", "public/images/photography", "public/images/preview", "public/images/tray", "public/images/work"]
 WIDTHS = [640, 800, 1100]
 manifest = {}
 for d in DIRS:
     for name in sorted(os.listdir(os.path.join(ROOT, d))):
         base, ext = os.path.splitext(name)
+        if not os.path.isfile(os.path.join(ROOT, d, name)) or base.endswith("-og"):
+            continue  # case-study folders and share images need no copies
         if ext.lower() not in (".jpg", ".jpeg", ".png", ".webp") or base.endswith(tuple(f"-{w}" for w in WIDTHS)):
             continue
         path = os.path.join(ROOT, d, name)

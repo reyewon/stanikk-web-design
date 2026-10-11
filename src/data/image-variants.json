@@ -718,5 +718,59 @@
     640
    ]
   ]
+ },
+ "/images/work/ark-angels.webp": {
+  "w": 1400,
+  "h": 1540,
+  "variants": [
+   [
+    "/images/work/ark-angels-640.webp",
+    640
+   ],
+   [
+    "/images/work/ark-angels-800.webp",
+    800
+   ],
+   [
+    "/images/work/ark-angels-1100.webp",
+    1100
+   ]
+  ]
+ },
+ "/images/work/msnry.webp": {
+  "w": 1400,
+  "h": 1540,
+  "variants": [
+   [
+    "/images/work/msnry-640.webp",
+    640
+   ],
+   [
+    "/images/work/msnry-800.webp",
+    800
+   ],
+   [
+    "/images/work/msnry-1100.webp",
+    1100
+   ]
+  ]
+ },
+ "/images/work/the-grand.webp": {
+  "w": 1400,
+  "h": 1540,
+  "variants": [
+   [
+    "/images/work/the-grand-640.webp",
+    640
+   ],
+   [
+    "/images/work/the-grand-800.webp",
+    800
+   ],
+   [
+    "/images/work/the-grand-1100.webp",
+    1100
+   ]
+  ]
  }
 }

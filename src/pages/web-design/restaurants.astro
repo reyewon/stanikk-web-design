@@ -1,0 +1,177 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PageHead from '../../components/PageHead.astro';
+import Ledger from '../../components/Ledger.astro';
+import WorkPreview from '../../components/WorkPreview.astro';
+import Reviews from '../../components/Reviews.astro';
+import Faq from '../../components/Faq.astro';
+import ContactCard from '../../components/ContactCard.astro';
+import '../../styles/hospitality.css';
+
+// Websites for restaurants, pubs, bars and cafes: the hospitality slice of
+// /web-design/, added 11 Oct 2026 after the SEO audit found the site never
+// said "hospitality" although that is its main market. Every fact here is
+// already sourced elsewhere on the site (work lines, Banana Wharf speed data,
+// prices); keep it that way.
+const title = "Restaurant & Pub Website Design | Southampton & UK | Kombu";
+const description = "Websites for restaurants, pubs, bars and cafes from a Southampton designer who also photographs the food and designs the menus. From £49 a month.";
+
+const work = [
+  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'An award-winning vegetarian Indian restaurant. The food is careful, so the site had to be too. Reservations, menus, and room for the photography to work.' },
+  { name: 'Banana Wharf', slug: 'banana-wharf', cs: '/work/mustang-group/#venues', url: 'https://www.bananawharf.co.uk', alt: 'Banana Wharf Ocean Village restaurant website with marina dining and bookings', line: 'Two marina restaurants under one brand. Menus, offers, Sunday roasts and bookings that hold up on a busy waterfront weekend.' },
+  { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group/#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton, dark and neon lit', line: 'A late night bar that trades on neon and noise, so the site does too. Weekly events, menus and table bookings, loud on purpose and still quick on a phone.' },
+  { name: 'Késarum', slug: 'kesarum', url: 'https://www.kesarum.co.uk', alt: 'Késarum plant-based Indian restaurant website on Southampton High Street', line: "A plant-based regional Indian restaurant on Southampton's High Street. Menus, a wine list paired dish by dish, private dining and reservations, each with a page of its own." },
+  { name: 'Soleto', slug: 'soleto', url: 'https://www.soleto.co.uk', alt: 'Soleto Italian restaurant website, dark theme with gallery and private dining', line: 'An Italian restaurant that needed somewhere to send people before they arrived. Menu, gallery, bookings, all without ringing the kitchen mid-service.' },
+  { name: "Ennio's", slug: 'ennios', cs: '/work/mustang-group/#venues', url: 'https://www.ennios.co.uk', alt: "Ennio's Italian restaurant and boutique rooms website on Southampton's Town Quay", line: 'An Italian restaurant with ten boutique rooms in a Victorian warehouse on Town Quay. The restaurant, the rooms and table bookings, all in one place.' },
+];
+
+const needs = [
+  { t: 'Booking on the first screen', d: "Most people open a restaurant site on their phone to do one thing, so I'd put the Book a table button on the first screen, where a thumb already is, and send it straight to your booking system." },
+  { t: 'Menus you can read on a phone', d: "Where I can, I'd build the menu as a proper page rather than a PDF, so it loads quickly and reads well on a phone without anyone pinching to zoom. Prices, dietary notes and specials stay easy to change." },
+  { t: 'Opening hours and directions', d: 'Hours, kitchen times and how to find you sit near the top and match your Google listing, so nobody turns up to a locked door.' },
+  { t: 'Your own photos', d: 'I photograph food and interiors for a living, so the site is built around your real dishes and rooms rather than stock pictures.', cta: { href: '/photography/', label: 'Food photography' } },
+  { t: 'Fast on a phone', d: "Banana Wharf's pages now show their main content in about a second on real phones, down from about 3.7 seconds on the old site, measured from real visitors in Chrome.", cta: { href: '/work/mustang-group/', label: 'The Mustang Group case study' } },
+  { t: 'Same-day changes', d: 'New menu, Christmas hours, a one-off event: send it over and it is usually live the same day. Everyday updates are included, not invoiced.' },
+];
+
+const tiers = [
+  { name: 'Starter', price: '£49 a month', alt: 'or £229 to build, then £29 a month', d: 'A single page with your menu, hours, location and booking link.' },
+  { name: 'Business', price: '£99 a month', alt: 'or £499 to build, then £49 a month', d: 'Up to five pages, contact forms and your Google listing connected.' },
+  { name: 'Professional', price: '£175 a month', alt: 'or £899 to build, then £99 a month', d: 'Up to fifteen pages, a CMS, and booking and other integrations.' },
+];
+
+const faqs = [
+  { q: 'How much does a restaurant website cost?', a: 'Starter sites are £49 a month or £229 to build, Business sites £99 a month or £499, and Professional sites £175 a month or £899. Every plan includes hosting, SSL, domain setup and everyday updates. Bigger bespoke builds, such as a group of venues under one brand, are quoted from £1,500.' },
+  { q: 'Can I change the menu myself?', a: 'You can, if you want a CMS, which comes with the Professional plan. Most owners would rather just send the new menu over, and I usually have it live the same day at no extra cost.' },
+  { q: 'Can guests book a table on the site?', a: "Yes. I'd link the Book a table button to the booking system you already use and keep it on the first screen on a phone, so booking takes a couple of taps." },
+  { q: 'Can you photograph the food and design the printed menus too?', a: "Yes. I'm a commercial food photographer and a graphic designer as well, so the website, the printed menus and the photos can all come from one person. That is how Padharo works: the website, menus, photography, social feeds and emails all come from me." },
+  { q: 'Can you look at my current website first?', a: 'Yes. The free site check gives you five specific fixes in about 30 seconds, and if you would like me to look at it properly, send me the link on WhatsApp.' },
+];
+
+const extraSchema = [
+  { "@type": "WebPage", "@id": "https://kombu.uk/web-design/restaurants/#webpage", "url": "https://kombu.uk/web-design/restaurants/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/web-design/restaurants/#service", "name": "Restaurant and pub website design", "serviceType": "Web design for restaurants, pubs, bars and cafes", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": description,
+    "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Restaurant website plans", "itemListElement": [
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "49", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Starter website" } },
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "99", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Business website" } },
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "175", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Professional website" } }
+    ] } },
+  { "@type": "FAQPage", "@id": "https://kombu.uk/web-design/restaurants/#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/web-design/restaurants/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Web design", "item": "https://kombu.uk/web-design/" }, { "@type": "ListItem", "position": 3, "name": "Restaurant & pub websites", "item": "https://kombu.uk/web-design/restaurants/" } ] }
+];
+---
+<Layout hasReviews title={title} description={description} canonical="https://kombu.uk/web-design/restaurants/" extraSchema={extraSchema}>
+
+<Nav current="web-design" />
+
+<main id="main">
+
+  <PageHead
+    fill="terracotta"
+    title="Restaurant & pub websites"
+    body="Websites for restaurants, pubs, bars and cafes, from a Southampton designer who also photographs the food and designs the menus. Built around what guests come for: the menu, a table and how to find you."
+    fact="From £49 a month"
+    img="/images/preview/padharo-hero.webp"
+    alt="The Padharo restaurant website, designed by Kombu"
+    pair={[
+      { src: '/images/preview/padharo-hero.webp', alt: 'The Padharo restaurant website, designed by Kombu' },
+      { src: '/images/work/the-grand.webp', alt: 'The Grand Southampton website, designed by Kombu' },
+    ]}
+    primary={{ href: '#work', label: 'See the sites' }}
+    secondary={{ href: 'https://wa.me/442381112819', label: 'WhatsApp me' }}
+  />
+
+  <section class="work bleed" id="work" aria-labelledby="work-h">
+    <div class="sec-head work-head">
+      <h2 id="work-h">Selected work</h2>
+      <div class="work-actions">
+        <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
+        <a href="/work/" class="pill">Case studies</a>
+      </div>
+    </div>
+    <div class="work-grid">
+      {work.map((w) => (
+        <article class="wcard">
+          <a href={w.url} target="_blank" rel="noopener" class="project-browser" aria-label={`Open the ${w.name} website`}>
+            <WorkPreview slug={w.slug} alt={w.alt} video={!w.still} />
+          </a>
+          <div class="wcard-meta">
+            <div>
+              <h3>{w.name}</h3>
+              <p>{w.line}</p>
+              {w.cs && <a href={w.cs} class="wcard-case">Read the case study</a>}
+            </div>
+            <a href={w.url} target="_blank" rel="noopener" class="pill pill--sm" aria-label={`Visit the ${w.name} website`}>Visit</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="needs-h">
+    <div class="card card--white">
+      <h2 id="needs-h">What every hospitality site needs</h2>
+      <div class="hosp-ledger">
+        <Ledger items={needs} />
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section bleed" aria-labelledby="whole-h">
+    <div class="card card--kelp hosp-whole">
+      <div class="stack">
+        <h2 id="whole-h">The menus and photos too</h2>
+        <p>The website is usually one piece of a bigger job. I design printed menus, photograph food and interiors, and run a Hospitality Health Check for restaurants and bars, so it all comes from one person and looks like one place.</p>
+      </div>
+      <div class="hosp-links">
+        <a href="/work/padharo/" class="pill pill--fill">How it works at Padharo</a>
+        <a href="/design/" class="pill">Menu design</a>
+        <a href="/photography/" class="pill">Food photography</a>
+        <a href="/marketing/#health-check" class="pill">Health Check</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section bleed" id="pricing" aria-labelledby="pricing-h">
+    <div class="card card--white">
+      <h2 id="pricing-h">Pricing</h2>
+      <div class="ledger hosp-prices">
+        {tiers.map((t) => (
+          <div class="ledger-row">
+            <h3>{t.name}</h3>
+            <div class="ledger-body">
+              <p class="hosp-price"><strong>{t.price}</strong> {t.alt}</p>
+              <p>{t.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="hosp-note">Every plan includes hosting, SSL, domain setup and everyday updates, on a 12-month term. <a href="/web-design/#pricing">Full pricing</a></p>
+    </div>
+  </section>
+
+  <Reviews />
+
+  <Faq heading="Common questions" faqs={faqs} />
+
+  <section class="card-section bleed" aria-labelledby="check-h">
+    <div class="card card--mist hosp-check">
+      <div class="stack">
+        <h2 id="check-h">Free site check</h2>
+        <p>Paste your restaurant's website address and get five specific fixes in about 30 seconds.</p>
+      </div>
+      <a href="/site-check/" class="pill pill--ink">Check my site</a>
+    </div>
+  </section>
+
+  <ContactCard text="Tell me about the place, what the website needs to do and what's not working now. A coffee if you're in Southampton, a video call if you're not." />
+
+</main>
+
+<Footer />
+
+<script is:inline src="/work-previews.js"></script>
+
+</Layout>

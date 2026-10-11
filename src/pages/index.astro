@@ -15,7 +15,7 @@ const description = "A one-person creative studio in Southampton: web design, gr
 // Every fact below is lifted from the live site. Nothing new is claimed.
 // Each cell shows two stacked examples of the work: front and back.
 const cells = [
-  { id: 'web', href: '/web-design/', title: 'Websites', fact: 'From £49 a month', body: 'Bespoke, fast, design-led websites and web apps. No templates, no agency runaround.',
+  { id: 'web', href: '/web-design/', title: 'Websites', fact: 'From £49 a month', body: 'Bespoke, fast, design-led websites and web apps. No templates and no agency runaround, just', bodyLink: { text: 'web design in Southampton', href: '/web-design/' }, bodyAfter: ' that does its job.',
     front: { img: '/images/preview/msnry.webp', alt: 'The msnry app website, built by Kombu' },
     back: { img: '/images/preview/the-grand.webp', alt: 'The Grand Southampton website, designed by Kombu' } },
   { id: 'photo', href: '/photography/', title: 'Photography', fact: '2 hours from £275', body: 'Food, interiors, product and brand photography that earns the booking.',
@@ -72,11 +72,11 @@ const extraSchema = [
         <article class={`discipline discipline--${c.id}`}>
           <div class="discipline-copy">
             <h2>{c.id === 'mktg' ? <>Marketing<small>&amp; infrastructure</small></> : c.title}</h2>
-            <p>{c.body}</p>
+            <p>{c.body}{c.bodyLink && <> <a class="discipline-link" href={c.bodyLink.href}>{c.bodyLink.text}</a>{c.bodyAfter}</>}</p>
           </div>
           <div class="discipline-art">
             <div class="example example--back"><img src={c.back.img} srcset={srcsetFor(c.back.img)} sizes="(max-width: 767px) 66vw, 17vw" alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
-            <div class="example example--front"><img src={c.front.img} srcset={srcsetFor(c.front.img)} sizes="(max-width: 767px) 66vw, 17vw" alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding="async" /></div>
+            <div class="example example--front"><img src={c.front.img} srcset={srcsetFor(c.front.img)} sizes="(max-width: 767px) 66vw, 17vw" alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding={i === 0 ? undefined : "async"} /></div>
           </div>
           <div class="discipline-footer">
             <span class="discipline-fact">{c.fact}</span>
@@ -123,6 +123,7 @@ const extraSchema = [
       <div class="work-actions">
         <button type="button" class="pill" data-work-previews-toggle aria-pressed="false">Pause previews</button>
         <a href="/work/" class="pill">Case studies</a>
+        <a href="/web-design/restaurants/" class="pill">Restaurants &amp; pubs</a>
         <a href="/web-design/#work" class="pill">More websites</a>
       </div>
     </div>

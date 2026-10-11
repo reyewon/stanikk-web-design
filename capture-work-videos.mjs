@@ -13,33 +13,43 @@ import sharp from 'sharp';
 const dir=await fs.mkdtemp(join(tmpdir(),'kombu-recordings-'));
 const out=fileURLToPath(new URL('./public/videos/work/',import.meta.url));
 console.log('Review frames:',dir);
-const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://soleto-website.pages.dev/?embed=1'],['msnry','https://msnry.app/'],['ennios','https://www.ennios.co.uk/'],['kesarum','https://www.kesarum.co.uk/']];
-async function prepare(page,url){
+const sites=[['padharo','https://www.padharo.co.uk/?embed=1'],['grumpy-monkey','https://www.grumpy-monkey.co.uk/?embed=1'],['ryanstanikk','https://www.ryanstanikk.co.uk/?embed=1'],['banana-wharf','https://www.bananawharf.co.uk/?embed=1'],['ark-angels','https://arkangelsband.com'],['soleto','https://www.soleto.co.uk/?embed=1'],['msnry','https://msnry.app/'],['ennios','https://www.ennios.co.uk/'],['kesarum','https://www.kesarum.co.uk/'],['mustang-group','https://mustang-group-rebuild.pages.dev/']];
+async function prepare(page,url,slug){
  await page.addInitScript(()=>{localStorage.setItem('bw:location','ocean-village');localStorage.setItem('bw:consent','denied');localStorage.setItem('bw:modal-seen','1');});
  const r=await page.goto(url,{waitUntil:'load',timeout:60000});if(!r.ok())throw Error(r.status()+' '+url);
  await page.waitForTimeout(4000);
- await page.addStyleTag({content:`[aria-label="Cookie consent"],[aria-labelledby="marina-modal-title"],.loader,#loader,.popup-backdrop,.popup-modal,[id*="cookie" i],[class*="cookie-banner" i],[class*="cookie-consent" i],.cky-consent-container,.cky-overlay,.cky-modal,.cky-btn-revisit-wrapper,[aria-label="Cookies"],[aria-label="Refurbishment notice"]{display:none!important} html,body{overflow-x:clip!important} html{scrollbar-width:none!important}`});
+ await page.addStyleTag({content:`[aria-label="Cookie consent"],[aria-labelledby="marina-modal-title"],.loader,#loader,.popup-backdrop,.popup-modal,[id*="cookie" i],[class*="cookie-banner" i],[class*="cookie-consent" i],.cky-consent-container,.cky-overlay,.cky-modal,.cky-btn-revisit-wrapper,[aria-label="Cookies"],[aria-label="Refurbishment notice"]{display:none!important} html,body{overflow-x:clip!important} html{scrollbar-width:none!important}${hideFor[slug]||''}`});
  await page.evaluate(()=>{if(getComputedStyle(document.documentElement).overflowY==='hidden')document.documentElement.style.overflowY='auto';if(getComputedStyle(document.body).overflowY==='hidden')document.body.style.overflowY='visible';document.querySelectorAll('video').forEach(v=>{v.muted=true;v.play().catch(()=>{});});});
  await page.evaluate(()=>document.fonts.ready);
 }
-const stops={'padharo':[1000,2600,4200],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140],msnry:[1300,2800,4300],ennios:[1200,2500,3900],kesarum:[1200,2500,3900]};
-const msnryStops=[900,1800,2800,4300,5600,7600,9500];
-stops.msnry=msnryStops;
-// milliseconds: the opening hold, each scroll and each hold (default 4000 / 3600 / 3000)
-const pace={msnry:{open:2500,scroll:1700,hold:1100}};
-const paceOf=slug=>Object.assign({open:4000,scroll:3600,hold:3000},pace[slug]||{});
+// Per-site extras to hide: Padharo's seasonal Diwali and Christmas cards under the hero come and go (Ryan, 11 Oct 2026).
+const hideFor={padharo:' .fc-wrap{display:none!important}'};
+const stops={'padharo':[800,2164,3764],'grumpy-monkey':[1150,2000],ryanstanikk:[910,2080,2990],'banana-wharf':[1300,2110],'ark-angels':[1100,2180,3040],soleto:[1060,2040,3140],msnry:[1300,2800,4300],ennios:[1200,2500,3900],kesarum:[1200,2500,3900],'mustang-group':[1100,2300,3600]};
+// msnry plays scroll-driven animations, so it scrolls in one continuous, even pass to the
+// bottom instead of stopping: a hold freezes those animations half way (Ryan, 11 Oct 2026).
+stops.msnry=[9500];
+// Mustang Group runs past the pinned 1872 reveal to The Grand's intro in one pass (Ryan, 11 Oct 2026).
+stops['mustang-group']=[12600];
+// milliseconds: the opening hold, each scroll and each hold (default 1000 / 3600 / 3000).
+// The opening hold was 4000 until 11 Oct 2026: Ryan found the previews sat still so long
+// that a visitor wouldn't realise they were going to scroll, so they now move after a second.
+// continuous: an even speed with a short ease at each end instead of one long ease.
+const pace={msnry:{open:1000,scroll:19000,hold:800,continuous:true},'mustang-group':{open:1000,scroll:24000,hold:1500,continuous:true}};
+const paceOf=slug=>Object.assign({open:1000,scroll:3600,hold:3000},pace[slug]||{});
 const selected=sites.filter(([slug])=>!process.argv[2]||process.argv.slice(2).includes(slug));
 if(!selected.length)throw new Error('No matching website slug. Nothing recorded.');
 await fs.mkdir(out,{recursive:true});
 const recorder=join(dir,'record-window');
 execFileSync('xcrun',['swiftc','-parse-as-library',fileURLToPath(new URL('./scripts/record-browser-window.swift',import.meta.url)),'-o',recorder]);
-const browser=await chromium.launch({headless:false,args:['--autoplay-policy=no-user-gesture-required','--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding','--disable-background-timer-throttling','--window-position=100,100']});
+// CAPTURE_CHANNEL=chrome records with the installed Google Chrome (its own temporary profile)
+// when Playwright's bundled Chromium isn't downloaded.
+const browser=await chromium.launch({headless:false,channel:process.env.CAPTURE_CHANNEL||undefined,args:['--autoplay-policy=no-user-gesture-required','--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding','--disable-background-timer-throttling','--window-position=100,100']});
 const recordings=[];
 for(const [slug,url] of selected){
  const ctx=await browser.newContext({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const page=await ctx.newPage();
  try{
-  await prepare(page,url);
+  await prepare(page,url,slug);
   const cdp=await ctx.newCDPSession(page);
   const {windowId}=await cdp.send('Browser.getWindowForTarget');
   await cdp.send('Browser.setWindowBounds',{windowId,bounds:{width:1442,height:1120}});
@@ -66,11 +76,11 @@ for(const [slug,url] of selected){
   await page.waitForTimeout(P.open);
   const actual=[];
   for(const [i,target] of stops[slug].entries()){
-   await page.evaluate(([target,dur])=>new Promise(resolve=>{
+   await page.evaluate(([target,dur,linear])=>new Promise(resolve=>{
     const start=performance.now(),from=scrollY;
     const set=y=>window.__lenis?window.__lenis.scrollTo(y,{immediate:true,force:true}):window.scrollTo({top:y,behavior:'instant'});
-    function step(now){const t=Math.min(1,(now-start)/dur);const eased=(1-Math.cos(Math.PI*t))/2;set(from+(target-from)*eased);if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);
-   }),[target,P.scroll]);
+    function step(now){const t=Math.min(1,(now-start)/dur);const r=0.08,v=1/(1-r);const eased=linear?(t<r?v*t*t/(2*r):t>1-r?1-v*(1-t)*(1-t)/(2*r):v*(t-r/2)):(1-Math.cos(Math.PI*t))/2;set(from+(target-from)*eased);if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);
+   }),[target,P.scroll,!!P.continuous]);
    await page.waitForTimeout(P.hold);
    actual.push(await page.evaluate(()=>Math.round(scrollY)));
    // Screenshots during native capture can resize Chromium's recorded surface.

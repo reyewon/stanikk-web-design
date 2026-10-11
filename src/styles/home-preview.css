@@ -114,3 +114,7 @@
 .no-motion .example { transition: none; }
 .no-motion .discipline:is(:hover,:focus-within) .example--back { transform: rotate(3deg); }
 .no-motion .discipline:is(:hover,:focus-within) .example--front { transform: rotate(-3deg); }
+
+/* The inline "web design in Southampton" link in the Websites card */
+.discipline-copy p { text-wrap: pretty; }
+.discipline-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }

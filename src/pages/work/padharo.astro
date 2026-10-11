@@ -6,6 +6,7 @@ import ContactCard from '../../components/ContactCard.astro';
 import WorkPreview from '../../components/WorkPreview.astro';
 import CasePromo from '../../components/CasePromo.astro';
 import { reviews } from '../../data/reviews';
+import { srcsetFor } from '../../lib/srcset';
 import '../../styles/work.css';
 
 const title = "Padharo Case Study | Website, Menus & Photography | Kombu";
@@ -154,7 +155,7 @@ const extraSchema = [
             <div class="menu-set__art">
               {set.pages.map((pg, j) => (
                 <button type="button" class={`menu-set__tile ${j === 0 ? 'is-front' : 'is-back'} ${pg.w > pg.h ? 'is-land' : 'is-port'}`} style={`--ar: ${pg.w / pg.h}`} data-view="food" data-full={pg.src} data-w={pg.w} data-h={pg.h} aria-label={`Open full screen: ${pg.alt}`}>
-                  <img src={pg.src} alt={pg.alt} width={pg.w} height={pg.h} loading="lazy" decoding="async" />
+                  <img src={pg.src} srcset={srcsetFor(pg.src)} sizes="(max-width: 767px) 30vw, 180px" alt={pg.alt} width={pg.w} height={pg.h} loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>

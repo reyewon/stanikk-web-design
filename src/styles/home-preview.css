@@ -1,12 +1,19 @@
 
 /* Homepage preview: content determines height; every pair has its own area. */
-.home-opening { padding: 116px var(--gutter) 0; }
-.home-wordmark { font-size: 31vw; line-height: .78; transform: none; }
+.home-opening { padding: 116px var(--gutter) 0; container-type: inline-size; }
+/* Sized from the ink, not the advance: KOMBU's ink is 2.992em wide (the K
+   has 0.022em of side bearing, and the U's trailing letter-spacing hangs
+   past the box), so this puts the K and the U exactly on the gutters at
+   every width and lines the K up with the line beneath. */
+.home-wordmark { font-size: calc(100cqw / 2.992); margin-left: -0.022em; text-align: left; line-height: .78; transform: none; }
 .home-wordmark span { animation: home-land 700ms cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i) * 65ms); }
 @keyframes home-land { from { transform: translateY(20px) scale(1.06); } to { transform: none; } }
-.home-introduction { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 36px 4px 30px; }
-.home-introduction p { max-width: 43ch; font-size: clamp(18px,1.4vw,24px); line-height: 1.4; }
-.home-introduction span { font-size: 15px; text-align: right; }
+.home-introduction { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 36px 0 30px; }
+.home-introduction p { max-width: 48ch; font-size: clamp(18px,1.4vw,24px); line-height: 1.4; text-wrap: balance; }
+/* each sentence starts its own line, so "One" never dangles off the first */
+.home-introduction p span { display: block; }
+.home-introduction p span:first-child { font-weight: 500; }
+.home-introduction > span { font-size: 15px; text-align: right; }
 .home-tray { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--gap); }
 .discipline { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); grid-template-rows: 1fr auto; gap: 24px; padding: clamp(26px,2.4vw,46px); border: var(--line) solid var(--c-ink); border-radius: var(--r-card); min-width: 0; overflow: hidden; }
 .discipline--web { background: var(--c-terracotta); }
@@ -80,10 +87,9 @@
 }
 @media (max-width:760px) {
  .home-opening { padding-top: 108px; }
- .home-wordmark { font-size: 29.8vw; }
- .home-introduction { display: block; padding: 26px 4px; }
+ .home-introduction { display: block; padding: 26px 0; }
  .home-introduction p { font-size: 18px; max-width: 29ch; }
- .home-introduction span { display: block; margin-top: 14px; font-size: 13px; text-align: left; }
+ .home-introduction > span { display: block; margin-top: 14px; font-size: 13px; text-align: left; }
  .home-tray { grid-template-columns: 1fr; gap: 16px; }
  .discipline { padding: 24px; gap: 20px; }
  .discipline h2 { font-size: clamp(39px,10.7vw,54px); }
@@ -118,3 +124,24 @@
 /* The inline "web design in Southampton" link in the Websites card */
 .discipline-copy p { text-wrap: pretty; }
 .discipline-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+
+/* ---------- Desktop opening (restored 11 Oct 2026) ----------
+   The old pinned intro, rebuilt without a pin. On load the letters land one
+   by one, oversized and settling, with nothing else on screen (no nav, no
+   line). Scrolling, the wordmark climbs at about half the scroll speed, using
+   up the empty half-screen beneath it, while the compartments come up at full
+   speed and pop in one after another; the line fades in under the name, and
+   the nav arrives once all four are in. Nothing is pinned and nothing has to
+   fit the fold: the hero is one screen tall, the tray keeps its content
+   height, and the lag is measured from the real gap. The script in
+   index.astro adds .is-armed (desktop, motion allowed, JS on) and drives
+   --lag and --sub; without it everything shows at rest. */
+@media (min-width:1025px) {
+ .home-opening.is-armed { padding-top: 0; }
+ .home-opening.is-armed .home-hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; transform: translateY(var(--lag, 0px)); will-change: transform; }
+ .home-opening.is-armed .home-wordmark span { animation: land 460ms cubic-bezier(.22,.9,.24,1) both; animation-delay: calc(120ms + var(--i) * 95ms); }
+ .home-opening.is-armed .home-introduction { opacity: var(--sub, 0); }
+ .home-opening.is-armed .discipline { opacity: 0; transform: translateY(56px) scale(.9); }
+ .home-opening.is-armed .discipline.is-in { animation: pop 620ms cubic-bezier(.3,.1,.2,1) forwards; }
+}

@@ -2,6 +2,14 @@
 import { reviews, googleReviewsUrl } from '../data/reviews';
 interface Props { heading?: string }
 const { heading = 'What clients say' } = Astro.props as Props;
+// The featured review is a kelp card; the rest take the other tray fills in
+// turn, so the section reads as part of the tray rather than cream on cream.
+const fills = ['terracotta', 'ochre', 'mist', 'ink'];
+let n = 0;
+const items = reviews.map((r) => {
+  const featured = r.org === 'Padharo';
+  return { ...r, featured, fill: featured ? 'kelp' : fills[n++ % fills.length] };
+});
 ---
 <section class="reviews bleed" aria-labelledby="reviews-h">
   <div class="sec-head">
@@ -11,16 +19,19 @@ const { heading = 'What clients say' } = Astro.props as Props;
     <a class="pill pill--sm" href={googleReviewsUrl}>5.0 from {reviews.length} Google reviews</a>
   </div>
   <ul class:list={['review-grid', { 'review-grid--odd': reviews.length % 2 === 1 }]}>
-    {reviews.map((r) => (
-      <li class:list={['review', { 'review-featured': r.org === 'Padharo' }]}>
+    {items.map((r) => (
+      <li class:list={['review', `review--${r.fill}`, { 'review-featured': r.featured }]}>
+        {r.featured && <span class="review-mark" aria-hidden="true">“</span>}
         <span class="stars" role="img" aria-label="Rated 5 out of 5">
           {[0, 1, 2, 3, 4].map(() => (
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg>
           ))}
         </span>
         <blockquote cite={r.url || googleReviewsUrl}><p>{r.quote}</p></blockquote>
-        {r.org === 'Padharo' && <a class="review-source" href={r.url || googleReviewsUrl}>Read Ankit’s full review</a>}
-        <p class="review-by"><span class="review-name">{r.name}</span><span class="review-org">{r.org}{r.org === 'Padharo' && ' · Website and ongoing marketing'}</span></p>
+        <div class="review-foot">
+          <p class="review-by"><span class="review-name">{r.name}</span><span class="review-org">{r.org}{r.featured && ' · Website and ongoing marketing'}</span></p>
+          {r.featured && <a class="review-source" href={r.url || googleReviewsUrl}>Read Ankit’s full review</a>}
+        </div>
       </li>
     ))}
   </ul>

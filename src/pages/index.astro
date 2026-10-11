@@ -30,10 +30,10 @@ const cells = [
 ];
 
 const work = [
-  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
   { name: 'Grumpy Monkey', slug: 'grumpy-monkey', cs: '/work/mustang-group/#venues', url: 'https://www.grumpy-monkey.co.uk', alt: 'Grumpy Monkey late night cocktail bar website in Southampton', line: 'A late night bar that trades on neon and noise. Weekly events, menus and table bookings, quick on a phone.' },
-  { name: 'Ark Angels', slug: 'ark-angels', url: 'https://arkangelsband.com', alt: 'Ark Angels community music platform website with event listings and bold layout', line: 'A live act with a lot to fit on one page. Gigs, residencies, videos and bookings, none of it cramped.' },
-  // tablets only: two columns of three left Ark Angels on its own, so a fourth site squares the grid there
+  { name: 'Padharo', slug: 'padharo', cs: '/work/padharo/', url: 'https://www.padharo.co.uk', alt: 'Padharo vegetarian Indian restaurant website with reservations and menus', line: 'Award-winning vegetarian Indian restaurant. Reservations, menus, and room for the photography to work.' },
+  { name: 'msnry', slug: 'msnry', url: 'https://msnry.app', alt: 'The msnry website: photographs laid out as one seamless Instagram carousel', line: 'My own web app. It lays your photos out as one seamless Instagram carousel, in the browser, with nothing uploaded.' },
+  // tablets only: two columns of three left msnry on its own, so a fourth site squares the grid there
   { name: "Ennio's", slug: 'ennios', cs: '/work/mustang-group/#venues', url: 'https://www.ennios.co.uk', alt: "Ennio's Italian restaurant and boutique rooms website on Southampton's Town Quay", line: 'An Italian restaurant with ten boutique rooms in a Victorian warehouse on Town Quay. The restaurant, the rooms and table bookings, all in one place.', tabletOnly: true },
 ];
 
@@ -59,13 +59,15 @@ const extraSchema = [
 <main id="main" class="home-page">
 
 
-  <section class="home-opening" aria-label="Kombu creative studio">
-    <h1 class="wm home-wordmark" aria-label="Kombu">
-      <span style="--i:0">K</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">B</span><span style="--i:4">U</span>
-    </h1>
-    <div class="home-introduction">
-      <p>Websites, photography, design and marketing. One person who sees how it all fits.</p>
-      <span>Independent creative studio<br />Southampton &amp; beyond</span>
+  <section class="home-opening" id="home-intro" data-holds-nav aria-label="Kombu creative studio">
+    <div class="home-hero">
+      <h1 class="wm home-wordmark" aria-label="Kombu">
+        <span style="--i:0">K</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">B</span><span style="--i:4">U</span>
+      </h1>
+      <div class="home-introduction">
+        <p><span>Websites, photography, design and marketing.</span> <span>One person who sees how it all fits.</span></p>
+        <span>Independent creative studio<br />Southampton &amp; beyond</span>
+      </div>
     </div>
     <div class="home-tray">
       {cells.map((c, i) => (
@@ -86,6 +88,51 @@ const extraSchema = [
       ))}
     </div>
   </section>
+
+  <script is:inline>
+    // Desktop opening (see "Desktop opening" in home-preview.css). The hero
+    // lags the scroll by LAG of its speed until it has used up the gap above
+    // the tray; each compartment pops in once, in order and at least STEP ms
+    // apart, when it rises past 88% of the screen; the line fades in over the
+    // glide; the nav shows when the fourth is in. Phones, tablets, reduced
+    // motion and ?nomotion never arm it.
+    (function () {
+      var root = document.getElementById('home-intro'), html = document.documentElement;
+      if (!root || html.classList.contains('no-motion') || !matchMedia('(min-width: 1025px)').matches) return;
+      var hero = root.querySelector('.home-hero'), sub = root.querySelector('.home-introduction');
+      var cards = Array.prototype.slice.call(root.querySelectorAll('.home-tray .discipline'));
+      var nav = document.querySelector('.nav');
+      var LAG = 0.55, STEP = 170, GAP = 40;
+      var lagMax = 0, glide = 1, done = 0, lastPop = 0, navShown = false, lastS = -1;
+      root.classList.add('is-armed');
+      function showNav() { if (!navShown && nav) { navShown = true; nav.classList.add('is-shown'); } }
+      function measure() {
+        root.style.setProperty('--lag', '0px');
+        var subBottom = sub.getBoundingClientRect().bottom, trayTop = root.querySelector('.home-tray').getBoundingClientRect().top;
+        lagMax = Math.max(0, trayTop - subBottom - GAP);
+        glide = Math.max(1, lagMax / LAG);
+      }
+      function frame(now) {
+        var s = scrollY;
+        if (s !== lastS) {
+        lastS = s;
+        root.style.setProperty('--lag', Math.min(LAG * s, lagMax).toFixed(1) + 'px');
+        var t = Math.min(1, s / (glide * 0.6));
+        root.style.setProperty('--sub', (t * t * (3 - 2 * t)).toFixed(3));
+        }
+        if (done < cards.length && now - lastPop >= STEP && cards[done].getBoundingClientRect().top < innerHeight * 0.88) {
+          cards[done].classList.add('is-in'); done++; lastPop = now;
+          if (done === cards.length) setTimeout(showNav, 380);
+        }
+        if (s > glide + innerHeight) showNav();
+        requestAnimationFrame(frame);
+      }
+      measure();
+      addEventListener('resize', function () { measure(); lastS = -1; });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); lastS = -1; });
+      requestAnimationFrame(frame);
+    })();
+  </script>
 
   <section class="connected bleed" aria-labelledby="connected-h">
     <div class="connected-grid">

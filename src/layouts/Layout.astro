@@ -324,6 +324,8 @@ if (import.meta.env.DEV) {
       // as window.__lenis so the lightbox can stop/start it while open.
       (function () {
         var html = document.documentElement, nav = document.querySelector('.nav'), intro = document.getElementById('intro');
+        // The home opening holds the nav back on desktop and shows it itself.
+        if (!intro && matchMedia('(min-width: 1025px)').matches) intro = document.querySelector('[data-holds-nav]');
         var noMo = html.classList.contains('no-motion');
         function showNav() { if (nav && !nav.classList.contains('is-shown')) nav.classList.add('is-shown'); }
         if (!noMo && typeof Lenis !== 'undefined') {

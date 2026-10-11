@@ -755,6 +755,24 @@
    ]
   ]
  },
+ "/images/work/padharo-site.webp": {
+  "w": 1400,
+  "h": 1540,
+  "variants": [
+   [
+    "/images/work/padharo-site-640.webp",
+    640
+   ],
+   [
+    "/images/work/padharo-site-800.webp",
+    800
+   ],
+   [
+    "/images/work/padharo-site-1100.webp",
+    1100
+   ]
+  ]
+ },
  "/images/work/the-grand.webp": {
   "w": 1400,
   "h": 1540,

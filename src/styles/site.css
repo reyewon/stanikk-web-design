@@ -77,10 +77,11 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 h2 { font-weight: 800; font-size: clamp(2.4rem, 5.5vw, 5.4rem); line-height: 0.87; }
-/* 800, not 700: at 700 every display line (ledger titles, tier names, work
-   card names, case-study headings) rendered in the lightest Supermassive RS
-   cut available and read thin against the 800/900 headings around it. */
-h3 { font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.88; }
+/* 700 (Supermassive RS I) for H3 and H4, 800 (Supermassive II) for H1 and
+   H2: Ryan's weight rule for every brand, 17 Oct 2026. H3s ran at 800 before
+   that because the old weight I read thin; its punctuation is now rebuilt
+   from the full II (18 Oct). */
+h3, h4 { font-weight: 700; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 0.88; }
 
 /* One edge for everything. The tray, the work grid and the bands all meet
    the same gutter, so nothing sits in a narrower column than its neighbour

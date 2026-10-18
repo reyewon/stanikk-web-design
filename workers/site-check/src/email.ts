@@ -2,6 +2,15 @@
 // Ryan gets a blind copy, so every request doubles as a lead notification.
 
 import type { Result } from './index';
+import { SIGNATURE_HTML } from './signature';
+
+// The email's own card leaves about 300px for the signature on a 390px phone, so it gets a
+// tighter version here: smaller logo, less padding. Gmail keeps the full-size one.
+const SIGNATURE_COMPACT = SIGNATURE_HTML
+	.replace('width="88" height="97"', 'width="64" height="71"')
+	.replace('width:88px;height:97px', 'width:64px;height:71px')
+	.replace('padding:18px 22px 18px 18px', 'padding:14px 14px 14px 12px')
+	.replace('padding:0 16px 0 0', 'padding:0 12px 0 0');
 
 const FROM = 'Ryan at Kombu <design@kombu.uk>';
 const RYAN = 'design@kombu.uk';
@@ -38,7 +47,7 @@ export function buildEmail(r: Result): { subject: string; html: string; text: st
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${items}</table>
   <p style="margin:6px 0 18px;font:15px/1.55 Helvetica,Arial,sans-serif;color:#141210">If you'd like a hand with any of these, or a proper look at the parts a quick check can't reach, I'm happy to talk it through.</p>
   <a href="${esc(wa)}" style="display:inline-block;background:#1F4A3C;color:#F1EEE6;border:2px solid #141210;border-radius:999px;padding:12px 22px;font:600 15px/1 Helvetica,Arial,sans-serif;text-decoration:none">Book a quick call on WhatsApp</a>
-  <p style="margin:22px 0 0;font:14px/1.5 Helvetica,Arial,sans-serif;color:#141210">Ryan Stanikk<br>Kombu, Southampton<br><a href="https://kombu.uk/" style="color:#141210">kombu.uk</a> · +44 23 8111 2819</p>
+  <div style="margin:22px 0 0;font:15px/1.55 Helvetica,Arial,sans-serif;color:#141210">${SIGNATURE_COMPACT}</div>
 </td></tr></table>
 </td></tr></table></body></html>`;
 

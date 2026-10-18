@@ -1,4 +1,39 @@
-# Everything under /_astro/ carries a content hash in its name (the processed
-# images and the scripts), so it can be cached for a year.
+# Response headers for kombu.uk on Cloudflare Pages (site standards, 18 Oct 2026; template and the
+# reasons behind every rule: ~/.claude/skills/humanise/reference/site-standards.md, section 1).
+# Matching rules COMBINE: Cache-Control is only set in rules whose paths cannot overlap, never under
+# /*, or the browser gets two values joined together. HTML has no rule on purpose: Pages sends
+# "public, max-age=0, must-revalidate" for pages, so a deploy is live at once.
+# Check after a deploy: curl -sI "https://kombu.uk/<file>?cb=$RANDOM" | grep -i -E 'cache-control|x-robots'
+
+# Security and hygiene on every response. No X-Frame-Options: nothing here needs blocking frames.
+# geolocation=(self), not (): the /photography quote calculator has a "use my current location" button.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
+  Strict-Transport-Security: max-age=31536000
+
+# The spare copies (kombu-web-design.pages.dev and every per-deploy host) stay out of search;
+# these never match kombu.uk itself.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Astro's output: processed images, scripts and styles with a content hash in the name.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Lenis, pinned by version in its file name (a new version is a new file).
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Copied from public/ as they are (the name stays when the file changes): a week for images and video,
+# with a day of stale-while-revalidate on images; 30 days for fonts, whose links carry ?v= and are
+# bumped on every font change.
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/videos/*
+  Cache-Control: public, max-age=604800
+/fonts/*
+  Cache-Control: public, max-age=2592000

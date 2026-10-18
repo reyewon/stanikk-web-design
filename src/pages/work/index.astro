@@ -11,14 +11,14 @@ const description = "Case studies from Kombu in Southampton: Padharo's website, 
 const url = "https://kombu.uk/work/";
 
 const cases = [
-  { href: "/work/padharo/", name: "Padharo", fill: "ochre", fit: 3.92,
+  { href: "/work/padharo/", name: "Padharo", fill: "ochre", fit: 3.73,
     line: "A vegetarian Indian restaurant in Southampton. The website, the photographs, the film, every menu, the social feeds and the emails, all from me.",
     tags: ["Website", "Photography", "Menus", "Social and email"],
     pair: [
       { src: "/images/work/padharo/drinks-page-1.webp", w: 1400, h: 1400, alt: "Padharo drinks menu cover" },
       { src: "/images/design/padharo-diwali-back.jpg", w: 1200, h: 1697, alt: "Padharo Diwali set menu cover" },
     ] },
-  { href: "/work/mustang-group/", name: "Mustang Group", fill: "kelp", fit: 4.07,
+  { href: "/work/mustang-group/", name: "Mustang Group", fill: "kelp", fit: 3.92,
     line: "Six Southampton venues. Three venue sites rebuilt, a new group site made for phones first, photography across the venues and a report every Monday.",
     tags: ["Websites", "Photography", "Website care"],
     phone: { src: "/videos/work/mustang-phone.webp", alt: "The new Mustang Group site on a phone" } },
@@ -26,7 +26,7 @@ const cases = [
 
 const extraSchema = [
   { "@type": "CollectionPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB",
-    "hasPart": [ { "@id": "https://kombu.uk/work/padharo#work" }, { "@id": "https://kombu.uk/work/mustang-group#work" } ] },
+    "hasPart": [ { "@type": "CreativeWork", "@id": "https://kombu.uk/work/padharo/#work", "name": "Padharo: website, photography, menus, social and email", "url": "https://kombu.uk/work/padharo/" }, { "@type": "CreativeWork", "@id": "https://kombu.uk/work/mustang-group/#work", "name": "Mustang Group: venue websites, group site, photography and care", "url": "https://kombu.uk/work/mustang-group/" } ] },
   { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Work", "item": url } ] }
 ];
 ---

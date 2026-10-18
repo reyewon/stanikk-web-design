@@ -20,12 +20,14 @@
   align-items: center;
   container-type: inline-size;
 }
-/* The client's name at the card's full width, 900 like the wordmark.
+/* The client's name at the card's full width, in 800 (III, 900, is only ever
+   the KOMBU wordmark: Ryan's rule; these were 900 until 18 Oct 2026).
    --name-fit is the name's own width at 1em (measured against Supermassive
-   RS 900), so each case study sizes its name to the card, not the viewport. */
+   II at 800, plus about 1.5% for the side bearings), so each case study sizes
+   its name to the card, not the viewport. */
 .case-name {
   grid-area: name;
-  font-weight: 900;
+  font-weight: 800;
   font-size: calc(100cqi / var(--name-fit, 4.6));
   line-height: 0.78;
   letter-spacing: -0.025em;
@@ -311,7 +313,7 @@ a.chip:hover, a.chip:focus-visible { transform: translateY(2px); }
 .case-card { flex: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: center; transition: transform 140ms ease-out; }
 .case-card:hover, .case-card:focus-visible { transform: translateY(2px); }
 .case-card__text { min-width: 0; container-type: inline-size; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); }
-.case-card__name { font-weight: 900; font-size: calc(100cqi / var(--name-fit, 4.6)); line-height: 0.8; letter-spacing: -0.025em; }
+.case-card__name { font-weight: 800; font-size: calc(100cqi / var(--name-fit, 4.6)); line-height: 0.8; letter-spacing: -0.025em; }
 .case-card__name span { display: block; white-space: nowrap; }
 .case-card__text p { font-size: clamp(1rem, 1.1vw, 1.1rem); max-width: 46ch; }
 .case-card__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }

@@ -133,6 +133,9 @@ h3, h4 { font-weight: 700; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height:
   border-radius: var(--r-pill);
 }
 .nav.is-shown, .no-motion .nav { opacity: 1; transform: translate(-50%, 0); }
+/* Keyboard focus inside the nav shows it at once, even while the home page's opening is still
+   holding it back, so nobody tabs through links they cannot see (focuscheck, 18 Oct 2026). */
+.nav:focus-within { opacity: 1; transform: translate(-50%, 0); transition: none; }
 .nav-mark {
   font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
   font-size: 1.2rem; letter-spacing: -0.01em; line-height: 1;

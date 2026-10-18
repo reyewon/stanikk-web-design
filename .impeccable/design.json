@@ -276,7 +276,7 @@
       "name": "Pill Filled Terracotta",
       "kind": "button",
       "refersTo": "pill-fill",
-      "description": "The primary action: terracotta fill, white text (Ryan's rule: text on terracotta is always white, never ink).",
+      "description": "The primary action: terracotta fill, white text (Ryan's rule: on terracotta the heading and the action are always white; running body copy stays ink).",
       "html": "<a class=\"ds-pill ds-pill--fill\" href=\"#\">Start a project</a>",
       "css": ".ds-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.35rem; border: 2px solid var(--c-ink, #141210); border-radius: 999px; font-family: var(--f-body, 'Switzer', sans-serif); font-weight: 500; font-size: 0.95rem; line-height: 1; color: var(--c-ink, #141210); background: transparent; text-decoration: none; white-space: nowrap; transition: transform 140ms ease-out, background 140ms ease-out, color 140ms ease-out; } .ds-pill:hover, .ds-pill:focus-visible { transform: translateY(2px); } .ds-pill:focus-visible { outline: 3px solid var(--c-ink, #141210); outline-offset: 3px; } .ds-pill--fill { background: var(--c-terracotta, #D4714E); color: var(--c-white, #fff); } .ds-pill--fill:hover { background: var(--c-terracotta-hover, #DE7F5C); }"
     },

@@ -1146,6 +1146,9 @@ h2 + .ledger, h2 + .work-grid, h2 + .from-grid, h2 + .tier-grid, h2 + .hhc-grid,
 .quote-result__lines li { position: relative; padding-left: 1.1em; font-size: 0.9rem; }
 .quote-result__lines li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: var(--c-ink); }
 .quote-result__trust { margin-top: var(--s-2); font-size: 0.85rem; color: var(--c-ink-soft); }
+/* The stars are SVG like the review cards: Switzer has no star glyph, so text stars fell back to each device's system font. */
+.stars--inline { gap: 2px; vertical-align: -0.1em; margin-right: 0.3em; }
+.stars--inline svg { width: 0.95em; height: 0.95em; }
 .quote-result__actions { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-3); }
 .quote-result__footer { margin-top: var(--s-2); font-size: 0.8rem; color: var(--c-ink-mute); }
 

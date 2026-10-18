@@ -7,7 +7,7 @@ import Marquee from '../components/Marquee.astro';
 import Reviews from '../components/Reviews.astro';
 import ContactCard from '../components/ContactCard.astro';
 import WorkPreview from '../components/WorkPreview.astro';
-import { srcsetFor } from '../lib/srcset';
+import Img from '../components/Img.astro';
 
 const title = "Kombu | Creative, Design & Marketing Studio in Southampton";
 const description = "A one-person creative studio in Southampton: web design, graphic design, commercial photography and marketing that finally pull in the same direction.";
@@ -77,8 +77,8 @@ const extraSchema = [
             <p>{c.body}{c.bodyLink && <> <a class="discipline-link" href={c.bodyLink.href}>{c.bodyLink.text}</a>{c.bodyAfter}</>}</p>
           </div>
           <div class="discipline-art">
-            <div class="example example--back"><img src={c.back.img} srcset={srcsetFor(c.back.img)} sizes="(max-width: 767px) 66vw, 17vw" alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
-            <div class="example example--front"><img src={c.front.img} srcset={srcsetFor(c.front.img)} sizes="(max-width: 767px) 66vw, 17vw" alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding={i === 0 ? undefined : "async"} /></div>
+            <div class="example example--back"><Img src={c.back.img} sizes="(max-width: 767px) 66vw, 17vw" alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
+            <div class="example example--front"><Img src={c.front.img} sizes="(max-width: 767px) 66vw, 17vw" alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding={i === 0 ? undefined : "async"} /></div>
           </div>
           <div class="discipline-footer">
             <span class="discipline-fact">{c.fact}</span>
@@ -144,15 +144,15 @@ const extraSchema = [
       </div>
       <div class="connected-proof">
         <figure class="proof-web">
-          <a class="proof-surface" href="https://padharo.co.uk" target="_blank" rel="noopener"><img src="/images/preview/padharo-hero.webp" srcset={srcsetFor("/images/preview/padharo-hero.webp")} sizes="(max-width: 767px) 92vw, 52vw" alt="Padharo restaurant website" loading="lazy" width="1600" height="956" /></a>
+          <a class="proof-surface" href="https://padharo.co.uk" target="_blank" rel="noopener"><Img src="/images/preview/padharo-hero.webp" sizes="(max-width: 767px) 92vw, 52vw" alt="Padharo restaurant website" loading="lazy" /></a>
           <figcaption>The website</figcaption>
         </figure>
         <figure class="proof-print">
-          <a class="proof-surface" href="/design/#cs-padharo"><img src="/images/design/padharo-menu-2026-front.jpg" srcset={srcsetFor("/images/design/padharo-menu-2026-front.jpg")} sizes="(max-width: 767px) 40vw, 24vw" alt="The 2026 Padharo menu, with cream, navy and terracotta sections" loading="lazy" width="1200" height="1697" /></a>
+          <a class="proof-surface" href="/design/#cs-padharo"><Img src="/images/design/padharo-menu-2026-front.jpg" sizes="(max-width: 767px) 40vw, 24vw" alt="The 2026 Padharo menu, with cream, navy and terracotta sections" loading="lazy" /></a>
           <figcaption>The menu</figcaption>
         </figure>
         <figure class="proof-print">
-          <a class="proof-surface" href="/design/#cs-padharo"><img src="/images/design/padharo-christmas-back.jpg" srcset={srcsetFor("/images/design/padharo-christmas-back.jpg")} sizes="(max-width: 767px) 40vw, 24vw" alt="The Padharo Christmas campaign, a full feast photographed under gold script" loading="lazy" width="1200" height="1697" /></a>
+          <a class="proof-surface" href="/design/#cs-padharo"><Img src="/images/design/padharo-christmas-back.jpg" sizes="(max-width: 767px) 40vw, 24vw" alt="The Padharo Christmas campaign, a full feast photographed under gold script" loading="lazy" /></a>
           <figcaption>The campaign</figcaption>
         </figure>
       </div>
@@ -197,7 +197,7 @@ const extraSchema = [
     <div class="card card--terracotta about">
       <div class="portrait" id="portrait">
         <div class="portrait-clip">
-          <img class="portrait-cut" src="/images/ryan-cutout.webp" alt="Ryan Stanikk" width="1100" height="1024" loading="lazy" decoding="async" />
+          <Img class="portrait-cut" src="/images/ryan-cutout.webp" alt="Ryan Stanikk" sizes="(max-width: 900px) 110vw, 45vw" />
         </div>
       </div>
       <div class="stack">

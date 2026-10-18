@@ -1,5 +1,5 @@
 ---
-import { srcsetFor } from '../lib/srcset';
+import Img from '../components/Img.astro';
 // The opening card for every interior page: one skeleton, only the fill and
 // content change. Sits below the fixed nav via .pagehead-section's top
 // padding. Desktop: text column left (7/12), vertically centred against the
@@ -64,19 +64,19 @@ const longestWord = title.split(/\s+/).reduce((max, w) => Math.max(max, w.replac
     <div class="pagehead-media">
       {pair && pair.length === 2 ? (
         <div class="pagehead-pair">
-          <div class="ph-tile ph-tile--back"><img src={pair[1].src} srcset={srcsetFor(pair[1].src)} sizes="(max-width: 767px) 45vw, 22vw" alt={pair[1].alt} loading="eager" /></div>
-          <div class="ph-tile ph-tile--front"><img src={pair[0].src} srcset={srcsetFor(pair[0].src)} sizes="(max-width: 767px) 45vw, 22vw" alt={pair[0].alt} loading="eager" fetchpriority="high" /></div>
+          <div class="ph-tile ph-tile--back"><Img src={pair[1].src} sizes="(max-width: 767px) 45vw, 22vw" alt={pair[1].alt} loading="eager" /></div>
+          <div class="ph-tile ph-tile--front"><Img src={pair[0].src} sizes="(max-width: 767px) 45vw, 22vw" alt={pair[0].alt} loading="eager" fetchpriority="high" /></div>
         </div>
       ) : images && images.length ? (
         <div class="pagehead-collage">
-          <div class="pagehead-collage__tile pagehead-collage__tile--main"><img src={images[0].src} srcset={srcsetFor(images[0].src)} sizes="(max-width: 767px) 24vw, 18vw" alt={images[0].alt} loading="eager" /></div>
+          <div class="pagehead-collage__tile pagehead-collage__tile--main"><Img src={images[0].src} sizes="(max-width: 767px) 24vw, 18vw" alt={images[0].alt} loading="eager" /></div>
           <div class="pagehead-collage__side">
-            {images[1] && <div class="pagehead-collage__tile"><img src={images[1].src} srcset={srcsetFor(images[1].src)} sizes="(max-width: 767px) 24vw, 18vw" alt={images[1].alt} loading="eager" /></div>}
-            {images[2] && <div class="pagehead-collage__tile"><img src={images[2].src} srcset={srcsetFor(images[2].src)} sizes="(max-width: 767px) 24vw, 18vw" alt={images[2].alt} loading="eager" /></div>}
+            {images[1] && <div class="pagehead-collage__tile"><Img src={images[1].src} sizes="(max-width: 767px) 24vw, 18vw" alt={images[1].alt} loading="eager" /></div>}
+            {images[2] && <div class="pagehead-collage__tile"><Img src={images[2].src} sizes="(max-width: 767px) 24vw, 18vw" alt={images[2].alt} loading="eager" /></div>}
           </div>
         </div>
       ) : (
-        <div class="pagehead-img"><img src={img} srcset={srcsetFor(img)} sizes="(max-width: 767px) 75vw, 36vw" alt={alt} loading="eager" fetchpriority="high" /></div>
+        <div class="pagehead-img"><Img src={img} sizes="(max-width: 767px) 75vw, 36vw" alt={alt} loading="eager" fetchpriority="high" /></div>
       )}
     </div>
   </div>

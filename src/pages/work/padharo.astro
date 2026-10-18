@@ -6,7 +6,8 @@ import ContactCard from '../../components/ContactCard.astro';
 import WorkPreview from '../../components/WorkPreview.astro';
 import CasePromo from '../../components/CasePromo.astro';
 import { reviews } from '../../data/reviews';
-import { srcsetFor } from '../../lib/srcset';
+import Img from '../../components/Img.astro';
+import { fullUrl } from '../../lib/assets';
 import '../../styles/work.css';
 
 const title = "Padharo Case Study | Website, Menus & Photography | Kombu";
@@ -43,9 +44,9 @@ const foodSets = [
 
 const drinks = [
   { src: `${P}/drinks-page-1.webp`, w: 1400, h: 1400, alt: "Padharo drinks menu cover: an old fashioned with an orange twist on a wooden bar top" },
-  { src: `${P}/drinks-spread-1.webp`, sm: `${P}/drinks-spread-1-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: a beer being poured opposite the beers, ciders, whiskey, vodka, rum, gin and aperitifs" },
-  { src: `${P}/drinks-spread-2.webp`, sm: `${P}/drinks-spread-2-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: cocktails and mocktails opposite a strawberry cooler held up against the sky" },
-  { src: `${P}/drinks-spread-3.webp`, sm: `${P}/drinks-spread-3-sm.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: white wine being poured opposite the white, rose, red and sparkling wine lists" },
+  { src: `${P}/drinks-spread-1.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: a beer being poured opposite the beers, ciders, whiskey, vodka, rum, gin and aperitifs" },
+  { src: `${P}/drinks-spread-2.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: cocktails and mocktails opposite a strawberry cooler held up against the sky" },
+  { src: `${P}/drinks-spread-3.webp`, w: 2800, h: 1400, alt: "Drinks menu spread: white wine being poured opposite the white, rose, red and sparkling wine lists" },
   { src: `${P}/drinks-page-5.webp`, w: 1400, h: 1400, alt: "Drinks menu back page: lassis, soft drinks and juices beside three lassis on a carved wooden tray" },
 ];
 
@@ -53,15 +54,15 @@ const drinks = [
 // the others fill it. Phones re-plan it as full-width landscapes with the
 // portraits paired underneath (see work.css).
 const photos = [
-  { src: `${P}/photo-spread.webp`, sm: `${P}/photo-spread-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-a', alt: "Overhead of a full Padharo table: curries, dosa, rice, breads and chutneys" },
-  { src: `${P}/photo-dosa.webp`, sm: `${P}/photo-dosa-sm.webp`, w: 1440, h: 1800, shape: 'port', cls: 'pg-b', alt: "Chilli paneer dosa on a white plate with sambar and chutney" },
-  { src: `${P}/photo-front-door.webp`, sm: `${P}/photo-front-door-sm.webp`, w: 1013, h: 1800, shape: 'port', cls: 'pg-c', alt: "Padharo's name running down the brick pillar by the front door on East Street" },
-  { src: `${P}/photo-anniversary-table.webp`, sm: `${P}/photo-anniversary-table-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-d', alt: "Four friends over drinks at a window table" },
-  { src: `${P}/photo-lassi.webp`, sm: `${P}/photo-lassi-sm.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-e', alt: "A mango lassi and a berry lassi beside a white drink with mint, against a brick wall" },
-  { src: `${P}/photo-naan.webp`, sm: `${P}/photo-naan-sm.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-f', alt: "Garlic naan stacked beside a bowl of dal and green chutney" },
-  { src: `${P}/photo-dining-room.webp`, sm: `${P}/photo-dining-room-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-g', alt: "The dining room at Padharo in the evening, tables laid and the bar lit behind" },
-  { src: `${P}/photo-terrace.webp`, sm: `${P}/photo-terrace-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-h', alt: "The bright side room with bench seating, cushions and hanging plants" },
-  { src: `${P}/photo-curry.webp`, sm: `${P}/photo-curry-sm.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-i', alt: "A curry with cream swirled through it, rice and onion bhajis from above" },
+  { src: `${P}/photo-spread.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-a', alt: "Overhead of a full Padharo table: curries, dosa, rice, breads and chutneys" },
+  { src: `${P}/photo-dosa.webp`, w: 1440, h: 1800, shape: 'port', cls: 'pg-b', alt: "Chilli paneer dosa on a white plate with sambar and chutney" },
+  { src: `${P}/photo-front-door.webp`, w: 1013, h: 1800, shape: 'port', cls: 'pg-c', alt: "Padharo's name running down the brick pillar by the front door on East Street" },
+  { src: `${P}/photo-anniversary-table.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-d', alt: "Four friends over drinks at a window table" },
+  { src: `${P}/photo-lassi.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-e', alt: "A mango lassi and a berry lassi beside a white drink with mint, against a brick wall" },
+  { src: `${P}/photo-naan.webp`, w: 1200, h: 1800, shape: 'port', cls: 'pg-f', alt: "Garlic naan stacked beside a bowl of dal and green chutney" },
+  { src: `${P}/photo-dining-room.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-g', alt: "The dining room at Padharo in the evening, tables laid and the bar lit behind" },
+  { src: `${P}/photo-terrace.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-h', alt: "The bright side room with bench seating, cushions and hanging plants" },
+  { src: `${P}/photo-curry.webp`, w: 1800, h: 1200, shape: 'land', cls: 'pg-i', alt: "A curry with cream swirled through it, rice and onion bhajis from above" },
 ];
 
 const social = [
@@ -74,6 +75,9 @@ const social = [
   { src: `${P}/email-birthday.webp`, w: 900, h: 1800, kind: 'email', alt: "Padharo birthday email: happy birthday from all of us, with a free dessert or cocktail that week" },
   { src: `${P}/email-birthday-capture.webp`, w: 900, h: 2145, kind: 'email', alt: "Padharo email asking subscribers for their birthday so they can be sent a free treat" },
 ];
+
+// The full-size file each tile opens in the viewer.
+for (const pg of [...foodSets.flatMap((f) => f.pages), ...drinks, ...photos, ...social]) (pg as any).full = await fullUrl(pg.src);
 
 const extraSchema = [
   { "@type": "WebPage", "@id": `${url}#webpage`, "url": url, "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": `${url}#work` }, "description": description, "inLanguage": "en-GB", "breadcrumb": { "@id": `${url}#breadcrumb` } },
@@ -154,8 +158,8 @@ const extraSchema = [
           <li class="menu-set">
             <div class="menu-set__art">
               {set.pages.map((pg, j) => (
-                <button type="button" class={`menu-set__tile ${j === 0 ? 'is-front' : 'is-back'} ${pg.w > pg.h ? 'is-land' : 'is-port'}`} style={`--ar: ${pg.w / pg.h}`} data-view="food" data-full={pg.src} data-w={pg.w} data-h={pg.h} aria-label={`Open full screen: ${pg.alt}`}>
-                  <img src={pg.src} srcset={srcsetFor(pg.src)} sizes="(max-width: 767px) 30vw, 180px" alt={pg.alt} width={pg.w} height={pg.h} loading="lazy" decoding="async" />
+                <button type="button" class={`menu-set__tile ${j === 0 ? 'is-front' : 'is-back'} ${pg.w > pg.h ? 'is-land' : 'is-port'}`} style={`--ar: ${pg.w / pg.h}`} data-view="food" data-full={(pg as any).full} data-w={pg.w} data-h={pg.h} aria-label={`Open full screen: ${pg.alt}`}>
+                  <Img src={pg.src} sizes="(max-width: 767px) 30vw, 180px" alt={pg.alt} />
                 </button>
               ))}
             </div>
@@ -172,8 +176,8 @@ const extraSchema = [
           <ul class="rail-track" tabindex="0" aria-label="Padharo drinks menu, scroll sideways">
             {drinks.map((m, i) => (
               <li class="rail-item" style={`--ar: ${m.w / m.h}`}>
-                <button type="button" class="rail-open" data-view="drinks" data-full={m.src} data-w={m.w} data-h={m.h} aria-label={`Open full screen: ${m.alt}`}>
-                  <img src={m.sm ?? m.src} alt={m.alt} width={m.w} height={m.h} loading="lazy" decoding="async" />
+                <button type="button" class="rail-open" data-view="drinks" data-full={(m as any).full} data-w={m.w} data-h={m.h} aria-label={`Open full screen: ${m.alt}`}>
+                  <Img src={m.src} sizes={`(max-width: 767px) ${Math.round(220 * m.w / m.h)}px, ${Math.round(560 * m.w / m.h)}px`} alt={m.alt} />
                 </button>
               </li>
             ))}
@@ -204,8 +208,8 @@ const extraSchema = [
       <ul class="photo-grid">
         {photos.map((p) => (
           <li class={`pg-tile pg-tile--${p.shape} ${p.cls}`}>
-            <button type="button" class="pg-open" data-view="photos" data-full={p.src} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}`}>
-              <img src={p.sm} srcset={`${p.sm} 900w, ${p.src} 1800w`} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+            <button type="button" class="pg-open" data-view="photos" data-full={(p as any).full} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}`}>
+              <Img src={p.src} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} />
             </button>
           </li>
         ))}
@@ -227,8 +231,8 @@ const extraSchema = [
         <ul class="rail-track" tabindex="0" aria-label="Padharo emails and social posts, scroll sideways">
           {social.map((s) => (
             <li class={`rail-item rail-item--${s.kind}`} style={`--ar: ${s.kind === 'email' ? 0.6 : s.w / s.h}`}>
-              <button type="button" class="rail-open" data-view="social" data-full={s.src} data-video={s.video} data-w={s.w} data-h={s.h} aria-label={`Open full screen: ${s.alt}`}>
-                <img src={s.src} alt={s.alt} width={s.w} height={s.h} loading="lazy" decoding="async" />
+              <button type="button" class="rail-open" data-view="social" data-full={(s as any).full} data-video={s.video} data-w={s.w} data-h={s.h} aria-label={`Open full screen: ${s.alt}`}>
+                <Img src={s.src} sizes={`(max-width: 767px) ${Math.round(360 * (s.kind === 'email' ? 0.6 : s.w / s.h))}px, ${Math.round(520 * (s.kind === 'email' ? 0.6 : s.w / s.h))}px`} alt={s.alt} />
                 {s.video && <video class="rail-video" muted playsinline loop preload="none" data-src={s.video} aria-hidden="true"></video>}
               </button>
             </li>

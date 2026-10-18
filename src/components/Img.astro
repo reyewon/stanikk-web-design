@@ -1,0 +1,28 @@
+---
+// One responsive image through astro:assets: WebP copies at 640, 800 and 1100 wide
+// plus the full size, which is also the src (the lightbox opens the src). Width and
+// height come from the file itself. Replaces scripts/make-image-variants.py and
+// src/lib/srcset.ts (18 Oct 2026).
+import { getImage } from 'astro:assets';
+import { assetFor, fullUrl, sizeOf, QUALITY } from '../lib/assets';
+
+interface Props {
+  src: string;            // the image's site path, e.g. '/images/design/kwackers-burgers.jpg'
+  alt: string;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  [attr: string]: unknown;
+}
+const { src, alt, sizes, widths = [640, 800, 1100], loading = 'lazy', decoding = 'async', width: _w, height: _h, ...rest } = Astro.props;
+const asset = assetFor(src);
+const { width, height } = sizeOf(asset);
+const full = await fullUrl(src);
+// The full size goes on the end by hand: asking getImage for it as a width would
+// give it a second file under a different hash.
+const small = widths.filter((w) => w < width);
+const set = small.length ? await getImage({ src: asset, widths: small, format: 'webp', quality: QUALITY }) : null;
+const srcset = [set?.srcSet.attribute, `${full} ${width}w`].filter(Boolean).join(', ');
+---
+<img src={full} srcset={srcset} sizes={sizes ?? `${width}px`} alt={alt} width={width} height={height} loading={loading} decoding={decoding} {...rest} />

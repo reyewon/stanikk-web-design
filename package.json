@@ -8,7 +8,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "build:quotes": "node build-quotes.mjs",
-    "capture:work": "node capture-work-videos.mjs"
+    "capture:work": "node capture-work-videos.mjs",
+    "check:ga4": "node deploy-checks/ga4.mjs",
+    "check:glyphs": "bash deploy-checks/glyphs.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",

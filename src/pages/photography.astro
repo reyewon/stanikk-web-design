@@ -1,5 +1,6 @@
 ---
-import { srcsetFor } from '../lib/srcset';
+import Img from '../components/Img.astro';
+import { ogUrl } from '../lib/assets';
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -7,6 +8,7 @@ import ContactCard from '../components/ContactCard.astro';
 import PageHead from '../components/PageHead.astro';
 import Faq from '../components/Faq.astro';
 
+const ogImage = await ogUrl("/images/photography/food-roppongi.jpg");
 const title = "Commercial Photographer Southampton | Food & Brand | Kombu";
 const description = "Commercial photography in Southampton: food, interiors, product and brand imagery. Get an instant ballpark with the quote calculator.";
 
@@ -64,7 +66,7 @@ const extraSchema = [
   { "@type": "BreadcrumbList", "@id": "https://kombu.uk/photography#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Photography", "item": "https://kombu.uk/photography" } ] }
 ];
 ---
-<Layout title={title} description={description} extraSchema={extraSchema} ogImage="https://kombu.uk/images/photography/food-roppongi.jpg" ogImageWidth="1500" ogImageHeight="1000" ogImageAlt="Commercial food photography by Ryan Stanikk for Kombu">
+<Layout title={title} description={description} extraSchema={extraSchema} ogImage={ogImage} ogImageWidth="1500" ogImageHeight="1000" ogImageAlt="Commercial food photography by Ryan Stanikk for Kombu">
 
 
 <Nav current="photography" />
@@ -100,7 +102,7 @@ const extraSchema = [
     </div>
     <div class="photo-masonry" data-lightbox>
       {gallery.map((img) => (
-        <div class="photo-masonry__tile"><img src={img.src} srcset={srcsetFor(img.src)} sizes="(max-width: 767px) 92vw, (max-width: 1099px) 46vw, 32vw" alt={img.alt} width={img.w} height={img.h} loading="lazy" /></div>
+        <div class="photo-masonry__tile"><Img src={img.src} sizes="(max-width: 767px) 92vw, (max-width: 1099px) 46vw, 32vw" alt={img.alt} loading="lazy" /></div>
       ))}
     </div>
   </section>
@@ -197,7 +199,7 @@ const extraSchema = [
           <p class="quote-result__was" id="rsWasPrice" style="display:none;"></p>
           <h3 class="quote-result__price" id="rsPrice"></h3>
           <ul class="quote-result__lines" id="rsResultLines" style="display:none;"></ul>
-          <p class="quote-result__trust"><span aria-hidden="true">★★★★★</span> 5.0 on Google as Ryan Stanikk Photography &middot; Costa, Novotel, John Lewis &amp; TGI Fridays</p>
+          <p class="quote-result__trust"><span class="stars stars--inline" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg></span> 5.0 on Google as Ryan Stanikk Photography &middot; Costa, Novotel, John Lewis &amp; TGI Fridays</p>
           <div class="quote-result__actions">
             <a id="rsEmailBtn" href="#" class="pill pill--fill">Email me</a>
             <a id="rsWhatsAppBtn" href="#" target="_blank" rel="noopener" class="pill">WhatsApp me</a>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Img from '../components/Img.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ContactCard from '../components/ContactCard.astro';
@@ -40,7 +41,7 @@ const extraSchema = [
     <div class="card card--terracotta about">
       <div class="portrait" id="portrait">
         <div class="portrait-clip">
-          <img class="portrait-cut" src="/images/ryan-cutout.webp" alt="Ryan Stanikk" width="1100" height="1024" loading="eager" decoding="async" />
+          <Img class="portrait-cut" src="/images/ryan-cutout.webp" alt="Ryan Stanikk" sizes="(max-width: 767px) 100vw, (max-width: 900px) 120vw, 45vw" loading="eager" />
         </div>
       </div>
       <div class="stack">

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Img from '../components/Img.astro';
 import Clay from '../components/Clay.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -144,7 +145,7 @@ const extraSchema = [
   <section class="card-section bleed" aria-labelledby="partnership-h">
     <div class="card card--ochre two partnership-v2">
       <div class="partnership-photo">
-        <img src="/images/ryan-meeting.webp" alt="Ryan Stanikk at a cafe table, listening across two coffees" width="1500" height="843" loading="lazy" decoding="async" />
+        <Img src="/images/ryan-meeting.webp" alt="Ryan Stanikk at a cafe table, listening across two coffees" sizes="(max-width: 900px) 92vw, 45vw" />
       </div>
       <div class="stack">
         <h2 id="partnership-h">Studio partnership</h2>

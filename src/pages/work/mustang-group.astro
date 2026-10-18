@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Img from '../../components/Img.astro';
+import { fullUrl } from '../../lib/assets';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import ContactCard from '../../components/ContactCard.astro';
@@ -28,21 +30,24 @@ const venues = [
     text: "Rebuilt and live since July 2026, in a look taken from nightlife posters. Tables book through Dojo, and the events page carries the nights they run." },
   { name: "Ennio's", slug: "ennios", url: "https://www.ennios.co.uk", alt: "A recorded tour of the Ennio's website on a desktop screen",
     text: "Rebuilt this year for an Italian restaurant with ten bedrooms above it, in a Victorian warehouse on Town Quay. Tables book through SevenRooms and rooms book online from the site." },
-  { name: "The Grand", url: "https://www.thegrandsouthampton.co.uk", img: `${M}/grand-tables.webp`, imgSm: `${M}/grand-tables-sm.webp`, imgAlt: "The Grand's ballroom laid with round tables for a Christmas party under the chandeliers",
+  { name: "The Grand", url: "https://www.thegrandsouthampton.co.uk", img: `${M}/grand-tables.webp`, imgAlt: "The Grand's ballroom laid with round tables for a Christmas party under the chandeliers",
     text: "I look after the current site, add the events as they're announced, and its rebuild is under way." },
 ];
 
 const photos = [
-  { src: `${M}/grumpy-stairs.webp`, sm: `${M}/grumpy-stairs-sm.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-a', venue: 'Grumpy Monkey', alt: "Grumpy Monkey's staircase lit orange under a blue neon sign, flags along the wall" },
-  { src: `${M}/grumpy-martini.webp`, sm: `${M}/grumpy-martini-sm.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-b', venue: 'Grumpy Monkey', alt: "A passion fruit martini on a concrete table" },
-  { src: `${M}/bw-roast.webp`, sm: `${M}/bw-roast-sm.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-c', venue: 'Banana Wharf', alt: "A Sunday roast with Yorkshire puddings and gravy by a yellow booth" },
-  { src: `${M}/bw-sharing-roast.webp`, sm: `${M}/bw-sharing-roast-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-d', venue: 'Banana Wharf', alt: "Close on a sharing roast: pigs in blankets, green beans and sliced beef" },
-  { src: `${M}/bw-cocktail.webp`, sm: `${M}/bw-cocktail-sm.webp`, w: 1600, h: 1280, shape: 'port', cls: 'pg-e', venue: 'Banana Wharf', alt: "Two cocktails on a bronze table in the sun" },
-  { src: `${M}/ennios-sign.webp`, sm: `${M}/ennios-sign-sm.webp`, w: 1600, h: 1067, shape: 'port', cls: 'pg-f', venue: "Ennio's", alt: "Ennio's chalkboard by the door: open for lunch and dinner" },
-  { src: `${M}/ennios-bedroom.webp`, sm: `${M}/ennios-bedroom-sm.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-g', venue: "Ennio's", alt: "One of the bedrooms at Ennio's: a navy wall, a blue throw and a window over the water" },
-  { src: `${M}/grand-dining-room.webp`, sm: `${M}/grand-dining-room-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-h', venue: 'The Grand', alt: "The Grand's dining room laid for Christmas, pink light across the ceiling" },
-  { src: `${M}/grand-service.webp`, sm: `${M}/grand-service-sm.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-i', venue: 'The Grand', alt: "Plates of food carried through a full room at The Grand's Christmas party" },
+  { src: `${M}/grumpy-stairs.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-a', venue: 'Grumpy Monkey', alt: "Grumpy Monkey's staircase lit orange under a blue neon sign, flags along the wall" },
+  { src: `${M}/grumpy-martini.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-b', venue: 'Grumpy Monkey', alt: "A passion fruit martini on a concrete table" },
+  { src: `${M}/bw-roast.webp`, w: 1600, h: 2399, shape: 'port', cls: 'pg-c', venue: 'Banana Wharf', alt: "A Sunday roast with Yorkshire puddings and gravy by a yellow booth" },
+  { src: `${M}/bw-sharing-roast.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-d', venue: 'Banana Wharf', alt: "Close on a sharing roast: pigs in blankets, green beans and sliced beef" },
+  { src: `${M}/bw-cocktail.webp`, w: 1600, h: 1280, shape: 'port', cls: 'pg-e', venue: 'Banana Wharf', alt: "Two cocktails on a bronze table in the sun" },
+  { src: `${M}/ennios-sign.webp`, w: 1600, h: 1067, shape: 'port', cls: 'pg-f', venue: "Ennio's", alt: "Ennio's chalkboard by the door: open for lunch and dinner" },
+  { src: `${M}/ennios-bedroom.webp`, w: 1600, h: 900, shape: 'land', cls: 'pg-g', venue: "Ennio's", alt: "One of the bedrooms at Ennio's: a navy wall, a blue throw and a window over the water" },
+  { src: `${M}/grand-dining-room.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-h', venue: 'The Grand', alt: "The Grand's dining room laid for Christmas, pink light across the ceiling" },
+  { src: `${M}/grand-service.webp`, w: 1600, h: 1067, shape: 'land', cls: 'pg-i', venue: 'The Grand', alt: "Plates of food carried through a full room at The Grand's Christmas party" },
 ];
+
+// The full-size file each photo opens in the viewer.
+for (const p of photos) (p as any).full = await fullUrl(p.src);
 
 const care = [
   { t: "Hosting and changes", d: "The sites run on Cloudflare, and when a venue needs something changed, it comes to me: new events on The Grand's site, say, or the events and gallery pages Grumpy Monkey added in September." },
@@ -136,7 +141,7 @@ const extraSchema = [
             {v.slug ? (
               <div class="project-browser case-browser"><WorkPreview slug={v.slug} alt={v.alt} /></div>
             ) : (
-              <div class="venue-photo"><img src={v.imgSm} srcset={`${v.imgSm} 900w, ${v.img} 1600w`} sizes="(max-width: 900px) 100vw, 45vw" alt={v.imgAlt} width="1600" height="1067" loading="lazy" decoding="async" /></div>
+              <div class="venue-photo"><Img src={v.img} sizes="(max-width: 900px) 100vw, 45vw" alt={v.imgAlt} /></div>
             )}
             <div class="venue-meta">
               <h3>{v.name}</h3>
@@ -162,8 +167,8 @@ const extraSchema = [
       <ul class="photo-grid">
         {photos.map((p) => (
           <li class={`pg-tile pg-tile--${p.shape} ${p.cls}`}>
-            <button type="button" class="pg-open" data-view="photos" data-full={p.src} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}, ${p.venue}`}>
-              <img src={p.sm} srcset={`${p.sm} 900w, ${p.src} 1600w`} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+            <button type="button" class="pg-open" data-view="photos" data-full={(p as any).full} data-w={p.w} data-h={p.h} aria-label={`Open full screen: ${p.alt}, ${p.venue}`}>
+              <Img src={p.src} sizes="(max-width: 640px) 100vw, 60vw" alt={p.alt} />
               <span class="pg-venue">{p.venue}</span>
             </button>
           </li>

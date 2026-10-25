@@ -76,3 +76,4 @@ dist-v1/
 # local-only: QC screenshots and file copies (237 MB), and the weekly analytics reports (confidential; the repo is public)
 /_backups/
 /analytics-reports/
+.quote-backups/

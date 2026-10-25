@@ -77,7 +77,7 @@ const extraSchema = [
             <p>{c.body}{c.bodyLink && <> <a class="discipline-link" href={c.bodyLink.href}>{c.bodyLink.text}</a>{c.bodyAfter}</>}</p>
           </div>
           <div class="discipline-art">
-            <div class="example example--back"><Img src={c.back.img} sizes="(max-width: 767px) 66vw, 17vw" alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
+            <div class="example example--back"><Img src={c.back.img} sizes="(max-width: 767px) 66vw, 17vw" alt={c.back.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding={i === 0 ? undefined : "async"} /></div>
             <div class="example example--front"><Img src={c.front.img} sizes="(max-width: 767px) 66vw, 17vw" alt={c.front.alt} loading={i === 0 ? "eager" : "lazy"} fetchpriority={i === 0 ? "high" : undefined} decoding={i === 0 ? undefined : "async"} /></div>
           </div>
           <div class="discipline-footer">

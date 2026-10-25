@@ -15,7 +15,10 @@ interface Props {
   decoding?: 'async' | 'sync' | 'auto';
   [attr: string]: unknown;
 }
-const { src, alt, sizes, widths = [640, 800, 1100], loading = 'lazy', decoding = 'async', width: _w, height: _h, ...rest } = Astro.props;
+const { src, alt, sizes, widths = [640, 800, 1100], loading = 'lazy', decoding, width: _w, height: _h, ...rest } = Astro.props;
+// async by default, but never on a fetchpriority="high" image: async decoding can hold back
+// the LCP paint (a default of 'async' here used to override callers passing undefined, 25 Oct 2026)
+const decode = decoding ?? (rest.fetchpriority === 'high' ? undefined : 'async');
 const asset = assetFor(src);
 const { width, height } = sizeOf(asset);
 const full = await fullUrl(src);
@@ -25,4 +28,4 @@ const small = widths.filter((w) => w < width);
 const set = small.length ? await getImage({ src: asset, widths: small, format: 'webp', quality: QUALITY }) : null;
 const srcset = [set?.srcSet.attribute, `${full} ${width}w`].filter(Boolean).join(', ');
 ---
-<img src={full} srcset={srcset} sizes={sizes ?? `${width}px`} alt={alt} width={width} height={height} loading={loading} decoding={decoding} {...rest} />
+<img src={full} srcset={srcset} sizes={sizes ?? `${width}px`} alt={alt} width={width} height={height} loading={loading} decoding={decode} {...rest} />

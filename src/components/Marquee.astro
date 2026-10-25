@@ -1,24 +1,24 @@
 ---
 // The clients marquee, identical to the one on the home page.
 const logos = [
-  { src: '/images/clients/soleto.png', alt: 'Soleto', key: 'soleto' },
-  { src: '/images/clients/padharo.svg', alt: 'Padharo', key: 'padharo' },
-  { src: '/images/clients/banana-wharf.png', alt: 'Banana Wharf', key: 'banana-wharf' },
-  { src: '/images/clients/the-grand.png', alt: 'The Grand', key: 'the-grand' },
-  { src: '/images/clients/kesarum.png', alt: 'Kesarum', key: 'kesarum' },
-  { src: '/images/clients/ryan-stanikk-photography.png', alt: 'Ryan Stanikk Photography', key: 'ryan-stanikk-photography' },
-  { src: '/images/clients/ark-angels.png', alt: 'Ark Angels', key: 'ark-angels' },
-  { src: '/images/clients/ennios.png', alt: 'Ennios', key: 'ennios' },
-  { src: '/images/clients/grumpy-monkey.png', alt: 'Grumpy Monkey', key: 'grumpy-monkey' },
-  { src: '/images/clients/mustang-group.png', alt: 'Mustang Group', key: 'mustang-group' },
+  { src: '/images/clients/soleto.png', alt: 'Soleto', key: 'soleto', w: 400, h: 71 },
+  { src: '/images/clients/padharo.svg', alt: 'Padharo', key: 'padharo', w: 299, h: 77 },
+  { src: '/images/clients/banana-wharf.png', alt: 'Banana Wharf', key: 'banana-wharf', w: 200, h: 88 },
+  { src: '/images/clients/the-grand.png', alt: 'The Grand', key: 'the-grand', w: 400, h: 399 },
+  { src: '/images/clients/kesarum.png', alt: 'Kesarum', key: 'kesarum', w: 400, h: 66 },
+  { src: '/images/clients/ryan-stanikk-photography.png', alt: 'Ryan Stanikk Photography', key: 'ryan-stanikk-photography', w: 400, h: 157 },
+  { src: '/images/clients/ark-angels.png', alt: 'Ark Angels', key: 'ark-angels', w: 390, h: 400 },
+  { src: '/images/clients/ennios.png', alt: 'Ennios', key: 'ennios', w: 400, h: 162 },
+  { src: '/images/clients/grumpy-monkey.png', alt: 'Grumpy Monkey', key: 'grumpy-monkey', w: 800, h: 251 },
+  { src: '/images/clients/mustang-group.png', alt: 'Mustang Group', key: 'mustang-group', w: 280, h: 60 },
 ];
 ---
 <section class="clients" aria-labelledby="clients-h">
   <h2 id="clients-h" class="sr-only">Clients</h2>
   <div class="marquee">
     <div class="marquee-track">
-      <ul class="marquee-set">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt={l.alt} decoding="async" /></li>)}</ul>
-      <ul class="marquee-set" aria-hidden="true">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt="" decoding="async" /></li>)}</ul>
+      <ul class="marquee-set">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt={l.alt} width={l.w} height={l.h} decoding="async" /></li>)}</ul>
+      <ul class="marquee-set" aria-hidden="true">{logos.map((l) => <li data-logo={l.key}><img src={l.src} alt="" width={l.w} height={l.h} decoding="async" /></li>)}</ul>
     </div>
   </div>
 </section>

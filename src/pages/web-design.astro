@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Ledger from '../components/Ledger.astro';
 import Clay from '../components/Clay.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -17,6 +18,13 @@ const services = [
   { t: 'Web Apps', d: 'More than just websites. I build functional web applications with the features your business needs, from content management to bespoke tools that solve a real operational problem.', list: ['Custom web apps', 'CMS integration', 'Interactive features', 'Performance-first'], cta: { href: '#contact', label: 'Get started' } },
   { t: 'Hosting & Domains', d: 'I handle the technical side so you do not have to. Domain registration, hosting setup, SSL certificates, and ongoing maintenance all taken care of.', list: ['Domain registration', 'Fast, secure hosting', 'SSL certificates', 'Ongoing support'], cta: { href: '#contact', label: 'Get started' } },
   { t: 'Content Management', d: 'Send a change over and I will handle it, usually the same day. Everyday updates are always included, no sneaky invoices, or I can build you a CMS to do it yourself.', list: ['Quick turnaround updates', 'Optional CMS', 'No lock-in', 'Full control'], cta: { href: '#contact', label: 'Get started' } },
+];
+
+const local = [
+  { t: 'Padharo, East Street', d: "A vegetarian Indian restaurant at 100 to 102 East Street. I built the website, design every menu and photograph the restaurant.", cta: { href: '/work/padharo/', label: 'The Padharo case study' } },
+  { t: "Ennio's, Town Quay", d: "An Italian restaurant with ten boutique rooms in a Victorian warehouse on the quay. I rebuilt the site so the restaurant, the rooms and table bookings sit in one place." },
+  { t: 'Banana Wharf, Ocean Village', d: 'Two marina restaurants under one brand. I rebuilt the site around the menus, Sunday roasts and bookings.' },
+  { t: 'Mustang Group', d: "The family-run group behind Banana Wharf, Ennio's, Grumpy Monkey and The Grand, six Southampton venues in all. Since May 2026 I've looked after every one of their websites and photographed four of the venues.", cta: { href: '/work/mustang-group/', label: 'The Mustang Group case study' } },
 ];
 
 const work = [
@@ -172,6 +180,17 @@ const extraSchema = [
         </div>
       ))}
     </div>
+  </section>
+
+  <section class="band bleed" aria-labelledby="local-h">
+    <div class="sec-head">
+      <div class="sec-head-text">
+        <h2 id="local-h">Web design in Southampton</h2>
+        <p class="section-lede">Five of the eight sites above were built for Southampton businesses. Here's where they are.</p>
+      </div>
+    </div>
+    <Ledger items={local} />
+    <div class="pagehead-actions section-more"><a class="pill" href="/web-design/restaurants/">Restaurant and pub websites</a></div>
   </section>
 
   <section class="band bleed" id="pricing" aria-labelledby="pricing-h">

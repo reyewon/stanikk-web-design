@@ -179,11 +179,21 @@ if (import.meta.env.DEV) {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       if (/^(www\.)?kombu\.uk$/.test(location.hostname)) {
-        var g = document.createElement('script'); g.async = true;
-        g.src = 'https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0';
-        document.head.appendChild(g);
         gtag('js', new Date());
         gtag('config', 'G-5H2CJESBZ0');
+        // gtag.js (about 180 KB) is fetched once the page has loaded and painted a frame:
+        // requested from the head it cost 10 to 14 points and about 1.5 s of lab LCP on every
+        // page, and on the home page load fires before the first paint, so it waits two frames
+        // as well (PageSpeed A/B on preview builds, 25 Oct 2026). Calls made before then wait
+        // in dataLayer.
+        var loadGtag = function () {
+          requestAnimationFrame(function () { requestAnimationFrame(function () {
+            var g = document.createElement('script'); g.async = true;
+            g.src = 'https://www.googletagmanager.com/gtag/js?id=G-5H2CJESBZ0';
+            document.head.appendChild(g);
+          }); });
+        };
+        if (document.readyState === 'complete') loadGtag(); else addEventListener('load', loadGtag, { once: true });
       }
       // Every WhatsApp, email and phone tap is sent as contact_click (a GA4 key
       // event) with the route, where on the page it sat and the page itself.

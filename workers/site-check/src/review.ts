@@ -1,5 +1,5 @@
-// The review itself: screenshots, page facts and page text go to Sonnet, which
-// returns five findings in a fixed JSON shape. Everything it says has to be
+// The review itself: screenshots, page facts and page text go to Claude (the MODEL
+// var), which returns five findings in a fixed JSON shape. Everything it says has to be
 // traceable to something it was shown.
 
 import Anthropic from '@anthropic-ai/sdk';
@@ -74,6 +74,8 @@ Rules that matter more than anything above:
 - Never claim anything you cannot see in the material. If you are not sure, do not say it. Do not guess what is behind a menu button, on another page, inside a booking form, or further down than the screenshots go. If a useful check needed that, put it in unable_to_check instead.
 - Absence is the easiest thing to get wrong. The screenshots only show the top of the page (two phone screens, three desktop screens); the code facts and page text cover the whole page. So: only say something is missing from the whole site when the code facts or page text show it is absent from this page, and then say "on this page" (other pages may have it). If it simply isn't in the screenshots, say "not on the first screen" or "not near the top". Never say something isn't there when you've also listed it under unable_to_check.
 - Check the code facts before saying something is missing. If phoneLinks has a number, the number is tappable. mapLinks covers map links and embedded maps; bookingLinks includes embedded booking widgets and booking scripts. If bookingLinks or orderingLinks has a link, there is a way to book or order (you can still say it is hard to find, if the screenshots show that). If something isn't on the screenshots but might be lower on the page, say "not on the first screen", not "missing".
+- The screenshots are separate captures. Something cut off at the bottom of one screenshot and carrying on at the top of the next is the join between captures, not a fault on the page: never call it cut in half or broken.
+- If a screenshot shows a security check, a "verifying your request" or "please wait" page, a captcha or a blank page while the rest of the material shows the real site, that is the capture being challenged, not what customers see. Never make a finding about it.
 - Don't make a finding about a cookie or consent notice. The captures scroll the page, which dismisses or moves many of them, so their position and size in the screenshots can't be trusted.
 - Speed: only use the real-visitor numbers given. Never estimate speed from screenshots, page size or anything else. If there is no speed data, say nothing about speed. When you do use it, give the number (for example "real visitors on phones wait about 4.1 seconds for the main content").
 - No generic SEO filler. Never recommend meta keywords, word counts, "more content", "blogging", "backlinks", "improve SEO", schema markup or alt text for its own sake. Every finding has to connect to a customer choosing them, finding them or contacting them.
@@ -113,7 +115,7 @@ export async function review(env: Env, facts: PageFacts, shots: Shots, speed: Fi
 				? "The page's code could not be read (the site turned away a plain request), so there are no code facts. Do not use page_code as evidence, and do not claim anything is missing from the code."
 				: `Facts read from the page's code:\n${JSON.stringify(codeFacts, null, 1)}`,
 			speed
-				? `Real-visitor speed on phones (Chrome field data, 75th percentile, ${speed.scope}): main content shows after ${speed.lcpSeconds ?? 'unknown'} s (Google rates this ${speed.lcpRating ?? 'unrated'}; good is 2.5 s or less); response to taps ${speed.inpMs ?? 'unknown'} ms (good is 200 ms or less); layout shift ${speed.cls ?? 'unknown'} (good is 0.1 or less). Only raise speed if one of these is outside the good range.`
+				? `Real-visitor speed on phones (Chrome field data, 75th percentile, ${speed.scope}): main content shows after ${speed.lcpSeconds ?? 'unknown'} s (Google rates this ${speed.lcpRating ?? 'unrated'}; good is 2.5 s or less, needs improvement up to 4 s, poor above that); response to taps ${speed.inpMs ?? 'unknown'} ms (good is 200 ms or less, poor above 500 ms); layout shift ${speed.cls ?? 'unknown'} (good is 0.1 or less, poor above 0.25). Quote Google's rating as given; don't restate the bands. Only raise speed if one of these is outside the good range.`
 				: 'Real-visitor speed: not available for this site. Say nothing about speed.',
 			`The page's text (as rendered, may be cut short):\n<page_text>\n${text || '(no text could be read)'}\n</page_text>`,
 			retryNote || 'Now write the five findings.'
@@ -123,20 +125,24 @@ export async function review(env: Env, facts: PageFacts, shots: Shots, speed: Fi
 	});
 
 	const res = await client.beta.messages.create({
-		model: env.MODEL || 'claude-sonnet-5-5',
-		max_tokens: 12_000,
+		model: env.MODEL || 'claude-opus-5-5',
+		// Thinking counts towards max_tokens and can't be turned off on Opus 5.5, so leave
+		// plenty of room above the few thousand tokens the JSON itself needs.
+		max_tokens: 32_000,
 		betas: ['server-side-fallback-2026-07-01'],
 		fallbacks: 'default',
 		system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
-		output_config: { effort: 'medium', format: { type: 'json_schema', schema: SCHEMA } },
+		output_config: { effort: env.EFFORT || 'medium', format: { type: 'json_schema', schema: SCHEMA } },
 		messages: [{ role: 'user', content }]
 	} as never) as unknown as Anthropic.Beta.BetaMessage;
 
 	if (res.stop_reason === 'refusal') throw new Error('review refused');
 	if (res.stop_reason === 'max_tokens') throw new Error('review ran out of room');
-	const block = res.content.find((b) => b.type === 'text');
-	if (!block || block.type !== 'text') throw new Error('review returned no text');
-	const parsed = JSON.parse(block.text) as Review;
+	// Read by block type, not position: thinking blocks can come first, and the JSON could
+	// in principle arrive split over more than one text block.
+	const reply = res.content.map((b) => (b.type === 'text' ? b.text : '')).join('');
+	if (!reply.trim()) throw new Error('review returned no text');
+	const parsed = JSON.parse(reply) as Review;
 	return { review: clean(parsed, shots, speed, codeUnreadable), model: res.model, usage: res.usage };
 }
 

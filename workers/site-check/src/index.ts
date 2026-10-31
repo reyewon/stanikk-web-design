@@ -1,7 +1,8 @@
 // kombu.uk/api/site-check: the free site check.
 //   POST /api/site-check         { url }          -> NDJSON stream of stages, then the result
 //   POST /api/site-check/email   { id, email }    -> sends the five fixes by email
-//   GET  /api/site-check/log?token=...            -> recent checks, for Ryan
+//   GET  /api/site-check/result?id=...            -> a stored check, for kombu.uk/site-check/?r=<id>
+//   GET  /api/site-check/log?token=...            -> recent checks, for Ryan (&all=1 shows internal runs)
 
 import { normaliseUrl, siteKey, UrlError } from './url';
 import { fetchPage, FetchError, isChallenge, type PageFacts } from './page';
@@ -36,6 +37,8 @@ type LogEntry = {
 	ms: number;
 	model?: string;
 	email?: string;
+	/** Ryan's own tests and outreach runs, kept out of the default log view */
+	internal?: 'test' | 'outreach';
 };
 
 export default {
@@ -49,6 +52,7 @@ export default {
 			if (path === '/api/site-check' && req.method === 'POST') return await check(req, env, ctx, cors);
 			if (path === '/api/site-check/email' && req.method === 'POST') return await email(req, env, cors);
 			if (path === '/api/site-check/log' && req.method === 'GET') return await log(url, env);
+			if (path === '/api/site-check/result' && req.method === 'GET') return await stored(url, env, cors);
 		} catch (e) {
 			console.error('site-check error', e);
 			return json({ error: "Something went wrong on my side. Please try again in a minute." }, 500, cors);
@@ -58,7 +62,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 async function check(req: Request, env: Env, ctx: ExecutionContext, cors: HeadersInit): Promise<Response> {
-	const body = (await req.json().catch(() => ({}))) as { url?: string; website?: string; debug?: boolean };
+	const body = (await req.json().catch(() => ({}))) as { url?: string; website?: string; debug?: boolean; internal?: string };
 	if (body.website) return json({ error: 'Not found' }, 404, cors); // honeypot field, only bots fill it
 
 	let target: URL;
@@ -72,8 +76,11 @@ async function check(req: Request, env: Env, ctx: ExecutionContext, cors: Header
 	const country = (req as Request & { cf?: { country?: string } }).cf?.country || '';
 	const started = Date.now();
 
-	// Ryan's own test runs skip the cache and the limits.
+	// Ryan's own test runs skip the cache and the limits. Outreach runs (the cold-outreach pipeline,
+	// body.internal = 'outreach') are admin runs too, logged as internal and kept for 90 days so a
+	// report link in an email still opens weeks later.
 	const admin = !!env.ADMIN_TOKEN && req.headers.get('x-admin-token') === env.ADMIN_TOKEN;
+	const internal: LogEntry['internal'] = admin ? (body.internal === 'outreach' ? 'outreach' : 'test') : undefined;
 
 	// Same site within a day: serve the stored result, free and instant.
 	const cached = admin ? null : await env.KV.get<Result>(`cache:${key}`, 'json');
@@ -99,7 +106,7 @@ async function check(req: Request, env: Env, ctx: ExecutionContext, cors: Header
 	]);
 
 	const id = crypto.randomUUID().replace(/-/g, '').slice(0, 16);
-	const entry: LogEntry = { id, url: target.toString(), at: new Date().toISOString(), outcome: 'started', cached: false, country: admin ? 'test' : country, ms: 0 };
+	const entry: LogEntry = { id, url: target.toString(), at: new Date().toISOString(), outcome: 'started', cached: false, country: internal || country, ms: 0, internal };
 
 	return stream(cors, ctx, async (send) => {
 		try {
@@ -153,7 +160,7 @@ async function check(req: Request, env: Env, ctx: ExecutionContext, cors: Header
 			};
 			await Promise.all([
 				env.KV.put(`cache:${key}`, JSON.stringify(result), { expirationTtl: DAY }),
-				env.KV.put(`result:${id}`, JSON.stringify(result), { expirationTtl: 30 * DAY })
+				env.KV.put(`result:${id}`, JSON.stringify(result), { expirationTtl: (internal === 'outreach' ? 90 : 30) * DAY })
 			]);
 			entry.outcome = 'ok';
 			console.log('usage', JSON.stringify(out.usage));
@@ -209,15 +216,29 @@ async function email(req: Request, env: Env, cors: HeadersInit): Promise<Respons
 async function log(url: URL, env: Env): Promise<Response> {
 	if (!env.ADMIN_TOKEN || url.searchParams.get('token') !== env.ADMIN_TOKEN) return json({ error: 'Not found' }, 404, {});
 	const list = await env.KV.list({ prefix: 'log:', limit: 200 });
-	const rows = list.keys.map((k) => k.metadata as LogEntry).filter(Boolean);
-	if (url.searchParams.get('format') === 'json') return json({ count: rows.length, checks: rows }, 200, {});
+	const every = list.keys.map((k) => k.metadata as LogEntry).filter(Boolean);
+	// test and outreach runs are not leads; older test rows predate the field, so read the country too
+	const isInternal = (r: LogEntry) => !!r.internal || r.country === 'test' || r.country === 'outreach';
+	const all = url.searchParams.get('all') === '1';
+	const rows = all ? every : every.filter((r) => !isInternal(r));
+	const hidden = every.length - rows.length;
+	if (url.searchParams.get('format') === 'json') return json({ count: rows.length, hidden_internal: hidden, checks: rows }, 200, {});
 	const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 	const when = (iso: string) => new Date(iso).toLocaleString('en-GB', { timeZone: 'Europe/London', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 	const body = rows
 		.map((r) => `<tr><td>${when(r.at)}</td><td><a href="${esc(r.url)}" rel="noopener nofollow" target="_blank">${esc(r.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''))}</a></td><td>${esc(r.outcome)}${r.cached ? ' (repeat)' : ''}</td><td>${esc(r.country)}</td><td>${r.ms ? (r.ms / 1000).toFixed(0) + 's' : ''}</td><td>${r.email ? `<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ''}</td></tr>`)
 		.join('');
-	const page = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Site check log</title><style>body{margin:0;padding:24px 16px;background:#F1EEE6;color:#141210;font:15px/1.45 -apple-system,Helvetica,Arial,sans-serif}h1{font-size:22px;margin:0 0 4px}p{margin:0 0 16px;color:#3B352F}.wrap{overflow-x:auto;background:#fff;border:2px solid #141210;border-radius:16px}table{border-collapse:collapse;width:100%;min-width:640px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #D8D2C8;white-space:nowrap}th{font-weight:600}a{color:#141210}</style></head><body><h1>Site check log</h1><p>${rows.length} most recent checks, newest first. "test" in the country column is one of your own test runs.</p><div class="wrap"><table><thead><tr><th>When</th><th>Site</th><th>Outcome</th><th>Country</th><th>Time</th><th>Email copy</th></tr></thead><tbody>${body}</tbody></table></div></body></html>`;
+	const page = `<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Site check log</title><style>body{margin:0;padding:24px 16px;background:#F1EEE6;color:#141210;font:15px/1.45 -apple-system,Helvetica,Arial,sans-serif}h1{font-size:22px;margin:0 0 4px}p{margin:0 0 16px;color:#3B352F}.wrap{overflow-x:auto;background:#fff;border:2px solid #141210;border-radius:16px}table{border-collapse:collapse;width:100%;min-width:640px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #D8D2C8;white-space:nowrap}th{font-weight:600}a{color:#141210}</style></head><body><h1>Site check log</h1><p>${rows.length} most recent checks, newest first.${all ? ' "test" and "outreach" in the country column are your own runs.' : hidden ? ` ${hidden} of your own test and outreach runs are hidden (<a href="?token=${esc(url.searchParams.get('token') || '')}&amp;all=1">show them</a>).` : ''}</p><div class="wrap"><table><thead><tr><th>When</th><th>Site</th><th>Outcome</th><th>Country</th><th>Time</th><th>Email copy</th></tr></thead><tbody>${body}</tbody></table></div></body></html>`;
 	return new Response(page, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' } });
+}
+
+/** A stored check by its id, so a report can be opened from a link (kombu.uk/site-check/?r=<id>). The id is
+ *  16 random hex characters, so it can't be guessed; nothing private is in a result. */
+async function stored(url: URL, env: Env, cors: HeadersInit): Promise<Response> {
+	const id = (url.searchParams.get('id') || '').replace(/[^a-f0-9]/g, '').slice(0, 16);
+	const result = id.length === 16 ? await env.KV.get<Result>(`result:${id}`, 'json') : null;
+	if (!result) return json({ error: "That check has expired. Run a fresh one above, it's free." }, 404, cors);
+	return json({ result }, 200, cors);
 }
 
 /** Log keys sort newest first (reverse timestamp), and the entry rides in metadata so one list() reads them all. */
@@ -247,7 +268,7 @@ function stream(cors: HeadersInit, ctx: ExecutionContext, work: (send: (o: unkno
 function corsHeaders(req: Request): Record<string, string> {
 	const origin = req.headers.get('origin') || '';
 	if (!ALLOWED_ORIGINS.includes(origin)) return {};
-	return { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', Vary: 'Origin' };
+	return { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', Vary: 'Origin' };
 }
 
 function json(o: unknown, status: number, cors: HeadersInit): Response {

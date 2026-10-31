@@ -13,7 +13,10 @@
   "vars": {
     "DAILY_CAP": "50",
     "PER_IP_HOURLY": "3",
-    "MODEL": "claude-sonnet-5-5"
+    "MODEL": "claude-opus-5-5",
+    // high, not Opus 5.5's default medium: a side-by-side on four real sites (31 Oct 2026)
+    // found it caught more real, specific problems for about $0.085 a check
+    "EFFORT": "high"
   },
   "observability": { "enabled": true }
   // Secrets (wrangler secret put): ANTHROPIC_API_KEY, RESEND_API_KEY, ADMIN_TOKEN

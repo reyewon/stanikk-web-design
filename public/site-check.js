@@ -171,4 +171,20 @@
       })
       .catch(function () { btn.disabled = false; btn.textContent = 'Send'; note.textContent = "That didn't send. Please try again."; });
   });
+
+  // ?r=<id> opens a stored check, the link in an outreach email: shown as if it had just run
+  var rid = (new URLSearchParams(location.search).get('r') || '').replace(/[^a-f0-9]/g, '').slice(0, 16);
+  if (rid.length === 16) {
+    fetch(API + '/result?id=' + rid)
+      .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, b: b }; }); })
+      .then(function (x) {
+        if (x.ok && x.b.result) {
+          input.value = hostOf(x.b.result.url);
+          render(x.b.result);
+          results.scrollIntoView({ block: 'start' });
+          track('site_check_report_open', { page_path: location.pathname });
+        } else { err.textContent = x.b.error || "That check has expired. Run a fresh one above, it's free."; err.hidden = false; }
+      })
+      .catch(function () {});
+  }
 })();

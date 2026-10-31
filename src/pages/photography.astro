@@ -53,8 +53,8 @@ const faqs = [
 ];
 
 const extraSchema = [
-  { "@type": "WebPage", "@id": "https://kombu.uk/photography#webpage", "url": "https://kombu.uk/photography", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
-  { "@type": "Service", "@id": "https://kombu.uk/photography#service", "name": "Commercial Photography", "serviceType": "Commercial Photography", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Food and drink, interiors, product and brand photography for hospitality and small businesses, with an instant quote calculator.",
+  { "@type": "WebPage", "@id": "https://kombu.uk/photography/#webpage", "url": "https://kombu.uk/photography/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/photography/#service", "name": "Commercial Photography", "serviceType": "Commercial Photography", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Food and drink, interiors, product and brand photography for hospitality and small businesses, with an instant quote calculator.",
     "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Photography sessions", "itemListElement": [
       { "@type": "Offer", "price": "275", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Two-hour commercial photography session" } },
       { "@type": "Offer", "price": "415", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Half-day commercial photography session" } },
@@ -62,8 +62,8 @@ const extraSchema = [
       { "@type": "Offer", "price": "550", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day session, local independent, charity or individual rate" } },
       { "@type": "Offer", "price": "965", "priceCurrency": "GBP", "itemOffered": { "@type": "Service", "name": "Full-day session, national rate" } }
     ] } },
-  { "@type": "FAQPage", "@id": "https://kombu.uk/photography#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
-  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/photography#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Photography", "item": "https://kombu.uk/photography" } ] }
+  { "@type": "FAQPage", "@id": "https://kombu.uk/photography/#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/photography/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Photography", "item": "https://kombu.uk/photography/" } ] }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema} ogImage={ogImage} ogImageWidth="1500" ogImageHeight="1000" ogImageAlt="Commercial food photography by Ryan Stanikk for Kombu">

@@ -18,9 +18,9 @@ const disciplines = [
 ];
 
 const extraSchema = [
-  { "@type": "WebPage", "@id": "https://kombu.uk/design#webpage", "url": "https://kombu.uk/design", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
-  { "@type": "Service", "@id": "https://kombu.uk/design#service", "name": "Graphic Design & Branding", "serviceType": "Graphic Design", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Brand identity, logo design, menus, packaging, print and editorial design for hospitality and small businesses." },
-  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/design#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Design", "item": "https://kombu.uk/design" } ] }
+  { "@type": "WebPage", "@id": "https://kombu.uk/design/#webpage", "url": "https://kombu.uk/design/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/design/#service", "name": "Graphic Design & Branding", "serviceType": "Graphic Design", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Brand identity, logo design, menus, packaging, print and editorial design for hospitality and small businesses." },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/design/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Design", "item": "https://kombu.uk/design/" } ] }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema}>

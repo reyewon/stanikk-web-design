@@ -9,7 +9,7 @@ import Marquee from '../components/Marquee.astro';
 import Reviews from '../components/Reviews.astro';
 
 const title = "About Kombu | Ryan Stanikk, Southampton Creative Studio";
-const description = "Kombu is Ryan Stanikk: a Southampton designer, photographer and web developer running a one-person studio. An engineering mind paired with a designer's eye, across the whole brand.";
+const description = "Kombu is Ryan Stanikk: a Southampton designer, photographer and web developer running a one-person studio. An engineering mind paired with a designer's eye.";
 
 const route = [
   { t: "No handoffs", d: "You talk to the person doing the work. Decisions happen in one conversation, not three." },
@@ -27,8 +27,8 @@ const routes = [
 ];
 
 const extraSchema = [
-  { "@type": "WebPage", "@id": "https://kombu.uk/about#webpage", "url": "https://kombu.uk/about", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "mainEntity": { "@id": "https://kombu.uk/#person" }, "description": description, "inLanguage": "en-GB" },
-  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/about#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "About", "item": "https://kombu.uk/about" } ] }
+  { "@type": "WebPage", "@id": "https://kombu.uk/about/#webpage", "url": "https://kombu.uk/about/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "mainEntity": { "@id": "https://kombu.uk/#person" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/about/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "About", "item": "https://kombu.uk/about/" } ] }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema}>

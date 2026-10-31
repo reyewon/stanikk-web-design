@@ -46,16 +46,16 @@ const faqs = [
 ];
 
 const extraSchema = [
-  { "@type": "WebPage", "@id": "https://kombu.uk/marketing#webpage", "url": "https://kombu.uk/marketing", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
-  { "@type": "Service", "@id": "https://kombu.uk/marketing#service", "name": "Marketing, Infrastructure & Hospitality Health Check", "serviceType": "Marketing", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Marketing strategy, paid ads, social and local SEO, the Hospitality Health Check diagnostic, and the practical infrastructure (systems, sourcing and bespoke tools) that ties a business together.",
+  { "@type": "WebPage", "@id": "https://kombu.uk/marketing/#webpage", "url": "https://kombu.uk/marketing/", "name": title, "isPartOf": { "@id": "https://kombu.uk/#website" }, "about": { "@id": "https://kombu.uk/#business" }, "description": description, "inLanguage": "en-GB" },
+  { "@type": "Service", "@id": "https://kombu.uk/marketing/#service", "name": "Marketing, Infrastructure & Hospitality Health Check", "serviceType": "Marketing", "provider": { "@id": "https://kombu.uk/#business" }, "areaServed": [ { "@type": "AdministrativeArea", "name": "Hampshire" }, { "@type": "Country", "name": "United Kingdom" } ], "description": "Marketing strategy, paid ads, social and local SEO, the Hospitality Health Check diagnostic, and the practical infrastructure (systems, sourcing and bespoke tools) that ties a business together.",
     "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Marketing services", "itemListElement": [
       // Both are "from" prices on the visible page, so they are published as
       // minPrice specifications: a flat `price` asserts an exact fee we do not charge.
       { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "295", "priceCurrency": "GBP" }, "itemOffered": { "@type": "Service", "name": "Hospitality Health Check", "description": "On-site diagnostic across eight categories with a written, prioritised report." } },
-      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "950", "priceCurrency": "GBP", "unitText": "MONTH" }, "itemOffered": { "@type": "Service", "name": "Studio partnership retainer", "description": "Marketing, design, photography and infrastructure on one monthly retainer." } }
+      { "@type": "Offer", "priceCurrency": "GBP", "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "950", "priceCurrency": "GBP", "unitText": "MONTH", "unitCode": "MON" }, "itemOffered": { "@type": "Service", "name": "Studio partnership retainer", "description": "Marketing, design, photography and infrastructure on one monthly retainer." } }
     ] } },
-  { "@type": "FAQPage", "@id": "https://kombu.uk/marketing#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
-  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/marketing#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Marketing", "item": "https://kombu.uk/marketing" } ] }
+  { "@type": "FAQPage", "@id": "https://kombu.uk/marketing/#faq", "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) },
+  { "@type": "BreadcrumbList", "@id": "https://kombu.uk/marketing/#breadcrumb", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kombu.uk/" }, { "@type": "ListItem", "position": 2, "name": "Marketing", "item": "https://kombu.uk/marketing/" } ] }
 ];
 ---
 <Layout title={title} description={description} extraSchema={extraSchema}>

@@ -57,7 +57,7 @@ const baseGraph = [
     "description": "A one-person creative studio in Southampton: web design and development, graphic design and branding, commercial photography, and marketing, plus the practical infrastructure that connects them. Direct, personal service from a designer with almost two decades of experience.",
     "slogan": "One mind, the whole stack.",
     "url": "https://kombu.uk",
-    "numberOfEmployees": 1,
+    "numberOfEmployees": { "@type": "QuantitativeValue", "value": 1 },
     "telephone": "+442381112819",
     "email": "design@kombu.uk",
     "image": "https://kombu.uk/images/ryan-stanikk.jpg",
@@ -100,25 +100,23 @@ const baseGraph = [
       "@type": "OfferCatalog",
       "name": "Studio Services",
       "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design & Development", "url": "https://kombu.uk/web-design" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic Design & Branding", "url": "https://kombu.uk/design" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Photography", "url": "https://kombu.uk/photography" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing & Hospitality Health Check", "url": "https://kombu.uk/marketing" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design & Development", "url": "https://kombu.uk/web-design/" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic Design & Branding", "url": "https://kombu.uk/design/" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Photography", "url": "https://kombu.uk/photography/" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing & Hospitality Health Check", "url": "https://kombu.uk/marketing/" } }
       ]
     },
     "hasMap": googleReviewsUrl,
     // No Review or aggregateRating here (removed 18 Oct 2026, Ryan's call): Google shows no stars for a
     // business's own reviews and its guidelines allow a manual action for them. The review cards on the
     // pages stay; answer engines read those.
+    // sameAs asserts "this is the same entity", so only Kombu's own profiles go here. Ryan's
+    // personal and photography-brand profiles live on the Person node below; wa.me is a
+    // contact link, not a profile (31 Oct 2026, claude-seo audit).
     "sameAs": [
       googleReviewsUrl,
       "https://www.instagram.com/kombu.uk/",
-      "https://www.facebook.com/kombu.uk",
-      "https://uk.linkedin.com/in/ryanstanikk",
-      "https://www.instagram.com/ryanstanikkphotography/",
-      "https://medium.com/@ryanstanikkphotography",
-      "https://wa.me/442381112819",
-      "https://ryanstanikk.co.uk"
+      "https://www.facebook.com/kombu.uk"
     ]
   },
   {
@@ -128,13 +126,14 @@ const baseGraph = [
     "jobTitle": "Designer, Photographer & Web Developer",
     "description": "Southampton-based designer, commercial photographer and web developer with almost two decades of design and marketing experience, running Kombu as a one-person cross-disciplinary studio.",
     "image": "https://kombu.uk/images/ryan-stanikk.jpg",
-    "url": "https://kombu.uk/about",
+    "url": "https://kombu.uk/about/",
     "worksFor": { "@id": "https://kombu.uk/#business" },
     "sameAs": [
       "https://uk.linkedin.com/in/ryanstanikk",
       "https://www.instagram.com/ryanstanikkphotography/",
       "https://medium.com/@ryanstanikkphotography",
-      "https://ryanstanikk.co.uk"
+      "https://ryanstanikk.co.uk",
+      "https://www.wikidata.org/wiki/Q139720804"
     ],
     "knowsAbout": ["Web Design", "Graphic Design", "Commercial Photography", "Web Development", "Marketing", "Brand Identity", "SEO"]
   }
@@ -216,7 +215,7 @@ if (import.meta.env.DEV) {
     <meta name="description" content={description} />
     <meta name="author" content="Ryan Stanikk" />
     <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
 
     <!-- Geo Meta Tags -->
     <meta name="geo.region" content="GB-HAM" />

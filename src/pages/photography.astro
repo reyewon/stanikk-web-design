@@ -1,4 +1,5 @@
 ---
+import '../styles/disciplines.css';
 import Img from '../components/Img.astro';
 import { ogUrl } from '../lib/assets';
 import Layout from '../layouts/Layout.astro';
@@ -13,23 +14,23 @@ const title = "Commercial Photographer Southampton | Food & Brand | Kombu";
 const description = "Commercial photography in Southampton: food, interiors, product and brand imagery. Get an instant ballpark with the quote calculator.";
 
 // Order is chosen (not meaningful otherwise) to balance the CSS-columns
-// masonry: simulated the browser's column-balance algorithm against every
-// image's real aspect ratio and searched for a sequence whose 3-column
-// (1920) and 2-column (820) splits finish within about 80-100px of each
-// other, rather than the ~500px gap the original alphabetical-ish order left.
+// masonry: laid out in the browser at every column count the gallery uses
+// (four at 1600px and up, three on laptops, two on tablets and phones) and
+// searched for the sequence whose columns finish closest to level at all of
+// them at once (10 Nov 2026: within about 170px at 1920 and 1280, 35 to
+// 50px at 412 and 820). The opening card's photo is not repeated here.
 const gallery = [
-  { src: "/images/photography/product-aspiga.jpg", alt: "Styled product photography on a clean set", w: 1000, h: 1500 },
+  { src: "/images/photography/interior-room.jpg", alt: "Hospitality interior photography, warm restaurant room", w: 1500, h: 989 },
+  { src: "/images/photography/interior-aspiga.jpg", alt: "Retail interior and product display photography", w: 1500, h: 937 },
+  { src: "/images/photography/food-figurati.jpg", alt: "A spritz and a mojito on a terrace table, restaurant drinks photography", w: 843, h: 1500 },
   { src: "/images/photography/food-barga.jpg", alt: "Italian dish styled for a menu, food photography", w: 1500, h: 1500 },
-  { src: "/images/photography/interior-leisha.jpg", alt: "Architectural interior detail photography", w: 843, h: 1500 },
-  { src: "/images/photography/corporate-networking.jpg", alt: "Corporate event photography, Southampton business showcase", w: 1500, h: 1000 },
+  { src: "/images/photography/food-banana-wharf.jpg", alt: "Waterfront restaurant dish, hospitality food photography", w: 1500, h: 937 },
+  { src: "/images/photography/product-aspiga.jpg", alt: "Styled product photography on a clean set", w: 1000, h: 1500 },
   { src: "/images/photography/lifestyle-aspiga.jpg", alt: "Lifestyle brand photography with natural light", w: 1000, h: 1500 },
   { src: "/images/photography/portrait-mayfair.jpg", alt: "Environmental business portrait on location", w: 1500, h: 1000 },
+  { src: "/images/photography/corporate-networking.jpg", alt: "Corporate event photography, Southampton business showcase", w: 1500, h: 1000 },
   { src: "/images/photography/lifestyle-lenovo.jpg", alt: "Behind-the-scenes brand lifestyle photography on location", w: 1000, h: 1500 },
-  { src: "/images/photography/food-figurati.jpg", alt: "A spritz and a mojito on a terrace table, restaurant drinks photography", w: 843, h: 1500 },
-  { src: "/images/photography/interior-aspiga.jpg", alt: "Retail interior and product display photography", w: 1500, h: 937 },
-  { src: "/images/photography/food-banana-wharf.jpg", alt: "Waterfront restaurant dish, hospitality food photography", w: 1500, h: 937 },
-  { src: "/images/photography/interior-room.jpg", alt: "Hospitality interior photography, warm restaurant room", w: 1500, h: 989 },
-  { src: "/images/photography/food-roppongi.jpg", alt: "Japanese plated dishes, commercial food photography, Southampton", w: 1500, h: 1000 },
+  { src: "/images/photography/interior-leisha.jpg", alt: "Architectural interior detail photography", w: 843, h: 1500 },
 ];
 
 const cats = [
@@ -154,6 +155,12 @@ const extraSchema = [
           <p class="quote-helper" id="rsProductsHelp">Up to 15 products fits a half day and 16 to 40 a full day. Over 40 is priced per image.</p>
         </div>
 
+        <div class="quote-field" id="rsPeopleWrap" style="display:none;">
+          <label class="quote-label" for="rsPeople">How many people? (optional)</label>
+          <input type="number" id="rsPeople" min="1" max="999" step="1" inputmode="numeric" placeholder="e.g. 12" aria-describedby="rsPeopleHelp" />
+          <p class="quote-helper" id="rsPeopleHelp">For a team: the visit covers setup and the first 5 people, then it's £35 a person (£28 at the local rate). I allow about 10 minutes a person, so up to 8 people fits two hours, 20 a half day and 40 a full day. Over 40 is quoted individually.</p>
+        </div>
+
         <div class="quote-field" id="rsDurationWrap">
           <label class="quote-label" for="rsDuration">Session duration</label>
           <select id="rsDuration">
@@ -255,6 +262,10 @@ const extraSchema = [
     '8': 'A main film plus up to four vertical edits'
   };
   var ECOM_HALF_MAX = 15, ECOM_FULL_MAX = 40;              // eCommerce: up to 15 products a half day, 16 to 40 a full day, over 40 priced per image
+  // Team headshots (ryanstanikk.co.uk, 1 and 17 Nov 2026): the visit covers setup and the
+  // first 5 people, then a set price per person. About 10 minutes a person: up to 8
+  // people is two hours, 9 to 20 a half day, 21 to 40 a full day, over 40 quoted individually.
+  var TEAM_INCLUDED = 5, TEAM_PER_HEAD = 35, TEAM_TWOHOURS_MAX = 8, TEAM_HALF_MAX = 20, TEAM_MAX = 40;
   var LOCAL_RADIUS_MILES = 30, NEAR_RADIUS_MILES = 25;
   var TRAVEL_NOTE = 'Travel and any overnight accommodation are arranged separately and added at cost.';
   var USAGE_HELPERS = {
@@ -292,6 +303,8 @@ const extraSchema = [
     els.locHelp = document.getElementById('rsLocHelp');
     els.productsWrap = document.getElementById('rsProductsWrap');
     els.products = document.getElementById('rsProducts');
+    els.peopleWrap = document.getElementById('rsPeopleWrap');
+    els.people = document.getElementById('rsPeople');
     els.usageWrap = document.getElementById('rsUsageWrap');
     els.videoNote = document.getElementById('rsVideoNote');
   }
@@ -326,7 +339,15 @@ const extraSchema = [
   // eCommerce sets its own minimum from the product count (up to 15: half day,
   // 16 to 40: full day); the larger of that and the distance minimum wins.
   function productCount() { var n = parseInt(els.products.value, 10); return isNaN(n) || n < 1 ? 0 : n; }
-  function productMinRank() { if (state.category !== 'ecommerce') return 1; return productCount() > ECOM_HALF_MAX ? 3 : 2; }
+  function productMinRank() {
+    if (state.category === 'portraits') { var t = teamCount(); return t > TEAM_HALF_MAX ? 3 : (t > TEAM_TWOHOURS_MAX ? 2 : 1); }
+    if (state.category !== 'ecommerce') return 1; return productCount() > ECOM_HALF_MAX ? 3 : 2;
+  }
+  // A headcount above 5 under Portraits is a team; 0 means "not a team"
+  function teamCount() {
+    if (state.category !== 'portraits') return 0;
+    var n = parseInt(els.people.value, 10); return isNaN(n) || n <= TEAM_INCLUDED ? 0 : n;
+  }
 
   function calculatePrice() {
     var postcode = els.postcode.value.trim();
@@ -353,6 +374,21 @@ const extraSchema = [
     var discountApplied = usage === 'local' && localEligible;
     var discountUnavailable = usage === 'local' && !localEligible;
     var table = discountApplied ? RATES_LOCAL : (usage === 'national' ? RATES_NATIONAL : RATES);
+    var team = teamCount();
+    if (team) {
+      // Visit + per person; the time on site follows the headcount (or the distance
+      // minimum), since the dropdown never changes a team price
+      var teamDur = RANK_KEY[Math.max(bandRank, prodRank)];
+      els.duration.value = teamDur; els.daysWrap.style.display = 'none'; updateDurationHelper();
+      var visitKey = RANK_KEY[bandRank], perHead = discountApplied ? TEAM_PER_HEAD * 0.8 : TEAM_PER_HEAD;
+      var visit = roundGBP(table[visitKey] * band.mult), extra = (team - TEAM_INCLUDED) * perHead;
+      return {
+        price: visit + extra, rackTotal: roundGBP(RATES[visitKey] * band.mult) + (team - TEAM_INCLUDED) * TEAM_PER_HEAD,
+        team: team, visit: visit, perHead: perHead, extra: extra, bumpedTo: teamDur,
+        discountApplied: discountApplied, discountUnavailable: discountUnavailable,
+        national: usage === 'national', adj: band.adj, farNote: band.farNote, unrecognised: unrecognised, usage: usage
+      };
+    }
     var multiDay = durationVal === 'multi', days = multiDay ? parseInt(els.days.value, 10) : 0;
     var base = multiDay ? table['8'] * days * 0.9 : table[durationVal];
     var standardBase = multiDay ? RATES['8'] * days * 0.9 : RATES[durationVal];
@@ -377,11 +413,14 @@ const extraSchema = [
     var intro = result.enquiry
       ? (result.products
         ? "I used the quote calculator. I have " + result.products + " products, so I understand it's quoted per image."
-        : "I used the quote calculator. My project needs worldwide usage, so I understand it's quoted individually.")
+        : result.people
+          ? "I used the quote calculator. I have " + result.people + " people for headshots, so I understand it's quoted individually."
+          : "I used the quote calculator. My project needs worldwide usage, so I understand it's quoted individually.")
       : "I used the quote calculator and got an estimate of " + formatGBP(result.price) + ".";
     var lines = ['Hi Ryan,', '', intro, '', 'Category: ' + catName];
     if (result.products) lines.push('Products: ' + result.products);
-    if (!(result.enquiry && result.products)) lines.push('Duration: ' + durationLabel);
+    if (result.team || result.people) lines.push('People: ' + (result.team || result.people));
+    if (!(result.enquiry && (result.products || result.people))) lines.push('Duration: ' + (result.team ? 'about ' + ({ '2': 'two hours', '4': 'a half day', '8': 'a full day' })[result.bumpedTo] + ' on site' : durationLabel));
     lines.push('Location: ' + location);
     if (!result.video) lines.push('Usage: ' + usageLabel);
     if (result.farNote) lines.push('Travel: added at cost');
@@ -409,7 +448,13 @@ const extraSchema = [
     if (result.discountApplied && result.rackTotal > result.price) { els.wasPrice.textContent = formatGBP(result.rackTotal) + ' standard'; els.wasPrice.style.display = ''; } else els.wasPrice.style.display = 'none';
     els.resultLines.innerHTML = '';
     if (result.products) addResultLine(result.products + (result.products === 1 ? ' product' : ' products'));
-    if (result.enquiry) addResultLine(result.products ? 'Over 40 products is priced per image, so I quote it against the list' : 'Worldwide usage is licensed per campaign, so I quote it against the brief');
+    if (result.people) addResultLine(result.people + ' people');
+    if (result.enquiry) addResultLine(result.products ? 'Over 40 products is priced per image, so I quote it against the list' : result.people ? 'Over ' + TEAM_MAX + ' people is planned and quoted individually, often across more than one day' : 'Worldwide usage is licensed per campaign, so I quote it against the brief');
+    if (result.team) {
+      addResultLine(result.team + ' people, about ' + ({ '2': 'two hours', '4': 'a half day', '8': 'a full day' })[result.bumpedTo] + ' on site');
+      addResultLine('Visit, setup and the first 5 people: ' + formatGBP(result.visit));
+      addResultLine((result.team - TEAM_INCLUDED) + ' more ' + (result.team - TEAM_INCLUDED === 1 ? 'person' : 'people') + ' at ' + formatGBP(result.perHead) + ': ' + formatGBP(result.extra));
+    }
     if (result.video) { addResultLine('Video shoot, ' + durationLabelFor(result.bumpedTo).toLowerCase()); addResultLine(VIDEO_INCLUDES[result.bumpedTo]); }
     if (result.multiDay) addResultLine(els.days.value + ' days (10% multi-day discount)');
     if (result.discountApplied) addResultLine('Local independent, charity or individual rate (20% off)');
@@ -425,7 +470,7 @@ const extraSchema = [
     els.emailBtn.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(result.video ? 'Video Quote' : 'Photography Quote - ' + (CATEGORY_NAMES[state.category] || state.category)) + '&body=' + encodeURIComponent(summary.join('\n'));
     els.whatsappBtn.href = WHATSAPP_URL + '?text=' + encodeURIComponent(summary.join('\n'));
     els.result.style.display = '';
-    if (window.gtag) window.gtag('event', 'quote_calculated', { shoot_type: state.category || '', estimate_gbp: result.enquiry ? 0 : result.price, quote_kind: result.enquiry ? (result.products ? 'products' : 'worldwide') : result.usage });
+    if (window.gtag) window.gtag('event', 'quote_calculated', { shoot_type: state.category || '', estimate_gbp: result.enquiry ? 0 : result.price, quote_kind: result.enquiry ? (result.products ? 'products' : result.people ? 'team' : 'worldwide') : (result.team ? 'team' : result.usage) });
     setTimeout(function () { els.result.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
   }
 
@@ -446,6 +491,7 @@ const extraSchema = [
     // eCommerce asks for a product count; video has its own rate card, so the
     // business-type question does not apply to it
     els.productsWrap.style.display = value === 'ecommerce' ? '' : 'none';
+    els.peopleWrap.style.display = value === 'portraits' ? '' : 'none';
     els.usageWrap.style.display = value === 'video' ? 'none' : '';
     els.videoNote.style.display = value === 'video' ? '' : 'none';
     updateDurationOptions();
@@ -503,6 +549,7 @@ const extraSchema = [
   function onCalculateClick() {
     els.postcodeError.style.display = 'none'; els.postcode.classList.remove('has-error');
     if (state.category === 'ecommerce' && productCount() > ECOM_FULL_MAX) { showResult({ enquiry: true, products: productCount(), usage: 'products' }); return; }
+    if (teamCount() > TEAM_MAX) { showResult({ enquiry: true, people: teamCount(), usage: 'team' }); return; }
     if (state.category !== 'video' && els.usageScope.value === 'worldwide') { showResult({ enquiry: true, usage: 'worldwide' }); return; }
     var postcode = els.postcode.value.trim();
     if (state.placeSelected && state.lat && state.lng) { showResult(calculatePrice()); return; }
@@ -550,6 +597,7 @@ const extraSchema = [
     els.usageScope.addEventListener('change', onUsageScopeChange);
     els.postcode.addEventListener('input', onPostcodeInput);
     els.products.addEventListener('input', function () { els.result.style.display = 'none'; updateDurationOptions(); });
+    els.people.addEventListener('input', function () { els.result.style.display = 'none'; updateDurationOptions(); });
     durationOptionNodes = Array.from(els.duration.options);
     updateLocationDependentFields();
     els.calculateBtn.addEventListener('click', onCalculateClick);

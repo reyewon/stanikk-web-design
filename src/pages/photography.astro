@@ -49,7 +49,7 @@ const cats = [
 
 const faqs = [
   { q: "How much does commercial photography cost in Southampton?", a: "Standard commercial sessions are £275 for two hours, £415 for a half day and £690 for a full day, including editing and high-resolution files. Local independents, charities and individuals within about 30 miles of Southampton get 20% off (£220, £330 or £550), and businesses that trade across the UK are on the national rate (£385, £580 or £965). The quote calculator on this page gives an instant ballpark." },
-  { q: "Do you travel outside Southampton for shoots?", a: "Yes. The standard rates apply within about 25 miles of Southampton. Further out a distance rate applies: 15% more up to 80 miles (half day minimum beyond 30 miles), 25% more from 80 to 150 miles and 40% more beyond that, both full day only. London shoots are £581 for a half day or £966 for a full day. Travel and any overnight accommodation are added at cost, and worldwide usage is quoted individually." },
+  { q: "Do you travel outside Southampton for shoots?", a: "Yes. The standard rates apply within about 25 miles of Southampton. Further out a distance rate applies: 15% more up to 80 miles (half day minimum beyond 30 miles), 25% more from 80 to 150 miles and 40% more beyond that, both full day only. London shoots are £580 for a half day or £965 for a full day. Travel and any overnight accommodation are added at cost, and worldwide usage is quoted individually." },
   { q: "What do I get after the shoot?", a: "Edited, high-resolution files, sized and formatted for wherever they are going: the menu, the website, socials or print. Because I often build the website and design the menus too, the photography is shot with those layouts already in mind." },
 ];
 
@@ -334,7 +334,8 @@ const extraSchema = [
 
   var DURATION_RANK = { '2': 1, '4': 2, '8': 3, 'multi': 4 };
   var RANK_KEY = { 1: '2', 2: '4', 3: '8' };
-  function roundGBP(n) { return Math.round(Math.round(n * 100) / 100); } // pence first: 330 x 1.15 is 379.4999 in floating point
+  // Every adjusted price lands on the nearest £5, mirroring ryanstanikk.co.uk (18 Nov 2026). Pence first: 330 x 1.15 is 379.4999 in floating point.
+  function roundGBP(n) { return Math.round(Math.round(n * 100) / 500) * 5; }
 
   // eCommerce sets its own minimum from the product count (up to 15: half day,
   // 16 to 40: full day); the larger of that and the distance minimum wins.

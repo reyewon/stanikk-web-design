@@ -384,7 +384,7 @@ const extraSchema = [
       var visitKey = RANK_KEY[bandRank], perHead = discountApplied ? TEAM_PER_HEAD * 0.8 : TEAM_PER_HEAD;
       var visit = roundGBP(table[visitKey] * band.mult), extra = (team - TEAM_INCLUDED) * perHead;
       return {
-        price: visit + extra, rackTotal: roundGBP(RATES[visitKey] * band.mult) + (team - TEAM_INCLUDED) * TEAM_PER_HEAD,
+        price: roundGBP(visit + extra), rackTotal: roundGBP(roundGBP(RATES[visitKey] * band.mult) + (team - TEAM_INCLUDED) * TEAM_PER_HEAD),
         team: team, visit: visit, perHead: perHead, extra: extra, bumpedTo: teamDur,
         discountApplied: discountApplied, discountUnavailable: discountUnavailable,
         national: usage === 'national', adj: band.adj, farNote: band.farNote, unrecognised: unrecognised, usage: usage
